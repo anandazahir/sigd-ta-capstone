@@ -1,181 +1,186 @@
-@extends('index')
-@section('pages')
-<div class="d-flex flex-row  justify-content-between mt-3 text-secondary">
-    <h3 style="font-size: 1rem;">Profile</h3>
-
-    <a href="#" class="d-flex flex-row gap-1 text-decoration-none text-reset">
-        <img src="{{ URL('assets/home-icon.svg')}}" alt="" style="width: 1.08rem; height: 1.08rem;" />
-
-        <p style="font-size: 0.8rem;">/ Profile</p>
-    </a>
+<x-layout>
+    <x-slot:title>
+        Transaksi-More
+        </x-slot>   
+<x-partials.data-transaksi/>
+<div class="dropdown d-block d-md-none mt-3">
+    <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
+        <div class="element-dropdown">
+            <div class="rounded-circle bg-white position-absolute top-0 start-0 my-3" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                <i class="fa-solid fa-file-lines  text-info " style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
+            </div>
+            <h4 class="my-2" style="margin-left:85px;">ENTRY DATA</h4>
+            <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px; width: 210px;" />
+            <p class="my-2" style="margin-left:85px;">PEMASUKAN DATA PETI KEMAS</p>
+        </div>
+        <i class="fa-solid fa-caret-down text-white mx-2" style="position: absolute; top:42px; right:0"></i>
+    </button>
+    <ul class="dropdown-menu w-100 "></ul>
 </div>
-<div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
-    <div class="container position-relative">
-        <h1 class="fw-semibold  text-white fs-1 fs-lg-2">NO.Transaksi | 022847-DO.IN-1223 </h1>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:55px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO.Transaksi</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:55px">
-                            022847-DO.IN-1223
-                        </h5>
-                    </div>
+<div class="row mt-0 mt-lg-3">
+    <div class="col-lg-4 d-lg-block d-none">
+        <div class="card  shadow rounded-4 bg-primary bg-info text-white hover ">
+            <div class="card-body tabs" data-tab="EntryData">
+
+                <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                    <i class="fa-solid fa-file-lines text-primary text-info" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
                 </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-briefcase position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jenis Transaksi</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            Impor
-                        </h5>
-                    </div>
-                </div>
+                <h4 class="my-2" style="margin-left:85px;">ENTRY DATA</h4>
+                <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
+                <p class="my-2" style="margin-left:85px;">PEMASUKAN DATA PETI KEMAS</p>
+
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Pelayaran</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            Benline
-                        </h5>
-                    </div>
+    </div>
+    <div class="col-lg-4 d-lg-block d-none">
+        <div class="card shadow rounded-4 bg-primary text-white hover">
+            <div class="card-body tabs" data-tab="Pembayaran">
+
+                <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                    <i class="fa-solid fa-dollar-sign  text-primary " style="font-size:3.3rem; margin: 10px 20px 10px 20px"></i>
                 </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Perusahaan</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            PT Anugrah Mulia
-                        </h5>
-                    </div>
-                </div>
+                <h4 class="my-2" style="margin-left:85px;">PEMBAYARAN</h4>
+                <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
+                <p class="my-2" style="margin-left:85px;">PEMBAYARAN JASA</p>
+
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jumlah Peti Kemas</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            5
-                        </h5>
-                    </div>
+    </div>
+    <div class="col-lg-4  d-lg-block d-none">
+        <div class="card shadow rounded-4 bg-primary text-white hover ">
+            <div class="card-body tabs" data-tab="Pengecekan">
+
+                <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                    <i class="fa-solid fa-clipboard-list text-primary " style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
                 </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO. DO</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            08909890
-                        </h5>
-                    </div>
-                </div>
+                <h4 class="my-2" style="margin-left:85px;">PENGECEKAN</h4>
+                <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
+                <p class="my-2" style="margin-left:85px;">PENGECEKAN PETI KEMAS</p>
+
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Rilis</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            22 Desember 2022
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Expired</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            12 Desember 2023
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-ship position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Cargo</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            AP Cargo
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Transaksi</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            22 Desember 2002
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">EMKL</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            Andalan Linas Nusa
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
-                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
-                        <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            Inventory 1
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Kasir</p>
-                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
-                        <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            Kasir 1
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-info rounded-3  d-flex mx-auto mt-3">
-            <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
-            <span class="fw-semibold mx-2 my-auto fs-6">EDIT DATA</span>
-        </button>
     </div>
 </div>
 
-@endsection
+<div class="row mt-0 mt-lg-3">
+    <div class="col-lg-6 d-lg-block d-none">
+        <div class="card shadow rounded-4 bg-primary text-white hover">
+            <div class="card-body tabs" data-tab="Perbaikan">
+
+                <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                    <i class="fa-solid fa-screwdriver-wrench  text-primary " style="font-size:3rem; margin:15px 14px 15px 14px"></i>
+                </div>
+                <h4 class="my-2" style="margin-left:85px;">PERBAIKAN</h4>
+                <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
+                <p class="my-2" style="margin-left:85px;">PERBAIKAN PETI KEMAS</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 d-lg-block d-none">
+        <div class="card shadow rounded-4 bg-primary text-white hover">
+            <div class="card-body tabs" data-tab="Penempatan">
+
+                <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                    <i class="fa-solid fa-location-dot text-primary" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
+                </div>
+                <h4 class="my-2" style="margin-left:85px;">PENEMPATAN</h4>
+                <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
+                <p class="my-2" style="margin-left:85px;">PENEMPATAN PETI KEMAS</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="EntryData" class="tab-pane fade in active show d-block">
+    <x-partials.table-entrydata/>
+</div>
+
+<div id="Pembayaran" class="tab-pane fade in d-none">
+    <x-partials.table-pembayaran/>
+</div>
+
+<div id="Pengecekan" class="tab-pane fade in d-none">
+    <x-partials.table-pengecekan/>
+</div>
+
+<div id="Perbaikan" class="tab-pane fade in d-none">
+    <x-partials.table-perbaikan/>
+</div>
+
+<div id="Penempatan" class="tab-pane fade in d-none">
+    <x-partials.table-penempatan/>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        function updateDropdownAndTab(tabId) {
+
+            $(".element-dropdown").empty();
+            let Element = $("[data-tab='" + tabId + "']");
+            let ElementCopy = Element.clone();
+            $(".element-dropdown").append(ElementCopy);
+            if ($(".element-dropdown").children().length > 1) {
+                $(".element-dropdown").children().first().remove()
+            }
+            $(".element-dropdown").find("hr").css("width", "210px");
+            let circle = $(".element-dropdown").find(".rounded-circle");
+            circle.removeClass("my-4");
+            circle.addClass("my-3");
+            $('.card').removeClass('bg-info');
+            $('i').removeClass('text-info');
+            let iconDropdown = $(".element-dropdown").find("i");
+            iconDropdown.removeClass("text-primary");
+            iconDropdown.addClass("text-info");
+            let card = Element.parent();
+            let iconTab = Element.find("i");
+            card.addClass("bg-info");
+            iconTab.addClass("text-info");
+        }
+
+        function fillDropdownMenu() {
+            var dropdownList = $(".dropdown-menu");
+            dropdownList.empty();
+            $(".tabs").each(function() {
+                var tab = $(this).data("tab");
+                var icon = $(this).find("i").clone();
+                var label = $(this).find("h4").text();
+
+
+                var listItem = $("<li>", {
+                    class: "dropdown-item",
+                    "data-dropdown": tab,
+                    html: icon.removeClass("text-primary").css("font-size", "", "margin", "").addClass("d-inline m-0 text-black").prop('outerHTML') + "<p class='m-0 d-inline mx-1'>" + label + "</p>"
+                });
+                dropdownList.append(listItem);
+            });
+        }
+        fillDropdownMenu();
+        $('.tabs').click(function() {
+            let tabId = $(this).data('tab');
+
+            if ($('#' + tabId).hasClass('d-none')) {
+                $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+            } else {
+                $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+            }
+            updateDropdownAndTab(tabId);
+        });
+
+        $('.dropdown-item').click(function() {
+            let dropdownId = $(this).data('dropdown');
+            if ($('#' + dropdownId).hasClass('d-none')) {
+                $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                $('#' + dropdownId).removeClass('d-none').addClass('active show d-block');
+            } else {
+                $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                $('#' + dropdownId).removeClass('d-none').addClass('active show d-block');
+            }
+            updateDropdownAndTab(dropdownId);
+        });
+    });
+</script>
+</x-layout>
