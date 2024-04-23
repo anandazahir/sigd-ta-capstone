@@ -1,0 +1,195 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100&display=swap");
+
+$dropdown-min-width: 5vh;
+$dropdown-padding-x: 0;
+$dropdown-padding-y: 0.2rem;
+$font-family-sans-serif: "DM Sans", -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$utilities: map-merge(
+    $utilities,
+    (
+        "font-size":
+            map-merge(
+                map-get($utilities, "font-size"),
+                (
+                    responsive: true,
+                )
+            ),
+    )
+);
+
+.px-lg-7 {
+    padding-left: 10rem;
+    padding-right: 10rem;
+}
+
+.desc {
+    font-size: 0.65rem;
+}
+.img-title {
+    width: 70px;
+    height: 70px;
+}
+.img-notif {
+    width: 51px;
+    height: 66px;
+}
+.img-profil {
+    width: 50px;
+    height: 49px;
+}
+
+.line {
+    border: none;
+    opacity: 1;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .px-lg-7 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .desc {
+        font-size: 10px;
+    }
+    .img-title {
+        width: 30px;
+        height: 30px;
+    }
+
+    .img-notif {
+        width: 31px;
+        height: 46px;
+    }
+    .img-profil {
+        width: 30px;
+        height: 29px;
+    }
+}
+.table-dashboard {
+    @extend .table;
+    thead th {
+        border-bottom: 2px solid;
+        background-color: #f09259;
+        color: white;
+    }
+
+    tbody tr td {
+        border-bottom: hidden;
+        background-color: #f09259;
+        color: white;
+    }
+}
+.table-container {
+    height: 40rem;
+    @media only screen and (max-width: 600px) {
+        height: 40rem;
+    }
+}
+.onscroll {
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+
+        /* Track */
+        &-corner {
+            background: transparent;
+        }
+        &-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        &-thumb {
+            background: rgb(7, 7, 7);
+            border-radius: 10px;
+
+            /* Handle on hover */
+            &:hover {
+                background: rgba(46, 45, 45, 0.999);
+            }
+        }
+    }
+}
+
+.hover:hover {
+    border: 2px solid black;
+    cursor: pointer;
+}
+.table-variations-2 {
+    @extend .table;
+    border-collapse: separate;
+    border-spacing: 0 25px;
+    th {
+        font-size: 25px;
+    }
+    td {
+        font-size: 20px;
+    }
+    th,
+    td {
+        border: hidden;
+        background-color: white;
+    }
+    td:first-child,
+    th:first-child {
+        border-radius: 20px 0 0 20px;
+    }
+    td:last-child,
+    th:last-child {
+        border-radius: 0 20px 20px 0;
+    }
+    tr:hover td {
+        background-color: #ddd;
+    }
+}
+.month-picker {
+    position: relative; // Ensure proper positioning for absolute positioning of child elements
+    overflow: hidden; // Hide overflowing child elements
+
+    img {
+        position: relative;
+        pointer-events: none;
+        z-index: 1; // Ensure the icon doesn't interfere with mouse events
+    }
+
+    input[type="month"] {
+        position: absolute; // Position the input absolutely
+        width: 100%; // Ensure the input takes up the full width of the button
+        height: 100%; // Ensure the input takes up the full height of the button
+        opacity: 0; // Hide the input
+        right: 0px; // Position the input off-screen
+        top: 0px;
+        z-index: 0; // Position the input off-screen
+        cursor: pointer;
+    }
+    input[type="month"]::-webkit-calendar-picker-indicator {
+        font-size: 100px; /* Adjust the size as needed */
+    }
+}
+.table-variations-3 {
+    @extend .table;
+    tr th {
+        font-size: 25px;
+        border-bottom: 3px solid black;
+        border-radius: 2px;
+    }
+    tr td {
+        font-size: 20px;
+        border-bottom: hidden;
+    }
+    tr:hover td {
+        background-color: #ddd;
+    }
+}
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
