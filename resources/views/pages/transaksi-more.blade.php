@@ -1,6 +1,8 @@
-@extends('index')
-@section('pages')
-@include ('partials.data-transaksi')
+<x-layout>
+    <x-slot:title>
+        Transaksi-More
+        </x-slot>   
+<x-partials.data-transaksi/>
 <div class="dropdown d-block d-md-none mt-3">
     <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
         <div class="element-dropdown">
@@ -91,23 +93,23 @@
     </div>
 </div>
 <div id="EntryData" class="tab-pane fade in active show d-block">
-    @include('partials.table-entrydata')
+    <x-partials.table-entrydata/>
 </div>
 
 <div id="Pembayaran" class="tab-pane fade in d-none">
-    @include('partials.table-pembayaran')
+    <x-partials.table-pembayaran/>
 </div>
 
 <div id="Pengecekan" class="tab-pane fade in d-none">
-    @include('partials.table-pengecekan')
+    <x-partials.table-pengecekan/>
 </div>
 
 <div id="Perbaikan" class="tab-pane fade in d-none">
-    @include('partials.table-perbaikan')
+    <x-partials.table-perbaikan/>
 </div>
 
 <div id="Penempatan" class="tab-pane fade in d-none">
-    @include('partials.table-penempatan')
+    <x-partials.table-penempatan/>
 </div>
 
 
@@ -181,4 +183,4 @@
         });
     });
 </script>
-@endsection
+</x-layout>

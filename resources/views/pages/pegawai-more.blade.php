@@ -1,6 +1,8 @@
-@extends('index')
-@section('pages')
-@include('partials.biodata')
-@include('partials.absensi')
-@include('partials.pengajuan')
-@endsection
+<x-layout>
+    <x-slot:title>
+        Pegawai-More
+        </x-slot>
+<x-partials.biodata/>
+<x-partials.absensi/>
+<x-partials.pengajuan/>
+</x-layout>

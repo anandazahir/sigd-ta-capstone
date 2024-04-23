@@ -1,12 +1,3 @@
-<div class="d-flex flex-row  justify-content-between mt-3 text-secondary">
-    <h3 style="font-size: 1rem;">Profile</h3>
-
-    <a href="#" class="d-flex flex-row gap-1 text-decoration-none text-reset">
-        <img src="{{ URL('assets/home-icon.svg')}}" alt="" style="width: 1.08rem; height: 1.08rem;" />
-
-        <p style="font-size: 0.8rem;">/ Profile</p>
-    </a>
-</div>
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3 d-flex align-content-center" style="height: 30rem;">
     <div class="container">
 
