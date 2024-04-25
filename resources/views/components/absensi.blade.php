@@ -2,8 +2,8 @@
     <div class="container position-relative">
         <h1 class="text-white fw-semibold">Kehadiran | Desember</h1>
 
-        <form class="btn-light rounded-circle btn month-picker p-2 position-absolute top-0 end-0" style="margin-right: 10px;">
-            <img src="{{ URL('assets/date.svg')}}" alt="" width="25" height="25">
+        <form class="btn-light rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
+            <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="month" name="" id="">
         </form>
 
@@ -86,8 +86,8 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white mt-3 p-2 rounded-4 shadow scroll" style="height: 30rem;">
-            <table class="table-variations-3 table-responsive text-center">
+        <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 30rem;">
+            <table class="table-variations-3  text-center">
                 <thead>
                     <tr>
                         <th scope="col" class="fw-semibold">Tanggal</th>
@@ -112,9 +112,7 @@
                             16.00
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-info p-1 d-flex">
-                                <img src="{{ URL('assets/edit.svg')}}" alt="" width="27" height="27"><span class="fw-semibold mx-1  fs-5 d-md-block d-none">EDIT</span>
-                            </button>
+                            <a class="btn btn-info text-white rounded-3"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
                         </td>
                     </tr>
                 </tbody>

@@ -1,17 +1,8 @@
-<div class="d-flex flex-row  justify-content-between mt-3 text-secondary">
-    <h3 style="font-size: 1rem;">Profile</h3>
-
-    <a href="#" class="d-flex flex-row gap-1 text-decoration-none text-reset">
-        <img src="{{ URL('assets/home-icon.svg')}}" alt="" style="width: 1.08rem; height: 1.08rem;" />
-
-        <p style="font-size: 0.8rem;">/ Profile</p>
-    </a>
-</div>
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
     <div class="container position-relative">
         <h1 class="fw-semibold  text-white fs-1 fs-lg-2">NO.Transaksi | 022847-DO.IN-1223 </h1>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -22,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-briefcase position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -34,8 +25,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row ">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -46,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -58,8 +49,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row ">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -70,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -82,8 +73,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row ">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -94,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -106,8 +97,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row ">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-ship position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -118,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -130,8 +121,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row ">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -142,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -155,8 +146,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
+        <div class="row ">
+            <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
@@ -169,7 +160,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-info rounded-3  d-flex mx-auto mt-3">
+        <button class="btn btn-info rounded-3  d-flex mx-auto mt-1">
             <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
             <span class="fw-semibold mx-2 my-auto fs-6">EDIT DATA</span>
         </button>

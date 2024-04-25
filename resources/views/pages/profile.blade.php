@@ -2,5 +2,5 @@
     <x-slot:title>
         Profile
         </x-slot>
-        <x-partials.biodata />
+        <x-biodata />
 </x-layout>
