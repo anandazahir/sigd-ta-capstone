@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>
-        Dashbor
+        Dashboard
         </x-slot>
         <div class="row">
             <div class="col-lg-12 mb-3">

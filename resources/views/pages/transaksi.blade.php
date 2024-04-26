@@ -53,13 +53,14 @@
                 <h3 class=" text-white mb-2">November</h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
-                        <a href="" class="btn btn-info mb-2">
+                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-transaksi">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                                 </div>
                                 <span class="fs-5 fw-semibold">Tambah Transaksi</span>
                             </div>
+                        </button>    
                         </a>
                         <a href="" class="btn btn-info mb-2  ">
                             <div class="d-flex gap-1">
@@ -121,5 +122,6 @@
                 });
             });
         </script>
-
+        <x-form-table-transaksi />
+        <x-toast />
 </x-layout>
