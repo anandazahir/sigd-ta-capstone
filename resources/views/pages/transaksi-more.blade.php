@@ -3,7 +3,7 @@
         Transaksi-More
         </x-slot>
         <x-data-transaksi />
-        <x-form-table-transaksi />
+       
         <div class="dropdown d-block d-md-none mb-3">
             <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
                 <div class="element-dropdown">
@@ -94,7 +94,8 @@
             </div>
         </div>
         <div id="EntryData" class="tab-pane fade in active show d-block">
-            <x-table-entrydata />
+            <x-table-entrydata/>
+         
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">
