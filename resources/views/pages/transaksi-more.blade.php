@@ -113,5 +113,64 @@
         </div>
 
 
+        <script>
+            $(document).ready(function() {
+                function updateDropdownAndTab(tabId) {
 
+                    $(".element-dropdown").empty();
+                    let Element = $("[data-tab='" + tabId + "']");
+                    let ElementCopy = Element.clone();
+                    $(".element-dropdown").append(ElementCopy);
+                    if ($(".element-dropdown").children().length > 1) {
+                        $(".element-dropdown").children().first().remove()
+                    }
+                    $(".element-dropdown").find("hr").css("width", "210px");
+                    let circle = $(".element-dropdown").find(".rounded-circle");
+                    circle.removeClass("my-4");
+                    circle.addClass("my-3");
+                    $('.card').removeClass('bg-info');
+                    $('i').removeClass('text-info');
+                    let iconDropdown = $(".element-dropdown").find("i");
+                    iconDropdown.removeClass("text-primary");
+                    iconDropdown.addClass("text-info");
+                    let card = Element.parent();
+                    let iconTab = Element.find("i");
+                    card.addClass("bg-info");
+                    iconTab.addClass("text-info");
+                }
+
+                function fillDropdownMenu() {
+                    var dropdownList = $(".copy");
+                    dropdownList.empty();
+                    $(".tabs").each(function() {
+                        var tab = $(this).data("tab");
+                        var icon = $(this).find("i").clone();
+                        var label = $(this).find("h4").text();
+
+
+                        var listItem = $("<li>", {
+                            class: "dropdown-item",
+                            "data-dropdown": tab,
+                            html: icon.removeClass("text-primary").css("font-size", "", "margin", "").addClass("d-inline m-0 text-black").prop('outerHTML') + "<p class='m-0 d-inline mx-1'>" + label + "</p>"
+                        });
+                        dropdownList.append(listItem);
+                    });
+                }
+                fillDropdownMenu();
+                $('.tabs').click(function() {
+                    let tabId = $(this).data('tab');
+
+                    if ($('#' + tabId).hasClass('d-none')) {
+                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+                    } else {
+                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+                    }
+                    updateDropdownAndTab(tabId);
+                });
+
+
+            });
+        </script>
 </x-layout>

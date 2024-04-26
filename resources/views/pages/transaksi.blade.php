@@ -5,7 +5,7 @@
         <div class="position-relative" style="margin-bottom: 33px;">
             <div class="dropdown">
                 <button class="btn btn-primary rounded-4 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; ">
-                    <span class="fs-5 fw-semibold text-white">Jenis Transaksi</span>
+                    <span class="fs-5 fw-semibold text-white"></span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Jenis Transaksi</a></li>
