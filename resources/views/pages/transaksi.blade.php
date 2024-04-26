@@ -2,7 +2,7 @@
     <x-slot:title>
         Transaksi
         </x-slot>
-        <div class="position-relative mb-4">
+        <div class="position-relative" style="margin-bottom: 33px;">
             <div class="dropdown">
                 <button class="btn btn-primary rounded-4 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; ">
                     <span class="fs-5 fw-semibold text-white">Jenis Transaksi</span>
@@ -13,9 +13,9 @@
                     <li><a class="dropdown-item" href="#">Ekspor</a></li>
                 </ul>
             </div>
-            <form class="btn-primary rounded-circle btn month-picker p-2 position-absolute top-0 end-0" style="margin-right: 10px; margin-bottom:15px;">
-                <img src="{{ URL('assets/date-white.svg')}}" alt="" width="40" height="40">
-                <input type="month" name="" id="">
+            <form class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
+                <i class="fa-solid fa-calendar-days text-white" style="font-size:35px;"></i>
+                <input type="month" name="" id="monthpicker">
             </form>
         </div>
         <div class="row">
@@ -46,29 +46,39 @@
                 </div>
             </div>
         </div>
-        <div class="w-100 bg-primary mb-4 shadow rounded-4 p-3" style="height: 50rem;">
+        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: 50rem;">
             <div class="container">
-                <h3 class=" text-white mb-2">DATA TRANSAKSI | IMPOR</h3>
+                <h3 class=" text-white mb-2" id="selectedTransactionType">DATA TRANSAKSI</h3>
                 <hr class="line p-0 m-0" style="height: 2px; background-color:#FFF; width:36vh;" />
                 <h3 class=" text-white mb-2">November</h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
-                        <a href="" class="btn btn-info mb-2 mb-lg-0  " style="width: fit-content;">
-                            <img src="{{ URL('assets/tambah.svg')}}" alt="">
-                            <span class="fs-5 fw-semibold">Tambah Transaksi</span>
+                        <a href="" class="btn btn-info mb-2">
+                            <div class="d-flex gap-1">
+                                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
+                                    <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
+                                </div>
+                                <span class="fs-5 fw-semibold">Tambah Transaksi</span>
+                            </div>
                         </a>
-                        <a href="" class="btn btn-info mb-2 mb-lg-0 " style="width: fit-content;">
-                            <img src="{{ URL('assets/download.svg')}}" alt="" style="margin-bottom: 5px;">
-                            <span class="fs-5 fw-semibold mx-2">Laporan Bulanan Transaksi</span>
+                        <a href="" class="btn btn-info mb-2  ">
+                            <div class="d-flex gap-1">
+                                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
+                                    <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
+                                </div>
+                                <span class="fs-5 fw-semibold">Laporan Bulanan Transaksi</span>
+                            </div>
                         </a>
                     </div>
-                    <form class="d-flex m-0 p-0" role="search" style="width: 21rem;">
-                        <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;">
-                        <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><img src="{{ URL('assets/search.svg')}}" alt="" style="width: 1.7rem; height: 1.7rem;" /></button>
-                    </form>
+                    <div class="p-0" style="width: fit-content;">
+                        <form class="d-flex m-0 p-0" role="search" style="width: 21rem;">
+                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;">
+                            <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
+                        </form>
+                    </div>
                 </div>
-                <div class="onscroll table-container">
-                    <table class="table-variations-2 table-responsive text-center" rules="groups">
+                <div class="onscroll table-container table-responsive">
+                    <table class="table-variations-2  text-center" rules="groups">
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No Transaksi</th>
@@ -80,7 +90,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            @for($i=0;$i<10;$i++) <tr>
                                 <td>Rizal Firdaus</td>
                                 <td>2112020</td>
                                 <td>Inventory</td>
@@ -88,14 +98,28 @@
                                 <td>jajshjkadh@gmail.com</td>
                                 <td>
                                     <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/more"> <img src="{{ URL('assets/More.svg')}}" alt="" style="width: 2rem; height: 2rem;" /></a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <img src="{{ URL('assets/Delete.png')}}" alt="" style="width: 2rem; height: 2rem;" /></button>
+                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/more"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
+                                        <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                                     </div>
                                 </td>
-                            </tr>
+                                </tr>
+                                @endfor
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-item').click(function() {
+                    var selectedType = $(this).text();
+                    if (selectedType !== "Jenis Transaksi") {
+
+                        return $('#selectedTransactionType').text('DATA TRANSAKSI | ' + selectedType);
+                    }
+                    $('#selectedTransactionType').text('DATA TRANSAKSI');
+                });
+            });
+        </script>
+
 </x-layout>

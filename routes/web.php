@@ -37,6 +37,6 @@ Route::get('/transaksi/more', function () {
 Route::get('/petikemas', function () {
     return view('pages/petikemas');
 });
-Route::get('/petikemas-more', function () {
+Route::get('/petikemas/more', function () {
     return view('pages/petikemas-more');
 });

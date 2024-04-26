@@ -8,6 +8,7 @@
 
 $dropdown-min-width: 5vh;
 $dropdown-padding-x: 0;
+
 $dropdown-padding-y: 0.2rem;
 $font-family-sans-serif: "DM Sans", -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
@@ -38,12 +39,10 @@ $utilities: map-merge(
     height: 70px;
 }
 .img-notif {
-    width: 51px;
-    height: 66px;
+    font-size: 40px;
 }
 .img-profil {
-    width: 50px;
-    height: 49px;
+    font-size: 40px;
 }
 
 .line {
@@ -67,12 +66,10 @@ $utilities: map-merge(
     }
 
     .img-notif {
-        width: 31px;
-        height: 46px;
+        font-size: 30px;
     }
     .img-profil {
-        width: 30px;
-        height: 29px;
+        font-size: 30px;
     }
 }
 .table-dashboard {
@@ -92,7 +89,7 @@ $utilities: map-merge(
 .table-container {
     height: 40rem;
     @media only screen and (max-width: 600px) {
-        height: 40rem;
+        height: 33rem;
     }
 }
 .onscroll {
@@ -123,10 +120,11 @@ $utilities: map-merge(
     }
 }
 
-.hover:hover {
+.onhover:hover {
     border: 2px solid black;
     cursor: pointer;
 }
+
 .table-variations-2 {
     @extend .table;
     border-collapse: separate;
@@ -158,10 +156,11 @@ $utilities: map-merge(
     position: relative; // Ensure proper positioning for absolute positioning of child elements
     overflow: hidden; // Hide overflowing child elements
 
-    img {
+    i {
         position: relative;
         pointer-events: none;
-        z-index: 1; // Ensure the icon doesn't interfere with mouse events
+        z-index: 1;
+        cursor: pointer; // Ensure the icon doesn't interfere with mouse events
     }
 
     input[type="month"] {
