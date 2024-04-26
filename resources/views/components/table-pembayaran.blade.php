@@ -19,7 +19,7 @@
                             555555
                         </td>
                         <td class="text-center">
-                            40'FT
+                            40'FT'
                         </td>
                         <td class="text-center">
                             Transfer BCA
@@ -32,7 +32,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
-                                <a class="btn btn-info text-white rounded-3"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
+                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#create-pembayaran"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                             </div>
                         </td>
                         </tr>

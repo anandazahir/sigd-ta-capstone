@@ -28,14 +28,14 @@
                             555555
                         </td>
                         <td class="text-center">
-                            40'FT
+                            40'FT'
                         </td>
                         <td class="text-center">
                             3
                         </td>
 
                         <td class="text-center">
-                            <a href="#" class="btn btn-info "><span class="fs-semibold">LIST KERUSAKAN</span></a>
+                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#show-kerusakan"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                         </td>
                         <td class="text-center m-0 p-0">
                             01-11-2023 <br> 10:00:00
@@ -48,9 +48,9 @@
                             <span>Survey In 1</span>
                         </td>
                         <td class="text-center">
-                            <div class="btn-group gap-2 mx-auto">
-                                <a class="btn btn-info text-white rounded-3"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
-                            </div>
+                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edit-pengecekan">
+                            <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

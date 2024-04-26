@@ -99,10 +99,13 @@
 
         <div id="Pembayaran" class="tab-pane fade in d-none">
             <x-table-pembayaran />
+            <x-form-table-pembayaran />
         </div>
 
         <div id="Pengecekan" class="tab-pane fade in d-none">
             <x-table-pengecekan />
+            <x-form-table-kerusakan />
+            <x-form-table-edit-pengecekan />
         </div>
 
         <div id="Perbaikan" class="tab-pane fade in d-none">
@@ -174,4 +177,5 @@
 
             });
         </script>
+        <x-toast />
 </x-layout>
