@@ -8,7 +8,7 @@
                 <div class="row justify-content-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
                         <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-pegawai">
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                                 </div>
@@ -16,7 +16,7 @@
                             </div>
                         </button>
                         <a href="" class="btn btn-info mb-2  ">
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Pegawai">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
                                 </div>
@@ -54,7 +54,7 @@
                                 <td>
                                     <div class="btn-group gap-2">
                                         <a class="btn btn-info text-white p-0 rounded-3 " style="width: 2.5rem; height: 2.2rem;" href="/pegawai/more"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3 " style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-danger text-white p-0 rounded-3 " style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Menghapus Data"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -63,5 +63,6 @@
                 </div>
             </div>
         </div>
-        <x-create-pegawai />
+        <x-form-table-pegawai />
+        <x-toast />
 </x-layout>

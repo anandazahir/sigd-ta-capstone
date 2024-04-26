@@ -5,7 +5,7 @@
 
 
         <div class="d-flex flex-column my-5" style="place-items: center;">
-            <div class="rounded-circle bg-white p-1 mb-2" style="z-index: 1; width: 250px; height: 250px;">
+            <div class="rounded-circle bg-white p-1 mb-2 onhover" style="z-index: 1; width: 250px; height: 250px;">
                 <i class="fa-solid fa-user text-primary" style=" font-size:190px; margin-left:37px; margin-top:17px"></i>
             </div>
             <h1 class="fw-semibold text-white" style="z-index: 1;">Direktur 1</h1>
@@ -149,7 +149,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-info rounded-3  d-flex mx-auto mt-3">
+        <button class="btn btn-info rounded-3  d-flex mx-auto mt-3" data-bs-toggle="modal" data-bs-target="#create-pegawai">
             <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
             <span class="fw-semibold mx-2 my-auto fs-6">EDIT DATA</span>
         </button>

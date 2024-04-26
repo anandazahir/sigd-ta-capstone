@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" id="create-pegawai" aria-labelledby="create-pegawai" aria-hidden="true">
+<div class="modal fade fade " tabindex="-1" id="create-pegawai" aria-labelledby="create-pegawai" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="/pegawai">
                     <div class="row">
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="nama" class="form-label">Nama:</label>
@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="tanggal lahir" class="form-label">Tanggal Lahir</label>
-                            <input id="date_column" type="date" class="form-control" name="date_column" required>
+                            <input type="date" class="form-control" name="tanggal-lahir" required>
                         </div>
                         <div class="col-lg-6 mb-3 form-group ">
                             <label for="gender" class="form-label">Gender</label>
@@ -82,7 +82,7 @@
                             <textarea class="form-control" id="alamat" rows="3"></textarea>
                         </div>
                     </div>
-                    <a href="/pegawai" type="submit" class="btn btn-primary text-white">Submit</a>
+                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>
             </div>
         </div>

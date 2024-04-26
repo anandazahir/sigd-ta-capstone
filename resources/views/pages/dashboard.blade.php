@@ -67,7 +67,7 @@
                 <div class="col">
                     <div class="row mb-3">
                         <a href="/petikemas" class="text-decoration-none">
-                            <div class="card shadow rounded-4 bg-primary text-white onhover">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Peti Kemas">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
 
@@ -96,7 +96,7 @@
 
                     <div class="row mb-3">
                         <a href="/transaksi" class="text-decoration-none">
-                            <div class="card shadow rounded-4 bg-primary text-white onhover">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
 
@@ -117,7 +117,7 @@
 
                     <div class="row mb-3">
                         <a href="/pegawai" class="text-decoration-none">
-                            <div class="card shadow rounded-4 bg-primary text-white onhover">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Pegawai">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
                                         <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">

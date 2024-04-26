@@ -2,12 +2,12 @@
     <div class="container position-relative">
         <h1 class="text-white fw-semibold">Pengajuan</h1>
         {{--tambah transaksi belom--}}
-        <button class="btn btn-info mb-2">
+        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan">
             <div class="d-flex gap-2">
                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                 </div>
-                <span class="fs-5 fw-semibold">Tambah Transaksi</span>
+                <span class="fs-5 fw-semibold">Tambah Pengajuan</span>
             </div>
         </button>
         <div class="row mt-3">
@@ -72,7 +72,7 @@
                             16.00
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-info text-white rounded-3"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
+                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan"> <i class=" fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                         </td>
                     </tr>
                 </tbody>

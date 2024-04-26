@@ -8,6 +8,7 @@
 
 $dropdown-min-width: 5vh;
 $dropdown-padding-x: 0;
+
 $dropdown-padding-y: 0.2rem;
 $font-family-sans-serif: "DM Sans", -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
@@ -123,6 +124,7 @@ $utilities: map-merge(
     border: 2px solid black;
     cursor: pointer;
 }
+
 .table-variations-2 {
     @extend .table;
     border-collapse: separate;

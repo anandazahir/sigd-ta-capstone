@@ -15,7 +15,7 @@
             </div>
             <form class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
                 <i class="fa-solid fa-calendar-days text-white" style="font-size:35px;"></i>
-                <input type="month" name="" id="">
+                <input type="month" name="" id="monthpicker">
             </form>
         </div>
         <div class="row">
@@ -48,7 +48,7 @@
         </div>
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: 50rem;">
             <div class="container">
-                <h3 class=" text-white mb-2">DATA TRANSAKSI | IMPOR</h3>
+                <h3 class=" text-white mb-2" id="selectedTransactionType">DATA TRANSAKSI</h3>
                 <hr class="line p-0 m-0" style="height: 2px; background-color:#FFF; width:36vh;" />
                 <h3 class=" text-white mb-2">November</h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
@@ -109,4 +109,17 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-item').click(function() {
+                    var selectedType = $(this).text();
+                    if (selectedType !== "Jenis Transaksi") {
+
+                        return $('#selectedTransactionType').text('DATA TRANSAKSI | ' + selectedType);
+                    }
+                    $('#selectedTransactionType').text('DATA TRANSAKSI');
+                });
+            });
+        </script>
+
 </x-layout>
