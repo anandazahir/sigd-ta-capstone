@@ -31,7 +31,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
-                                <a class="btn btn-info text-white rounded-3"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
+                                <button class="btn btn-info text-white rounded-3" data-bs-toogle="modal" data-bs-target="#create-entrydata"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                                 <button class="btn btn-danger text-white rounded-3"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></button>
                             </div>
                         </td>
