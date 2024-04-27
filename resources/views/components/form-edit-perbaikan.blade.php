@@ -31,13 +31,13 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-3">
-                            <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-                            <input type="number" min="1" class="form-control" id="jumlahkerusakan" placeholder="Jumlah Kerusakan" name="jumlah kerusakan" required>
+                            <label for="jumlah perbaikan" class="form-label">Jumlah Perbaikan</label>
+                            <input type="number" min="1" class="form-control" id="jumlahperbaikan" placeholder="Jumlah Perbaikan" name="jumlah perbaikan" required>
                         </div>
                     </div>
 
                     <div class="p-1 rounded-4 onscroll table-responsive" style="height: 25rem;">
-                        <table class="table-dashboard text-center" id="myTable">
+                        <table class="table text-center" id="myTable3">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -90,12 +90,12 @@
 
 <script>
     $(document).ready(function () {
-        $("#jumlahkerusakan").on("change", function () {
+        $("#jumlahperbaikan").on("change", function () {
           var rowCount = parseInt($(this).val());
-          var rowData = $("#myTable tbody tr:first").html();
-          $("#myTable tbody").empty();
+          var rowData = $("#myTable3 tbody tr:first").html();
+          $("#myTable3 tbody").empty();
           for (var i = 0; i < rowCount; i++) {
-            $("#myTable tbody").append("<tr>" + rowData + "</tr>");
+            $("#myTable3 tbody").append("<tr>" + rowData + "</tr>");
           }
         });
       });

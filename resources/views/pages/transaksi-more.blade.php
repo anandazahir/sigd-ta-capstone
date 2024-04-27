@@ -113,6 +113,7 @@
 
         <div id="Perbaikan" class="tab-pane fade in d-none">
             <x-table-perbaikan />
+            <x-form-edit-perbaikan />
         </div>
 
         <div id="Penempatan" class="tab-pane fade in d-none">
