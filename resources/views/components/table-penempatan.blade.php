@@ -2,7 +2,7 @@
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Penempatan</h2>
-            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" ata-bs-toggle="modal" data-bs-target="#create-pegawai">
+            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-penempatan">
                 <i class="fa-solid fa-circle-plus text-white fa-xl mx-1"></i>
                 <span class="fw-semibold fs-6">Tambah Lokasi Baru</span>
             </button>
@@ -27,7 +27,7 @@
                             555555
                         </td>
                         <td class="text-center">
-                            40'FT
+                            40'FT'
                         </td>
                         <td class="text-center">
                             <span class="bg-success text-white p-1 rounded-2">A0-01-01</span>
@@ -48,7 +48,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
-                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#create-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
+                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                             </div>
                         </td>
                     </tr>

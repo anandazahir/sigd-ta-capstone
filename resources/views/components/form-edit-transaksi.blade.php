@@ -1,8 +1,8 @@
-<div class="modal fade fade" tabindex="-1" id="create-transaksi" aria-labelledby="create-transaksi" aria-hidden="true">
+<div class="modal fade fade" tabindex="-1" id="edit-transaksi" aria-labelledby="edit-transaksi" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Transaksi</h5>
+                <h5 class="modal-title">Edit Transaksi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -29,7 +29,7 @@
                                 <option value="pt g">pt g</option>  --}}
                             </select>
                         </div>
-                        
+ 
                         <div class="row">
                             <div class="col-lg-6 mb-3 form-group">
                                 <label for="no. do" class="form-label">No. DO</label>
@@ -67,7 +67,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-lg-12 mb-3 form-group">
                                 <label for="pelayaran" class="form-label">Pelayaran</label>
@@ -84,7 +84,7 @@
                                 <input type="number" min="0" class="form-control" id="jumlah peti kemas" placeholder="Jumlah Peti Kemas" name="jumlah peti kemas" required>
                             </div>
                         </div>
-
+                        
                     </div>
                     <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>

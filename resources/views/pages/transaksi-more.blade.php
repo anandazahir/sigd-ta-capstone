@@ -3,7 +3,8 @@
         Transaksi-More
         </x-slot>
         <x-data-transaksi />
-
+        <x-form-table-transaksi />
+        <x-form-edit-transaksi />
         <div class="dropdown d-block d-md-none mb-3">
             <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
                 <div class="element-dropdown">
@@ -106,7 +107,8 @@
         <div id="Pengecekan" class="tab-pane fade in d-none">
             <x-table-pengecekan />
             <x-table-kerusakan />
-            <x-form-table-edit-pengecekan />
+            <x-form-table-pengecekan />
+            <x-form-edit-pengecekan />
         </div>
 
         <div id="Perbaikan" class="tab-pane fade in d-none">
@@ -115,6 +117,7 @@
 
         <div id="Penempatan" class="tab-pane fade in d-none">
             <x-table-penempatan />
+            <x-form-edit-penempatan />
         </div>
 
 
@@ -191,5 +194,6 @@
         </script>
         <x-toast />
         <x-form-table-entrydata />
+        <x-form-edit-entrydata />
         <x-form-table-penempatan></x-form-table-penempatan>
 </x-layout>

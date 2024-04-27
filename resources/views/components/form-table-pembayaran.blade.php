@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="biaya" class="form-label">Biaya</label>
-                            <input type="number" class="form-control" id="biaya"
+                            <input type="number" min="0" class="form-control" id="biaya"
                                 placeholder="Biaya" name="biaya" required>
                         </div>
                     </div>

@@ -2,10 +2,10 @@
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Entry Data</h2>
-            <a href="#" class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0">
+            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-entrydata">
                 <i class="fa-solid fa-circle-plus text-white fa-xl mx-1"></i>
                 <span class="fw-semibold fs-6">Tambah Peti Kemas</span>
-            </a>
+            </button>
         </div>
 
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
@@ -31,7 +31,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
-                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#create-entrydata"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
+                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-entrydata"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                                 <button class="btn btn-danger text-white rounded-3"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></button>
                             </div>
                         </td>
