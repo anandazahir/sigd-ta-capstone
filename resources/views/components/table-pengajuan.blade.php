@@ -3,7 +3,7 @@
         <h1 class="text-white fw-semibold">Pengajuan</h1>
         {{--tambah transaksi belom--}}
         <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan">
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Pengajuan">
                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                 </div>
@@ -72,7 +72,7 @@
                             16.00
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan"> <i class=" fa-solid fa-pen-to-square fa-lg my-1"></i></button>
+                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai"></i></button>
                         </td>
                     </tr>
                 </tbody>

@@ -3,7 +3,7 @@
         Transaksi-More
         </x-slot>
         <x-data-transaksi />
-       
+
         <div class="dropdown d-block d-md-none mb-3">
             <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
                 <div class="element-dropdown">
@@ -94,8 +94,8 @@
             </div>
         </div>
         <div id="EntryData" class="tab-pane fade in active show d-block">
-            <x-table-entrydata/>
-         
+            <x-table-entrydata />
+
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">
@@ -105,7 +105,7 @@
 
         <div id="Pengecekan" class="tab-pane fade in d-none">
             <x-table-pengecekan />
-            <x-form-table-kerusakan />
+            <x-table-kerusakan />
             <x-form-table-edit-pengecekan />
         </div>
 
@@ -174,9 +174,22 @@
                     }
                     updateDropdownAndTab(tabId);
                 });
+                $('.dropdown-item').click(function() {
+                    let tabId = $(this).data('dropdown');
 
+                    if ($('#' + tabId).hasClass('d-none')) {
+                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+                    } else {
+                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
+                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+                    }
+                    updateDropdownAndTab(tabId);
+                });
 
             });
         </script>
         <x-toast />
+        <x-form-table-entrydata />
+        <x-form-table-penempatan></x-form-table-penempatan>
 </x-layout>

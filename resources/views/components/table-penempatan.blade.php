@@ -1,11 +1,11 @@
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
-            <h2 class="text-white fw-semibold col-lg-9 m-0 p-0" >Penempatan</h2>
-            <button  class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" ata-bs-toggle="modal" data-bs-target="#create-pegawai">
+            <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Penempatan</h2>
+            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" ata-bs-toggle="modal" data-bs-target="#create-pegawai">
                 <i class="fa-solid fa-circle-plus text-white fa-xl mx-1"></i>
                 <span class="fw-semibold fs-6">Tambah Lokasi Baru</span>
-</button>
+            </button>
         </div>
 
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
@@ -48,7 +48,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
-                                <a class="btn btn-info text-white rounded-3"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
+                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#create-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                             </div>
                         </td>
                     </tr>

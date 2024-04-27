@@ -2,7 +2,7 @@
     <div class="container position-relative">
         <h1 class="text-white fw-semibold month-text">Kehadiran</h1>
 
-        <form class="btn-light rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
+        <form class="btn-light rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Data Berdasarkan Bulan">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="month" name="" id="selectedMonth">
         </form>
@@ -102,7 +102,7 @@
                             <span class="bg-success p-1 rounded-3 text-white">Absen</span>
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#form-table-absensi"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
+                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#form-table-absensi"> <i class="fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Absensi Pegawai"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -112,20 +112,13 @@
 </div>
 <script>
     $(document).ready(function() {
-
         $('#selectedMonth').change(function() {
-
             var selectedMonth = $(this).val();
-
-
             var [year, month] = selectedMonth.split('-');
-
             var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
                 "Juli", "Augustus", "September", "Oktober", "November", "Desember"
             ];
             var monthName = monthNames[parseInt(month, 10) - 1];
-
-
             $('.month-text').text('Kehadiran | ' + monthName + ' ' + year);
         });
     });

@@ -3,11 +3,11 @@
         Pegawai-More
         </x-slot>
         <x-biodata />
-        <x-absensi />
-        <x-pengajuan />
+        <x-table-absensi />
+        <x-table-pengajuan />
         <x-form-table-pegawai />
         <x-form-table-absensi />
-        <x-create-table-pengajuan />
-        <x-edit-table-pengajuan />
+        <x-form-create-table-pengajuan />
+        <x-form-edit-table-pengajuan />
         <x-toast />
 </x-layout>

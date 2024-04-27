@@ -10,7 +10,12 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="nomor" class="form-label">No Peti Kemas</label>
-                            <input type="text" class="form-control" id="nomor" placeholder="Nomor" name="nomor" required>
+
+                            <select class="form-select" aria-label="Default select example" required>
+                                <option selected>Plih Opsi Ini</option>
+                                <option value="impor">Peti Kemas A</option>
+                                <option value="ekspor">Peti Kemas B</option>
+                            </select>
                         </div>
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="size" class="form-label">Lokasi </label>

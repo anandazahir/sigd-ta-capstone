@@ -4,8 +4,8 @@
         </x-slot>
         <div class="position-relative" style="margin-bottom: 33px;">
             <div class="dropdown">
-                <button class="btn btn-primary rounded-4 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; ">
-                    <span class="fs-5 fw-semibold text-white"></span>
+                <button class="btn btn-primary rounded-4 dropdown-toggle element-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; ">
+                    <span class="fs-5 fw-semibold text-white text-dropdown">Jenis Transaksi</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Jenis Transaksi</a></li>
@@ -48,9 +48,9 @@
         </div>
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: 50rem;">
             <div class="container">
-                <h3 class=" text-white mb-2" id="selectedTransactionType">DATA TRANSAKSI</h3>
+                <h3 class=" text-white mb-2 text-table">DATA TRANSAKSI</h3>
                 <hr class="line p-0 m-0" style="height: 2px; background-color:#FFF; width:36vh;" />
-                <h3 class=" text-white mb-2">November</h3>
+                <h3 class=" text-white mb-2 month-text"></h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
                         <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-transaksi">
@@ -60,7 +60,7 @@
                                 </div>
                                 <span class="fs-5 fw-semibold">Tambah Transaksi</span>
                             </div>
-                        </button>    
+                        </button>
                         </a>
                         <a href="" class="btn btn-info mb-2  ">
                             <div class="d-flex gap-1">
@@ -114,11 +114,27 @@
             $(document).ready(function() {
                 $('.dropdown-item').click(function() {
                     var selectedType = $(this).text();
-                    if (selectedType !== "Jenis Transaksi") {
 
-                        return $('#selectedTransactionType').text('DATA TRANSAKSI | ' + selectedType);
+                    if (selectedType !== "Jenis Transaksi") {
+                        $('.text-table').text('DATA TRANSAKSI | ' + selectedType);
+                    } else {
+                        $('.text-table').text('DATA TRANSAKSI');
                     }
-                    $('#selectedTransactionType').text('DATA TRANSAKSI');
+
+
+                    $('.element-dropdown .text-dropdown').text(selectedType);
+
+                });
+
+                $('#monthpicker').change(function() {
+                    var selectedMonth = $(this).val();
+                    var [year, month] = selectedMonth.split('-');
+
+                    var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                        "Juli", "Augustus", "September", "Oktober", "November", "Desember"
+                    ];
+                    var monthName = monthNames[parseInt(month, 10) - 1];
+                    $('.month-text').text(monthName + ' ' + year);
                 });
             });
         </script>

@@ -150,8 +150,10 @@
             </div>
         </div>
         <button class="btn btn-info rounded-3  d-flex mx-auto mt-3" data-bs-toggle="modal" data-bs-target="#create-pegawai">
-            <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
-            <span class="fw-semibold mx-2 my-auto fs-6">EDIT DATA</span>
+            <div data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Biodata">
+                <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
+                <span class="fw-semibold my-auto fs-6">EDIT DATA</span>
+            </div>
         </button>
     </div>
 </div>
