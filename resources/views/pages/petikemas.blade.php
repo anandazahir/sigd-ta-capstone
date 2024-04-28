@@ -15,7 +15,7 @@
                                 </g>
                             </svg>
                         </div>
-                        
+
                         <div class="d-block">
                             <p class="m-0 text-white ">Peti Kemas IN</p>
                             <h4 class="fw-semibold text-white m-0">30</h4>
@@ -95,7 +95,7 @@
                 <h3 class=" text-white mb-3">DATA PETI KEMAS</h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
-                    <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-petikemas">
+                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-petikemas">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
@@ -109,7 +109,7 @@
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
                                 </div>
-                                <span class="fs-5 fw-semibold">Laporan Harian   </span>
+                                <span class="fs-5 fw-semibold">Laporan Harian </span>
                             </div>
                         </a>
                     </div>
@@ -135,10 +135,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($petikemas as $data)
                             <tr>
-                                <td>Rizal Firdaus</td>
-                                <td>2112020</td>
-                                <td>Inventory</td>
+                                <td>{{$data->no_petikemas}}</td>
+                                <td>{{$data->jenis_ukuran}}</td>
+                                <td>{{$data->pelayaran}}</td>
                                 <td>
                                     <span class="bg-success p-1 rounded-2 text-white">available</span>
                                 </td>
@@ -152,47 +153,13 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td> Yoga Sadhewo</td>
-                                <td>2112020204</td>
-                                <td>Tally</td>
-                                <td>
-                                    <span class="bg-success p-1 rounded-2 text-white">available</span>
-                                </td>
-                                <td>
-                                    <span class="bg-success p-1 rounded-2 text-white">In</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/petikemas/more"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Nanda Zahir</td>
-                                <td>2112020304</td>
-                                <td>Survey In</td>
-                                <td>
-                                    <span class="bg-success p-1 rounded-2 text-white">available</span>
-                                </td>
-                                <td>
-                                    <span class="bg-success p-1 rounded-2 text-white">In</span>
-                                </td>
-                                <td>
-                                <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/petikemas/more"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
+
         <x-form-table-petikemas />
         <x-toast />
 </x-layout>

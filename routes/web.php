@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\petikemascontroller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +35,7 @@ Route::get('/transaksi', function () {
 Route::get('/transaksi/more', function () {
     return view('pages/transaksi-more');
 });
-Route::get('/petikemas', function () {
-    return view('pages/petikemas');
-});
+Route::get('/petikemas', [petikemascontroller::class, 'index']);
 Route::get('/petikemas/more', function () {
     return view('pages/petikemas-more');
 });
