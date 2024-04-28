@@ -103,25 +103,28 @@
 
 <script>
     $(document).ready(function() {
-        $("#jumlahperbaikan").on("change", function() {
+        $("#jumlahkerusakan").on("change", function() {
             var rowCount = parseInt($(this).val());
-            $("#myTable tbody tr").hide(); // Hide all rows
-
+           
             if (rowCount > 0) {
-                $("#myTable tbody tr").slice(0, rowCount).show(); // Show the first 'rowCount' rows
-
+                $("#myTable tbody tr").show(); // Show the first 'rowCount' rows
                 if (rowCount > $("#myTable tbody tr").length) {
                     var $firstRow = $("#myTable tbody tr:first");
                     for (var i = $("#myTable tbody tr").length; i < rowCount; i++) {
                         var newRow = $firstRow.clone(); // Clone the first row
                         newRow.find(".form-control").val(""); // Clear input values in the cloned row
                         newRow.find("select").prop("selectedIndex", 0); // Reset select values in the cloned row
-                        $("#myTable3 tbody").append(newRow); // Append the clone
+                        $("#myTable tbody").append(newRow); // Append the clone
                     }
                 } else if (rowCount < $("#myTable tbody tr").length) {
                     $("#myTable tbody tr:gt(" + (rowCount - 1) + ")").remove(); // Remove excess rows
                 }
+            } else {
+                $("#myTable tbody tr").find(".form-control").val("");
+                $("#myTable tbody tr").find("select").prop("selectedIndex", 0);
+                $("#myTable tbody tr").hide();
             }
+        
         });
     });
 </script>

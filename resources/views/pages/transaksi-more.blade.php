@@ -6,6 +6,7 @@
         <x-form-table-transaksi />
         <x-form-edit-transaksi />
         <div class="dropdown d-block d-md-none mb-3">
+
             <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
                 <div class="element-dropdown">
                     <div class="rounded-circle bg-white position-absolute top-0 start-0 my-3" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
@@ -17,8 +18,10 @@
                 </div>
                 <i class="fa-solid fa-caret-down text-white mx-2" style="position: absolute; top:42px; right:0"></i>
             </button>
+
             <ul class="dropdown-menu w-100 copy"></ul>
         </div>
+
         <div class="row ">
             <div class="col-lg-4 mb-3 d-lg-block d-none">
                 <div class="card  shadow rounded-4 bg-primary bg-info text-white onhover ">
@@ -34,6 +37,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-4 mb-3 d-lg-block d-none">
                 <div class="card shadow rounded-4 bg-primary text-white onhover">
                     <div class="card-body tabs" data-tab="Pembayaran">
@@ -44,10 +48,10 @@
                         <h4 class="my-2" style="margin-left:85px;">PEMBAYARAN</h4>
                         <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
                         <p class="my-2" style="margin-left:85px;">PEMBAYARAN JASA</p>
-
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-4  mb-3 d-lg-block d-none">
                 <div class="card shadow rounded-4 bg-primary text-white onhover ">
                     <div class="card-body tabs" data-tab="Pengecekan">
@@ -58,7 +62,6 @@
                         <h4 class="my-2" style="margin-left:85px;">PENGECEKAN</h4>
                         <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
                         <p class="my-2" style="margin-left:85px;">PENGECEKAN PETI KEMAS</p>
-
                     </div>
                 </div>
             </div>
@@ -75,28 +78,26 @@
                         <h4 class="my-2" style="margin-left:85px;">PERBAIKAN</h4>
                         <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
                         <p class="my-2" style="margin-left:85px;">PERBAIKAN PETI KEMAS</p>
-
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6 mb-3 d-lg-block d-none">
                 <div class="card shadow rounded-4 bg-primary text-white onhover">
                     <div class="card-body tabs" data-tab="Penempatan">
-
                         <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
                             <i class="fa-solid fa-location-dot text-primary" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
                         </div>
                         <h4 class="my-2" style="margin-left:85px;">PENEMPATAN</h4>
                         <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
                         <p class="my-2" style="margin-left:85px;">PENEMPATAN PETI KEMAS</p>
-
                     </div>
                 </div>
             </div>
         </div>
+
         <div id="EntryData" class="tab-pane fade in active show d-block">
             <x-table-entrydata />
-
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">

@@ -12,6 +12,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         $('#toastModal').on('show.bs.modal', function() {

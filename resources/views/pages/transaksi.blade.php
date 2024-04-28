@@ -53,6 +53,7 @@
                 <h3 class=" text-white mb-2 month-text"></h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
+                    
                         <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-transaksi">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
@@ -62,6 +63,7 @@
                             </div>
                         </button>
                         </a>
+
                         <a href="" class="btn btn-info mb-2  ">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
@@ -71,6 +73,7 @@
                             </div>
                         </a>
                     </div>
+
                     <div class="p-0" style="width: fit-content;">
                         <form class="d-flex m-0 p-0" role="search" style="width: 21rem;">
                             <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;">
@@ -78,6 +81,7 @@
                         </form>
                     </div>
                 </div>
+                
                 <div class="onscroll table-container table-responsive">
                     <table class="table-variations-2  text-center" rules="groups">
                         <thead>
@@ -108,8 +112,10 @@
                         </tbody>
                     </table>
                 </div>
+                
             </div>
         </div>
+
         <script>
             $(document).ready(function() {
                 $('.dropdown-item').click(function() {

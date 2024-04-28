@@ -25,6 +25,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 text-white bg-primary">
@@ -49,20 +50,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Pengajuan Cuti</td>
-                                        <td>19 Jul 2021</td>
+                                <tr>
+                                            <td>Pengajuan Cuti</td>
+                                            <td>19 Jul 2021</td>
                                         <td class="text-center">
-                                            <i class="fa-solid fa-circle-user text-white d-inline " style="font-size: 20px;"></i>
-                                            <span class="m-0 p-0 d-inline mx-1">RIZAL FIRDAUS</span>
+                                        <i class="fa-solid fa-circle-user text-white d-inline" style="font-size: 20px;"></i>
+                                        <span class="m-0 p-0 d-inline mx-1">RIZAL FIRDAUS</span>
                                         </td>
-                                    </tr>
-                                </tbody>
+                                </tr>
+                                </tbody>      
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6">
                 <div class="col">
                     <div class="row mb-3">
@@ -88,8 +90,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </a>
                     </div>

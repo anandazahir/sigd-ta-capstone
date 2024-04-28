@@ -23,6 +23,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6 mb-3">
                 <div class="card bg-danger text-white rounded-4 shadow">
                     <div class="card-body d-flex gap-2">
@@ -35,6 +36,7 @@
                                 </g>
                             </svg>
                         </div>
+
                         <div class="d-block">
                             <p class="m-0 text-white ">Peti Kemas OUT</p>
                             <h4 class="fw-semibold text-white m-0">30</h4>
@@ -43,6 +45,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-6 mb-3">
                 <div class="card bg-success text-white rounded-4 shadow">
@@ -56,6 +59,7 @@
                                 </g>
                             </svg>
                         </div>
+
                         <div class="d-block">
                             <p class="m-0 text-white ">Peti Kemas Available</p>
                             <h4 class="fw-semibold text-white m-0">30</h4>
@@ -63,6 +67,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6 mb-3">
                 <div class="card bg-danger text-white rounded-4 shadow">
                     <div class="card-body d-flex gap-2">
@@ -75,6 +80,7 @@
                                 </g>
                             </svg>
                         </div>
+
                         <div class="d-block">
                             <p class="m-0 text-white ">Peti Kemas Damage</p>
                             <h4 class="fw-semibold text-white m-0">30</h4>
@@ -83,10 +89,10 @@
                 </div>
             </div>
         </div>
+
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3 " style="height: 50rem;">
             <div class="container">
                 <h3 class=" text-white mb-3">DATA PETI KEMAS</h3>
-
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
                     <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-petikemas">
@@ -97,6 +103,7 @@
                                 <span class="fs-5 fw-semibold">Tambah Petikemas</span>
                             </div>
                         </button>
+
                         <a href="" class="btn btn-info mb-2  ">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
@@ -106,6 +113,7 @@
                             </div>
                         </a>
                     </div>
+
                     <div class="p-0" style="width: fit-content;">
                         <form class="d-flex m-0 p-0" role="search" style="width: 21rem;">
                             <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;">
@@ -113,6 +121,7 @@
                         </form>
                     </div>
                 </div>
+
                 <div class="onscroll table-container table-responsive">
                     <table class="table-variations-2  text-center" rules="groups">
                         <thead>
@@ -183,6 +192,7 @@
                 </div>
             </div>
         </div>
+        
         <x-form-table-petikemas />
         <x-toast />
 </x-layout>

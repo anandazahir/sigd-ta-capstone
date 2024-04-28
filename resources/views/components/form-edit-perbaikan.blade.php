@@ -102,11 +102,10 @@
     $(document).ready(function() {
         $("#jumlahperbaikan").on("change", function() {
             var rowCount = parseInt($(this).val());
-            $("#myTable3 tbody tr").hide(); // Hide all rows
+            
 
             if (rowCount > 0) {
-                $("#myTable3 tbody tr").slice(0, rowCount).show(); // Show the first 'rowCount' rows
-
+                $("#myTable3 tbody tr").show(); 
                 if (rowCount > $("#myTable3 tbody tr").length) {
                     var $firstRow = $("#myTable3 tbody tr:first");
                     for (var i = $("#myTable3 tbody tr").length; i < rowCount; i++) {
@@ -118,6 +117,10 @@
                 } else if (rowCount < $("#myTable3 tbody tr").length) {
                     $("#myTable3 tbody tr:gt(" + (rowCount - 1) + ")").remove(); // Remove excess rows
                 }
+            } else {
+                $("#myTable3 tbody tr").find(".form-control").val(""); // Clear input values in the cloned row
+                $("#myTable3 tbody tr").find("select").prop("selectedIndex", 0);
+                $("#myTable3 tbody tr").hide(); // Hide all rows
             }
         });
     });
