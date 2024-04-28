@@ -19,7 +19,7 @@
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="status pernikahan" class="form-label">
                                 <span>Repair</span>
-                                {{--  <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
+                                {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
                             </label>
                             <select class="form-select" aria-label="Default select example" required>
                                 <option selected>Pilih Opsi Ini</option>
@@ -32,15 +32,15 @@
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="jumlah perbaikan" class="form-label">Jumlah Perbaikan</label>
-                            <input type="number" min="1" class="form-control" id="jumlahperbaikan" placeholder="Jumlah Perbaikan" name="jumlah perbaikan" required>
+                            <input type="number" min="0" class="form-control" id="jumlahperbaikan" placeholder="Jumlah Perbaikan" name="jumlah perbaikan" required value="3">
                         </div>
                     </div>
 
-                    <div class="p-1 rounded-4 onscroll table-responsive" style="height: 25rem;">
+                    <div class="p-1 rounded-4 table-responsive">
                         <table class="table text-center" id="myTable3">
                             <thead>
                                 <tr>
-                                    <th scope="col">No</th>
+
                                     <th scope="col">Lokasi</th>
                                     <th scope="col">Component</th>
                                     <th scope="col">Metode</th>
@@ -50,38 +50,48 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">
-                                        1
-                                    </td>
-                                    <td class="text-center">
-                                        Door Section 1
-                                    </td>
-                                    <td class="text-center">
-                                        Bottom Side Rail
-                                    </td>
-                                    <td class="text-center">
-                                        Insert
-                                    </td>
-                                    <td class="text-center">
-                                        Rp125.0000,00
-                                    </td>
-                                    <td>
-                                        <div class="bg-success p-1 rounded-2 text-white my-1">
-                                            <span>Fixed</span>
+                                @for($i=0;$i<3;$i++) <tr>
 
+                                    <td class="text-center">
+                                        <input class="form-control" type="text" value="Door Section 1">
+
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-control" type="text" value="Bottom Side Real">
+
+                                    </td>
+                                    <td class="text-center">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Rp.</span>
+                                            <input type="number" class="form-control" value="125000">
+                                            <span class="input-group-text">.00</span>
                                         </div>
                                     </td>
-                                    <td class="text-center">
-                                        <button class="bg-info p-2 rounded-2 text-white">Foto</button>
+                                    <td>
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="fix">FIX</option>
+                                            <option value="damage">DAMAGE</option>
+                                        </select>
                                     </td>
-                                </tr>
+                                    <td class="text-center">
+                                        <input type="file" name="" id="" class="form-control">
+                                    </td>
+                                    </tr>
+                                    @endfor
                             </tbody>
                         </table>
                     </div>
 
-                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal"
-                        data-bs-target="#toastModal">Submit</button>
+                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>
             </div>
         </div>
@@ -89,14 +99,26 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("#jumlahperbaikan").on("change", function () {
-          var rowCount = parseInt($(this).val());
-          var rowData = $("#myTable3 tbody tr:first").html();
-          $("#myTable3 tbody").empty();
-          for (var i = 0; i < rowCount; i++) {
-            $("#myTable3 tbody").append("<tr>" + rowData + "</tr>");
-          }
+    $(document).ready(function() {
+        $("#jumlahperbaikan").on("change", function() {
+            var rowCount = parseInt($(this).val());
+            $("#myTable3 tbody tr").hide(); // Hide all rows
+
+            if (rowCount > 0) {
+                $("#myTable3 tbody tr").slice(0, rowCount).show(); // Show the first 'rowCount' rows
+
+                if (rowCount > $("#myTable3 tbody tr").length) {
+                    var $firstRow = $("#myTable3 tbody tr:first");
+                    for (var i = $("#myTable3 tbody tr").length; i < rowCount; i++) {
+                        var newRow = $firstRow.clone(); // Clone the first row
+                        newRow.find(".form-control").val(""); // Clear input values in the cloned row
+                        newRow.find("select").prop("selectedIndex", 0); // Reset select values in the cloned row
+                        $("#myTable3 tbody").append(newRow); // Append the clone
+                    }
+                } else if (rowCount < $("#myTable3 tbody tr").length) {
+                    $("#myTable3 tbody tr:gt(" + (rowCount - 1) + ")").remove(); // Remove excess rows
+                }
+            }
         });
-      });
+    });
 </script>

@@ -19,7 +19,7 @@
                         <div class="col-lg-4 mb-3 form-group">
                             <label for="status pernikahan" class="form-label">
                                 <span>Survey In</span>
-                                {{--  <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
+                                {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
                             </label>
                             <select class="form-select" aria-label="Default select example" required>
                                 <option selected>Pilih Opsi Ini</option>
@@ -36,12 +36,12 @@
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-                            <input type="number" min="1" class="form-control" id="jumlahkerusakan" placeholder="Jumlah Kerusakan" name="jumlah kerusakan" required>
+                            <input type="number" min="0" class="form-control" id="jumlahkerusakan" placeholder="Jumlah Kerusakan" name="jumlah kerusakan" required value="3">
                         </div>
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table text-center" id="myTable2">
+                        <table class="table text-center" id="myTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Lokasi</th>
@@ -90,12 +90,11 @@
                                     </tr>
                                     @endfor
                             </tbody>
-                            
+
                         </table>
                     </div>
 
-                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal"
-                        data-bs-target="#toastModal">Submit</button>
+                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>
             </div>
         </div>
@@ -103,15 +102,26 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("#jumlahkerusakan").on("change", function () {
-          var rowCount = parseInt($(this).val());
-          console.log(rowCount);
-          var rowData = $("#myTable tbody tr:first").html();
-          $("#myTable tbody").empty();
-          for (var i = 0; i < rowCount; i++) {
-            $("#myTable tbody").append("<tr>" + rowData + "</tr>");
-          }
+    $(document).ready(function() {
+        $("#jumlahperbaikan").on("change", function() {
+            var rowCount = parseInt($(this).val());
+            $("#myTable tbody tr").hide(); // Hide all rows
+
+            if (rowCount > 0) {
+                $("#myTable tbody tr").slice(0, rowCount).show(); // Show the first 'rowCount' rows
+
+                if (rowCount > $("#myTable tbody tr").length) {
+                    var $firstRow = $("#myTable tbody tr:first");
+                    for (var i = $("#myTable tbody tr").length; i < rowCount; i++) {
+                        var newRow = $firstRow.clone(); // Clone the first row
+                        newRow.find(".form-control").val(""); // Clear input values in the cloned row
+                        newRow.find("select").prop("selectedIndex", 0); // Reset select values in the cloned row
+                        $("#myTable3 tbody").append(newRow); // Append the clone
+                    }
+                } else if (rowCount < $("#myTable tbody tr").length) {
+                    $("#myTable tbody tr:gt(" + (rowCount - 1) + ")").remove(); // Remove excess rows
+                }
+            }
         });
-      });
+    });
 </script>
