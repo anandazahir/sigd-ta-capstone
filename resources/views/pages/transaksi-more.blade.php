@@ -2,7 +2,7 @@
     <x-slot:title>
         Transaksi-More
         </x-slot>
-        <x-data-transaksi />
+        <x-data-transaksi :data="$transaksi"/>
         <x-form-table-transaksi />
         <x-form-edit-transaksi />
         <div class="dropdown d-block d-md-none mb-3">

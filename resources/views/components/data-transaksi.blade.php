@@ -1,6 +1,6 @@
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
     <div class="container position-relative">
-        <h1 class="fw-semibold  text-white fs-1 fs-lg-2">NO.Transaksi | 022847-DO.IN-1223 </h1>
+        <h1 class="fw-semibold  text-white fs-1 fs-lg-2">NO.Transaksi | {{$data -> no_transaksi}} </h1>
         <div class="row">
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
@@ -8,7 +8,7 @@
                         <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:55px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO.Transaksi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:55px">
-                            022847-DO.IN-1223
+                            {{$data -> no_transaksi}}
                         </h5>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
                         <i class="fa-solid fa-briefcase position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jenis Transaksi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            Impor
+                            {{$data -> jenis_kegiatan}}
                         </h5>
                     </div>
                 </div>
@@ -30,20 +30,9 @@
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Pelayaran</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            Benline
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Perusahaan</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            PT Anugrah Mulia
+                            {{$data -> perusahaan}}
                         </h5>
                     </div>
                 </div>
@@ -56,7 +45,7 @@
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jumlah Peti Kemas</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            5
+                            {{$data -> jumlah_petikemas}}
                         </h5>
                     </div>
                 </div>
@@ -67,7 +56,7 @@
                         <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO. DO</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            08909890
+                            {{$data -> no_do}}
                         </h5>
                     </div>
                 </div>
@@ -80,7 +69,7 @@
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Rilis</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            22 Desember 2022
+                            {{$data -> tanggal_DO_rilis}}
                         </h5>
                     </div>
                 </div>
@@ -91,7 +80,7 @@
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Expired</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            12 Desember 2023
+                            {{$data -> tanggal_DO_exp}}
                         </h5>
                     </div>
                 </div>
@@ -104,7 +93,7 @@
                         <i class="fa-solid fa-ship position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Cargo</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            AP Cargo
+                            {{$data -> kapal}}
                         </h5>
                     </div>
                 </div>
