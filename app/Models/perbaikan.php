@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class repair extends Model
+class perbaikan extends Model
 {
-    use HasFactory;
+    public function transaksi()
+    {
+        return $this->hasMany(transaksi::class);
+    }
 }

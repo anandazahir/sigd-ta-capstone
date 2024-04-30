@@ -9,4 +9,9 @@ class petikemas extends Model
 {
     use HasFactory;
     protected $fillable = ['no_petikemas', 'tanggal_keluar', 'tanggal_masuk', 'jenis_ukuran', 'pelayaran'];
+    
+    public function transaksi()
+    {
+        return $this->hasMany(transaksi::class);
+    }
 }

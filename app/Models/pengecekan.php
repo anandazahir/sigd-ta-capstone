@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class pengecekan extends Model
 {
-    use HasFactory;
+    public function transaksi()
+    {
+        return $this->hasMany(transaksi::class);
+    }
+
+    public function kerusakan()
+    {
+        return $this->hasMany(kerusakan::class);
+    }
 }

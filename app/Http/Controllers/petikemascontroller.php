@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\petikemas;
+use App\Models\kerusakan;
+use App\Models\penempatan;
+use App\Models\pengecekan;
+use App\Models\perbaikan;
+use App\Models\transaksi;
 
 class petikemascontroller extends Controller
 {
@@ -13,15 +18,5 @@ class petikemascontroller extends Controller
 
         return view('pages.petikemas', compact('petikemas'));
     }
-    public function store(Request $request)
-    {
-        $request->validate([
-            'jenis_petikemas' => 'required',
-            '' => 'nullable',
-        ]);
 
-        petikemas::create($request->all());
-
-        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
-    }
 }
