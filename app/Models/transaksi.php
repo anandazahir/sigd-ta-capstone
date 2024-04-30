@@ -9,21 +9,21 @@ class transaksi extends Model
 {
     public function pengecekan()
     {
-        return $this->belongsTo(pengecekan::class);
+        return $this->hasMany(pengecekan::class);
     }
 
     public function petikemas()
     {
-        return $this->belongsTo(petikemas::class);
+        return $this->hasMany(petikemas::class);
     }
 
     public function perbaikan()
     {
-        return $this->belongsTo(perbaikan::class);
+        return $this->hasMany(perbaikan::class);
     }
 
     public function penempatan()
     {
-        return $this->belongsTo(penempatan::class);
+        return $this->hasMany(penempatan::class);
     }
 }

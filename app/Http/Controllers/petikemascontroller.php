@@ -14,9 +14,11 @@ class petikemascontroller extends Controller
 {
     public function index()
     {
-        $petikemas = petikemas::all();
+        // $petikemas = petikemas::all();
+        $petikemas = petikemas::find(1);
+        $transaksis = $petikemas->transaksi;
 
-        return view('pages.petikemas', compact('petikemas'));
+        return view('pages.petikemas', compact('transaksis'));
     }
 
 }

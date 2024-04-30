@@ -12,6 +12,6 @@ class petikemas extends Model
     
     public function transaksi()
     {
-        return $this->hasMany(transaksi::class);
+        return $this->belongsTo(transaksi::class);
     }
 }

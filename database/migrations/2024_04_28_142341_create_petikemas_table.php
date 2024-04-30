@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('petikemas', function (Blueprint $table) {
             $table->id();
             $table->string('no_petikemas')->unique();
+            $table->foreignId('transaksi_id');
             $table->dateTime('tanggal_keluar');
             $table->dateTime('tanggal_masuk');
             $table->string('jenis_ukuran');
