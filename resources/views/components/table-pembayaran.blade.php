@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for($i=0;$i<10;$i++) <tr>
+                    <tr>
                         <td class="text-center">
                             555555
                         </td>
@@ -25,7 +25,7 @@
                             Transfer BCA
                         </td>
                         <td class="text-center">
-                            20000
+                            Rp. 20000,00
                         </td>
                         <td class="text-center">
                             <span class="bg-success text-white p-1 rounded-2 fs-6">SUDAH CETAK</span>
@@ -35,8 +35,7 @@
                                 <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#create-pembayaran"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                             </div>
                         </td>
-                        </tr>
-                        @endfor
+                    </tr>
                 </tbody>
             </table>
         </div>

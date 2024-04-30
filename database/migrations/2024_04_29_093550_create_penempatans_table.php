@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('e_m_k_l_s', function (Blueprint $table) {
+        Schema::create('penempatans', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('e_m_k_l_s');
+        Schema::dropIfExists('penempatans');
     }
 };

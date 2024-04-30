@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('petikemas', function (Blueprint $table) {
+        Schema::create('pengecekans', function (Blueprint $table) {
             $table->id();
-            $table->string('no_petikemas')->unique();
-            $table->dateTime('tanggal_keluar');
-            $table->dateTime('tanggal_masuk');
-            $table->string('jenis_ukuran');
-            $table->string('pelayaran');
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('petikemas');
+        Schema::dropIfExists('pengecekans');
     }
 };

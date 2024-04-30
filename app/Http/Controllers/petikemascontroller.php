@@ -13,4 +13,15 @@ class petikemascontroller extends Controller
 
         return view('pages.petikemas', compact('petikemas'));
     }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'jenis_petikemas' => 'required',
+            '' => 'nullable',
+        ]);
+
+        petikemas::create($request->all());
+
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
+    }
 }
