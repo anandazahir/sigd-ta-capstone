@@ -87,28 +87,24 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No Transaksi</th>
-                                <th scope="col" class="fw-semibold">Jenis Kegiatan</th>
-                                <th scope="col" class="fw-semibold">Pelayaran</th>
-                                <th scope="col" class="fw-semibold">No. Telepon</th>
+                                <th scope="col" class="fw-semibold">Jenis Kegiatan</th>                      
                                 <th scope="col" class="fw-semibold">Jumlah Peti Kemas</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @for($i=0;$i<10;$i++) <tr>
-                                <td>Rizal Firdaus</td>
-                                <td>2112020</td>
-                                <td>Inventory</td>
-                                <td>081888888</td>
-                                <td>jajshjkadh@gmail.com</td>
+                            @foreach($transaksi as $data) <tr>
+                                <td>{{$data->no_transaksi}}</td>
+                                <td>{{$data->jenis_kegiatan}}</td>                            
+                                <td>{{$data->jumlah_petikemas}}</td>
                                 <td>
                                     <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/more"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
+                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="{{ route('transaksi.show', ['id' => $data->id]) }}"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
                                         <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                                     </div>
                                 </td>
                                 </tr>
-                                @endfor
+                                @endforeach
                         </tbody>
                     </table>
                 </div>

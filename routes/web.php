@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\petikemascontroller;
+use App\Http\Controllers\transaksicontroller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,10 +33,10 @@ Route::get('/pegawai', function () {
 Route::get('/transaksi', function () {
     return view('pages/transaksi');
 });
-Route::get('/transaksi/more', function () {
-    return view('pages/transaksi-more');
-});
+
 Route::get('/petikemas', [petikemascontroller::class, 'index']);
+Route::get('/transaksi', [transaksicontroller::class, 'index']);
+Route::get('/transaksi/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
 Route::get('/petikemas/more', function () {
     return view('pages/petikemas-more');
 });
