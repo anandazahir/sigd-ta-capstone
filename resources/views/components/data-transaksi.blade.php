@@ -37,8 +37,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row ">
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
@@ -46,17 +44,6 @@
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jumlah Peti Kemas</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
                             {{$data -> jumlah_petikemas}}
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO. DO</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data -> no_do}}
                         </h5>
                     </div>
                 </div>
@@ -77,10 +64,10 @@
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Expired</p>
+                        <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO. DO</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data -> tanggal_DO_exp}}
+                            {{$data -> no_do}}
                         </h5>
                     </div>
                 </div>
@@ -102,9 +89,9 @@
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Transaksi</p>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Expired</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            22 Desember 2002
+                            {{$data -> tanggal_DO_exp}}
                         </h5>
                     </div>
                 </div>
@@ -117,7 +104,7 @@
                         <i class="fa-solid fa-industry position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">EMKL</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            Andalan Linas Nusa
+                            {{$data->emkl}}
                         </h5>
                     </div>
                 </div>
@@ -125,11 +112,10 @@
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
-                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
-                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
-                        <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            Inventory 1
+                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Transaksi</p>
+                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
+                            {{$data->tgl_transaksi}}
                         </h5>
                     </div>
                 </div>
@@ -143,12 +129,25 @@
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Kasir</p>
                         <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
                         <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            Kasir 1
+                            {{$data->kasir}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="card shadow rounded-4 bg-white">
+                    <div class="card-body">
+                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
+                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
+                        <h5 class="fw-semibold fs-6 text-black d-inline ">
+                            {{$data->inventory}}
                         </h5>
                     </div>
                 </div>
             </div>
         </div>
+
         <button class="btn btn-info rounded-3  d-flex mx-auto mt-1" data-bs-toggle="modal" data-bs-target="#edit-transaksi">
             <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
             <span class="fw-semibold mx-2 my-auto fs-6">EDIT DATA</span>

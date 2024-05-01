@@ -37,6 +37,7 @@ Route::get('/transaksi', function () {
 Route::get('/petikemas', [petikemascontroller::class, 'index']);
 Route::get('/transaksi', [transaksicontroller::class, 'index']);
 Route::get('/transaksi/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
+Route::post('/transaksi', [transaksicontroller::class, 'storeEntryData'])->name('transaksi.entrydatastore');
 Route::get('/petikemas/more', function () {
     return view('pages/petikemas-more');
 });

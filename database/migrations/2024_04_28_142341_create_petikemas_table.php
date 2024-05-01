@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('tanggal_masuk');
             $table->string('jenis_ukuran');
             $table->string('pelayaran');
+            $table->integer('harga');
             $table->timestamps();
         });
     }

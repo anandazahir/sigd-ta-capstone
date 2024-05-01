@@ -13,15 +13,20 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-           $table->string('no_transaksi')->unique();
-           $table->string('jenis_kegiatan');
-           $table->integer('no_do')->unique();
-           $table->dateTime('tanggal_DO_rilis');
-            $table->dateTime('tanggal_DO_exp');
+            $table->string('no_transaksi')->unique();
+            $table->string('jenis_kegiatan');
+            $table->string('no_do')->unique();
+            $table->date('tanggal_DO_rilis');
+            $table->date('tanggal_DO_exp');
             $table->string('perusahaan');
             $table->integer('jumlah_petikemas');
             $table->string('kapal');
-            $table->string('harga');
+            $table->string('emkl');
+            $table->date('tgl_transaksi')->nullable();
+            $table->string('kasir')->nullable();
+            $table->string('inventory');
+            $table->dateTime('tgl_pembayaran')->nullable();
+            $table->string('status_pembayaran')->nullable();
             $table->timestamps();
         });
     }
