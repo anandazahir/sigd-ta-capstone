@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\transaksi;
 use App\Models\petikemas;
+use Illuminate\Support\Facades\Validator;
 
 class transaksicontroller extends Controller
 {
@@ -22,7 +23,7 @@ class transaksicontroller extends Controller
     public function storeEntryData(Request $request)
     {
         // Validate the request data
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'jenis_kegiatan' => 'required|in:impor,ekspor',
             'perusahaan' => 'required',
             'no_do' => 'required|min:8|unique:transaksis',
@@ -32,21 +33,26 @@ class transaksicontroller extends Controller
             'emkl' => 'required',
             'jumlah_petikemas' => 'required|numeric',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $current_date = now();
         $nomor_urut = str_pad(Transaksi::count() + 1, 6, '0', STR_PAD_LEFT); // Count existing records to determine the next ID
-        $jenis_kegiatan = $validatedData['jenis_kegiatan'] == 'impor' ? 'DO.IN' : 'DO.OUT';
+        $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
         $bulan_tahun = date('mY', strtotime($current_date));
         $no_transaksi = $nomor_urut . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
+
         $transaksi = new Transaksi();
-        $transaksi->jenis_kegiatan = $validatedData['jenis_kegiatan'];
-        $transaksi->jenis_kegiatan = $validatedData['jenis_kegiatan'];
-        $transaksi->perusahaan = $validatedData['perusahaan'];
-        $transaksi->no_do = $validatedData['no_do'];
-        $transaksi->tanggal_DO_rilis = $validatedData['tanggal_DO_rilis'];
-        $transaksi->tanggal_DO_exp = $validatedData['tanggal_DO_exp'];
-        $transaksi->kapal = $validatedData['kapal'];
-        $transaksi->emkl = $validatedData['emkl'];
-        $transaksi->jumlah_petikemas = $validatedData['jumlah_petikemas'];
+        $transaksi->jenis_kegiatan = $request->jenis_kegiatan;
+        $transaksi->perusahaan = $request->perusahaan;
+        $transaksi->no_do = $request->no_do;
+        $transaksi->tanggal_DO_rilis = $request->tanggal_DO_rilis;
+        $transaksi->tanggal_DO_exp = $request->tanggal_DO_exp;
+        $transaksi->kapal = $request->kapal;
+        $transaksi->emkl = $request->emkl;
+        $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
         $transaksi->inventory = "Rizal Firdaus";
         $transaksi->no_transaksi = $no_transaksi;
         $transaksi->tgl_transaksi = null;
@@ -54,6 +60,9 @@ class transaksicontroller extends Controller
         $transaksi->status_pembayaran = null;
         $transaksi->tgl_pembayaran = null;
         $transaksi->save();
-        return redirect()->route('transaksi.entrydatastore')->with('success', 'Transaksi created successfully.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Transaksi Berhasil Dibuat!',
+        ]);
     }
 }

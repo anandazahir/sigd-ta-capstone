@@ -2,9 +2,7 @@
     <x-slot:title>
         Peti Kemas-More
         </x-slot>
-        <x-data-petikemas :data="$petikemas"/>
-        <x-form-table-petikemas />
-
+        <x-data-petikemas :data="$petikemas" />
         <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
             <div class=" container position-relative">
                 <h2 class="text-white fw-semibold">Riwayat Pengecekan</h2>
@@ -107,7 +105,7 @@
                     <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
                     <input type="month" name="" id="">
                 </form>
-                
+
                 <div class="bg-white mt-4 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                     <table class="table-variations-3  text-center">
                         <thead>
@@ -142,6 +140,4 @@
                 </div>
             </div>
         </div>
-        <x-form-table-pegawai />
-        <x-toast />
 </x-layout>

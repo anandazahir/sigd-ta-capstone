@@ -2,9 +2,7 @@
     <x-slot:title>
         Transaksi-More
         </x-slot>
-        <x-data-transaksi :data="$transaksi"/>
-        <x-form-table-transaksi />
-        <x-form-edit-transaksi />
+        <x-data-transaksi :data="$transaksi" />
         <div class="dropdown d-block d-md-none mb-3">
 
             <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
@@ -121,8 +119,12 @@
             <x-table-penempatan />
             <x-form-edit-penempatan />
         </div>
-
-
+        <x-modal-form id="form-create-entrydata" size="">
+            <x-form-create-entrydata />
+        </x-modal-form>
+        <x-form-table-entrydata />
+        <x-form-edit-entrydata />
+        <x-form-table-penempatan></x-form-table-penempatan>
         <script>
             $(document).ready(function() {
                 function updateDropdownAndTab(tabId) {
@@ -195,7 +197,5 @@
             });
         </script>
         <x-toast />
-        <x-form-table-entrydata />
-        <x-form-edit-entrydata />
-        <x-form-table-penempatan></x-form-table-penempatan>
+
 </x-layout>

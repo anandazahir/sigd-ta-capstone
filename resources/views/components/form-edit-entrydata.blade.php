@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="size" class="form-label">Size & Type </label>
-                            <input type="size" class="form-control" id="size" placeholder="Size" name="size" required>
+                            <input type="sie" class="form-control" id="size" placeholder="Size" name="size" required>
                         </div>
 
                     </div>

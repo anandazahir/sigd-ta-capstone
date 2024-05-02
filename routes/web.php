@@ -40,6 +40,3 @@ Route::post('/transaksi', [transaksicontroller::class, 'storeEntryData'])->name(
 Route::get('/petikemas', [petikemascontroller::class, 'index']);
 Route::get('/petikemas/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
 Route::post('/petikemas', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
-// Route::get('/petikemas/more', function () {
-//     return view('pages/petikemas-more');
-// });

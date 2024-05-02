@@ -95,7 +95,7 @@
                 <h3 class=" text-white mb-3">DATA PETI KEMAS</h3>
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
-                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-petikemas">
+                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
@@ -159,7 +159,9 @@
                 </div>
             </div>
         </div>
-
-        <x-form-table-petikemas />
+        <x-modal-form id="form-create-petikemas" size="">
+            <x-form-create-petikemas />
+        </x-modal-form>
         <x-toast />
+
 </x-layout>

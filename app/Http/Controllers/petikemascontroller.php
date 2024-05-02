@@ -9,6 +9,7 @@ use App\Models\penempatan;
 use App\Models\pengecekan;
 use App\Models\perbaikan;
 use App\Models\transaksi;
+use Illuminate\Support\Facades\Validator;
 
 class petikemascontroller extends Controller
 {
@@ -26,25 +27,39 @@ class petikemascontroller extends Controller
 
     public function storePetiKemas(Request $request)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
+
+        $Validator = Validator::make($request->all(), [
             'no_petikemas' => 'required|unique:petikemas',
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
-        ]);
-        $petikemas = new Petikemas();
-        $petikemas->no_petikemas = $validatedData['no_petikemas'];
-        $petikemas->jenis_ukuran = $validatedData['jenis_ukuran'];
-        $petikemas->pelayaran = $validatedData['pelayaran'];
-        $petikemas->transaksi_id = 1;
-        $petikemas->tanggal_keluar = null;
-        $petikemas->tanggal_masuk = null;
-        $petikemas->status_kondisi = null;
-        $petikemas->status_ketersediaan = null;
-        $petikemas->lokasi = null;
-        $petikemas->harga = null;
-        $petikemas->save();
-        return redirect()->route('petikemas.petikemasstore')->with('success', 'Peti Kemas created successfully.');
-    }
 
+        ]);
+        if ($Validator->fails()) {
+            return response()->json(['errors' => $Validator->errors()], 422);
+        }
+        $jenis_ukuran = $request->jenis_ukuran;
+        $hargasesuaijenis = 0;
+        if (strpos($jenis_ukuran, "20") !== false) {
+            $hargasesuaijenis = 255000;
+        } elseif (strpos($jenis_ukuran, "40") !== false || (strpos($jenis_ukuran, "45")) !== false) {
+            $hargasesuaijenis = 345000;
+        }
+        $harga = 25000 + $hargasesuaijenis + (0.1 * $hargasesuaijenis);
+
+        $petikemas = new Petikemas();
+        $petikemas->no_petikemas = $request->no_petikemas;
+        $petikemas->jenis_ukuran = $request->jenis_ukuran;
+        $petikemas->pelayaran = $request->pelayaran;
+        $petikemas->transaksi_id = null;
+        $petikemas->tanggal_keluar = null;
+        $petikemas->tanggal_masuk = now();
+        $petikemas->status_kondisi = null;
+        $petikemas->harga = $harga;
+        $petikemas->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Peti Kemas Berhasil Dibuat!',
+        ]);
+    }
 }

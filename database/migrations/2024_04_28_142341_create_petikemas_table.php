@@ -19,10 +19,7 @@ return new class extends Migration
             $table->dateTime('tanggal_masuk')->nullable();
             $table->string('jenis_ukuran');
             $table->string('pelayaran');
-            $table->string('status_kondisi')->nullable();
-            $table->string('status_ketersediaan')->nullable();
-            $table->string('lokasi')->nullable();
-            $table->integer('harga')->nullable();
+            $table->bigInteger('harga')->nullable();
             $table->timestamps();
         });
     }

@@ -46,7 +46,7 @@
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
 
-                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-transaksi">
+                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-entrydata">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
@@ -103,9 +103,12 @@
 
             </div>
         </div>
-        <x-form-table-transaksi />
+        <x-modal-form id="form-create-entrydata" size="">
+            <x-form-create-entrydata />
+        </x-modal-form>
 
-        <x-toast :message="session('success')" />
+
+        <x-toast />
         <script>
             $(document).ready(function() {
                 $('.dropdown-item').click(function() {

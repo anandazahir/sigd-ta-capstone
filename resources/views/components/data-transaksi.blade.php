@@ -112,16 +112,18 @@
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Transaksi</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data->tgl_transaksi}}
+                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
+                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
+                        <h5 class="fw-semibold fs-6 text-black d-inline ">
+                            {{$data->inventory}}
                         </h5>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row ">
+            @if($data->kasir)
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
@@ -134,18 +136,20 @@
                     </div>
                 </div>
             </div>
+            @endif
+            @if ($data->tgl_transaksi)
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
-                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
-                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
-                        <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            {{$data->inventory}}
+                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Transaksi</p>
+                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
+                            {{$data->tgl_transaksi}}
                         </h5>
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
         <button class="btn btn-info rounded-3  d-flex mx-auto mt-1" data-bs-toggle="modal" data-bs-target="#edit-transaksi">
