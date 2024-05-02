@@ -14,9 +14,9 @@
             <label for="perusahaan" class="form-label">Perusahaan</label>
             <select class="form-select" id="perusahaan" name="perusahaan" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="pt_anugrah_mulia">PT Anugrah Mulia</option>
-                <option value="pt_b">PT B</option>
-                <option value="pt_c">PT C</option>
+                <option value="PT Anugrah Mulia">PT Anugrah Mulia</option>
+                <option value="PT B">PT B</option>
+                <option value="PT C">PT C</option>
             </select>
             <div class="invalid-feedback"></div>
         </div>

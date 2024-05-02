@@ -107,7 +107,6 @@
             <x-form-create-entrydata />
         </x-modal-form>
 
-
         <x-toast />
         <script>
             $(document).ready(function() {

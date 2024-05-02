@@ -65,4 +65,36 @@ class transaksicontroller extends Controller
             'message' => 'Data Transaksi Berhasil Dibuat!',
         ]);
     }
+
+    public function edit($id)
+    {
+    $transaksi = transaksi::findOrFail($id);
+    return view('components.form-edit-entrydata', compact('transaksi'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'jenis_kegiatan' => 'required|in:impor,ekspor',
+            'perusahaan' => 'required',
+            'no_do' => 'required|min:8|unique:transaksis',
+            'tanggal_DO_rilis' => 'required|date|before:tanggal_DO_exp',
+            'tanggal_DO_exp' => 'required|date',
+            'kapal' => 'required|max:255',
+            'emkl' => 'required',
+            'jumlah_petikemas' => 'required|numeric',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        
+        $transaksi = transaksi::findOrFail($id);
+        $transaksi->update($request->all());
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Transaksi Berhasil Diupdate!',
+        ]);
+    }
 }
