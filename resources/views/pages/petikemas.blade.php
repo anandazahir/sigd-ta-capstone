@@ -2,9 +2,6 @@
     <x-slot:title>
         Peti Kemas
         </x-slot>
-        @php
-            echo $transaksis;
-        @endphp
         <div class="row">
             <div class="col-lg-6 mb-3">
                 <div class="card bg-success text-white rounded-4 shadow">
@@ -138,11 +135,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{--  @foreach($petikemas as $data)  --}}
+                            @foreach($petikemas as $data)
                             <tr>
-                                {{--  <td>{{$data->no_petikemas}}</td>  --}}
-                                {{--  <td>{{$data->jenis_ukuran}}</td>
-                                <td>{{$data->pelayaran}}</td>  --}}
+                                <td>{{$data->no_petikemas}}</td>
+                                <td>{{$data->jenis_ukuran}}</td>
+                                <td>{{$data->pelayaran}}</td>
                                 <td>
                                     <span class="bg-success p-1 rounded-2 text-white">available</span>
                                 </td>
@@ -151,12 +148,12 @@
                                 </td>
                                 <td>
                                     <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/petikemas/more"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
+                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="{{ route('petikemas.show', ['id' => $data->id]) }}"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
                                         <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                                     </div>
                                 </td>
                             </tr>
-                            {{--  @endforeach  --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

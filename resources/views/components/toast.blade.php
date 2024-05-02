@@ -3,7 +3,7 @@
         <div class="bg-white rounded-3 rounded-end-0 p-2" style="width: fit-content; height: fit-content;">
             <i class="fa-solid fa-check text-success" style="font-size: 30px;"></i>
         </div>
-        <h5 class="text-black fw-bold my-2 text-center">{{$message}}</h5>
+        <h5 class="text-black fw-bold my-2 text-center">$message</h5>
     </div>
 </div>
 <script>
