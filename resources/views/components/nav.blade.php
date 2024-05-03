@@ -1,3 +1,25 @@
+@php
+$url = request()->path();
+$segments = explode('/', $url);
+@endphp
+<style>
+  .fa-house:hover {
+    color: #f09259;
+  }
+
+  .fa-house {
+    color: #a57250;
+  }
+
+  .hovertext {
+    color: #a57250;
+    text-decoration: none;
+  }
+
+  .hovertext:hover {
+    color: #f09259;
+  }
+</style>
 <nav class="navbar navbar-expand p-0 m-0">
   <div class="container-fluid p-0 m-0">
     <a class="navbar-brand" href="/">
@@ -52,10 +74,18 @@
   <h3 style="font-size: 1rem;">{{$msg}}</h3>
   <div class="d-flex align-items-center">
     <a href="/" style="height: fit-content; ">
-      <i class="fa-solid fa-house text-secondary mx-1"></i>
+      <i class="fa-solid fa-house  mx-1"></i>
     </a>
-
-    <p style="font-size: 0.8rem; margin:0; padding:0;">/ {{$msg}}</p>
-
+    @if(count($segments) > 0 && $segments[0] !== '')
+    @foreach($segments as $key => $segment)
+    @if($key == 0)
+    <span class="text-secondary">/</span>
+    @endif
+    <a class="hovertext" href="{{ url(implode('/', array_slice($segments, 0, $key + 1))) }}">{{ ucfirst(str_replace("-", " ", $segment)) }}</a>
+    @if($key < count($segments) - 1) <span class="text-secondary">/</span>
+      @endif
+      @endforeach
+      @endif
   </div>
+
 </div>

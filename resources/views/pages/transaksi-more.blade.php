@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>
-        Transaksi-More
+        Transaksi | {{$transaksi->no_transaksi}}
         </x-slot>
         <x-data-transaksi :data="$transaksi" />
         <div class="dropdown d-block d-md-none mb-3">

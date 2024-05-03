@@ -50,15 +50,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                            <td>Pengajuan Cuti</td>
-                                            <td>19 Jul 2021</td>
+                                    <tr>
+                                        <td>Pengajuan Cuti</td>
+                                        <td>19 Jul 2021</td>
                                         <td class="text-center">
-                                        <i class="fa-solid fa-circle-user text-white d-inline" style="font-size: 20px;"></i>
-                                        <span class="m-0 p-0 d-inline mx-1">RIZAL FIRDAUS</span>
+                                            <i class="fa-solid fa-circle-user text-white d-inline" style="font-size: 20px;"></i>
+                                            <span class="m-0 p-0 d-inline mx-1">RIZAL FIRDAUS</span>
                                         </td>
-                                </tr>
-                                </tbody>      
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
             <div class="col-lg-6">
                 <div class="col">
                     <div class="row mb-3">
-                        <a href="/petikemas" class="text-decoration-none">
+                        <a href="/peti-kemas" class="text-decoration-none">
                             <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Peti Kemas">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">

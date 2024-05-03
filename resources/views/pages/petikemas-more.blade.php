@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>
-        Peti Kemas-More
+        Peti Kemas | {{$petikemas->no_petikemas}}
         </x-slot>
         <x-data-petikemas :data="$petikemas" />
         <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
