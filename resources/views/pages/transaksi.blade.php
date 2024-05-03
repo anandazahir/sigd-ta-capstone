@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="onscroll table-container table-responsive">
-                    <table class="table-variations-2  text-center" rules="groups">
+                    <table class="table-variations-2  text-center" rules="groups" id="table_entrydata">
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No Transaksi</th>
@@ -85,7 +85,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($transaksi as $data) <tr>
+                            {{--  @foreach($transaksi as $data) <tr>
                                 <td>{{$data->no_transaksi}}</td>
                                 <td>{{ucfirst($data->jenis_kegiatan)}}</td>
                                 <td>{{$data->jumlah_petikemas}}</td>
@@ -97,7 +97,7 @@
                                 </td>
                             </tr>
                             <x-modal-form-delete :route="route('transaksi.delete', $data->id)" />
-                            @endforeach
+                            @endforeach  --}}
                         </tbody>
                     </table>
                 </div>
@@ -136,7 +136,39 @@
                     $('.month-text').text(monthName + ' ' + year);
                 });
 
+                function fetchDataAndUpdateTable() {
+                    var jenisKegiatan = $('#jenis_transaksi').val();
+                    var bulanTransaksi = $('#bulan_transaksi').val();
+            
+                    $.ajax({
+                        url: '/test',
+                        type: 'GET',
+                        data: {
+                            jenis_kegiatan: jenisKegiatan,
+                            bulan_transaksi: bulanTransaksi
+                        },
+                        success: function (data) {
+                            console.log("Hi");
+                           
+                         /*   $('#table_entrydata tbody').empty(); */
+            
+                            $.each(data, function(index, item) {
+                                $('#table_entrydata tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan + '</td></tr>');
+                               
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            
+                $('#jenis_kegiatan, #monthpicker').change(fetchDataAndUpdateTable);
+            
+               
+                
             });
+            fetchDataAndUpdateTable();
         </script>
 
 

@@ -11,8 +11,9 @@ class transaksicontroller extends Controller
 {
     public function index()
     {
-        $transaksi = transaksi::all();
-        return view('pages.transaksi', compact('transaksi'));
+        // $transaksi = transaksi::all();
+        // return view('pages.transaksi', compact('transaksi'));
+        return view('pages.transaksi');
     }
 
     public function show($id)
@@ -108,5 +109,26 @@ class transaksicontroller extends Controller
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
         ]);
+    }
+
+    public function filter(Request $request)
+    {
+        $selectedValue = $request->input('jenis_kegiatan');
+        $selectedMonth = $request->input('bulan_transaksi');
+
+        
+        $query = transaksi::query();
+
+        if ($selectedValue) {
+            $query->where('jenis_kegiatan', $selectedValue);
+        }
+
+        if ($selectedMonth) {
+            $query->whereRaw('MONTH(tanggal_transaksi) = ?', [date('m', strtotime($selectedMonth))]);
+        }
+
+       
+        $filteredData = $query->get();
+        return response()->json($filteredData);
     }
 }

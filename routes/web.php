@@ -35,6 +35,7 @@ Route::get('/transaksi', function () {
 });
 
 Route::get('/transaksi', [transaksicontroller::class, 'index']);
+Route::get('/test', [transaksicontroller::class, 'filter']);
 Route::get('/transaksi/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
 Route::post('/transaksi', [transaksicontroller::class, 'storeEntryData'])->name('transaksi.entrydatastore');
 Route::put('/transaksi/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
@@ -42,3 +43,4 @@ Route::delete('/transaksi/{id}', [TransaksiController::class, 'delete'])->name('
 Route::get('/peti-kemas', [petikemascontroller::class, 'index']);
 Route::get('/peti-kemas/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
 Route::post('/peti-kemas', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
+Route::delete('/petikemas/{id}', [petikemasController::class, 'delete'])->name('petikemas.delete');
