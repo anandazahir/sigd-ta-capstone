@@ -65,13 +65,6 @@ class transaksicontroller extends Controller
             'message' => 'Data Transaksi Berhasil Dibuat!',
         ]);
     }
-
-    public function edit($id)
-    {
-        $transaksi = transaksi::findOrFail($id);
-        return view('components.form-edit-entrydata', compact('transaksi'));
-    }
-
     public function update(Request $request, $id)
     {
         $rules = [
@@ -104,6 +97,16 @@ class transaksicontroller extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Diupdate!',
+        ]);
+    }
+    public function delete($id)
+    {
+        $transaksi = transaksi::findOrFail($id);
+        $transaksi->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Transaksi Berhasil Dihapus!',
         ]);
     }
 }
