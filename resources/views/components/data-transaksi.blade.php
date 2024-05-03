@@ -1,3 +1,6 @@
+@php
+setlocale(LC_TIME, 'id_ID');
+@endphp
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
     <div class="container position-relative">
         <h1 class="fw-semibold  text-white fs-1 fs-lg-2">NO.Transaksi | {{$data -> no_transaksi}} </h1>
@@ -19,7 +22,7 @@
                         <i class="fa-solid fa-briefcase position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jenis Transaksi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data -> jenis_kegiatan}}
+                            {{ucfirst($data -> jenis_kegiatan)}}
                         </h5>
                     </div>
                 </div>
@@ -56,7 +59,7 @@
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Rilis</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data -> tanggal_DO_rilis}}
+                            {{strftime('%e %B %Y', strtotime($data->tanggal_DO_rilis))}}
                         </h5>
                     </div>
                 </div>
@@ -80,7 +83,7 @@
                         <i class="fa-solid fa-ship position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Cargo</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data -> kapal}}
+                            {{ucfirst($data -> kapal)}}
                         </h5>
                     </div>
                 </div>
@@ -91,7 +94,7 @@
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal DO Expired</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data -> tanggal_DO_exp}}
+                            {{strftime('%e %B %Y', strtotime($data->tanggal_DO_exp))}}
                         </h5>
                     </div>
                 </div>
@@ -116,7 +119,7 @@
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
                         <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
                         <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            {{$data->inventory}}
+                            {{ucfirst($data->inventory)}}
                         </h5>
                     </div>
                 </div>
@@ -131,20 +134,20 @@
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Kasir</p>
                         <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
                         <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            {{$data->kasir}}
+                            {{ucfirst($data->kasir)}}
                         </h5>
                     </div>
                 </div>
             </div>
             @endif
-            @if ($data->tgl_transaksi)
+            @if ($data->tanggal_transaksi)
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Transaksi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{$data->tgl_transaksi}}
+                            {{strftime('%e %B %Y', strtotime($data->tanggal_transaksi))}}
                         </h5>
                     </div>
                 </div>

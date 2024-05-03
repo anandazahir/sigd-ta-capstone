@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('no_petikemas')->unique();
             $table->foreignId('transaksi_id')->nullable();
             $table->dateTime('tanggal_keluar')->nullable();
-            $table->dateTime('tanggal_masuk')->nullable();
+            $table->dateTime('tanggal_masuk');
             $table->string('jenis_ukuran');
             $table->string('pelayaran');
-            $table->bigInteger('harga')->nullable();
+            $table->bigInteger('harga');
             $table->timestamps();
         });
     }

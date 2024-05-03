@@ -53,12 +53,12 @@ class transaksicontroller extends Controller
         $transaksi->kapal = $request->kapal;
         $transaksi->emkl = $request->emkl;
         $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
-        $transaksi->inventory = "Rizal Firdaus";
+        $transaksi->inventory = "rizal";
         $transaksi->no_transaksi = $no_transaksi;
-        $transaksi->tgl_transaksi = null;
+        $transaksi->tanggal_transaksi = null;
         $transaksi->kasir = null;
         $transaksi->status_pembayaran = null;
-        $transaksi->tgl_pembayaran = null;
+        $transaksi->tanggal_pembayaran = null;
         $transaksi->save();
         return response()->json([
             'success' => true,
@@ -68,30 +68,39 @@ class transaksicontroller extends Controller
 
     public function edit($id)
     {
-    $transaksi = transaksi::findOrFail($id);
-    return view('components.form-edit-entrydata', compact('transaksi'));
+        $transaksi = transaksi::findOrFail($id);
+        return view('components.form-edit-entrydata', compact('transaksi'));
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'jenis_kegiatan' => 'required|in:impor,ekspor',
             'perusahaan' => 'required',
-            'no_do' => 'required|min:8|unique:transaksis',
             'tanggal_DO_rilis' => 'required|date|before:tanggal_DO_exp',
             'tanggal_DO_exp' => 'required|date',
             'kapal' => 'required|max:255',
             'emkl' => 'required',
             'jumlah_petikemas' => 'required|numeric',
-        ]);
-        
+            'kasir' => 'required',
+            'inventory' => 'required',
+            'tanggal_transaksi' => 'required',
+        ];
+        if ($request->has('no_do')) {
+            $rules['no_do'] = 'required|min:8|unique:transaksis,no_do,' . $request->input('no_do') . ',no_do';
+        }
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
         $transaksi = transaksi::findOrFail($id);
+        if ($request->jenis_kegiatan == 'impor') {
+            $transaksi->no_transaksi = str_replace('DO.OUT', 'DO.IN', $transaksi->no_transaksi);
+        } elseif ($request->jenis_kegiatan == 'ekspor') {
+            $transaksi->no_transaksi = str_replace('DO.IN', 'DO.OUT', $transaksi->no_transaksi);
+        }
+        $transaksi->save();
         $transaksi->update($request->all());
-        
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Diupdate!',

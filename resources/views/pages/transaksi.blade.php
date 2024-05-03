@@ -87,7 +87,7 @@
                         <tbody>
                             @foreach($transaksi as $data) <tr>
                                 <td>{{$data->no_transaksi}}</td>
-                                <td>{{$data->jenis_kegiatan}}</td>
+                                <td>{{ucfirst($data->jenis_kegiatan)}}</td>
                                 <td>{{$data->jumlah_petikemas}}</td>
                                 <td>
                                     <div class="btn-group gap-2">

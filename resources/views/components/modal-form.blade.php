@@ -28,6 +28,11 @@
             },
             error: function(xhr, status, error) {
                 const errors = xhr.responseJSON.errors;
+                if (xhr.status === 500) {
+                    alert("Kolom Unik Tidak Boleh Sama!")
+                } else if (xhr.status === 404) {
+                    alert("Data Tidak Ditemukan!");
+                }
 
                 form.find('.is-invalid').removeClass('is-invalid');
                 form.find('.invalid-feedback').text('');

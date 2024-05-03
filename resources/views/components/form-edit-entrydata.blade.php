@@ -76,11 +76,11 @@
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="Inventory" class="form-label">Inventory</label>
-            <select class="form-select" id="jenis_kegiatan" name="Inventory" required>
+            <select class="form-select" id="inventory" name="inventory" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="nanda">nanda</option>
-                <option value="rizal">rizal</option>
-                <option value="yoga">yoga</option>
+                <option value="nanda" {{ $data->inventory == 'nanda' ? 'selected' : '' }}>nanda</option>
+                <option value="rizal" {{ $data->inventory == 'rizal' ? 'selected' : '' }}>rizal</option>
+                <option value="yoga" {{ $data->inventory == 'yoga' ? 'selected' : '' }}>yoga</option>
             </select>
             <div class="invalid-feedback"></div>
         </div>
@@ -88,9 +88,9 @@
             <label for="kasir" class="form-label">Kasir</label>
             <select class="form-select" id="kasir" name="kasir" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="nanda">nanda</option>
-                <option value="rizal">rizal</option>
-                <option value="yoga">yoga</option>
+                <option value="nanda" {{ $data->kasir == 'nanda' ? 'selected' : '' }}>nanda</option>
+                <option value="rizal" {{ $data->kasir == 'rizal' ? 'selected' : '' }}>rizal</option>
+                <option value="yoga" {{ $data->kasir == 'yoga' ? 'selected' : '' }}>yoga</option>
             </select>
             <div class="invalid-feedback"></div>
         </div>
@@ -99,20 +99,6 @@
 </form>
 <script>
     $(document).ready(function() {
-        $("#table_entrydata").hide();
-        $("#jumlah_petikemas").on("change", function() {
-            var rowCount = parseInt($(this).val());
-            if (rowCount > 0) {
-                $("#table_entrydata").show();
-                let rowData = $("#table_entrydata tbody tr:first").clone().html();
-                $("#table_entrydata tbody").empty();
-                for (var i = 0; i < rowCount; i++) {
-                    $("#table_entrydata tbody").append("<tr>" + rowData + "</tr>"); // Append new rows using rowData as a template
-                }
-            } else {
-                $("#table_entrydata").hide();
-            }
-        });
         $('#edit-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
         });

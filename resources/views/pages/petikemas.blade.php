@@ -139,7 +139,7 @@
                             <tr>
                                 <td>{{$data->no_petikemas}}</td>
                                 <td>{{$data->jenis_ukuran}}</td>
-                                <td>{{$data->pelayaran}}</td>
+                                <td>{{ucfirst($data->pelayaran)}}</td>
                                 <td>
                                     <span class="bg-success p-1 rounded-2 text-white">available</span>
                                 </td>

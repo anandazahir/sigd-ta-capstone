@@ -37,7 +37,6 @@ Route::get('/transaksi', function () {
 Route::get('/transaksi', [transaksicontroller::class, 'index']);
 Route::get('/transaksi/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
 Route::post('/transaksi', [transaksicontroller::class, 'storeEntryData'])->name('transaksi.entrydatastore');
-Route::get('/transaksi/{id}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
 Route::put('/transaksi/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
 Route::get('/petikemas', [petikemascontroller::class, 'index']);
 Route::get('/petikemas/{id}', [petikemasController::class, 'show'])->name('petikemas.show');

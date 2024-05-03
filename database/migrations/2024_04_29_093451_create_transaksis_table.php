@@ -22,10 +22,10 @@ return new class extends Migration
             $table->integer('jumlah_petikemas');
             $table->string('kapal');
             $table->string('emkl');
-            $table->date('tgl_transaksi')->nullable();
+            $table->date('tanggal_transaksi')->nullable();
             $table->string('kasir')->nullable();
             $table->string('inventory');
-            $table->dateTime('tgl_pembayaran')->nullable();
+            $table->dateTime('tanggal_pembayaran')->nullable();
             $table->string('status_pembayaran')->nullable();
             $table->timestamps();
         });

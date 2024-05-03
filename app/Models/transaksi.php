@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class transaksi extends Model
 {
 
-    protected $fillable = ['no_transaksi', 'jenis_kegiatan', 'no_do', 'tanggal_DO_rilis', 'tanggal_DO_exp', 'perusahaan', 'jumlah_petikemas', 'kapal', 'emkl', 'tgl_transaksi', 'kasir', 'inventory', 'tgl_pembayaran', 'status_pembayaran'];
+    protected $fillable = ['no_transaksi', 'jenis_kegiatan', 'no_do', 'tanggal_DO_rilis', 'tanggal_DO_exp', 'perusahaan', 'jumlah_petikemas', 'kapal', 'emkl', 'tanggal_transaksi', 'kasir', 'inventory', 'tanggal_pembayaran', 'status_pembayaran'];
     public function pengecekan()
     {
         return $this->hasMany(pengecekan::class);

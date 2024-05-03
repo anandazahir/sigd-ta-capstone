@@ -27,7 +27,6 @@ class petikemascontroller extends Controller
 
     public function storePetiKemas(Request $request)
     {
-
         $Validator = Validator::make($request->all(), [
             'no_petikemas' => 'required|unique:petikemas',
             'jenis_ukuran' => 'required',
@@ -53,10 +52,8 @@ class petikemascontroller extends Controller
         $petikemas->transaksi_id = null;
         $petikemas->tanggal_keluar = null;
         $petikemas->tanggal_masuk = now();
-        $petikemas->status_kondisi = null;
         $petikemas->harga = $harga;
         $petikemas->save();
-
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Dibuat!',
