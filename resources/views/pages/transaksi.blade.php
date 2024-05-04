@@ -1,23 +1,20 @@
+@php
+
+@endphp
 <x-layout>
     <x-slot:title>
         Transaksi
         </x-slot>
-        @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        <p>{{ $error }}</p>
-        @endforeach
-        @endif
+        <style>
+
+        </style>
         <div class="position-relative" style="margin-bottom: 33px;">
-            <div class="dropdown">
-                <button class="btn btn-primary rounded-4 dropdown-toggle element-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; ">
-                    <span class="fs-5 fw-semibold text-white text-dropdown">Jenis Transaksi</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Jenis Transaksi</a></li>
-                    <li><a class="dropdown-item" href="#">Impor</a></li>
-                    <li><a class="dropdown-item" href="#">Ekspor</a></li>
-                </ul>
-            </div>
+            <select class="form-select bg-primary text-white font-semibold" id="jenis_transaksi" style="width: fit-content;">
+                <option selected value="">Jenis Transaksi</option>
+                <option value="impor">Impor</option>
+                <option value="ekspor">Ekspor</option>
+            </select>
+
             <form class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
                 <i class="fa-solid fa-calendar-days text-white" style="font-size:35px;"></i>
                 <input type="month" name="" id="monthpicker">
@@ -32,13 +29,13 @@
                         </div>
                         <div class="d-block">
                             <p class="m-0 text-white ">Total Transaksi</p>
-                            <h4 class="fw-semibold text-white m-0">20</h4>
+                            <h4 class="fw-semibold text-white m-0" id="total_transaksi"></h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: 50rem;">
+        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
             <div class="container">
                 <h3 class=" text-white mb-2 text-table">DATA TRANSAKSI</h3>
                 <hr class="line p-0 m-0" style="height: 2px; background-color:#FFF; width:36vh;" />
@@ -67,15 +64,15 @@
                     </div>
 
                     <div class="p-0" style="width: fit-content;">
-                        <form class="d-flex m-0 p-0" role="search" style="width: 21rem;">
-                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;">
+                        <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 21rem;">
+                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
                             <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                         </form>
                     </div>
                 </div>
-
-                <div class="onscroll table-container table-responsive">
-                    <table class="table-variations-2  text-center" rules="groups" id="table_entrydata">
+                <h1 class="text-center mt-3 text-white" id="text-error"></h1>
+                <div class="onscroll table-responsive">
+                    <table class="table-variations-2  text-center" rules="groups" id="table_transaksi">
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No Transaksi</th>
@@ -85,91 +82,116 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{--  @foreach($transaksi as $data) <tr>
-                                <td>{{$data->no_transaksi}}</td>
-                                <td>{{ucfirst($data->jenis_kegiatan)}}</td>
-                                <td>{{$data->jumlah_petikemas}}</td>
-                                <td>
-                                    <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="{{ route('transaksi.show', ['id' => $data->id]) }}"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" data-bs-target="#form-delete-data" data-bs-toggle="modal"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <x-modal-form-delete :route="route('transaksi.delete', $data->id)" />
-                            @endforeach  --}}
+
                         </tbody>
                     </table>
                 </div>
-
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true" class="">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active" aria-current="page"><a class="page-link " href="#">1</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span class="" aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <x-modal-form id="form-create-entrydata" size="">
             <x-form-create-entrydata />
         </x-modal-form>
-
+        <div id="delete-container"></div>
         <x-toast />
         <script>
             $(document).ready(function() {
-                $('.dropdown-item').click(function() {
-                    var selectedType = $(this).text();
-
-                    if (selectedType !== "Jenis Transaksi") {
-                        $('.text-table').text('DATA TRANSAKSI | ' + selectedType);
+                var currentPage = 1
+                $('#jenis_transaksi').change(function() {
+                    var selectedType = $(this).val();
+                    if (selectedType !== "") {
+                        $('.text-table').text('DATA TRANSAKSI | ' + selectedType.charAt(0).toUpperCase() + selectedType.substring(1));
                     } else {
                         $('.text-table').text('DATA TRANSAKSI');
                     }
-
-
-                    $('.element-dropdown .text-dropdown').text(selectedType);
-
+                    fetchDataAndUpdateTable(selectedType, $('#monthpicker').val(), $('#searchInput').val());
                 });
-
+                $('#searchForm').on('submit', function(event) {
+                    event.preventDefault();
+                    var searchQuery = $('#searchInput').val();
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), searchQuery);
+                });
                 $('#monthpicker').change(function() {
                     var selectedMonth = $(this).val();
                     var [year, month] = selectedMonth.split('-');
-
                     var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
                         "Juli", "Augustus", "September", "Oktober", "November", "Desember"
                     ];
                     var monthName = monthNames[parseInt(month, 10) - 1];
-                    $('.month-text').text(monthName + ' ' + year);
+                    $('.month-text').text('');
+                    if (selectedMonth != "") {
+                        $('.month-text').text(monthName + ' ' + year);
+                    }
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), selectedMonth, $('#searchInput').val());
                 });
 
-                function fetchDataAndUpdateTable() {
-                    var jenisKegiatan = $('#jenis_transaksi').val();
-                    var bulanTransaksi = $('#bulan_transaksi').val();
-            
+                function updatePaginationLinks(totalPages) {
+                    var paginationContainer = $('.pagination');
+                    paginationContainer.empty();
+                    for (var i = 1; i <= totalPages; i++) {
+                        var link = $('<a>').addClass('page-link').attr('href', '#').text(i);
+                        var listItem = $('<li>').addClass('page-item').append(link);
+                        paginationContainer.append(listItem);
+                    }
+                    paginationContainer.prepend('<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+                    paginationContainer.append('<li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+                }
+
+                function fetchDataAndUpdateTable(value1, value2, value3) {
                     $.ajax({
                         url: '/test',
                         type: 'GET',
                         data: {
-                            jenis_kegiatan: jenisKegiatan,
-                            bulan_transaksi: bulanTransaksi
+                            jenis_kegiatan: value1,
+                            bulan_transaksi: value2,
+                            search: value3,
+                            page: currentPage
                         },
-                        success: function (data) {
-                            console.log("Hi");
-                           
-                         /*   $('#table_entrydata tbody').empty(); */
-            
-                            $.each(data, function(index, item) {
-                                $('#table_entrydata tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan + '</td></tr>');
-                               
+                        success: function(response) {
+                            $('#table_transaksi').show();
+                            $('#text-error').hide();
+                            $('#table_transaksi tbody').empty();
+                            $.each(response.Data, function(index, item) {
+                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" data-bs-target="#form-delete-data" data-bs-toggle="modal"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                    '</tr>');
                             });
+                            $('#delete-container').html(response.deleteComponent);
+                            $('#total_transaksi').text(response.Count);
+                            if (response.message) {
+                                $('#table_transaksi').hide();
+                                $('#text-error').show();
+                                $('#text-error').text(response.message);
+
+                            }
+                            updatePaginationLinks(response.meta.last_page);
+                            console.log(response.meta.last_page);
                         },
-                        error: function (xhr, status, error) {
-                            console.error(xhr.responseText);
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
                         }
                     });
                 }
-            
-                $('#jenis_kegiatan, #monthpicker').change(fetchDataAndUpdateTable);
-            
-               
-                
+                $('.pagination').on('click', 'a.page-link', function(e) {
+                    e.preventDefault();
+                    var pageNum = $(this).text();
+                    currentPage = parseInt(pageNum);
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
+                });
+                fetchDataAndUpdateTable();
             });
-            fetchDataAndUpdateTable();
         </script>
-
-
 </x-layout>

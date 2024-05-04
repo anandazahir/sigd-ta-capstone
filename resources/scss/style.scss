@@ -25,7 +25,14 @@ $utilities: map-merge(
             ),
     )
 );
-
+$pagination-color: $blue;
+$pagination-active-color: white;
+$pagination-active-bg: $blue;
+$pagination-border-color: $blue;
+$pagination-focus-color: $blue;
+$pagination-hover-color: $blue;
+$pagination-active-border-color: $blue;
+$pagination-focus-box-shadow: transparent;
 .px-lg-7 {
     padding-left: 10rem;
     padding-right: 10rem;
