@@ -41,6 +41,7 @@ Route::post('/transaksi', [transaksicontroller::class, 'storeEntryData'])->name(
 Route::put('/transaksi/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'delete'])->name('transaksi.delete');
 Route::get('/peti-kemas', [petikemascontroller::class, 'index']);
+Route::get('/petikemas', [petikemascontroller::class, 'filter']);
 Route::get('/peti-kemas/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
 Route::post('/peti-kemas', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
 Route::delete('/petikemas/{id}', [petikemasController::class, 'delete'])->name('petikemas.delete');
