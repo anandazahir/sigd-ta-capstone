@@ -103,11 +103,10 @@
                 </nav>
             </div>
         </div>
-        <x-modal-form-delete />
-        <x-modal-form id="form-create-entrydata" size="">
+        <x-modal-form-delete route="/transaksi/delete"/>
+        <x-modal-form id="form-create-entrydata" size="modal-xl">
             <x-form-create-entrydata />
         </x-modal-form>
-        <div id="delete-container"></div>
         <x-toast />
         <script>
             $(document).ready(function() {
@@ -173,7 +172,7 @@
                             $(document).on('click', '#deletebtn', function(e) {
                                 e.preventDefault();
                                 $("#form-delete-data").modal('show');
-                                $("#transaction_id").val($(this).val());
+                                $("#input_form_delete").val($(this).val());
                                 console.log($(this).val());
                             });
                             $('#total_transaksi').text(response.Count);

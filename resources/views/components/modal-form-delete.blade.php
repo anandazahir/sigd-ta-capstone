@@ -5,9 +5,9 @@
                 <i class="fa-regular fa-circle-xmark text-danger mb-3" style="font-size: 100px;"></i>
                 <h4>Apakah Anda Yakin Ingin Menghapus Data?</h4>
                 <div class="btn-group gap-2">
-                    <form action="{{url('/delete')}}" method="POST" id="delete-form">
+                    <form action="{{$route}}" method="POST" id="delete-form">
                         @csrf
-                        <input type="text" name="transaction_id" id="transaction_id">
+                        <input type="hidden" name="id" id="input_form_delete">
                         <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
                     </form>
                     <button class="btn btn-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>

@@ -61,9 +61,10 @@ class petikemascontroller extends Controller
         ]);
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $petikemas = petikemas::findOrFail($id);
+
+        $petikemas = petikemas::findOrFail($request->id);
         $petikemas->delete();
 
         return response()->json([
@@ -71,6 +72,7 @@ class petikemascontroller extends Controller
             'message' => 'Data Peti Kemas Berhasil Dihapus!',
         ]);
     }
+    
 
     public function filter(Request $request)
     {

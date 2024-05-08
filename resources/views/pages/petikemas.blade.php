@@ -135,26 +135,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($petikemas as $data)
-                            <tr>
-                                <td>{{$data->no_petikemas}}</td>
-                                <td>{{$data->jenis_ukuran}}</td>
-                                <td>{{ucfirst($data->pelayaran)}}</td>
-                                <td>
-                                    <span class="bg-success p-1 rounded-2 text-white">available</span>
-                                </td>
-                                <td>
-                                    <span class="bg-success p-1 rounded-2 text-white">In</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="{{ route('petikemas.show', ['id' => $data->id]) }}"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;" data-bs-target="#form-delete-data" data-bs-toggle="modal"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <x-modal-form-delete :route="route('petikemas.delete', $data->id)" />
-                            @endforeach
+                            
                         </tbody>
                     </table>
                     <nav aria-label="Page navigation example">
@@ -175,10 +156,10 @@
                 </div>
             </div>
         </div>
+        <x-modal-form-delete route="/petikemas/delete"/>
         <x-modal-form id="form-create-petikemas" size="">
             <x-form-create-petikemas />
         </x-modal-form>
-        <div id="delete-container"></div>
         <x-toast />
         <script>
             $(document).ready(function() {
@@ -215,10 +196,15 @@
                             $('#text-error').hide();
                             $('#table_petikemas tbody').empty();
                             $.each(response.Data, function(index, item) {
-                                $('#table_petikemas tbody').append('<tr><td>' + item.no_petikemas + '</td><td>' + item.jenis_ukuran + '</td><td>' + item.pelayaran + '</td><td>' + item.status_kondisi + '</td><td>' + item.status_ketersediaan + '</td><td>  <div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/petikemas/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" data-bs-target="#form-delete-data" data-bs-toggle="modal"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                $('#table_petikemas tbody').append('<tr><td>' + item.no_petikemas + '</td><td>' + item.jenis_ukuran + '</td><td>' + item.pelayaran + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/peti-kemas/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletebtn"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
                                     '</tr>');
                             });
-                            $('#delete-container').html(response.deleteComponent);
+                            $(document).on('click', '#deletebtn', function(e) {
+                                e.preventDefault();
+                                $("#form-delete-data").modal('show');
+                                $("#input_form_delete").val($(this).val());
+                                console.log($(this).val());
+                            });
                             if (response.message) {
                                 $('#table_petikemas').hide();
                                 $('#text-error').show();

@@ -59,7 +59,7 @@
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
             <label for="jumlah_petikemas" class="form-label">Jumlah Peti Kemas</label>
-            <input type="number" min="0" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" required>
+            <input type="number" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" value="1" required>
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -69,6 +69,7 @@
                 <tr>
                     <th scope="col">No Peti Kemas</th>
                     <th scope="col">Jenis & Ukuran</th>
+                    <th scope="col">Pelayaran</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,6 +82,9 @@
                     <td class="text-center">
                         <input type="text" name="jenis_ukuran" id="jenis_ukuran" required readonly>
                     </td>
+                    <td class="text-center">
+                        <input type="text" name="pelayaran" id="pelayaran" required readonly>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -89,7 +93,6 @@
 </form>
 <script>
     $(document).ready(function() {
-        $("#table_entrydata").hide();
         $("#jumlah_petikemas").on("change", function() {
             var rowCount = parseInt($(this).val());
             if (rowCount > 0) {

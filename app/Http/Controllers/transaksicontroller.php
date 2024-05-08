@@ -33,7 +33,7 @@ class transaksicontroller extends Controller
             'tanggal_DO_exp' => 'required|date',
             'kapal' => 'required|max:255',
             'emkl' => 'required',
-            'jumlah_petikemas' => 'required|numeric',
+            'jumlah_petikemas' => 'required|numeric|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -119,7 +119,7 @@ class transaksicontroller extends Controller
     public function delete(Request $request)
     {
 
-        $transaksi = transaksi::findOrFail($request->transaction_id);
+        $transaksi = transaksi::findOrFail($request->id);
         $transaksi->delete();
 
         return response()->json([
