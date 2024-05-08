@@ -39,12 +39,27 @@ class transaksicontroller extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
         $current_date = now();
-        $nomor_urut = str_pad(Transaksi::count() + 1, 6, '0', STR_PAD_LEFT); // Count existing records to determine the next ID
-        $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
-        $bulan_tahun = date('mY', strtotime($current_date));
-        $no_transaksi = $nomor_urut . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
+        $no_urut = 0;
+        $latest_transaction = transaksi::latest()->where('jenis_kegiatan', $request->jenis_kegiatan)->first();
+        if ($latest_transaction) {
+            $latest_no_transaksi = $latest_transaction->no_transaksi;
+            $no_urut = intval(substr($latest_no_transaksi, 0, 6));
+        }
+        if ($request->jenis_kegiatan == 'impor') {
+            $no_urut++;
+            $nomor_urut_impor = str_pad($no_urut, 6, '0', STR_PAD_LEFT);
+            $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
+            $bulan_tahun = date('mY', strtotime($current_date));
+            $no_transaksi = $nomor_urut_impor . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
+        } elseif ($request->jenis_kegiatan == 'ekspor') {
+            $no_urut++;
+            $nomor_urut_ekspor = str_pad($no_urut, 6, '0', STR_PAD_LEFT);
+            $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
+            $bulan_tahun = date('mY', strtotime($current_date));
+            $no_transaksi = $nomor_urut_ekspor . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
+        }
+
 
         $transaksi = new Transaksi();
         $transaksi->jenis_kegiatan = $request->jenis_kegiatan;
@@ -101,9 +116,10 @@ class transaksicontroller extends Controller
             'message' => 'Data Transaksi Berhasil Diupdate!',
         ]);
     }
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $transaksi = transaksi::findOrFail($id);
+
+        $transaksi = transaksi::findOrFail($request->transaction_id);
         $transaksi->delete();
 
         return response()->json([
@@ -114,15 +130,15 @@ class transaksicontroller extends Controller
 
     public function filter(Request $request)
     {
-        // Retrieve input values from the request
+
         $selectedValue = $request->input('jenis_kegiatan');
         $selectedMonth = $request->input('bulan_transaksi');
         $searchTerm = $request->input('search');
 
-        // Start building the query
+
         $query = Transaksi::query();
 
-        // Apply filters based on input values
+
         if ($selectedValue) {
             $query->where('jenis_kegiatan', $selectedValue);
         }
@@ -142,29 +158,14 @@ class transaksicontroller extends Controller
                     ->orWhere('emkl', 'like', '%' . $searchTerm . '%');
             });
         }
-
-        // Paginate the results with 10 items per page
         $perPage = 3;
         $filteredData = $query->paginate($perPage);
-
-        // Generate delete route and form delete HTML
-        $deleteRoute = route('transaksi.delete', ':id');
-        $formDeleteHtml = '';
-        foreach ($filteredData as $transaksi) {
-            $route = str_replace(':id', $transaksi->id, $deleteRoute);
-            $formDeleteHtml .= view("components.modal-form-delete", ['route' => $route])->render();
-        }
-
-        // Check if filtered data is empty
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
-
-        // Return JSON response with paginated data
         return response()->json([
-            'Data' => $filteredData->items(), // Data for the current page
-            'deleteComponent' => $formDeleteHtml,
-            'Count' => $filteredData->total(), // Total count without pagination
+            'Data' => $filteredData->items(),
+            'Count' => $filteredData->total(),
             'meta' => [
                 'current_page' => $filteredData->currentPage(),
                 'last_page' => $filteredData->lastPage(),
