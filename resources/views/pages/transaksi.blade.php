@@ -103,6 +103,7 @@
                 </nav>
             </div>
         </div>
+        <x-modal-form-delete />
         <x-modal-form id="form-create-entrydata" size="">
             <x-form-create-entrydata />
         </x-modal-form>
@@ -166,10 +167,15 @@
                             $('#text-error').hide();
                             $('#table_transaksi tbody').empty();
                             $.each(response.Data, function(index, item) {
-                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" data-bs-target="#form-delete-data" data-bs-toggle="modal"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletebtn"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
                                     '</tr>');
                             });
-                            $('#delete-container').html(response.deleteComponent);
+                            $(document).on('click', '#deletebtn', function(e) {
+                                e.preventDefault();
+                                $("#form-delete-data").modal('show');
+                                $("#transaction_id").val($(this).val());
+                                console.log($(this).val());
+                            });
                             $('#total_transaksi').text(response.Count);
                             if (response.message) {
                                 $('#table_transaksi').hide();
@@ -178,13 +184,22 @@
 
                             }
                             updatePaginationLinks(response.meta.last_page);
-                            console.log(response.meta.last_page);
+
                         },
                         error: function(xhr, status, error) {
                             console.log(xhr.responseText);
                         }
                     });
                 }
+
+                $('.pagination').on('click', 'a.page-link', function(e) {
+                    e.preventDefault();
+                    var pageNum = $(this).text();
+                    currentPage = parseInt(pageNum);
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
+                });
+
+
                 $('.pagination').on('click', 'a.page-link', function(e) {
                     e.preventDefault();
                     var pageNum = $(this).text();

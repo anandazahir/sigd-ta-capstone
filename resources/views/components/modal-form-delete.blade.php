@@ -5,9 +5,9 @@
                 <i class="fa-regular fa-circle-xmark text-danger mb-3" style="font-size: 100px;"></i>
                 <h4>Apakah Anda Yakin Ingin Menghapus Data?</h4>
                 <div class="btn-group gap-2">
-                    <form action="{{$route}}" method="POST" id="delete-form">
+                    <form action="{{url('/delete')}}" method="POST" id="delete-form">
                         @csrf
-                        @method('DELETE')
+                        <input type="text" name="transaction_id" id="transaction_id">
                         <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
                     </form>
                     <button class="btn btn-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
@@ -18,9 +18,10 @@
 </div>
 <script>
     $(document).ready(function() {
+
         $('#delete-form').submit(function(event) {
             event.preventDefault();
-            let form = $(this);;
+            let form = $(this);
             const formData = form.serialize();
             $.ajax({
                 type: form.attr('method'),
@@ -29,6 +30,7 @@
                 success: function(response) {
                     $("#form-delete-data").modal('hide');
                     showAlert(response.message);
+                    console.log($('#delete-form').attr('action'));
                 },
                 error: function(xhr, status, error) {
 
