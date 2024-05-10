@@ -71,6 +71,10 @@ class transaksicontroller extends Controller
             $petikemas->transaksi_id = $transaksi_id;
             $petikemas->save();
         }
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Transaksi Berhasil Ditambahkan!',
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -104,7 +108,7 @@ class transaksicontroller extends Controller
         $transaksi->update($request->all());
         return response()->json([
             'success' => true,
-            'message' => 'Data Transaksi Berhasil Diupdate!',
+            'message' => 'Data Transaksi Berhasil Diubah!',
         ]);
     }
     public function delete(Request $request)
