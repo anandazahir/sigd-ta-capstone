@@ -19,7 +19,7 @@ class transaksicontroller extends Controller
 
     public function show($id)
     {
-        $transaksi = transaksi::findOrFail($id);
+        $transaksi = transaksi::with('petikemas')->find($id);
         return view('pages.transaksi-more', compact('transaksi'));
     }
     public function storeEntryData(Request $request)
@@ -34,7 +34,7 @@ class transaksicontroller extends Controller
             'kapal' => 'required|max:255',
             'emkl' => 'required',
             'jumlah_petikemas' => 'required|numeric|min:1|max:10',
-            'no_petikemas' => 'required|unique:petikemas',
+            'no_petikemas' => 'required|unique:petikemas,no_petikemas',
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
         ]);

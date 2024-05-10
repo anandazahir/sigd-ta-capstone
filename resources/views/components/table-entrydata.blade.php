@@ -29,39 +29,23 @@
                         <tr>
                             <th scope="col" class="fw-semibold">No Peti Kemas</th>
                             <th scope="col" class="fw-semibold">Size & Type</th>
+                            <th scope="col" class="fw-semibold">Pelayaran</th>
                             <th scope="col" class="fw-semibold">Cetak SPK</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
 
                     <tbody>
+                        @foreach ($data->petikemas as $item)                      
                         <tr>
                             <td class="text-center">
-                                <select class="form-select mx-auto" aria-label="Default select example" required disabled style="font-size: 20px; width:fit-content;" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
-                                    <option>Plih Opsi Ini</option>
-                                    <option selected value="5555">Peti Kemas A</option>
-                                    <option value="55555">Peti Kemas B</option>
-                                </select>
+                                {{$item ->no_petikemas}}
                             </td>
                             <td class="text-center">
-
-                                <select class="form-select mx-auto" aria-label="Default select example" required disabled style="font-size: 20px; width:fit-content;" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
-                                    <option>Plih Opsi Ini</option>
-                                    <option selected value="20'GP">20'GP</option>
-                                    <option value="20'RF">20'RF</option>
-                                    <option value="20'FT">20'FT</option>
-                                    <option value="20'OT">20'OT</option>
-                                    <option value="20'TK">20'TK</option>
-                                    <option value="40'GP">40'GP</option>
-                                    <option value="40'RF">40'RF</option>
-                                    <option value="40'FT">40'FT</option>
-                                    <option value="40'OT">40'OT</option>
-                                    <option value="40'HC">40'HC</option>
-                                    <option value="40'RH">40'RH</option>
-                                    <option value="40'TK">40'TK</option>
-                                    <option value="45'HC">45'HC</option>
-                                    <option value="45'U1">45'U1</option>
-                                </select>
+                                {{$item ->jenis_ukuran}}
+                            </td>
+                            <td class="text-center">
+                                {{$item ->pelayaran}}
                             </td>
                             <td class="text-center">
                                 <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank"> Belum Cetak</a>
@@ -71,6 +55,7 @@
                             </td>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

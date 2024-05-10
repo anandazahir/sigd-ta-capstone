@@ -95,7 +95,7 @@
         </div>
 
         <div id="EntryData" class="tab-pane fade in active show d-block">
-            <x-table-entrydata />
+            <x-table-entrydata :data="$transaksi"/>
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">

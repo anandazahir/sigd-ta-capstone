@@ -129,7 +129,38 @@
 
         $('#create-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
+            event.preventDefault(); // Menghentikan pengiriman form secara default
+
+            // Validasi data sebelum pengiriman
+            var isValid = validateFormData();
+            if (!isValid) {
+                return; // Hentikan proses jika data tidak valid
+            }
+
+            // Lanjutkan dengan pengiriman form secara langsung
+            this.submit();
         });
+
+        function validateFormData() {
+            // Lakukan validasi di sini
+            var isValid = true;
+            // Contoh validasi untuk mengecek kesamaan nilai no_petikemas
+            var noPetikemasValues = [];
+            $('select[name="no_petikemas[]"]').each(function() {
+                var value = $(this).val();
+                if (noPetikemasValues.indexOf(value) !== -1) {
+                    isValid = false;
+                    $(this).addClass('is-invalid'); // Tambahkan kelas is-invalid pada select
+                    $(this).siblings('.invalid-feedback').show(); // Tampilkan pesan kesalahan yang sesuai
+                    return false; // Hentikan iterasi jika ditemukan kesamaan
+                } else {
+                    $(this).removeClass('is-invalid'); // Hapus kelas is-invalid jika tidak ada kesalahan
+                    $(this).siblings('.invalid-feedback').hide(); // Sembunyikan pesan kesalahan
+                }
+                noPetikemasValues.push(value);
+            });
+            return isValid;
+        }        
 
         function fetchPetikemas(value, $row) {
             var $select = $row.find('select[id^="no_petikemas"]');
