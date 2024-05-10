@@ -10,6 +10,7 @@ use App\Models\pengecekan;
 use App\Models\perbaikan;
 use App\Models\transaksi;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class petikemascontroller extends Controller
 {
@@ -60,14 +61,51 @@ class petikemascontroller extends Controller
         ]);
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $petikemas = petikemas::findOrFail($id);
+
+        $petikemas = petikemas::findOrFail($request->id);
         $petikemas->delete();
 
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Dihapus!',
+        ]);
+    }
+
+
+    public function filter(Request $request)
+    {
+
+        $searchTerm = $request->input('search');
+        $idpetikemas = $request->input('id');
+        $query = petikemas::query();
+        if ($idpetikemas) {
+            $petikemas = Petikemas::where('id', $request->id)->get();
+            return response()->json([
+                'DataPetikemas' => $petikemas,
+            ]);
+        }
+        if ($searchTerm) {
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('no_petikemas', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('jenis_ukuran', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%');
+            });
+        }
+        $perPage = 3;
+        $filteredData = $query->paginate($perPage);
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+        return response()->json([
+            'Data' => $filteredData->items(),
+            'meta' => [
+                'current_page' => $filteredData->currentPage(),
+                'last_page' => $filteredData->lastPage(),
+                'per_page' => $filteredData->perPage(),
+            ],
+            'count' => $filteredData->total(),
         ]);
     }
 }

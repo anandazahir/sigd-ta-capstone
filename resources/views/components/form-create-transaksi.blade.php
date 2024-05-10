@@ -59,27 +59,33 @@
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
             <label for="jumlah_petikemas" class="form-label">Jumlah Peti Kemas</label>
-            <input type="number" min="0" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" required>
+            <input type="number" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" min="1" required>
             <div class="invalid-feedback"></div>
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table text-center" id="table_entrydata">
+        <table class="table text-center" id="table_create_transaksi">
             <thead>
                 <tr>
                     <th scope="col">No Peti Kemas</th>
                     <th scope="col">Jenis & Ukuran</th>
+                    <th scope="col">Pelayaran</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="text-center">
-                        <select class="form-select" name="no_petikemas" id="no_petikemas" required>
-                            <option selected>Pilih Opsi Ini</option>
+                        <select class="form-select" id="" name="no_petikemas" required>
                         </select>
+                        <div class="invalid-feedback"></div>
                     </td>
                     <td class="text-center">
-                        <input type="text" name="jenis_ukuran" id="jenis_ukuran" required readonly>
+                        <input type="text" name="jenis_ukuran" id="" required readonly value="" class="form-control">
+                        <div class="invalid-feedback"></div>
+                    </td>
+                    <td class="text-center">
+                        <input type="text" name="pelayaran" id="" required readonly value="" class="form-control">
+                        <div class="invalid-feedback"></div>
                     </td>
                 </tr>
             </tbody>
@@ -89,22 +95,80 @@
 </form>
 <script>
     $(document).ready(function() {
-        $("#table_entrydata").hide();
-        $("#jumlah_petikemas").on("change", function() {
-            var rowCount = parseInt($(this).val());
+        $("#table_create_transaksi").hide();
+        $("#jumlah_petikemas").on("change", function(e) {
+            e.preventDefault();
+            let rowCount = parseInt($(this).val());
             if (rowCount > 0) {
-                $("#table_entrydata").show();
-                let rowData = $("#table_entrydata tbody tr:first").clone().html();
-                $("#table_entrydata tbody").empty();
+                $("#table_create_transaksi").show();
+                var firstRow = $("#table_create_transaksi tbody tr:first").clone();
+                $("#table_create_transaksi tbody").empty();
                 for (var i = 0; i < rowCount; i++) {
-                    $("#table_entrydata tbody").append("<tr>" + rowData + "</tr>"); // Append new rows using rowData as a template
+                    var newRow = firstRow.clone();
+                    newRow.find('[id]').each(function() {
+                        var name = $(this).attr('name');
+                        $(this).attr('id', name + '_' + (i + 1));
+                    });
+                    $("#table_create_transaksi tbody").append(newRow);
+
+                    // Menambahkan opsi "Pilih Opsi Ini" hanya pada baris pertama
+                    if (i === 0) {
+                        newRow.find('#no_petikemas_' + (i + 1)).append('<option selected disabled>Pilih Opsi Ini</option>');
+                    }
+
+                    // Event handler untuk setiap perubahan pada select
+                    newRow.find('#no_petikemas_' + (i + 1)).on("change", function(e) {
+                        e.preventDefault();
+                        var $row = $(this).closest('tr');
+                        fetchPetikemas($(this).val(), $row);
+                    });
+
+                    // Fetch data petikemas untuk baris pertama
+                    if (i === 0) {
+                        fetchPetikemas($("#no_petikemas_" + (i + 1)).val(), newRow);
+                    }
                 }
             } else {
-                $("#table_entrydata").hide();
+                $("#table_create_transaksi").hide();
             }
+
         });
         $('#create-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
         });
+
+        function fetchPetikemas(value, $row) {
+            var $select = $row.find('select[id^="no_petikemas"]');
+            var $inputjenis_ukuran = $row.find('input[id^="jenis_ukuran"]');
+            var $inputpelayaran = $row.find('input[id^="pelayaran"]');
+            $.ajax({
+                url: '/peti-kemas/index',
+                type: 'GET',
+                data: {
+                    id: value,
+                },
+                success: function(response) {
+                    if ($row.index === 0) {
+                        $select.append('<option selected disabled>Pilih Opsi Ini</option>');
+                    }
+
+                    $.each(response.Data, function(index, item) {
+                        $select.append('<option value="' + item.id + '">' + item.no_petikemas + '</option>');
+                    });
+                    if ($select.find('option[value=""]').length !== response.count) {
+                        var removeNum = $select.find('option[value=""]').length - response.count;
+                        $select.find('option:last-child').prevAll().slice(0, removeNum).remove();
+                    }
+
+                    $.each(response.DataPetikemas, function(index, item) {
+                        $inputjenis_ukuran.val(item.jenis_ukuran);
+                        $inputpelayaran.val(item.pelayaran);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
     });
 </script>

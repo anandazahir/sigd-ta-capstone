@@ -33,19 +33,26 @@ class transaksicontroller extends Controller
             'tanggal_DO_exp' => 'required|date',
             'kapal' => 'required|max:255',
             'emkl' => 'required',
-            'jumlah_petikemas' => 'required|numeric',
+            'jumlah_petikemas' => 'required|numeric|min:1|max:10',
+            'no_petikemas' => 'required',
+            'jenis_ukuran' => 'required',
+            'pelayaran' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        // Generate a unique transaction number
         $current_date = now();
-        $nomor_urut = str_pad(Transaksi::count() + 1, 6, '0', STR_PAD_LEFT); // Count existing records to determine the next ID
         $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
+        $latest_transaction = Transaksi::latest()->where('jenis_kegiatan', $request->jenis_kegiatan)->first();
+        $no_urut = $latest_transaction ? intval(substr($latest_transaction->no_transaksi, 0, 6)) + 1 : 1;
+        $nomor_urut = str_pad($no_urut, 6, '0', STR_PAD_LEFT);
         $bulan_tahun = date('mY', strtotime($current_date));
         $no_transaksi = $nomor_urut . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
 
+        // Create and save the transaction
         $transaksi = new Transaksi();
         $transaksi->jenis_kegiatan = $request->jenis_kegiatan;
         $transaksi->perusahaan = $request->perusahaan;
@@ -57,16 +64,14 @@ class transaksicontroller extends Controller
         $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
         $transaksi->inventory = "rizal";
         $transaksi->no_transaksi = $no_transaksi;
-        $transaksi->tanggal_transaksi = null;
-        $transaksi->kasir = null;
-        $transaksi->status_pembayaran = null;
-        $transaksi->tanggal_pembayaran = null;
         $transaksi->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dibuat!',
         ]);
     }
+
     public function update(Request $request, $id)
     {
         $rules = [
@@ -101,9 +106,10 @@ class transaksicontroller extends Controller
             'message' => 'Data Transaksi Berhasil Diupdate!',
         ]);
     }
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $transaksi = transaksi::findOrFail($id);
+
+        $transaksi = transaksi::findOrFail($request->id);
         $transaksi->delete();
 
         return response()->json([
@@ -114,15 +120,15 @@ class transaksicontroller extends Controller
 
     public function filter(Request $request)
     {
-        // Retrieve input values from the request
+
         $selectedValue = $request->input('jenis_kegiatan');
         $selectedMonth = $request->input('bulan_transaksi');
         $searchTerm = $request->input('search');
 
-        // Start building the query
+
         $query = Transaksi::query();
 
-        // Apply filters based on input values
+
         if ($selectedValue) {
             $query->where('jenis_kegiatan', $selectedValue);
         }
@@ -142,29 +148,14 @@ class transaksicontroller extends Controller
                     ->orWhere('emkl', 'like', '%' . $searchTerm . '%');
             });
         }
-
-        // Paginate the results with 10 items per page
         $perPage = 3;
         $filteredData = $query->paginate($perPage);
-
-        // Generate delete route and form delete HTML
-        $deleteRoute = route('transaksi.delete', ':id');
-        $formDeleteHtml = '';
-        foreach ($filteredData as $transaksi) {
-            $route = str_replace(':id', $transaksi->id, $deleteRoute);
-            $formDeleteHtml .= view("components.modal-form-delete", ['route' => $route])->render();
-        }
-
-        // Check if filtered data is empty
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
-
-        // Return JSON response with paginated data
         return response()->json([
-            'Data' => $filteredData->items(), // Data for the current page
-            'deleteComponent' => $formDeleteHtml,
-            'Count' => $filteredData->total(), // Total count without pagination
+            'Data' => $filteredData->items(),
+            'Count' => $filteredData->total(),
             'meta' => [
                 'current_page' => $filteredData->currentPage(),
                 'last_page' => $filteredData->lastPage(),
