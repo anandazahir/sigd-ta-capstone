@@ -93,6 +93,7 @@
     </div>
     <button type="submit" class="btn btn-primary text-white mb-3" style="width: fit-content; margin-left:15px;">Submit</button>
 </form>
+
 <script>
     $(document).ready(function() {
         $("#table_create_transaksi").hide();
@@ -111,28 +112,35 @@
                     });
                     $("#table_create_transaksi tbody").append(newRow);
 
-                    // Menambahkan opsi "Pilih Opsi Ini" hanya pada baris pertama
-                    if (i === 0) {
-                        newRow.find('#no_petikemas_' + (i + 1)).append('<option selected disabled>Pilih Opsi Ini</option>');
-                    }
+                    // Mengatur opsi "Pilih Opsi Ini" untuk setiap baris baru
+                    newRow.find('#no_petikemas_' + (i + 1)).append('<option selected disabled>Pilih Opsi Ini</option>');
 
                     // Event handler untuk setiap perubahan pada select
                     newRow.find('#no_petikemas_' + (i + 1)).on("change", function(e) {
                         e.preventDefault();
                         var $row = $(this).closest('tr');
                         fetchPetikemas($(this).val(), $row);
+
+                        // Menonaktifkan opsi yang sudah dipilih oleh baris-baris lain
+                        var selectedValue = $(this).val();
+                        $('#table_create_transaksi tbody tr').not($row).each(function() {
+                            $(this).find('select[id^="no_petikemas"]').find('option[value="' + selectedValue + '"]').prop('disabled', true);
+                        });
                     });
 
-                    // Fetch data petikemas untuk baris pertama
-                    if (i === 0) {
-                        fetchPetikemas($("#no_petikemas_" + (i + 1)).val(), newRow);
-                    }
+                    // Fetch data petikemas untuk setiap baris baru
+                    fetchPetikemas($("#no_petikemas_" + (i + 1)).val(), newRow);
+
+                    // Menghapus opsi yang sudah dipilih sebelumnya dari baris-baris sebelumnya
+                    $('#table_create_transaksi tbody tr').not(newRow).each(function() {
+                        $(this).find('select[id^="no_petikemas"]').find('option[value="' + $("#no_petikemas_" + (i + 1)).val() + '"]').remove();
+                    });
                 }
             } else {
                 $("#table_create_transaksi").hide();
             }
-
         });
+
         $('#create-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
         });
