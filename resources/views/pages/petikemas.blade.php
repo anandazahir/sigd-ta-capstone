@@ -104,7 +104,7 @@
                             </div>
                         </button>
 
-                        <a href="" class="btn btn-info mb-2  " data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
+                        <a href="" class="btn btn-info mb-2  ">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
@@ -115,8 +115,8 @@
                     </div>
 
                     <div class="p-0" style="width: fit-content;">
-                        <form class="d-flex m-0 p-0" role="search" style="width: 21rem;">
-                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;">
+                        <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 21rem;">
+                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
                             <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                         </form>
                     </div>
@@ -161,5 +161,72 @@
             <x-form-create-petikemas />
         </x-modal-form>
         <x-toast />
+        <script>
+            $(document).ready(function() {
+                var currentPage = 1
+
+                $('#searchForm').on('submit', function(event) {
+                    event.preventDefault();
+                    var searchQuery = $('#searchInput').val();
+                    fetchDataAndUpdateTable(searchQuery);
+                });
+
+                function updatePaginationLinks(totalPages) {
+                    var paginationContainer = $('.pagination');
+                    paginationContainer.empty();
+                    for (var i = 1; i <= totalPages; i++) {
+                        var link = $('<a>').addClass('page-link').attr('href', '#').text(i);
+                        var listItem = $('<li>').addClass('page-item').append(link);
+                        paginationContainer.append(listItem);
+                    }
+                    paginationContainer.prepend('<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+                    paginationContainer.append('<li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+                }
+
+                function fetchDataAndUpdateTable(value1) {
+                    $.ajax({
+                        url: '/peti-kemas/index',
+                        type: 'GET',
+                        data: {
+                            search: value1,
+                            page: currentPage
+                        },
+                        success: function(response) {
+                            $('#table_petikemas').show();
+                            $('#text-error').hide();
+                            $('#table_petikemas tbody').empty();
+                            $.each(response.Data, function(index, item) {
+                                $('#table_petikemas tbody').append('<tr><td>' + item.no_petikemas + '</td><td>' + item.jenis_ukuran + '</td><td>' + item.pelayaran.charAt(0).toUpperCase() + item.pelayaran.slice(1) + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/peti-kemas/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletebtn"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                    '</tr>');
+                            });
+                            $(document).on('click', '#deletebtn', function(e) {
+                                e.preventDefault();
+                                $("#form-delete-data").modal('show');
+                                $("#input_form_delete").val($(this).val());
+                                console.log($(this).val());
+                            });
+                            if (response.message) {
+                                $('#table_petikemas').hide();
+                                $('#text-error').show();
+                                $('#text-error').text(response.message);
+
+                            }
+                            updatePaginationLinks(response.meta.last_page);
+                            console.log(response.meta.last_page);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+                $('.pagination').on('click', 'a.page-link', function(e) {
+                    e.preventDefault();
+                    var pageNum = $(this).text();
+                    currentPage = parseInt(pageNum);
+                    fetchDataAndUpdateTable($('#searchInput').val());
+                });
+                fetchDataAndUpdateTable();
+            });
+        </script>
 
 </x-layout>

@@ -44,4 +44,4 @@ Route::get('/peti-kemas', [petikemascontroller::class, 'index']);
 Route::get('/peti-kemas/index', [petikemascontroller::class, 'filter']);
 Route::get('/peti-kemas/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
 Route::post('/peti-kemas', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
-Route::delete('/petikemas/{id}', [petikemasController::class, 'delete'])->name('petikemas.delete');
+Route::post('/peti-kemas/delete', [petikemasController::class, 'delete'])->name('petikemas.delete');
