@@ -8,12 +8,34 @@
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="pelataran" class="form-label">Pelayaran</label>
-            <input type="text" class="form-control" id="pelayaran" placeholder="Pelayaran" name="pelayaran" required>
+            <select class="form-select" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();" name="pelayaran" id="pelayaran">
+                <option>Plih Opsi Ini</option>
+                <option value="benline">BENLINE</option>
+                <option value="wanhai">WANHAI</option>
+                <option value="one">ONE</option>
+                <option value="cosco">COSCO</option>
+            </select>
             <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-12 mb-3 form-group">
             <label for="jenis dan ukuran" class="form-label">Jenis & Ukuran </label>
-            <input type="text" class="form-control" id="jenis_ukuran" placeholder="Jenis dan Ukuran" name="jenis_ukuran" required>
+            <select class="form-select" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();" name="jenis_ukuran" id="jenis_ukuran">
+                <option>Plih Opsi Ini</option>
+                <option value="20'GP">20'GP</option>
+                <option value="20'RF">20'RF</option>
+                <option value="20'FT">20'FT</option>
+                <option value="20'OT">20'OT</option>
+                <option value="20'TK">20'TK</option>
+                <option value="40'GP">40'GP</option>
+                <option value="40'RF">40'RF</option>
+                <option value="40'FT">40'FT</option>
+                <option value="40'OT">40'OT</option>
+                <option value="40'HC">40'HC</option>
+                <option value="40'RH">40'RH</option>
+                <option value="40'TK">40'TK</option>
+                <option value="45'HC">45'HC</option>
+                <option value="45'U1">45'U1</option>
+            </select>
             <div class="invalid-feedback"></div>
         </div>
     </div>

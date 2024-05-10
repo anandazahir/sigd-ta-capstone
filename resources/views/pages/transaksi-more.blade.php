@@ -119,13 +119,9 @@
             <x-table-penempatan />
             <x-form-edit-penempatan />
         </div>
-        <x-modal-form id="form-create-entrydata" size="">
-            <x-form-create-entrydata />
+        <x-modal-form id="form-edit-transaksi" size="">
+            <x-form-edit-transaksi :data="$transaksi" />
         </x-modal-form>
-        <x-modal-form id="form-edit-entrydata" size="">
-            <x-form-edit-entrydata :data="$transaksi" />
-        </x-modal-form>
-        {{-- <x-form-edit-entrydata />  --}}
         <x-form-table-penempatan></x-form-table-penempatan>
         <script>
             $(document).ready(function() {

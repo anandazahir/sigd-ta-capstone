@@ -72,16 +72,20 @@ class petikemascontroller extends Controller
             'message' => 'Data Peti Kemas Berhasil Dihapus!',
         ]);
     }
-    
+
 
     public function filter(Request $request)
     {
-        // Retrieve input values from the request
+
         $searchTerm = $request->input('search');
-
-        // Start building the query
+        $idpetikemas = $request->input('id');
         $query = petikemas::query();
-
+        if ($idpetikemas) {
+            $petikemas = Petikemas::where('id', $request->id)->get();
+            return response()->json([
+                'DataPetikemas' => $petikemas,
+            ]);
+        }
         if ($searchTerm) {
             $query->where(function ($query) use ($searchTerm) {
                 $query->where('no_petikemas', 'like', '%' . $searchTerm . '%')
@@ -89,33 +93,19 @@ class petikemascontroller extends Controller
                     ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%');
             });
         }
-
-        // Paginate the results with 10 items per page
         $perPage = 3;
         $filteredData = $query->paginate($perPage);
-
-        // Generate delete route and form delete HTML
-        $deleteRoute = route('petikemas.delete', ':id');
-        $formDeleteHtml = '';
-        foreach ($filteredData as $petikemas) {
-            $route = str_replace(':id', $petikemas->id, $deleteRoute);
-            $formDeleteHtml = view("components.modal-form-delete", ['route' => $route])->render();
-        }
-
-        // Check if filtered data is empty
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
-
-        // Return JSON response with paginated data
         return response()->json([
-            'Data' => $filteredData->items(), // Data for the current page
-            'deleteComponent' => $formDeleteHtml,
+            'Data' => $filteredData->items(),
             'meta' => [
                 'current_page' => $filteredData->currentPage(),
                 'last_page' => $filteredData->lastPage(),
                 'per_page' => $filteredData->perPage(),
             ],
+            'count' => $filteredData->total(),
         ]);
     }
 }

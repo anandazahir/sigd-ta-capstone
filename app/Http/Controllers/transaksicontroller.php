@@ -33,34 +33,26 @@ class transaksicontroller extends Controller
             'tanggal_DO_exp' => 'required|date',
             'kapal' => 'required|max:255',
             'emkl' => 'required',
-            'jumlah_petikemas' => 'required|numeric|min:1',
+            'jumlah_petikemas' => 'required|numeric|min:1|max:10',
+            'no_petikemas' => 'required',
+            'jenis_ukuran' => 'required',
+            'pelayaran' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        // Generate a unique transaction number
         $current_date = now();
-        $no_urut = 0;
-        $latest_transaction = transaksi::latest()->where('jenis_kegiatan', $request->jenis_kegiatan)->first();
-        if ($latest_transaction) {
-            $latest_no_transaksi = $latest_transaction->no_transaksi;
-            $no_urut = intval(substr($latest_no_transaksi, 0, 6));
-        }
-        if ($request->jenis_kegiatan == 'impor') {
-            $no_urut++;
-            $nomor_urut_impor = str_pad($no_urut, 6, '0', STR_PAD_LEFT);
-            $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
-            $bulan_tahun = date('mY', strtotime($current_date));
-            $no_transaksi = $nomor_urut_impor . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
-        } elseif ($request->jenis_kegiatan == 'ekspor') {
-            $no_urut++;
-            $nomor_urut_ekspor = str_pad($no_urut, 6, '0', STR_PAD_LEFT);
-            $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
-            $bulan_tahun = date('mY', strtotime($current_date));
-            $no_transaksi = $nomor_urut_ekspor . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
-        }
+        $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
+        $latest_transaction = Transaksi::latest()->where('jenis_kegiatan', $request->jenis_kegiatan)->first();
+        $no_urut = $latest_transaction ? intval(substr($latest_transaction->no_transaksi, 0, 6)) + 1 : 1;
+        $nomor_urut = str_pad($no_urut, 6, '0', STR_PAD_LEFT);
+        $bulan_tahun = date('mY', strtotime($current_date));
+        $no_transaksi = $nomor_urut . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
 
-
+        // Create and save the transaction
         $transaksi = new Transaksi();
         $transaksi->jenis_kegiatan = $request->jenis_kegiatan;
         $transaksi->perusahaan = $request->perusahaan;
@@ -72,16 +64,14 @@ class transaksicontroller extends Controller
         $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
         $transaksi->inventory = "rizal";
         $transaksi->no_transaksi = $no_transaksi;
-        $transaksi->tanggal_transaksi = null;
-        $transaksi->kasir = null;
-        $transaksi->status_pembayaran = null;
-        $transaksi->tanggal_pembayaran = null;
         $transaksi->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dibuat!',
         ]);
     }
+
     public function update(Request $request, $id)
     {
         $rules = [
