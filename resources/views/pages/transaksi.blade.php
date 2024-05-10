@@ -43,8 +43,8 @@
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
 
-                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-entrydata">
-                            <div class="d-flex gap-1">
+                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai>
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                                 </div>
@@ -53,7 +53,7 @@
                         </button>
                         </a>
 
-                        <a href="" class="btn btn-info mb-2  ">
+                        <a href="" class="btn btn-info mb-2  " data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai>
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
@@ -103,16 +103,16 @@
                 </nav>
             </div>
         </div>
-        <x-modal-form id="form-create-entrydata" size="">
-            <x-form-create-entrydata />
+        <x-modal-form-delete route="/transaksi/delete" />
+        <x-modal-form id="form-create-transaksi" size="modal-xl">
+            <x-form-create-transaksi />
         </x-modal-form>
-        <div id="delete-container"></div>
         <x-toast />
         <script>
             $(document).ready(function() {
-                var currentPage = 1
+                let currentPage = 1
                 $('#jenis_transaksi').change(function() {
-                    var selectedType = $(this).val();
+                    let selectedType = $(this).val();
                     if (selectedType !== "") {
                         $('.text-table').text('DATA TRANSAKSI | ' + selectedType.charAt(0).toUpperCase() + selectedType.substring(1));
                     } else {
@@ -122,16 +122,16 @@
                 });
                 $('#searchForm').on('submit', function(event) {
                     event.preventDefault();
-                    var searchQuery = $('#searchInput').val();
+                    let searchQuery = $('#searchInput').val();
                     fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), searchQuery);
                 });
                 $('#monthpicker').change(function() {
-                    var selectedMonth = $(this).val();
-                    var [year, month] = selectedMonth.split('-');
-                    var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                    let selectedMonth = $(this).val();
+                    let [year, month] = selectedMonth.split('-');
+                    let monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
                         "Juli", "Augustus", "September", "Oktober", "November", "Desember"
                     ];
-                    var monthName = monthNames[parseInt(month, 10) - 1];
+                    let monthName = monthNames[parseInt(month, 10) - 1];
                     $('.month-text').text('');
                     if (selectedMonth != "") {
                         $('.month-text').text(monthName + ' ' + year);
@@ -140,11 +140,11 @@
                 });
 
                 function updatePaginationLinks(totalPages) {
-                    var paginationContainer = $('.pagination');
+                    let paginationContainer = $('.pagination');
                     paginationContainer.empty();
-                    for (var i = 1; i <= totalPages; i++) {
-                        var link = $('<a>').addClass('page-link').attr('href', '#').text(i);
-                        var listItem = $('<li>').addClass('page-item').append(link);
+                    for (let i = 1; i <= totalPages; i++) {
+                        let link = $('<a>').addClass('page-link').attr('href', '#').text(i);
+                        let listItem = $('<li>').addClass('page-item').append(link);
                         paginationContainer.append(listItem);
                     }
                     paginationContainer.prepend('<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
@@ -153,7 +153,7 @@
 
                 function fetchDataAndUpdateTable(value1, value2, value3) {
                     $.ajax({
-                        url: '/test',
+                        url: '/transaksi/index',
                         type: 'GET',
                         data: {
                             jenis_kegiatan: value1,
@@ -166,10 +166,15 @@
                             $('#text-error').hide();
                             $('#table_transaksi tbody').empty();
                             $.each(response.Data, function(index, item) {
-                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" data-bs-target="#form-delete-data" data-bs-toggle="modal"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1) + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Peti Kemas"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletebtn"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Peti Kemas"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
                                     '</tr>');
                             });
-                            $('#delete-container').html(response.deleteComponent);
+                            $(document).on('click', '#deletebtn', function(e) {
+                                e.preventDefault();
+                                $("#form-delete-data").modal('show');
+                                $("#input_form_delete").val($(this).val());
+                                console.log($(this).val());
+                            });
                             $('#total_transaksi').text(response.Count);
                             if (response.message) {
                                 $('#table_transaksi').hide();
@@ -178,16 +183,25 @@
 
                             }
                             updatePaginationLinks(response.meta.last_page);
-                            console.log(response.meta.last_page);
+
                         },
                         error: function(xhr, status, error) {
                             console.log(xhr.responseText);
                         }
                     });
                 }
+
                 $('.pagination').on('click', 'a.page-link', function(e) {
                     e.preventDefault();
-                    var pageNum = $(this).text();
+                    let pageNum = $(this).text();
+                    currentPage = parseInt(pageNum);
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
+                });
+
+
+                $('.pagination').on('click', 'a.page-link', function(e) {
+                    e.preventDefault();
+                    let pageNum = $(this).text();
                     currentPage = parseInt(pageNum);
                     fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
                 });

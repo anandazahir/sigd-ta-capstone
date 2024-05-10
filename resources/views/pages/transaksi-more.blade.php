@@ -1,203 +1,212 @@
+@php
+
+@endphp
 <x-layout>
     <x-slot:title>
-        Transaksi | {{$transaksi->no_transaksi}}
+        Transaksi
         </x-slot>
-        <x-data-transaksi :data="$transaksi" />
-        <div class="dropdown d-block d-md-none mb-3">
+        <style>
 
-            <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
-                <div class="element-dropdown">
-                    <div class="rounded-circle bg-white position-absolute top-0 start-0 my-3" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                        <i class="fa-solid fa-file-lines  text-info " style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
-                    </div>
-                    <h4 class="my-2" style="margin-left:85px;">ENTRY DATA</h4>
-                    <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px; width: 210px;" />
-                    <p class="my-2" style="margin-left:85px;">PEMASUKAN DATA PETI KEMAS</p>
-                </div>
-                <i class="fa-solid fa-caret-down text-white mx-2" style="position: absolute; top:42px; right:0"></i>
-            </button>
+        </style>
+        <div class="position-relative" style="margin-bottom: 33px;">
+            <select class="form-select bg-primary text-white font-semibold" id="jenis_transaksi" style="width: fit-content;">
+                <option selected value="">Jenis Transaksi</option>
+                <option value="impor">Impor</option>
+                <option value="ekspor">Ekspor</option>
+            </select>
 
-            <ul class="dropdown-menu w-100 copy"></ul>
+            <form class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
+                <i class="fa-solid fa-calendar-days text-white" style="font-size:35px;"></i>
+                <input type="month" name="" id="monthpicker">
+            </form>
         </div>
-
-        <div class="row ">
-            <div class="col-lg-4 mb-3 d-lg-block d-none">
-                <div class="card  shadow rounded-4 bg-primary bg-info text-white onhover ">
-                    <div class="card-body tabs" data-tab="EntryData">
-
-                        <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                            <i class="fa-solid fa-file-lines text-primary text-info" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
+        <div class="row">
+            <div class="col-lg-12 mb-3">
+                <div class="card bg-primary text-white rounded-4 shadow">
+                    <div class="card-body d-flex gap-2">
+                        <div class="rounded-circle bg-white p-3" style="width: fit-content; height:fit-content;">
+                            <i class="fa-solid fa-copy text-primary fa-xl"></i>
                         </div>
-                        <h4 class="my-2" style="margin-left:85px;">ENTRY DATA</h4>
-                        <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
-                        <p class="my-2" style="margin-left:85px;">PEMASUKAN DATA PETI KEMAS</p>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 mb-3 d-lg-block d-none">
-                <div class="card shadow rounded-4 bg-primary text-white onhover">
-                    <div class="card-body tabs" data-tab="Pembayaran">
-
-                        <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                            <i class="fa-solid fa-dollar-sign  text-primary " style="font-size:3.3rem; margin: 10px 20px 10px 20px"></i>
+                        <div class="d-block">
+                            <p class="m-0 text-white ">Total Transaksi</p>
+                            <h4 class="fw-semibold text-white m-0" id="total_transaksi"></h4>
                         </div>
-                        <h4 class="my-2" style="margin-left:85px;">PEMBAYARAN</h4>
-                        <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
-                        <p class="my-2" style="margin-left:85px;">PEMBAYARAN JASA</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4  mb-3 d-lg-block d-none">
-                <div class="card shadow rounded-4 bg-primary text-white onhover ">
-                    <div class="card-body tabs" data-tab="Pengecekan">
-
-                        <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                            <i class="fa-solid fa-clipboard-list text-primary " style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
-                        </div>
-                        <h4 class="my-2" style="margin-left:85px;">PENGECEKAN</h4>
-                        <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
-                        <p class="my-2" style="margin-left:85px;">PENGECEKAN PETI KEMAS</p>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+            <div class="container">
+                <h3 class=" text-white mb-2 text-table">DATA TRANSAKSI</h3>
+                <hr class="line p-0 m-0" style="height: 2px; background-color:#FFF; width:36vh;" />
+                <h3 class=" text-white mb-2 month-text"></h3>
+                <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
+                    <div class="p-0" style="width: fit-content;">
 
-        <div class="row ">
-            <div class="col-lg-6 mb-3 d-lg-block d-none">
-                <div class="card shadow rounded-4 bg-primary text-white onhover">
-                    <div class="card-body tabs" data-tab="Perbaikan">
+                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Peti Kemas">
+                                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
+                                    <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
+                                    <span class="fs-5 fw-semibold">Tambah Transaksi</span>
+                                </div>
+                                
+                            </div>
+                        </button>
+                        </a>
 
-                        <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                            <i class="fa-solid fa-screwdriver-wrench  text-primary " style="font-size:3rem; margin:15px 14px 15px 14px"></i>
-                        </div>
-                        <h4 class="my-2" style="margin-left:85px;">PERBAIKAN</h4>
-                        <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
-                        <p class="my-2" style="margin-left:85px;">PERBAIKAN PETI KEMAS</p>
+                        <a href="" class="btn btn-info mb-2  " data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Peti Kemas">
+                            <div class="d-flex gap-1">
+                                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
+                                    <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
+                                </div>
+                                <span class="fs-5 fw-semibold">Laporan Bulanan Transaksi</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="p-0" style="width: fit-content;">
+                        <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 21rem;">
+                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
+                            <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
+                        </form>
                     </div>
                 </div>
-            </div>
+                <h1 class="text-center mt-3 text-white" id="text-error"></h1>
+                <div class="onscroll table-responsive">
+                    <table class="table-variations-2  text-center" rules="groups" id="table_transaksi">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="fw-semibold">No Transaksi</th>
+                                <th scope="col" class="fw-semibold">Jenis Kegiatan</th>
+                                <th scope="col" class="fw-semibold">Jumlah Peti Kemas</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-            <div class="col-lg-6 mb-3 d-lg-block d-none">
-                <div class="card shadow rounded-4 bg-primary text-white onhover">
-                    <div class="card-body tabs" data-tab="Penempatan">
-                        <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                            <i class="fa-solid fa-location-dot text-primary" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
-                        </div>
-                        <h4 class="my-2" style="margin-left:85px;">PENEMPATAN</h4>
-                        <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
-                        <p class="my-2" style="margin-left:85px;">PENEMPATAN PETI KEMAS</p>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true" class="">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active" aria-current="page"><a class="page-link " href="#">1</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span class="" aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-
-        <div id="EntryData" class="tab-pane fade in active show d-block">
-            <x-table-entrydata />
-        </div>
-
-        <div id="Pembayaran" class="tab-pane fade in d-none">
-            <x-table-pembayaran />
-            <x-form-table-pembayaran />
-        </div>
-
-        <div id="Pengecekan" class="tab-pane fade in d-none">
-            <x-table-pengecekan />
-            <x-table-kerusakan />
-            <x-form-table-pengecekan />
-            <x-form-edit-pengecekan />
-        </div>
-
-        <div id="Perbaikan" class="tab-pane fade in d-none">
-            <x-table-perbaikan />
-            <x-form-edit-perbaikan />
-        </div>
-
-        <div id="Penempatan" class="tab-pane fade in d-none">
-            <x-table-penempatan />
-            <x-form-edit-penempatan />
-        </div>
-        <x-modal-form id="form-create-entrydata" size="">
-            <x-form-create-entrydata />
+        <x-modal-form-delete route="/transaksi/delete" />
+        <x-modal-form id="form-create-transaksi" size="modal-xl">
+            <x-form-create-transaksi />
         </x-modal-form>
-        <x-modal-form id="form-edit-entrydata" size="">
-            <x-form-edit-entrydata :data="$transaksi" />
-        </x-modal-form>
-        {{-- <x-form-edit-entrydata />  --}}
-        <x-form-table-penempatan></x-form-table-penempatan>
+        <x-toast />
         <script>
             $(document).ready(function() {
-                function updateDropdownAndTab(tabId) {
-
-                    $(".element-dropdown").empty();
-                    let Element = $("[data-tab='" + tabId + "']");
-                    let ElementCopy = Element.clone();
-                    $(".element-dropdown").append(ElementCopy);
-                    if ($(".element-dropdown").children().length > 1) {
-                        $(".element-dropdown").children().first().remove()
+                let currentPage = 1
+                $('#jenis_transaksi').change(function() {
+                    let selectedType = $(this).val();
+                    if (selectedType !== "") {
+                        $('.text-table').text('DATA TRANSAKSI | ' + selectedType.charAt(0).toUpperCase() + selectedType.substring(1));
+                    } else {
+                        $('.text-table').text('DATA TRANSAKSI');
                     }
-                    $(".element-dropdown").find("hr").css("width", "210px");
-                    let circle = $(".element-dropdown").find(".rounded-circle");
-                    circle.removeClass("my-4");
-                    circle.addClass("my-3");
-                    $('.card').removeClass('bg-info');
-                    $('i').removeClass('text-info');
-                    let iconDropdown = $(".element-dropdown").find("i");
-                    iconDropdown.removeClass("text-primary");
-                    iconDropdown.addClass("text-info");
-                    let card = Element.parent();
-                    let iconTab = Element.find("i");
-                    card.addClass("bg-info");
-                    iconTab.addClass("text-info");
+                    fetchDataAndUpdateTable(selectedType, $('#monthpicker').val(), $('#searchInput').val());
+                });
+                $('#searchForm').on('submit', function(event) {
+                    event.preventDefault();
+                    let searchQuery = $('#searchInput').val();
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), searchQuery);
+                });
+                $('#monthpicker').change(function() {
+                    let selectedMonth = $(this).val();
+                    let [year, month] = selectedMonth.split('-');
+                    let monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                        "Juli", "Augustus", "September", "Oktober", "November", "Desember"
+                    ];
+                    let monthName = monthNames[parseInt(month, 10) - 1];
+                    $('.month-text').text('');
+                    if (selectedMonth != "") {
+                        $('.month-text').text(monthName + ' ' + year);
+                    }
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), selectedMonth, $('#searchInput').val());
+                });
+
+                function updatePaginationLinks(totalPages) {
+                    let paginationContainer = $('.pagination');
+                    paginationContainer.empty();
+                    for (let i = 1; i <= totalPages; i++) {
+                        let link = $('<a>').addClass('page-link').attr('href', '#').text(i);
+                        let listItem = $('<li>').addClass('page-item').append(link);
+                        paginationContainer.append(listItem);
+                    }
+                    paginationContainer.prepend('<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+                    paginationContainer.append('<li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
                 }
 
-                function fillDropdownMenu() {
-                    var dropdownList = $(".copy");
-                    dropdownList.empty();
-                    $(".tabs").each(function() {
-                        var tab = $(this).data("tab");
-                        var icon = $(this).find("i").clone();
-                        var label = $(this).find("h4").text();
+                function fetchDataAndUpdateTable(value1, value2, value3) {
+                    $.ajax({
+                        url: '/transaksi/index',
+                        type: 'GET',
+                        data: {
+                            jenis_kegiatan: value1,
+                            bulan_transaksi: value2,
+                            search: value3,
+                            page: currentPage
+                        },
+                        success: function(response) {
+                            $('#table_transaksi').show();
+                            $('#text-error').hide();
+                            $('#table_transaksi tbody').empty();
+                            $.each(response.Data, function(index, item) {
+                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1) + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletebtn"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Peti Kemas"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                    '</tr>');
+                            });
+                            $(document).on('click', '#deletebtn', function(e) {
+                                e.preventDefault();
+                                $("#form-delete-data").modal('show');
+                                $("#input_form_delete").val($(this).val());
+                                console.log($(this).val());
+                            });
+                            $('#total_transaksi').text(response.Count);
+                            if (response.message) {
+                                $('#table_transaksi').hide();
+                                $('#text-error').show();
+                                $('#text-error').text(response.message);
 
+                            }
+                            updatePaginationLinks(response.meta.last_page);
 
-                        var listItem = $("<li>", {
-                            class: "dropdown-item",
-                            "data-dropdown": tab,
-                            html: icon.removeClass("text-primary").css("font-size", "", "margin", "").addClass("d-inline m-0 text-black").prop('outerHTML') + "<p class='m-0 d-inline mx-1'>" + label + "</p>"
-                        });
-                        dropdownList.append(listItem);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                        }
                     });
                 }
-                fillDropdownMenu();
-                $('.tabs').click(function() {
-                    let tabId = $(this).data('tab');
 
-                    if ($('#' + tabId).hasClass('d-none')) {
-                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
-                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
-                    } else {
-                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
-                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
-                    }
-                    updateDropdownAndTab(tabId);
-                });
-                $('.dropdown-item').click(function() {
-                    let tabId = $(this).data('dropdown');
-
-                    if ($('#' + tabId).hasClass('d-none')) {
-                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
-                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
-                    } else {
-                        $('.tab-pane').removeClass('active show d-block').addClass('d-none');
-                        $('#' + tabId).removeClass('d-none').addClass('active show d-block');
-                    }
-                    updateDropdownAndTab(tabId);
+                $('.pagination').on('click', 'a.page-link', function(e) {
+                    e.preventDefault();
+                    let pageNum = $(this).text();
+                    currentPage = parseInt(pageNum);
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
                 });
 
+
+                $('.pagination').on('click', 'a.page-link', function(e) {
+                    e.preventDefault();
+                    let pageNum = $(this).text();
+                    currentPage = parseInt(pageNum);
+                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
+                });
+                fetchDataAndUpdateTable();
             });
         </script>
-        <x-toast />
-
 </x-layout>

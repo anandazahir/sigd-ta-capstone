@@ -4,7 +4,7 @@
         </x-slot>
         <div class="row">
             <div class="col-lg-12 mb-3">
-                <div class="card shadow rounded-4 text-white bg-primary">
+                <div class="card shadow rounded-4 text-white bg-primary" >
                     <div class="card-body">
                         <div class="row justify-content-center justify-content-lg-start">
                             <div class="col-md-2" style="width: auto;">

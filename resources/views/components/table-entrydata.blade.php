@@ -13,10 +13,12 @@
             <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Entry Data</h2>
             <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
                 <i class="fa-solid fa-pen-to-square text-white fa-xl mx-1"></i>
+                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
                 <span class="fw-semibold fs-6">Edit Data</span>
             </button>
             <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry">
                 <i class="fa-solid fa-circle-plus text-white fa-xl mx-1"></i>
+                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data peti kemas">
                 <span class="fw-semibold fs-6">Tambah Peti Kemas</span>
             </button>
         </div>
