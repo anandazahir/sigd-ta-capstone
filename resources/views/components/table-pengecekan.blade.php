@@ -4,6 +4,7 @@
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pengecekan</h2>
             <button class="btn btn-info p-0 col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-pengecekan">
                 <i class="fa-solid fa-circle-plus text-white fa-xl mx-1"></i>
+                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data pengecekan">
                 <span class="fw-semibold fs-6">Tambah Pengecekan</span>
             </button>
         </div>
@@ -35,6 +36,7 @@
                         </td>
 
                         <td class="text-center">
+                        <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail kerusakan">
                             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#show-kerusakan"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                         </td>
                         <td class="text-center m-0 p-0">
@@ -48,6 +50,7 @@
                             <span>Survey In 1</span>
                         </td>
                         <td class="text-center">
+                        <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
                             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edit-pengecekan">
                             <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
                             </button>

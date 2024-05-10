@@ -44,7 +44,7 @@
                     <div class="p-0" style="width: fit-content;">
 
                         <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-1" >
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                                 </div>

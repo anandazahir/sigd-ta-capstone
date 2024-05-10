@@ -4,6 +4,7 @@
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Penempatan</h2>
             <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-penempatan">
                 <i class="fa-solid fa-circle-plus text-white fa-xl mx-1"></i>
+                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah lokasi baru">
                 <span class="fw-semibold fs-6">Tambah Lokasi Baru</span>
             </button>
         </div>
@@ -48,6 +49,7 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data penempatan">
                                 <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
                             </div>
                         </td>
