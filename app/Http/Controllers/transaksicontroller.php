@@ -34,7 +34,7 @@ class transaksicontroller extends Controller
             'kapal' => 'required|max:255',
             'emkl' => 'required',
             'jumlah_petikemas' => 'required|numeric|min:1|max:10',
-            'no_petikemas' => 'required',
+            'no_petikemas' => 'required|unique:petikemas',
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
         ]);
@@ -65,11 +65,12 @@ class transaksicontroller extends Controller
         $transaksi->inventory = "rizal";
         $transaksi->no_transaksi = $no_transaksi;
         $transaksi->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Data Transaksi Berhasil Dibuat!',
-        ]);
+        $transaksi_id = $transaksi->id;
+        foreach ($request->no_petikemas as $no_petikemas) {
+            $petikemas = Petikemas::where('id', $no_petikemas)->first();
+            $petikemas->transaksi_id = $transaksi_id;
+            $petikemas->save();
+        }
     }
 
     public function update(Request $request, $id)
