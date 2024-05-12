@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\transaksi;
 use App\Models\petikemas;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
+use App\Rules\UniqueArrayValues;
 
 class transaksicontroller extends Controller
 {
@@ -34,7 +34,7 @@ class transaksicontroller extends Controller
             'kapal' => 'required|max:255',
             'emkl' => 'required',
             'jumlah_petikemas' => 'required|numeric|min:1|max:10',
-            'no_petikemas' => 'required|unique:petikemas,no_petikemas',
+            'no_petikemas' => ['required', 'array', new UniqueArrayValues],
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
         ]);

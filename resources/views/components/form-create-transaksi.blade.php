@@ -73,21 +73,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="text-center">
-                        <select class="form-select" id="" name="no_petikemas[]" required>
-                        </select>
-                        <div class="invalid-feedback"></div>
-                    </td>
-                    <td class="text-center">
-                        <input type="text" name="jenis_ukuran" id="" required readonly value="" class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </td>
-                    <td class="text-center">
-                        <input type="text" name="pelayaran" id="" required readonly value="" class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -97,75 +82,73 @@
 <script>
     $(document).ready(function() {
         $("#table_create_transaksi").hide();
+
         $("#jumlah_petikemas").on("change", function(e) {
             e.preventDefault();
             let rowCount = parseInt($(this).val());
+
+            // Show or hide the table based on rowCount
             if (rowCount > 0) {
                 $("#table_create_transaksi").show();
-                var firstRow = $("#table_create_transaksi tbody tr:first").clone();
-                $("#table_create_transaksi tbody").empty();
-                for (var i = 0; i < rowCount; i++) {
-                    var newRow = firstRow.clone();
-                    newRow.find('[id]').each(function() {
-                        var name = $(this).attr('name').replace(/\[\s*\]/g, '');
-                        $(this).attr('id', name + '_' + (i + 1));
-                    });
-                    $("#table_create_transaksi tbody").append(newRow);
-                    newRow.find('#no_petikemas_' + (i + 1)).append('<option selected disabled>Pilih Opsi Ini</option>');
-                    newRow.find('#no_petikemas_' + (i + 1)).on("change", function(e) {
-                        e.preventDefault();
-                        var $row = $(this).closest('tr');
-                        fetchPetikemas($(this).val(), $row);
-                    });
-                    fetchPetikemas($("#no_petikemas_" + (i + 1)).val(), newRow);
-                    $('#table_create_transaksi tbody tr').not(newRow).each(function() {
-                        $(this).find('select[id^="no_petikemas"]').find('option[value="' + $("#no_petikemas_" + (i + 1)).val() + '"]').remove();
-                    });
-                }
             } else {
                 $("#table_create_transaksi").hide();
             }
+
+            // Remove excess rows if rowCount decreases
+            if (rowCount !== $("#table_create_transaksi tbody tr").length) {
+                for (let i = ($("#table_create_transaksi tbody tr").length); i > rowCount; i--) {
+                    $('#table_create_transaksi tbody tr:nth-child(' + i + ')').remove();
+                }
+            }
+
+            // Add or remove rows as necessary
+            $("#table_create_transaksi tbody tr").each(function(index, row) {
+                if (index >= rowCount) {
+                    $(row).remove();
+                }
+            });
+
+            // Add new rows if necessary
+            for (let i = ($("#table_create_transaksi tbody tr").length); i < rowCount; i++) {
+                const newRow = $('<tr>' +
+                    '<td class="text-center">' +
+                    '<select class="form-select" name="no_petikemas[]" required>' +
+                    '<option selected disabled>Pilih Opsi Ini</option>' + // Add default option here
+                    '</select>' +
+                    '<div class="invalid-feedback"></div>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control">' +
+                    '<div class="invalid-feedback"></div>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<input type="text" name="pelayaran" required readonly value="" class="form-control">' +
+                    '<div class="invalid-feedback"></div>' +
+                    '</td>' +
+                    '</tr>');
+
+                // Append the new row to the table body
+                $("#table_create_transaksi tbody").append(newRow);
+
+                // Fetch data for the new row
+                fetchPetikemasOptions(newRow);
+                newRow.find('select[name="no_petikemas[]"]').on('change', function(e) {
+                    var value = $(this).val();
+                    fetchPetikemasOptions(newRow, value);
+                });
+            }
+
         });
 
         $('#create-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
-            event.preventDefault(); // Menghentikan pengiriman form secara default
 
-            // Validasi data sebelum pengiriman
-            var isValid = validateFormData();
-            if (!isValid) {
-                return; // Hentikan proses jika data tidak valid
-            }
-
-            // Lanjutkan dengan pengiriman form secara langsung
-            this.submit();
         });
 
-        function validateFormData() {
-            // Lakukan validasi di sini
-            var isValid = true;
-            // Contoh validasi untuk mengecek kesamaan nilai no_petikemas
-            var noPetikemasValues = [];
-            $('select[name="no_petikemas[]"]').each(function() {
-                var value = $(this).val();
-                if (noPetikemasValues.indexOf(value) !== -1) {
-                    isValid = false;
-                    $(this).addClass('is-invalid'); // Tambahkan kelas is-invalid pada select
-                    $(this).siblings('.invalid-feedback').show(); // Tampilkan pesan kesalahan yang sesuai
-                    return false; // Hentikan iterasi jika ditemukan kesamaan
-                } else {
-                    $(this).removeClass('is-invalid'); // Hapus kelas is-invalid jika tidak ada kesalahan
-                    $(this).siblings('.invalid-feedback').hide(); // Sembunyikan pesan kesalahan
-                }
-                noPetikemasValues.push(value);
-            });
-            return isValid;
-        }        
-
-        function fetchPetikemas(value, $row) {
-            var $select = $row.find('select[id^="no_petikemas"]');
-            var $inputjenis_ukuran = $row.find('input[id^="jenis_ukuran"]');
-            var $inputpelayaran = $row.find('input[id^="pelayaran"]');
+        function fetchPetikemasOptions($row, value) {
+            const $select = $row.find('select[name="no_petikemas[]"]');
+            const $inputjenis_ukuran = $row.find('input[name="jenis_ukuran"]');
+            const $inputpelayaran = $row.find('input[name="pelayaran"]');
             $.ajax({
                 url: '/peti-kemas/index',
                 type: 'GET',
@@ -173,18 +156,9 @@
                     id: value,
                 },
                 success: function(response) {
-                    if ($row.index === 0) {
-                        $select.append('<option selected disabled>Pilih Opsi Ini</option>');
-                    }
-
                     $.each(response.Data, function(index, item) {
                         $select.append('<option value="' + item.id + '">' + item.no_petikemas + '</option>');
                     });
-                    if ($select.find('option[value=""]').length !== response.count) {
-                        var removeNum = $select.find('option[value=""]').length - response.count;
-                        $select.find('option:last-child').prevAll().slice(0, removeNum).remove();
-                    }
-
                     $.each(response.DataPetikemas, function(index, item) {
                         $inputjenis_ukuran.val(item.jenis_ukuran);
                         $inputpelayaran.val(item.pelayaran);
@@ -195,5 +169,7 @@
                 }
             });
         }
+
+
     });
 </script>
