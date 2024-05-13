@@ -26,7 +26,8 @@ return new class extends Migration
             $table->string('kasir')->nullable();
             $table->string('inventory');
             $table->dateTime('tanggal_pembayaran')->nullable();
-            $table->string('status_pembayaran')->nullable();
+            $table->string('status_pembayaran');
+            $table->string('status_cetak_spk');
             $table->timestamps();
         });
     }

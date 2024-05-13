@@ -34,14 +34,19 @@ Route::get('/login', function () {
     return view('pages/login');
 });
 
-Route::get('/transaksi', [transaksicontroller::class, 'index']);
-Route::get('/transaksi/index', [transaksicontroller::class, 'filter']);
-Route::get('/transaksi/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
-Route::post('/transaksi/store', [transaksicontroller::class, 'storeEntryData'])->name('transaksi.entrydatastore');
-Route::put('/transaksi/edit/{id}', [transaksiController::class, 'update'])->name('transaksi.update');
-Route::post('/transaksi/delete', [transaksiController::class, 'delete'])->name('transaksi.delete');
-Route::get('/peti-kemas', [petikemascontroller::class, 'index']);
-Route::get('/peti-kemas/index', [petikemascontroller::class, 'filter']);
-Route::get('/peti-kemas/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
-Route::post('/peti-kemas', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
-Route::post('/peti-kemas/delete', [petikemasController::class, 'delete'])->name('petikemas.delete');
+Route::prefix('transaksi')->group(function () {
+    Route::get('/', [TransaksiController::class, 'index']);
+    Route::get('/index', [TransaksiController::class, 'filter']);
+    Route::get('/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+    Route::post('/store', [TransaksiController::class, 'storeEntryData'])->name('transaksi.transaksistore');
+    Route::put('/edit/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
+    Route::post('/delete', [TransaksiController::class, 'delete'])->name('transaksi.delete');
+    Route::post('/edit/entrydata/{id}', [TransaksiController::class, 'editentrydata'])->name('transaksi.editentrydata');
+});
+Route::prefix('peti-kemas')->group(function () {
+    Route::get('/', [petikemascontroller::class, 'index']);
+    Route::get('/index', [petikemascontroller::class, 'filter']);
+    Route::get('/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
+    Route::post('/store', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
+    Route::post('/delete', [petikemasController::class, 'delete'])->name('petikemas.delete');
+});

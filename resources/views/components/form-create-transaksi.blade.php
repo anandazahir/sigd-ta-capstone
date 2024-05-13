@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('transaksi.entrydatastore') }}" id="create-transaksi-form" novalidate>
+<form method="POST" action="{{ route('transaksi.transaksistore') }}" id="create-transaksi-form" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
@@ -92,13 +92,6 @@
                 $("#table_create_transaksi").show();
             } else {
                 $("#table_create_transaksi").hide();
-            }
-
-            // Remove excess rows if rowCount decreases
-            if (rowCount !== $("#table_create_transaksi tbody tr").length) {
-                for (let i = ($("#table_create_transaksi tbody tr").length); i > rowCount; i--) {
-                    $('#table_create_transaksi tbody tr:nth-child(' + i + ')').remove();
-                }
             }
 
             // Add or remove rows as necessary

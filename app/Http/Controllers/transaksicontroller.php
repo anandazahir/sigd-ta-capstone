@@ -64,6 +64,8 @@ class transaksicontroller extends Controller
         $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
         $transaksi->inventory = "rizal";
         $transaksi->no_transaksi = $no_transaksi;
+        $transaksi->status_pembayaran = "BELUM LUNAS";
+        $transaksi->status_cetak_spk = "BELUM CETAK";
         $transaksi->save();
         $transaksi_id = $transaksi->id;
         foreach ($request->no_petikemas as $no_petikemas) {
@@ -166,6 +168,26 @@ class transaksicontroller extends Controller
                 'last_page' => $filteredData->lastPage(),
                 'per_page' => $filteredData->perPage(),
             ],
+        ]);
+    }
+    public function editentrydata(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'no_petikemas' => ['required', 'array', new UniqueArrayValues],
+            'jenis_ukuran' => 'required',
+            'pelayaran' => 'required',
+        ]);
+        foreach ($request->no_petikemas as $no_petikemas) {
+            $petikemas = Petikemas::where('id', $no_petikemas)->first();
+            $petikemas->transaksi_id = $id;
+            $petikemas->save();
+        }
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Peti Kemas Berhasil Diubah!',
         ]);
     }
 }
