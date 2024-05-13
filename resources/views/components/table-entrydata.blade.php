@@ -87,13 +87,42 @@
         const $select_no_petikemas = $('select[name="no_petikemas[]"]');
         const $input_pelayaran = $('input[name="pelayaran"]');
         const $input_jenis_ukuran = $('input[name="jenis_ukuran"]');
-        const $headercolumnhidden = $('#table_entrydata thead  tr th:nth-child(4)');
-        const $columnhidden = $('#table_entrydata tbody  tr td:nth-child(4)');
         const $button_edit = $("#button-edit");
-
+    
         $button_tambah_entry.hide();
         $button_submit.hide();
-
+    
+        function fetchPetikemasOptions() {
+            const selectedValues = [];
+            $select_no_petikemas.each(function() {
+                const value = $(this).val();
+                if (value) {
+                    selectedValues.push(value);
+                }
+            });
+    
+            $select_no_petikemas.each(function() {
+                const $select = $(this);
+                const originalValue = $select.val(); // Menyimpan nilai asli
+                $select.empty().append('<option selected disabled>Pilih Opsi Ini</option>'); // Mengosongkan dan menambahkan opsi default
+                $.ajax({
+                    url: '/peti-kemas/index',
+                    type: 'GET',
+                    success: function(response) {
+                        $.each(response.Data, function(index, item) {
+                            if (!selectedValues.includes(item.id.toString()) || originalValue == item.id) {
+                                const selected = (originalValue == item.id) ? 'selected' : ''; // Memeriksa apakah nilai sama dengan nilai asli
+                                $select.append('<option value="' + item.id + '" ' + selected + '>' + item.no_petikemas + '</option>');
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        }
+    
         $button_edit.on("click", function(e) {
             e.preventDefault();
             $select_no_petikemas.prop("disabled", false);
@@ -102,33 +131,28 @@
             $button_edit.hide();
             $button_tambah_entry.show();
             $button_submit.show();
-            $headercolumnhidden.hide();
-            $columnhidden.hide();
-            $("#table_entrydata tbody tr").each(function() {
-                const $select = $(this).find($select_no_petikemas);
-                $select.on('change', function(e) {
-                    const value = $(this).val();
-                    fetchPetikemasOptions($select_no_petikemas, $input_jenis_ukuran, $input_pelayaran, value);
-                });
-            });
-            fetchPetikemasOptions($select_no_petikemas, $input_jenis_ukuran, $input_pelayaran);
+            fetchPetikemasOptions();
         });
+
         $button_tambah_entry.on("click", function(e) {
             e.preventDefault();
             const newRow = $('<tr>' +
                 '<td class="text-center">' +
-                '<select class="form-select" name="no_petikemas[]" required>' +
+                '<select class="form-select mx-auto" name="no_petikemas[]" required  style="width:fit-content">' +
                 '<option selected disabled>Pilih Opsi Ini</option>' + // Add default option here
                 '</select>' +
                 '<div class="invalid-feedback"></div>' +
                 '</td>' +
                 '<td class="text-center">' +
-                '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control">' +
+                '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
                 '<div class="invalid-feedback"></div>' +
                 '</td>' +
                 '<td class="text-center">' +
-                '<input type="text" name="pelayaran" required readonly value="" class="form-control">' +
+                '<input type="text" name="pelayaran" required readonly value="" class="form-control mx-auto"  style="width:fit-content">' +
                 '<div class="invalid-feedback"></div>' +
+                '</td>' +
+                '<td class="text-center">' +
+                '<button class="btn btn-danger text-white rounded-3"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></button>' +
                 '</td>' +
                 '</tr>');
             $("#table_entrydata tbody").append(newRow);
@@ -141,8 +165,18 @@
             });
             fetchPetikemasOptions($select, $input, $input_2);
         });
-
-        function fetchPetikemasOptions($select_, $input_, $input2_, value) {
+    
+        $select_no_petikemas.each(function() {
+            const $select = $(this);
+            $select.on('change', function(e) {
+                const value = $(this).val();
+                const $row = $(this).closest('tr');
+                fetchPetikemasOptions();
+                fetchPetikemasDetails($row, value);
+            });
+        });
+    
+        function fetchPetikemasDetails($row, value) {
             $.ajax({
                 url: '/peti-kemas/index',
                 type: 'GET',
@@ -150,31 +184,9 @@
                     id: value
                 },
                 success: function(response) {
-                    const selectValuesArray = [];
-                    console.log($("#table_entrydata tbody tr").find($input_jenis_ukuran).length)
-                    $("#table_entrydata tbody tr").each(function() {
-                        const $row = $(this);
-                        const $select = $row.find($select_);
-                        const $inputjenis_ukuran = $row.find($input_);
-                        const $inputpelayaran = $row.find($input2_);
-                        const selectval = $select.val();
-                        selectValuesArray.push(selectval);
-                        $.each(response.Data, function(index, item) {
-                            const selected = (item.id == selectValuesArray[index]) ? 'selected' : '';
-                            $select.append('<option value="' + item.id + '" ' + selected + '>' + item.no_petikemas + '</option>');
-
-                        });
-                        if ((response.count) !== (($select.find('option').length) - 1)) {
-                            $select.children(':nth-child(2)').remove();
-                        }
-
-
-                        $.each(response.DataPetikemas, function(index, item) {
-                            $inputjenis_ukuran.val(item.jenis_ukuran);
-                            $inputpelayaran.val(item.pelayaran);
-                        });
-                    });
-
+                    const petikemas = response.DataPetikemas[0];
+                    $row.find('input[name="jenis_ukuran"]').val(petikemas.jenis_ukuran);
+                    $row.find('input[name="pelayaran"]').val(petikemas.pelayaran);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -182,4 +194,5 @@
             });
         }
     });
+    
 </script>

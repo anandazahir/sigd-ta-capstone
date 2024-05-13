@@ -179,9 +179,15 @@ class transaksicontroller extends Controller
         ]);
         foreach ($request->no_petikemas as $no_petikemas) {
             $petikemas = Petikemas::where('id', $no_petikemas)->first();
-            $petikemas->transaksi_id = $id;
-            $petikemas->save();
+            if ($petikemas) {
+                $petikemas->transaksi_id = $id;
+                $petikemas->save();
+            }
         }
+
+        // Nullify transaksi_id for non-selected records
+        Petikemas::whereNotIn('id', $request->no_petikemas)
+            ->update(['transaksi_id' => null]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
