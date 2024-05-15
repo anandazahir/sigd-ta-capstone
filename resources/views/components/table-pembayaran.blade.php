@@ -16,8 +16,23 @@
     }
 </style>
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
-    <div class=" container ">
-        <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pembayaran</h2>
+    <div class="container">
+        <div class="row justify-content-between p-0 m-0">
+            <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pembayaran</h2>
+            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit2">
+                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
+                    <i class="fa-solid fa-pen-to-square text-white my-1" style="font-size:21px"></i>
+                    <span class="fw-semibold fs-6 my-1">Edit Pembayaran</span>
+                </div>
+            </button>
+            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" id="button-cetak2" style="width: fit-content; display:none;">
+                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mencetak kwitansi">
+                    <i class="fa-solid fa-circle-plus text-white my-2" style="font-size:25px"></i>
+                    <span class="fw-semibold fs-6 my-2">Cetak Kwitansi</span>
+                </div>
+            </button>
+        </div>
+
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
             <table class="table-variations-3 text-center">
                 <thead>
@@ -56,3 +71,55 @@
         </button>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        const $button_edit = $("#button-edit2");
+        const $button_cetak = $("#button-cetak2");
+        const $button_submit = $("#button-submit2");
+        const $select_metode = $('select[name="metode"]');
+        const $cetak_kwitansi = $('#cetak-kwitansi');
+        const $tanggal_pembayaran = $('#tanggal_pembayaran');
+        const $hide_kwitansiheader = $('#hide-kwitansi');
+        const $hide_tanggalheader = $('#hide-tanggal');
+
+        $button_edit.on("click", function(e) {
+            e.preventDefault();
+            $select_metode.prop("disabled", false);
+            $button_edit.hide();
+            $button_cetak.show();
+            $button_submit.show();
+            $cetak_kwitansi.hide();
+            $tanggal_pembayaran.hide();
+            $hide_kwitansiheader.hide();
+            $hide_tanggalheader.hide();
+        });
+
+        $button_cetak.on("click", function(e) {
+            e.preventDefault();
+            // Tambahkan logika untuk mencetak kwitansi di sini
+            $select_metode.prop("disabled", true);
+            $button_cetak.hide();
+            $button_edit.show();
+            $button_submit.hide();
+            $cetak_kwitansi.show();
+            $tanggal_pembayaran.show();
+            $hide_kwitansiheader.show();
+            $hide_tanggalheader.show();
+        });
+
+        $button_submit.on("click", function(e) {
+            e.preventDefault();
+            // Tambahkan logika untuk menyimpan data di sini
+            alert('Data berhasil disimpan');
+            $select_metode.prop("disabled", true);
+            $button_cetak.hide();
+            $button_edit.show();
+            $button_submit.hide();
+            $cetak_kwitansi.show();
+            $tanggal_pembayaran.show();
+            $hide_kwitansiheader.show();
+            $hide_tanggalheader.show();
+        });
+    });
+</script>
