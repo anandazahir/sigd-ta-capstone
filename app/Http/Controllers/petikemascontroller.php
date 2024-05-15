@@ -50,7 +50,6 @@ class petikemascontroller extends Controller
         $petikemas->no_petikemas = $request->no_petikemas;
         $petikemas->jenis_ukuran = $request->jenis_ukuran;
         $petikemas->pelayaran = $request->pelayaran;
-        $petikemas->transaksi_id = null;
         $petikemas->tanggal_keluar = null;
         $petikemas->tanggal_masuk = now();
         $petikemas->harga = $harga;
@@ -93,13 +92,16 @@ class petikemascontroller extends Controller
                     ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%');
             });
         }
+        $data = $query->get();
         $perPage = 3;
         $filteredData = $query->paginate($perPage);
+
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
         return response()->json([
             'Data' => $filteredData->items(),
+            'AllData' => $data,
             'meta' => [
                 'current_page' => $filteredData->currentPage(),
                 'last_page' => $filteredData->lastPage(),

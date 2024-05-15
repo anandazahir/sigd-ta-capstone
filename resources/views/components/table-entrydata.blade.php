@@ -32,7 +32,7 @@
                 </div>
             </button>
         </div>
-        <form method="POST" action="{{ route('transaksi.editentrydata',  $data->id) }}" id="edit-entrydata-form" novalidate>
+        {<form method="POST" action="{{ route('transaksi.editentrydata',  $data->id) }}" id="edit-entrydata-form" novalidate>
             @csrf
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                 <table class="table-variations-3  text-center" id="table_entrydata">
@@ -68,7 +68,7 @@
                                 <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank"> Belum Cetak</a>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-danger text-white rounded-3"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></button>
+                                <button class="btn btn-danger text-white  rounded-3" id="deletebtn" value="{{$item->id}}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                             </td>
                         </tr>
                         @endforeach
@@ -80,39 +80,36 @@
         </form>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         const $button_tambah_entry = $("#button-tambah-entry");
         const $button_submit = $("#button-submit");
-        const $select_no_petikemas = $('select[name="no_petikemas[]"]');
-        const $input_pelayaran = $('input[name="pelayaran"]');
-        const $input_jenis_ukuran = $('input[name="jenis_ukuran"]');
         const $button_edit = $("#button-edit");
-    
+
         $button_tambah_entry.hide();
         $button_submit.hide();
-    
-        function fetchPetikemasOptions() {
-            const selectedValues = [];
-            $select_no_petikemas.each(function() {
-                const value = $(this).val();
-                if (value) {
-                    selectedValues.push(value);
-                }
-            });
-    
-            $select_no_petikemas.each(function() {
-                const $select = $(this);
-                const originalValue = $select.val(); // Menyimpan nilai asli
-                $select.empty().append('<option selected disabled>Pilih Opsi Ini</option>'); // Mengosongkan dan menambahkan opsi default
+
+
+        function fetchPetikemasOptions($select = null) {
+            const selectedValues = $('select[name="no_petikemas[]"]').map(function() {
+                return $(this).val();
+            }).get();
+
+            const selects = $select ? $select : $('select[name="no_petikemas[]"]');
+
+            selects.each(function() {
+                const $selectElement = $(this);
+                const originalValue = $selectElement.val();
+
                 $.ajax({
                     url: '/peti-kemas/index',
                     type: 'GET',
                     success: function(response) {
-                        $.each(response.Data, function(index, item) {
-                            if (!selectedValues.includes(item.id.toString()) || originalValue == item.id) {
-                                const selected = (originalValue == item.id) ? 'selected' : ''; // Memeriksa apakah nilai sama dengan nilai asli
-                                $select.append('<option value="' + item.id + '" ' + selected + '>' + item.no_petikemas + '</option>');
+                        $selectElement.empty().append('<option selected disabled>Pilih Opsi Ini</option>');
+                        response.AllData.forEach(item => {
+                            if (!selectedValues.includes(item.id) || item.id == originalValue) {
+                                $selectElement.append(`<option value="${item.id}" ${item.id == originalValue ? 'selected' : ''}>${item.no_petikemas}</option>`);
                             }
                         });
                     },
@@ -122,60 +119,7 @@
                 });
             });
         }
-    
-        $button_edit.on("click", function(e) {
-            e.preventDefault();
-            $select_no_petikemas.prop("disabled", false);
-            $input_pelayaran.prop("disabled", false);
-            $input_jenis_ukuran.prop("disabled", false);
-            $button_edit.hide();
-            $button_tambah_entry.show();
-            $button_submit.show();
-            fetchPetikemasOptions();
-        });
 
-        $button_tambah_entry.on("click", function(e) {
-            e.preventDefault();
-            const newRow = $('<tr>' +
-                '<td class="text-center">' +
-                '<select class="form-select mx-auto" name="no_petikemas[]" required  style="width:fit-content">' +
-                '<option selected disabled>Pilih Opsi Ini</option>' + // Add default option here
-                '</select>' +
-                '<div class="invalid-feedback"></div>' +
-                '</td>' +
-                '<td class="text-center">' +
-                '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
-                '<div class="invalid-feedback"></div>' +
-                '</td>' +
-                '<td class="text-center">' +
-                '<input type="text" name="pelayaran" required readonly value="" class="form-control mx-auto"  style="width:fit-content">' +
-                '<div class="invalid-feedback"></div>' +
-                '</td>' +
-                '<td class="text-center">' +
-                '<button class="btn btn-danger text-white rounded-3"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></button>' +
-                '</td>' +
-                '</tr>');
-            $("#table_entrydata tbody").append(newRow);
-            const $select = newRow.find('select[name="no_petikemas[]"]');
-            const $input = newRow.find('input[name="jenis_ukuran"]');
-            const $input_2 = newRow.find('input[name="pelayanan"]');
-            newRow.find('select[name="no_petikemas[]"]').on('change', function(e) {
-                var value = $(this).val();
-                fetchPetikemasOptions($select, $input, $input_2, value);
-            });
-            fetchPetikemasOptions($select, $input, $input_2);
-        });
-    
-        $select_no_petikemas.each(function() {
-            const $select = $(this);
-            $select.on('change', function(e) {
-                const value = $(this).val();
-                const $row = $(this).closest('tr');
-                fetchPetikemasOptions();
-                fetchPetikemasDetails($row, value);
-            });
-        });
-    
         function fetchPetikemasDetails($row, value) {
             $.ajax({
                 url: '/peti-kemas/index',
@@ -193,6 +137,97 @@
                 }
             });
         }
+
+
+        $button_edit.on("click", function(e) {
+            e.preventDefault();
+            $('select[name="no_petikemas[]"]').prop("disabled", false);
+            $('input[name="pelayaran"]').prop("disabled", false);
+            $('input[name="jenis_ukuran"]').prop("disabled", false);
+            $button_edit.hide();
+            $button_tambah_entry.show();
+            $button_submit.show();
+            $("#table_entrydata thead tr th:nth-child(4)").hide();
+            $("#table_entrydata thead tr th:last-child").hide();
+            $("#table_entrydata tbody tr td:nth-child(4)").hide();
+            $("#table_entrydata tbody tr td:last-child").hide();
+            fetchPetikemasOptions();
+        });
+
+        $button_tambah_entry.on("click", function(e) {
+            e.preventDefault();
+            const newRow = $('<tr>' +
+                '<td class="text-center">' +
+                '<select class="form-select mx-auto" name="no_petikemas[]" required style="width:fit-content">' +
+                '<option selected disabled>Pilih Opsi Ini</option>' + // Add default option here
+                '</select>' +
+                '<div class="invalid-feedback"></div>' +
+                '</td>' +
+                '<td class="text-center">' +
+                '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
+                '<div class="invalid-feedback"></div>' +
+                '</td>' +
+                '<td class="text-center">' +
+                '<input type="text" name="pelayaran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
+                '<div class="invalid-feedback"></div>' +
+                '</td></tr>');
+
+            $("#table_entrydata tbody").append(newRow);
+            const $select = newRow.find('select[name="no_petikemas[]"]');
+            fetchPetikemasOptions($select);
+
+            $select.on('change', function(e) {
+                const value = $(this).val();
+                const $row = $(this).closest('tr');
+                fetchPetikemasDetails($row, value);
+            });
+        });
+
+        $('select[name="no_petikemas[]"]').on('change', function() {
+            const value = $(this).val();
+            const $row = $(this).closest('tr');
+            fetchPetikemasDetails($row, value);
+        });
+
+        // Handle form submission
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+            const formData = $(this).serialize();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+
+                        showAlert(response.message); // Show success message
+                        $button_tambah_entry.hide();
+                        $button_submit.hide();
+                        $button_edit.show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    const errors = xhr.responseJSON.errors;
+                    if (xhr.status === 500) {
+                        alert("Kolom Unik Tidak Boleh Sama!")
+                    } else if (xhr.status === 404) {
+                        alert("Data Tidak Ditemukan!");
+                    }
+
+                    $('form').find('.is-invalid').removeClass('is-invalid');
+                    $('form').find('.invalid-feedback').text('');
+
+                    $.each(errors, function(key, value) {
+                        const element = $('form').find(`[name="${key}"]`);
+                        element.addClass('is-invalid');
+                        element.next('.invalid-feedback').text(value[0]);
+                        const elementArray = $('form').find(`[name="${key}[]"]`);
+                        elementArray.addClass('is-invalid');
+                        elementArray.next('.invalid-feedback').text(value[0]);
+                    });
+                }
+            });
+        });
+
     });
-    
 </script>

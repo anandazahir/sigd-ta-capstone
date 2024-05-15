@@ -133,10 +133,10 @@
 
         });
 
-        $('#create-transaksi-form').submit(function(event) {
-            handleFormSubmission(this);
+        /*$('#create-transaksi-form').submit(function(event) {
+             handleFormSubmission(this);
 
-        });
+         });*/
 
         function fetchPetikemasOptions($row, value) {
             const $select = $row.find('select[name="no_petikemas[]"]');
@@ -149,7 +149,8 @@
                     id: value,
                 },
                 success: function(response) {
-                    $.each(response.Data, function(index, item) {
+                    console.log(response.AllData);
+                    $.each(response.AllData, function(index, item) {
                         $select.append('<option value="' + item.id + '">' + item.no_petikemas + '</option>');
                     });
                     $.each(response.DataPetikemas, function(index, item) {

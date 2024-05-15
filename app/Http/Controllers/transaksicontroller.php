@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pembayaran;
+use App\Models\penghubung;
 use Illuminate\Http\Request;
 use App\Models\transaksi;
 use App\Models\petikemas;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\UniqueArrayValues;
+use App\Rules\RequriedArrayValues;
 
 class transaksicontroller extends Controller
 {
@@ -19,7 +22,7 @@ class transaksicontroller extends Controller
 
     public function show($id)
     {
-        $transaksi = transaksi::with('petikemas')->find($id);
+        $transaksi = transaksi::find($id);
         return view('pages.transaksi-more', compact('transaksi'));
     }
     public function storeEntryData(Request $request)
@@ -64,14 +67,20 @@ class transaksicontroller extends Controller
         $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
         $transaksi->inventory = "rizal";
         $transaksi->no_transaksi = $no_transaksi;
-        $transaksi->status_pembayaran = "BELUM LUNAS";
-        $transaksi->status_cetak_spk = "BELUM CETAK";
         $transaksi->save();
         $transaksi_id = $transaksi->id;
         foreach ($request->no_petikemas as $no_petikemas) {
-            $petikemas = Petikemas::where('id', $no_petikemas)->first();
-            $petikemas->transaksi_id = $transaksi_id;
-            $petikemas->save();
+            $penghubung = new penghubung();
+            $penghubung->transaksi_id = $transaksi_id;
+            $penghubung->petikemas_id = $no_petikemas;
+            $penghubung->save();
+            $relasiId = $penghubung->id;
+            $pembayaran = new pembayaran();
+            $pembayaran->penghubung_id = $relasiId;
+            $pembayaran->transaksi_id = $transaksi_id;
+            $pembayaran->status_pembayaran = "belum cetak";
+            $pembayaran->status_cetak_spk = "belum cetak";
+            $pembayaran->save();
         }
         return response()->json([
             'success' => true,
@@ -173,27 +182,60 @@ class transaksicontroller extends Controller
     public function editentrydata(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'no_petikemas' => ['required', 'array', new UniqueArrayValues],
+            'no_petikemas' => ['required', 'array', 'min:1', new UniqueArrayValues, new RequriedArrayValues],
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
         ]);
-        foreach ($request->no_petikemas as $no_petikemas) {
-            $petikemas = Petikemas::where('id', $no_petikemas)->first();
-            if ($petikemas) {
-                $petikemas->transaksi_id = $id;
-                $petikemas->save();
-            }
-        }
 
-        // Nullify transaksi_id for non-selected records
-        Petikemas::whereNotIn('id', $request->no_petikemas)
-            ->update(['transaksi_id' => null]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+        $penghubung = penghubung::where('transaksi_id', $id)->get(); // Assuming you want to retrieve all penghubung with the given transaksi_id
+        foreach ($penghubung as $index => $item) {
+            if (isset($request->no_petikemas[$index])) {
+                $new_petikemas_id = $request->no_petikemas[$index];
+
+                if ($item->petikemas_id != $new_petikemas_id) {
+
+                    $pembayarans = Pembayaran::where('penghubung_id', $item->id)->get();
+
+                    foreach ($pembayarans as $pembayaran) {
+
+                        $pembayaran->tanggal_pembayaran = null;
+                        $pembayaran->status_pembayaran = null;
+                        $pembayaran->kasir = null;
+                        $pembayaran->status_cetak_spk = null;
+                        $pembayaran->save();
+                    }
+                    $item->update(['petikemas_id' => $new_petikemas_id]);
+                }
+            }
+        }
+        if (count($request->no_petikemas) > count($penghubung)) {
+            $new_penghubung = new Penghubung();
+            $new_penghubung->petikemas_id = $request->no_petikemas[count($penghubung)];
+            $new_penghubung->transaksi_id = $id;
+            $new_penghubung->save();
+            $new_pembayaran = new Pembayaran();
+            $new_pembayaran->penghubung_id = $new_penghubung->id;
+            $new_pembayaran->transaksi_id = $id;
+            $new_pembayaran->save();
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Diubah!',
+        ]);
+    }
+    public function deleteentrydata(Request $request)
+    {
+
+        $penghubung = penghubung::findOrFail($request->id);
+        $penghubung->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Transaksi Berhasil Dihapus!',
         ]);
     }
 }

@@ -8,23 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class transaksi extends Model
 {
 
-    protected $fillable = ['no_transaksi', 'jenis_kegiatan', 'no_do', 'tanggal_DO_rilis', 'tanggal_DO_exp', 'perusahaan', 'jumlah_petikemas', 'kapal', 'emkl', 'tanggal_transaksi', 'kasir', 'inventory', 'tanggal_pembayaran', 'status_pembayaran'];
-    public function pengecekan()
-    {
-        return $this->hasMany(pengecekan::class);
-    }
+    protected $fillable = ['no_transaksi', 'jenis_kegiatan', 'no_do', 'tanggal_DO_rilis', 'tanggal_DO_exp', 'perusahaan', 'jumlah_petikemas', 'kapal', 'emkl', 'tanggal_transaksi', 'inventory'];
     public function petikemas()
     {
-        return $this->hasMany(petikemas::class);
+        return $this->belongsToMany(petikemas::class, 'penghubungs', 'transaksi_id', 'petikemas_id');
     }
-
-    public function perbaikan()
+    public function pembayaran()
     {
-        return $this->hasMany(perbaikan::class);
-    }
-
-    public function penempatan()
-    {
-        return $this->hasMany(penempatan::class);
+        return $this->hasMany(pembayaran::class);
     }
 }

@@ -95,7 +95,7 @@
         </div>
 
         <div id="EntryData" class="tab-pane fade in active show d-block">
-            <x-table-entrydata :data="$transaksi"/>
+            <x-table-entrydata :data="$transaksi" />
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">
@@ -123,8 +123,16 @@
             <x-form-edit-transaksi :data="$transaksi" />
         </x-modal-form>
         <x-form-table-penempatan></x-form-table-penempatan>
+        <x-modal-form-delete />
         <script>
             $(document).ready(function() {
+                $(document).on('click', '#deletebtn', function(e) {
+                    e.preventDefault();
+                    $("#form-delete-data").modal('show');
+                    $("#input_form_delete").val($(this).val());
+                    console.log($(this).val());
+                });
+
                 function updateDropdownAndTab(tabId) {
 
                     $(".element-dropdown").empty();
