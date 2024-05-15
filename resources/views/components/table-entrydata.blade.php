@@ -138,16 +138,18 @@
             });
         }
 
-        $("#cetak_spk").on("click",function (e) {
-            e.preventDefault();
-            const link = $(this).attr("href");
-            if (!$(this).hasClass("btn-success disable")) {
-                window.open(link, '_blank');
-                $(this).css("pointer-events", "none");
-            }
-            $(this).removeClass("btn-danger").addClass("btn-success disable").text("Sudah Cetak");
+        // Setiap baris berganti Sudah Cetak ketika ditekan
+        $("#table_entrydata tbody tr").each(function(index, row) {
+            $(this).find("#cetak_spk").on("click",function (e) {
+                e.preventDefault();
+                const link = $(this).attr("href");
+                if (!$(this).hasClass("btn-success disable")) {
+                    window.open(link, '_blank');
+                    $(this).css("pointer-events", "none");
+                }
+                $(this).removeClass("btn-danger").addClass("btn-success disable").text("Sudah Cetak");
+            });
         });
-
 
         $button_edit.on("click", function(e) {
             e.preventDefault();
