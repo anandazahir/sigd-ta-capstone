@@ -32,7 +32,7 @@
                 </div>
             </button>
         </div>
-        {<form method="POST" action="{{ route('transaksi.editentrydata',  $data->id) }}" id="edit-entrydata-form" novalidate>
+        <form method="POST" action="{{ route('transaksi.editentrydata',  $data->id) }}" id="edit-entrydata-form" novalidate>
             @csrf
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                 <table class="table-variations-3  text-center" id="table_entrydata">
@@ -65,7 +65,7 @@
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank"> Belum Cetak</a>
+                                <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank" value="{{ $data->penghubung }}"> Belum Cetak</a>
                             </td>
                             <td class="text-center">
                                 <button class="btn btn-danger text-white  rounded-3" id="deletebtn" value="{{$item->id}}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
@@ -137,6 +137,16 @@
                 }
             });
         }
+
+        $("#cetak_spk").on("click",function (e) {
+            e.preventDefault();
+            const link = $(this).attr("href");
+            if (!$(this).hasClass("btn-success disable")) {
+                window.open(link, '_blank');
+                $(this).css("pointer-events", "none");
+            }
+            $(this).removeClass("btn-danger").addClass("btn-success disable").text("Sudah Cetak");
+        });
 
 
         $button_edit.on("click", function(e) {

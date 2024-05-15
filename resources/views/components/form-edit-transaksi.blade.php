@@ -68,7 +68,7 @@
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
             <label for="jumlah_petikemas" class="form-label">Jumlah Peti Kemas</label>
-            <input type="number" min="0" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" required value="{{ old('jumlah_petikemas', $data->jumlah_petikemas) }}">
+            <input type="number" min="0" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" required value="{{ old('jumlah_petikemas', $data->jumlah_petikemas) }}" readonly>
             <div class="invalid-feedback"></div>
         </div>
     </div>

@@ -169,6 +169,7 @@ class transaksicontroller extends Controller
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
+        
         return response()->json([
             'Data' => $filteredData->items(),
             'Count' => $filteredData->total(),
@@ -179,8 +180,11 @@ class transaksicontroller extends Controller
             ],
         ]);
     }
+
     public function editentrydata(Request $request, $id)
     {
+        $transaksi = transaksi::where('id', $id)->first();
+        
         $validator = Validator::make($request->all(), [
             'no_petikemas' => ['required', 'array', 'min:1', new UniqueArrayValues, new RequriedArrayValues],
             'jenis_ukuran' => 'required',
@@ -211,31 +215,57 @@ class transaksicontroller extends Controller
                 }
             }
         }
+
         if (count($request->no_petikemas) > count($penghubung)) {
-            $new_penghubung = new Penghubung();
-            $new_penghubung->petikemas_id = $request->no_petikemas[count($penghubung)];
-            $new_penghubung->transaksi_id = $id;
-            $new_penghubung->save();
-            $new_pembayaran = new Pembayaran();
-            $new_pembayaran->penghubung_id = $new_penghubung->id;
-            $new_pembayaran->transaksi_id = $id;
-            $new_pembayaran->save();
+            for ($i=0; $i < (count($request->no_petikemas) - count($penghubung)); $i++) { 
+                
+                $new_penghubung = new Penghubung();
+                $new_penghubung->petikemas_id = $request->no_petikemas[$i+count($penghubung)];
+                $new_penghubung->transaksi_id = $id;
+                $new_penghubung->save();
+                $new_pembayaran = new Pembayaran();
+                $new_pembayaran->penghubung_id = $new_penghubung->id;
+                $new_pembayaran->transaksi_id = $id;
+                $new_pembayaran->save();
+            }
         }
+        // $transaksi->jumlah_petikemas=count($penghubung);
+        // $transaksi->save();
+        $updated_penghubung_count = penghubung::where('transaksi_id', $id)->count();
+
+        $transaksi->update(['jumlah_petikemas' => $updated_penghubung_count]);
 
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Diubah!',
+            'data' => $transaksi,
         ]);
     }
+
     public function deleteentrydata(Request $request)
     {
+        $penghubung = penghubung::where('petikemas_id', $request->id)->first();
+        // $penghubung = penghubung::findOrFail($request->id);
+        // Get the associated transaksi_id before deletion
+        $transaksi_id = $penghubung->transaksi_id;
 
-        $penghubung = penghubung::findOrFail($request->id);
+        // Delete the Penghubung record
         $penghubung->delete();
+
+        // Update the jumlah_petikemas field in the related transaksi record
+        $updated_penghubung_count = penghubung::where('transaksi_id', $transaksi_id)->count();
+
+        // Retrieve the transaksi record
+        $transaksi = transaksi::where('id', $transaksi_id)->first();
+
+        if ($transaksi) {
+            $transaksi->update(['jumlah_petikemas' => $updated_penghubung_count]);
+        }        
 
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
+            
         ]);
     }
 }

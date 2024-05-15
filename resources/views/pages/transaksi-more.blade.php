@@ -123,7 +123,7 @@
             <x-form-edit-transaksi :data="$transaksi" />
         </x-modal-form>
         <x-form-table-penempatan></x-form-table-penempatan>
-        <x-modal-form-delete />
+        <x-modal-form-delete route="/transaksi/deleteentrydata"/>
         <script>
             $(document).ready(function() {
                 $(document).on('click', '#deletebtn', function(e) {

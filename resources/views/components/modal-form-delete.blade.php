@@ -5,7 +5,7 @@
                 <i class="fa-regular fa-circle-xmark text-danger mb-3" style="font-size: 100px;"></i>
                 <h4>Apakah Anda Yakin Ingin Menghapus Data?</h4>
                 <div class="btn-group gap-2">
-                    <form action="/transaksi/deleteentrydata" method="POST" id="delete-form">
+                    <form action="{{ $route }}" method="POST" id="delete-form">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete">
                         <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
@@ -25,7 +25,7 @@
             console.log(form.attr('action'));
             $.ajax({
                 type: form.attr('method'),
-                url: '/transaksi/deleteentrydata',
+                url: form.attr('action'),
                 data: formData,
                 success: function(response) {
                     $("#form-delete-data").modal('hide');
