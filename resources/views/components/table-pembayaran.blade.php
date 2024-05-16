@@ -15,10 +15,30 @@
         padding: 0;
     }
 
-    /*input.form-control::placeholder,
-    select.form-select::placeholder {
-        font-size: 50px;
-    }*/
+    input[type="checkbox"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background-color: #f09259;
+        /* Ubah ke warna yang Anda inginkan */
+        /* Ganti ke warna yang Anda inginkan */
+        border-radius: 3px;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    /* Optional: Untuk mengubah warna dari centang di dalam checkbox */
+    input[type="checkbox"]:checked::before {
+
+        display: inline-block;
+        font-size: 16px;
+        color: white;
+        /* Ganti ke warna yang Anda inginkan */
+        line-height: 20px;
+        text-align: center;
+    }
 </style>
 @php
 
