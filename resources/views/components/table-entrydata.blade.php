@@ -1,19 +1,13 @@
 <style>
-    select.form-select:disabled {
+    select.form-select:disabled, input.form-control:disabled {
         background: transparent;
         color: black;
         border-color: transparent;
         text-align: center;
         padding: 0;
+        font-size: 1.2rem;
     }
 
-    input.form-control:disabled {
-        background: transparent;
-        color: black;
-        border-color: transparent;
-        text-align: center;
-        padding: 0;
-    }
 </style>
 
 @php
@@ -97,7 +91,9 @@ $petikemas = $data->penghubungs->map(function ($penghubung) {
                 </table>
 
             </div>
-            <button type="submit" class="btn btn-success text-white rounded-3 mt-3" id="button-submit"> Simpan Data</button>
+            <div class="mt-3 text-center">
+                <button type="submit" class="btn btn-success text-white rounded-3 mx-auto" id="button-submit">Simpan Data</button>
+            </div>            
         </form>
     </div>
 </div>
