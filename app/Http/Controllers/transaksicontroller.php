@@ -22,7 +22,8 @@ class transaksicontroller extends Controller
 
     public function show($id)
     {
-        $transaksi = transaksi::find($id);
+        //$transaksi = transaksi::find($id);
+        $transaksi = transaksi::with('penghubungs.petikemas')->findOrFail($id);
         return view('pages.transaksi-more', compact('transaksi'));
     }
     public function storeEntryData(Request $request)
@@ -169,7 +170,7 @@ class transaksicontroller extends Controller
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
-        
+
         return response()->json([
             'Data' => $filteredData->items(),
             'Count' => $filteredData->total(),
@@ -184,7 +185,7 @@ class transaksicontroller extends Controller
     public function editentrydata(Request $request, $id)
     {
         $transaksi = transaksi::where('id', $id)->first();
-        
+
         $validator = Validator::make($request->all(), [
             'no_petikemas' => ['required', 'array', 'min:1', new UniqueArrayValues, new RequriedArrayValues],
             'jenis_ukuran' => 'required',
@@ -217,10 +218,10 @@ class transaksicontroller extends Controller
         }
 
         if (count($request->no_petikemas) > count($penghubung)) {
-            for ($i=0; $i < (count($request->no_petikemas) - count($penghubung)); $i++) { 
-                
+            for ($i = 0; $i < (count($request->no_petikemas) - count($penghubung)); $i++) {
+
                 $new_penghubung = new Penghubung();
-                $new_penghubung->petikemas_id = $request->no_petikemas[$i+count($penghubung)];
+                $new_penghubung->petikemas_id = $request->no_petikemas[$i + count($penghubung)];
                 $new_penghubung->transaksi_id = $id;
                 $new_penghubung->save();
                 $new_pembayaran = new Pembayaran();
@@ -260,12 +261,12 @@ class transaksicontroller extends Controller
 
         if ($transaksi) {
             $transaksi->update(['jumlah_petikemas' => $updated_penghubung_count]);
-        }        
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
-            
+
         ]);
     }
 }

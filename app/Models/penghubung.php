@@ -13,4 +13,13 @@ class penghubung extends Model
     {
         return $this->hasOne(pembayaran::class);
     }
+    public function petikemas()
+    {
+        return $this->belongsTo(petikemas::class);
+    }
+
+    public function transaksi()
+    {
+        return $this->belongsTo(transaksi::class);
+    }
 }

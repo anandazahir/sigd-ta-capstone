@@ -15,6 +15,17 @@
         padding: 0;
     }
 </style>
+
+@php
+foreach ($data->penghubungs as $penghubung) {
+foreach($penghubung->petikemas as $test){
+echo $test;
+}
+}
+@endphp
+
+
+
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
@@ -47,31 +58,34 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($data->petikemas as $item)
+                        {{--@foreach ($data->penghubungs as $penghubung)
+                        @foreach ($penghubung->petikemas as $item)
                         <tr>
                             <td class="text-center">
                                 <select class="form-select mx-auto" name="no_petikemas[]" required style="width: fit-content" disabled>
                                     <option disabled>Pilih Opsi Ini</option>
                                     <option selected value="{{$item->id}}">{{$item->no_petikemas}}</option>
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </td>
-                            <td class="text-center">
-                                <input type="text" name="jenis_ukuran" required readonly value="{{$item->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
-                                <div class="invalid-feedback"></div>
-                            </td>
-                            <td class="text-center" style="width:fit-content">
-                                <input type="text" name="pelayaran" required readonly value="{{$item->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
-                                <div class="invalid-feedback"></div>
-                            </td>
-                            <td class="text-center">
-                                <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank" value="{{ $data->penghubung }}"> Belum Cetak</a>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-danger text-white  rounded-3" id="deletebtn" value="{{$item->id}}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
-                            </td>
+                        </select>
+                        <div class="invalid-feedback"></div>
+                        </td>
+                        <td class="text-center">
+                            <input type="text" name="jenis_ukuran" required readonly value="{{$item->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                            <div class="invalid-feedback"></div>
+                        </td>
+                        <td class="text-center" style="width:fit-content">
+                            <input type="text" name="pelayaran" required readonly value="{{$item->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                            <div class="invalid-feedback"></div>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank" value="{{ $penghubung->pembayaran->status_cetak_spk }}"> Belum Cetak</a>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger text-white rounded-3" id="deletebtn"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
+                        </td>
                         </tr>
                         @endforeach
+                        @endforeach
+                        --}}
                     </tbody>
                 </table>
 
@@ -140,7 +154,7 @@
 
         // Setiap baris berganti Sudah Cetak ketika ditekan
         $("#table_entrydata tbody tr").each(function(index, row) {
-            $(this).find("#cetak_spk").on("click",function (e) {
+            $(this).find("#cetak_spk").on("click", function(e) {
                 e.preventDefault();
                 const link = $(this).attr("href");
                 if (!$(this).hasClass("btn-success disable")) {
