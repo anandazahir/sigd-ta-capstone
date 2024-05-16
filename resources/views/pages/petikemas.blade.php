@@ -196,10 +196,10 @@
                             $('#text-error').hide();
                             $('#table_petikemas tbody').empty();
                             $.each(response.Data, function(index, item) {
-                                $('#table_petikemas tbody').append('<tr><td>' + item.no_petikemas + '</td><td>' + item.jenis_ukuran + '</td><td>' + item.pelayaran.charAt(0).toUpperCase() + item.pelayaran.slice(1) + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/peti-kemas/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletebtn"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                $('#table_petikemas tbody').append('<tr><td>' + item.no_petikemas + '</td><td>' + item.jenis_ukuran + '</td><td>' + item.pelayaran.charAt(0).toUpperCase() + item.pelayaran.slice(1) + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/peti-kemas/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletepetikemas"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
                                     '</tr>');
                             });
-                            $(document).on('click', '#deletebtn', function(e) {
+                            $(document).on('click', '#deletepetikemas', function(e) {
                                 e.preventDefault();
                                 $("#form-delete-data").modal('show');
                                 $("#input_form_delete").val($(this).val());

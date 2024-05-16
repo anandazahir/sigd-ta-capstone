@@ -79,7 +79,7 @@ class transaksicontroller extends Controller
             $pembayaran = new pembayaran();
             $pembayaran->penghubung_id = $relasiId;
             $pembayaran->transaksi_id = $transaksi_id;
-            $pembayaran->status_pembayaran = "belum cetak";
+            $pembayaran->status_pembayaran = "belum lunas";
             $pembayaran->status_cetak_spk = "belum cetak";
             $pembayaran->save();
         }
@@ -196,6 +196,7 @@ class transaksicontroller extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         $penghubung = penghubung::where('transaksi_id', $id)->get(); // Assuming you want to retrieve all penghubung with the given transaksi_id
+
         foreach ($penghubung as $index => $item) {
             if (isset($request->no_petikemas[$index])) {
                 $new_petikemas_id = $request->no_petikemas[$index];
@@ -207,9 +208,9 @@ class transaksicontroller extends Controller
                     foreach ($pembayarans as $pembayaran) {
 
                         $pembayaran->tanggal_pembayaran = null;
-                        $pembayaran->status_pembayaran = null;
+                        $pembayaran->status_pembayaran = "belum lunas";
                         $pembayaran->kasir = null;
-                        $pembayaran->status_cetak_spk = null;
+                        $pembayaran->status_cetak_spk = "belum cetak";
                         $pembayaran->save();
                     }
                     $item->update(['petikemas_id' => $new_petikemas_id]);
@@ -227,7 +228,10 @@ class transaksicontroller extends Controller
                 $new_pembayaran = new Pembayaran();
                 $new_pembayaran->penghubung_id = $new_penghubung->id;
                 $new_pembayaran->transaksi_id = $id;
+                $new_pembayaran->status_cetak_spk = "belum cetak";
+                $new_pembayaran->status_pembayaran = "belum lunas";
                 $new_pembayaran->save();
+                
             }
         }
         // $transaksi->jumlah_petikemas=count($penghubung);
@@ -245,7 +249,7 @@ class transaksicontroller extends Controller
 
     public function deleteentrydata(Request $request)
     {
-        $penghubung = penghubung::where('petikemas_id', $request->id)->first();
+        $penghubung = penghubung::where('id', $request->id)->first();
         // $penghubung = penghubung::findOrFail($request->id);
         // Get the associated transaksi_id before deletion
         $transaksi_id = $penghubung->transaksi_id;
@@ -266,6 +270,19 @@ class transaksicontroller extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
+
+        ]);
+    }
+
+    public function cetak(Request $request)
+    {
+        $status_cetak_spk = $request->input('status');
+        $id_penghubung = $request->input('id_penghubung');
+        $penghubungs = penghubung::findOrFail($id_penghubung);
+        $penghubungs->pembayaran->update(['status_cetak_spk' => $status_cetak_spk]);
+
+        return response()->json([
+            'success' => true,
 
         ]);
     }

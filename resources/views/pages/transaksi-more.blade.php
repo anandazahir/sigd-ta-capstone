@@ -126,12 +126,6 @@
         <x-modal-form-delete route="/transaksi/deleteentrydata"/>
         <script>
             $(document).ready(function() {
-                $(document).on('click', '#deletebtn', function(e) {
-                    e.preventDefault();
-                    $("#form-delete-data").modal('show');
-                    $("#input_form_delete").val($(this).val());
-                    console.log($(this).val());
-                });
 
                 function updateDropdownAndTab(tabId) {
 

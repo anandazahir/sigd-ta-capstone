@@ -17,11 +17,14 @@
 </style>
 
 @php
-foreach ($data->penghubungs as $penghubung) {
-foreach($penghubung->petikemas as $test){
-echo $test;
-}
-}
+
+$petikemas = $data->penghubungs->map(function ($penghubung) {             
+    return [
+        'petikemas' => $penghubung->petikemas,
+        'pembayaran' => $penghubung->pembayaran,
+    ]; 
+});
+    
 @endphp
 
 
@@ -58,34 +61,38 @@ echo $test;
                     </thead>
 
                     <tbody>
-                        {{--@foreach ($data->penghubungs as $penghubung)
-                        @foreach ($penghubung->petikemas as $item)
+                        
+                        @foreach ($petikemas as $item)
+                        @php
+                        $petikemas = $item['petikemas'];
+                        $pembayaran = $item['pembayaran'];
+                        @endphp
                         <tr>
                             <td class="text-center">
                                 <select class="form-select mx-auto" name="no_petikemas[]" required style="width: fit-content" disabled>
                                     <option disabled>Pilih Opsi Ini</option>
-                                    <option selected value="{{$item->id}}">{{$item->no_petikemas}}</option>
+                                    <option selected value="{{$petikemas->id}}">{{$petikemas->no_petikemas}}</option>
                         </select>
                         <div class="invalid-feedback"></div>
                         </td>
                         <td class="text-center">
-                            <input type="text" name="jenis_ukuran" required readonly value="{{$item->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                            <input type="text" name="jenis_ukuran" required readonly value="{{$petikemas->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
                             <div class="invalid-feedback"></div>
                         </td>
                         <td class="text-center" style="width:fit-content">
-                            <input type="text" name="pelayaran" required readonly value="{{$item->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                            <input type="text" name="pelayaran" required readonly value="{{$petikemas->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
                             <div class="invalid-feedback"></div>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-danger text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" target="_blank" value="{{ $penghubung->pembayaran->status_cetak_spk }}"> Belum Cetak</a>
+                            <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' ? 'success disabled' : 'danger' }} text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" target="_blank" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-danger text-white rounded-3" id="deletebtn"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
+                            <button class="btn btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;" ></i></button>
                         </td>
                         </tr>
                         @endforeach
-                        @endforeach
-                        --}}
+                        
+                        
                     </tbody>
                 </table>
 
@@ -155,13 +162,36 @@ echo $test;
         // Setiap baris berganti Sudah Cetak ketika ditekan
         $("#table_entrydata tbody tr").each(function(index, row) {
             $(this).find("#cetak_spk").on("click", function(e) {
+                /*console.log($(this).attr("data-status"));
                 e.preventDefault();
                 const link = $(this).attr("href");
                 if (!$(this).hasClass("btn-success disable")) {
                     window.open(link, '_blank');
                     $(this).css("pointer-events", "none");
                 }
-                $(this).removeClass("btn-danger").addClass("btn-success disable").text("Sudah Cetak");
+                $(this).removeClass("btn-danger").addClass("btn-success disable").text("Sudah Cetak");*/
+                $(this).attr('data-status', 'sudah cetak');
+                console.log($(this).attr("data-id"));
+                $.ajax({
+                    url: "/transaksi/cetak",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: $(this).attr("data-status"),
+                        id_penghubung: $(this).attr("data-id"),
+                         
+                     },
+                    success: function(response) {
+                        console.log("success");
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        const errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                        console.log(value);
+                        });
+                    }
+                });
             });
         });
 
@@ -215,8 +245,15 @@ echo $test;
             fetchPetikemasDetails($row, value);
         });
 
+        $(document).on('click', '#deleteentrydata', function(e) {
+            e.preventDefault();
+            $("#form-delete-data").modal('show');
+            $("#input_form_delete").val($(this).val());
+            console.log($(this).val());
+        });
+
         // Handle form submission
-        $('form').on('submit', function(e) {
+        $('#edit-entrydata-form').on('submit', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
             $.ajax({
@@ -240,14 +277,14 @@ echo $test;
                         alert("Data Tidak Ditemukan!");
                     }
 
-                    $('form').find('.is-invalid').removeClass('is-invalid');
-                    $('form').find('.invalid-feedback').text('');
+                    $(this).find('.is-invalid').removeClass('is-invalid');
+                    $(this).find('.invalid-feedback').text('');
 
                     $.each(errors, function(key, value) {
-                        const element = $('form').find(`[name="${key}"]`);
+                        const element = $(this).find(`[name="${key}"]`);
                         element.addClass('is-invalid');
                         element.next('.invalid-feedback').text(value[0]);
-                        const elementArray = $('form').find(`[name="${key}[]"]`);
+                        const elementArray = $(this).find(`[name="${key}[]"]`);
                         elementArray.addClass('is-invalid');
                         elementArray.next('.invalid-feedback').text(value[0]);
                     });
