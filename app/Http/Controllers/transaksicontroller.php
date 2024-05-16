@@ -288,20 +288,25 @@ class transaksicontroller extends Controller
     }
     public function editpembayaran(Request $request)
     {
+        $id_penghubung = $request->input('id_penghubung');
+        $metode = $request->input('metode');
+        $i = 0;
+        foreach ($id_penghubung as $id) {
 
-        foreach ($request->id_penghubung as $id_penghubung) {
-            $penghubung = penghubung::where('id', $id_penghubung)->first();
-            foreach ($request->metode as $metode) {
-                $penghubung->pembayaran->update(['metode' => $metode]);
-            }
-            $penghubung->pembayaran->update(['tanggal_pembayaran' => now()]);
+            $penghubung = penghubung::where('id', $id)->first();
+            // Assuming $penghubung->pembayaran represents a single payment associated with $penghubung
+            $penghubung->pembayaran->update([
+                'metode' => $metode[$i], // Use the corresponding metode for the current $id_penghubung
+                'tanggal_pembayaran' => now()
+            ]);
+            $i++;
         }
 
 
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
-
+            'id' => $request->id_penghubung,
         ]);
     }
 }

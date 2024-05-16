@@ -64,7 +64,6 @@ return [
 
         </div>
         <form action="{{route('transaksi.editpembayaran')}}" id="edit-form-pembayaran" method="POST">
-            @csrf
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                 <table class="table-variations-3 text-center" id="table_pembayaran">
                     <thead>
@@ -175,32 +174,46 @@ return [
             });
         });
         $('#edit-form-pembayaran').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission action
+
             const formData = $(this).serialize();
+            let errorOccured = false; // Flag to track validation errors
+            let checkboxval = [];
+            let selectval = [];
             $("#table_pembayaran tbody tr").each(function(index, row) {
-                e.preventDefault();
                 const $row = $(this);
                 const $checkbox = $row.find('input[name="id_penghubung[]"]');
                 const $select = $row.find('select[name="metode[]"]');
-                if ($checkbox.prop("checked")) {
+                checkboxval.push($checkbox.val());
+                selectval.push($select.val());
+                if ($checkbox.prop("checked") && !$select.val()) {
+                    $select.addClass('is-invalid');
+                    $row.find('.invalid-feedback').text('Please select a method.');
+                    errorOccured = true; // Set error flag to true if validation fails
+                }
+            });
 
-                    if (!$select.val()) {
+            if (!errorOccured) {
+                // If no validation error, proceed with form submission
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id_penghubung: checkboxval,
+                        metode: selectval
+                    },
 
-                        $select.addClass('is-invalid');
-                        $row.find('.invalid-feedback').text('Please select a method.');
+                    success: function(response) {
+                        location.reload();
+                        console.log(repsone.id)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
                     }
-                }
-            });
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+                });
+            }
         });
+
     });
 </script>
