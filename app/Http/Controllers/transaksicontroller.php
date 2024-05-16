@@ -286,4 +286,25 @@ class transaksicontroller extends Controller
 
         ]);
     }
+    public function editpembayaran(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_penghubung'=>'array',
+            'metode' => 'required',
+        ]);
+        
+         foreach ($request->id_penghubung as $id_penghubung) {
+            $penghubung = penghubung::where('id', $id_penghubung)->first();
+            $penghubung->pembayaran->update(['metode' => $request->metode]);
+            }
+       
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Transaksi Berhasil Dihapus!',
+
+        ]);
+    }
 }

@@ -41,15 +41,9 @@
                     <span class="fw-semibold fs-6 my-1">Edit Pembayaran</span>
                 </div>
             </button>
-            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" id="button-cetak2"
-                style="width: fit-content; display:none;">
-                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mencetak kwitansi">
-                    <i class="fa-solid fa-circle-plus text-white my-2" style="font-size:25px"></i>
-                    <span class="fw-semibold fs-6 my-2">Cetak Kwitansi</span>
-                </div>
-            </button>
+           
         </div>
-
+        <form action="/transaksi/edit/pembayaran" id="edit-form-pembayaran" method="post">
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
             <table class="table-variations-3 text-center" id="table_pembayaran">
                 <thead>
@@ -71,7 +65,7 @@
                         @endphp
                         <tr>
                             <td class="text-center">
-                                <input class="form-check-input" type="checkbox" value="{{ $pembayaran->penghubung_id }}" id="pembayaran_checkbox">
+                                <input class="form-check-input" type="checkbox" value="{{ $pembayaran->penghubung_id }}" id="pembayaran_checkbox" name="checkbox_id">
                             </td>
                             <td class="text-center">
                                 <input type="text" name="no_petikemas" required readonly
@@ -113,11 +107,11 @@
                 </tbody>
             </table>
         </div>
-        <button type="submit" class="btn btn-success text-white rounded-3 mt-3" id="button-submit2"
-            style="display:none;">
+        <button type="submit" class="btn btn-success text-white rounded-3 mt-3" id="button-submit2">
             Simpan Data
         </button>
     </div>
+    </form>
 </div>
 
 <script>
@@ -131,7 +125,7 @@
         $("#table_pembayaran thead tr th:first-child").hide();
         $button_edit.on("click", function(e) {
             e.preventDefault();
-            $('select[name="metode"]').prop("disabled", false);
+           
             $('input[name="no_petikemas"]').prop("disabled", false);
             $('input[name="jenis_ukuranpembayaran"]').prop("disabled", false);
             $('input[name="harga"]').prop("disabled", false);
@@ -139,9 +133,9 @@
             $button_cetak.show();
             $button_submit.show();
             $checkbox.show();
-            $("#table_pembayaran thead tr th:nth-child(4)").hide();
+            $("#table_pembayaran thead tr th:nth-child(6)").hide();
             $("#table_pembayaran thead tr th:last-child").hide();
-            $("#table_pembayaran tbody tr td:nth-child(4)").hide();
+            $("#table_pembayaran tbody tr td:nth-child(6)").hide();
             $("#table_pembayaran tbody tr td:last-child").hide();
             $("#table_pembayaran tbody tr td:first-child").show();
             $("#table_pembayaran thead tr th:first-child").show();
@@ -159,6 +153,14 @@
             $tanggal_pembayaran.show();
             $hide_kwitansiheader.show();
             $hide_tanggalheader.show();
+        });
+        
+        $("#table_pembayaran tbody tr").each(function(index, row) {
+            const $row = $(this);
+            $row.find('input[name="checkbox_id"]').on("change",function(e){
+                $row.find('select[name="metode"]').prop("disabled", !this.checked);
+            });
+    
         });
     });
 </script>
