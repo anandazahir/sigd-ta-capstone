@@ -210,6 +210,7 @@ class transaksicontroller extends Controller
                         $pembayaran->tanggal_pembayaran = null;
                         $pembayaran->status_pembayaran = "belum lunas";
                         $pembayaran->kasir = null;
+                        $pembayaran->metode = null;
                         $pembayaran->status_cetak_spk = "belum cetak";
                         $pembayaran->save();
                     }
@@ -231,7 +232,6 @@ class transaksicontroller extends Controller
                 $new_pembayaran->status_cetak_spk = "belum cetak";
                 $new_pembayaran->status_pembayaran = "belum lunas";
                 $new_pembayaran->save();
-                
             }
         }
         // $transaksi->jumlah_petikemas=count($penghubung);
@@ -288,19 +288,16 @@ class transaksicontroller extends Controller
     }
     public function editpembayaran(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'id_penghubung'=>'array',
-            'metode' => 'required',
-        ]);
-        
-         foreach ($request->id_penghubung as $id_penghubung) {
+
+        foreach ($request->id_penghubung as $id_penghubung) {
             $penghubung = penghubung::where('id', $id_penghubung)->first();
-            $penghubung->pembayaran->update(['metode' => $request->metode]);
+            foreach ($request->metode as $metode) {
+                $penghubung->pembayaran->update(['metode' => $metode]);
             }
-       
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            $penghubung->pembayaran->update(['tanggal_pembayaran' => now()]);
         }
+
+
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
