@@ -99,8 +99,7 @@
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">
-            <x-table-pembayaran />
-            <x-form-table-pembayaran />
+            <x-table-pembayaran :data="$transaksi"/>
         </div>
 
         <div id="Pengecekan" class="tab-pane fade in d-none">

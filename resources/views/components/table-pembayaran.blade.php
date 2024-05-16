@@ -14,7 +14,23 @@
         text-align: center;
         padding: 0;
     }
+
+    {{--  input.form-control::placeholder,
+    select.form-select::placeholder {
+        font-size: 50px;
+    }  --}}
 </style>
+@php
+
+    $petikemas = $data->penghubungs->map(function ($penghubung) {
+        return [
+            'petikemas' => $penghubung->petikemas,
+            'pembayaran' => $penghubung->pembayaran,
+        ];
+    });
+
+@endphp
+
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class="container">
         <div class="row justify-content-between p-0 m-0">
@@ -25,7 +41,8 @@
                     <span class="fw-semibold fs-6 my-1">Edit Pembayaran</span>
                 </div>
             </button>
-            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" id="button-cetak2" style="width: fit-content; display:none;">
+            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" id="button-cetak2"
+                style="width: fit-content; display:none;">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mencetak kwitansi">
                     <i class="fa-solid fa-circle-plus text-white my-2" style="font-size:25px"></i>
                     <span class="fw-semibold fs-6 my-2">Cetak Kwitansi</span>
@@ -34,9 +51,10 @@
         </div>
 
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
-            <table class="table-variations-3 text-center">
+            <table class="table-variations-3 text-center" id="table_pembayaran">
                 <thead>
                     <tr>
+                        <th scope="col" class="fw-semibold">Checkbox</th>
                         <th scope="col" class="fw-semibold">No Peti Kemas</th>
                         <th scope="col" class="fw-semibold">Size & Type</th>
                         <th scope="col" class="fw-semibold">Metode</th>
@@ -46,27 +64,57 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-center">555555</td>
-                        <td class="text-center">40'FT'</td>
-                        <td class="text-center">
-                            <select class="form-select mx-auto" name="metode" style="width: fit-content;" disabled>
-                                <option value="Transfer BCA" selected>Transfer BCA</option>
-                                <option value="Transfer Mandiri">Transfer Mandiri</option>
-                                <option value="Cash">Cash</option>
-                                <option value="Credit Card">Credit Card</option>
-                            </select>
-                        </td>
-                        <td class="text-center">Rp. 20000,00</td>
-                        <td class="text-center" id="tanggal_pembayaran">17-4-2024</td>
-                        <td class="text-center" id="cetak-kwitansi">
-                            <span class="bg-success text-white p-1 rounded-2 fs-6">SUDAH CETAK</span>
-                        </td>
-                    </tr>
+                    @foreach ($petikemas as $item)
+                        @php
+                            $petikemas = $item['petikemas'];
+                            $pembayaran = $item['pembayaran'];
+                        @endphp
+                        <tr>
+                            <td class="text-center">
+                                <input class="form-check-input" type="checkbox" value="{{ $pembayaran->penghubung_id }}" id="pembayaran_checkbox">
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="no_petikemas" required readonly
+                                    value="{{ $petikemas->no_petikemas }}" class="form-control mx-auto"
+                                    style="width:fit-content" disabled>
+                                <div class="invalid-feedback"></div>
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="jenis_ukuranpembayaran" required readonly
+                                    value="{{ $petikemas->jenis_ukuran }}" class="form-control mx-auto"
+                                    style="width:fit-content" disabled>
+                                <div class="invalid-feedback"></div>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-select mx-auto" name="metode" style="width: fit-content;" disabled>
+                                    <option selected disabled>Pilih Opsi Ini</option>
+                                    <option value="BCA" {{ $pembayaran->metode == 'BCA' ? 'selected' : '' }}>Transfer BCA
+                                    </option>
+                                    <option value="BRI" {{ $pembayaran->metode == 'BRI' ? 'selected' : '' }}>Transfer BRI
+                                    </option>
+                                    <option value="Mandiri" {{ $pembayaran->metode == 'Mandiri' ? 'selected' : '' }}>Transfer Mandiri</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="harga" required readonly value="{{ $petikemas->harga }}"
+                                    class="form-control mx-auto" style="width:fit-content" disabled>
+                                <div class="invalid-feedback"></div>
+                            </td>
+                            <td class="text-center" id="tanggal_pembayaran">
+                                <span style="font-size: 16px;">
+                                    17-4-2024
+                                </span>
+                            </td>
+                            <td class="text-center" id="cetak-kwitansi">
+                                <span class="bg-{{ $pembayaran->status_pembayaran == 'sudah lunas' ? 'success' : 'danger' }} text-white p-1 rounded-2 fs-6">{{ $pembayaran->status_pembayaran}}</span>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
-        <button type="submit" class="btn btn-success text-white rounded-3 mt-3" id="button-submit2" style="display:none;">
+        <button type="submit" class="btn btn-success text-white rounded-3 mt-3" id="button-submit2"
+            style="display:none;">
             Simpan Data
         </button>
     </div>
@@ -77,35 +125,26 @@
         const $button_edit = $("#button-edit2");
         const $button_cetak = $("#button-cetak2");
         const $button_submit = $("#button-submit2");
-        const $select_metode = $('select[name="metode"]');
-        const $cetak_kwitansi = $('#cetak-kwitansi');
-        const $tanggal_pembayaran = $('#tanggal_pembayaran');
-        const $hide_kwitansiheader = $('#hide-kwitansi');
-        const $hide_tanggalheader = $('#hide-tanggal');
+        const $checkbox = $('#pembayaran_checkbox');
 
+        $("#table_pembayaran tbody tr td:first-child").hide();
+        $("#table_pembayaran thead tr th:first-child").hide();
         $button_edit.on("click", function(e) {
             e.preventDefault();
-            $select_metode.prop("disabled", false);
+            $('select[name="metode"]').prop("disabled", false);
+            $('input[name="no_petikemas"]').prop("disabled", false);
+            $('input[name="jenis_ukuranpembayaran"]').prop("disabled", false);
+            $('input[name="harga"]').prop("disabled", false);
             $button_edit.hide();
             $button_cetak.show();
             $button_submit.show();
-            $cetak_kwitansi.hide();
-            $tanggal_pembayaran.hide();
-            $hide_kwitansiheader.hide();
-            $hide_tanggalheader.hide();
-        });
-
-        $button_cetak.on("click", function(e) {
-            e.preventDefault();
-            // Tambahkan logika untuk mencetak kwitansi di sini
-            $select_metode.prop("disabled", true);
-            $button_cetak.hide();
-            $button_edit.show();
-            $button_submit.hide();
-            $cetak_kwitansi.show();
-            $tanggal_pembayaran.show();
-            $hide_kwitansiheader.show();
-            $hide_tanggalheader.show();
+            $checkbox.show();
+            $("#table_pembayaran thead tr th:nth-child(4)").hide();
+            $("#table_pembayaran thead tr th:last-child").hide();
+            $("#table_pembayaran tbody tr td:nth-child(4)").hide();
+            $("#table_pembayaran tbody tr td:last-child").hide();
+            $("#table_pembayaran tbody tr td:first-child").show();
+            $("#table_pembayaran thead tr th:first-child").show();
         });
 
         $button_submit.on("click", function(e) {

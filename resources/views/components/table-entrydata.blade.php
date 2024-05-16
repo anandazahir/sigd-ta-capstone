@@ -72,7 +72,7 @@ $petikemas = $data->penghubungs->map(function ($penghubung) {
                                 <select class="form-select mx-auto" name="no_petikemas[]" required style="width: fit-content" disabled>
                                     <option disabled>Pilih Opsi Ini</option>
                                     <option selected value="{{$petikemas->id}}">{{$petikemas->no_petikemas}}</option>
-                        </select>
+                                </select>
                         <div class="invalid-feedback"></div>
                         </td>
                         <td class="text-center">
