@@ -1,3 +1,17 @@
+@php
+
+$petikemas = $data->penghubungs->map(function ($penghubung) {
+return [
+'petikemas' => $penghubung->petikemas,
+'pembayaran' => $penghubung->pembayaran,
+];
+
+});
+function formatRupiah($number)
+{
+return 'Rp. ' . number_format($number, 2, ',', '.');
+}
+@endphp
 <style>
     select.form-select:disabled {
         background: transparent;
@@ -40,20 +54,7 @@
         text-align: center;
     }
 </style>
-@php
 
-$petikemas = $data->penghubungs->map(function ($penghubung) {
-return [
-'petikemas' => $penghubung->petikemas,
-'pembayaran' => $penghubung->pembayaran,
-];
-
-});
-function formatRupiah($number)
-{
-return 'Rp. ' . number_format($number, 2, ',', '.');
-}
-@endphp
 
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class="container">

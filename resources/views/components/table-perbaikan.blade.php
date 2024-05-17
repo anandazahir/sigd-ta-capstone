@@ -30,8 +30,8 @@
                         </td>
 
                         <td class="text-center">
-                        <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail list perbaikan">
-                            <a href="#" class="btn btn-info"><span class="fs-semibold">LIST PERBAIKAN</span></a>
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail list perbaikan">
+                                <a href="#" class="btn btn-info"><span class="fs-semibold">LIST PERBAIKAN</span></a>
                         </td>
                         <td class="text-center m-0 p-0">
                             01-11-2023 <br> 10:00:00
@@ -45,9 +45,9 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
-                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data perbaikan">
-                                <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-perbaikan"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
-                            </div>
+                                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data perbaikan">
+                                    <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-perbaikan"> <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></button>
+                                </div>
                         </td>
                     </tr>
                 </tbody>
