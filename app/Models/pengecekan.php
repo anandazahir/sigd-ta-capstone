@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class pengecekan extends Model
 {
+    protected $fillable = ['tanggal_pengecekan', 'jumlah_kerusakan', 'survey_in', 'kondisi_peti_kemas', 'penghubung_id', 'transaksi_id'];
+
     public function transaksi()
     {
-        return $this->hasMany(transaksi::class);
+        return $this->belongsTo(transaksi::class);
     }
 
-    public function kerusakan()
+    public function penghubung()
     {
-        return $this->hasMany(kerusakan::class);
+        return $this->belongsTo(kerusakan::class);
     }
 }

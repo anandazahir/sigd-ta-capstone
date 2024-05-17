@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('pengecekans', function (Blueprint $table) {
             $table->id();
-            $table->integer('jumlah_kerusakan');
-            $table->string('kondisi_peti_kemas');
-            $table->string('survey_in');
+            $table->integer('jumlah_kerusakan')->nullable();
+            $table->string('kondisi_peti_kemas')->nullable();
+            $table->date('tanggal_pengecekan')->nullable();
+            $table->string('survey_in')->nullable();
+            $table->foreignId('penghubung_id')->nullable()->constrained('penghubungs')->onDelete('cascade');
+            $table->foreignId('transaksi_id')->nullable()->constrained('transaksis')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('pengecekans');
     }
 };
+

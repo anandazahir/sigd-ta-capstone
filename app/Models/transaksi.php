@@ -17,4 +17,8 @@ class transaksi extends Model
     {
         return $this->hasMany(pembayaran::class);
     }
+    public function pengecekan()
+    {
+        return $this->hasMany(pengecekan::class);
+    }
 }
