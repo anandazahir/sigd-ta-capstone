@@ -327,11 +327,10 @@ class transaksicontroller extends Controller
 
         return $pdf->download('spk_' . $transaksi->no_transaksi . '.pdf');
     }
-    public function editpembayaran(Request $request)
+    public function editpembayaran(Request $request, $id_transaksi)
     {
         $id_penghubung = $request->input('id_penghubung');
         $metode = $request->input('metode');
-        $id_transaksi = $request->input('id_transaksi');
         $i = 0;
         foreach ($id_penghubung as $id) {
 
@@ -343,14 +342,20 @@ class transaksicontroller extends Controller
 
             $i++;
         }
-        $transaksi = transaksi::where('id', $id_transaksi)->first();
+        $transaksi = transaksi::with(['penghubungs' => function ($query) use ($id_penghubung) {
+            $query->where('id', $id_penghubung);
+        }, 'penghubungs.petikemas'])
+            ->findOrFail($id_transaksi);
         if ($transaksi->tanggal_transaksi == null) {
             $transaksi->tanggal_transaksi = now();
             $transaksi->save();
         }
-        return response()->json([
-            'success' => true,
-            'message' => 'Kwitansi Berhasil Dicetak!',
+
+        $relatedPenghubung = $transaksi->penghubungs->first();
+        $pdf = PDF::loadView('pdf.kwitansi', [
+            'transaksi' => $transaksi,
+            'penghubung' => $relatedPenghubung,
         ]);
+        return $pdf->download('kwitansi' . $transaksi->no_transaksi . '.pdf');
     }
 }

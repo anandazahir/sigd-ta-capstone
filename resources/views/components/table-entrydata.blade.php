@@ -191,7 +191,7 @@ return [
                     success: function(blob) {
                         var url = window.URL.createObjectURL(blob);
                         window.open(url, '_blank');
-                        showAlert('Data Berhasil Dicetak!')
+                        showAlert('Data Berhasil Dicetak!');
                     },
                     error: function(xhr, status, error) {
 

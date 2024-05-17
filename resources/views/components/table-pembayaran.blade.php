@@ -67,7 +67,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
             </button>
 
         </div>
-        <form action="{{route('transaksi.editpembayaran')}}" id="edit-form-pembayaran" method="POST">
+        <form action="{{route('transaksi.editpembayaran', $data->id)}}" id="edit-form-pembayaran" method="POST">
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                 <table class="table-variations-3 text-center" id="table_pembayaran">
                     <thead>
@@ -230,12 +230,14 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
                         _token: '{{ csrf_token() }}',
                         id_penghubung: checkboxval,
                         metode: selectval,
-                        id_transaksi: $("#button-submit2").val(),
                     },
-
-                    success: function(response) {
-                        showAlert(response.message);
-                        console.log(checkboxval);
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function(blob) {
+                        var url = window.URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                        showAlert('Kwitansi Berhasil Dicetak!')
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
