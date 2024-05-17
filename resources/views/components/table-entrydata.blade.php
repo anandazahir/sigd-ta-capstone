@@ -1,5 +1,6 @@
 <style>
-    select.form-select:disabled, input.form-control:disabled {
+    select.form-select:disabled,
+    input.form-control:disabled {
         background: transparent;
         color: black;
         border-color: transparent;
@@ -7,18 +8,17 @@
         padding: 0;
         font-size: 1.2rem;
     }
-
 </style>
 
 @php
 
-$petikemas = $data->penghubungs->map(function ($penghubung) {             
-    return [
-        'petikemas' => $penghubung->petikemas,
-        'pembayaran' => $penghubung->pembayaran,
-    ]; 
+$petikemas = $data->penghubungs->map(function ($penghubung) {
+return [
+'petikemas' => $penghubung->petikemas,
+'pembayaran' => $penghubung->pembayaran,
+];
 });
-    
+
 @endphp
 
 
@@ -55,7 +55,7 @@ $petikemas = $data->penghubungs->map(function ($penghubung) {
                     </thead>
 
                     <tbody>
-                        
+
                         @foreach ($petikemas as $item)
                         @php
                         $petikemas = $item['petikemas'];
@@ -67,33 +67,33 @@ $petikemas = $data->penghubungs->map(function ($penghubung) {
                                     <option disabled>Pilih Opsi Ini</option>
                                     <option selected value="{{$petikemas->id}}">{{$petikemas->no_petikemas}}</option>
                                 </select>
-                        <div class="invalid-feedback"></div>
-                        </td>
-                        <td class="text-center">
-                            <input type="text" name="jenis_ukuran" required readonly value="{{$petikemas->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
-                            <div class="invalid-feedback"></div>
-                        </td>
-                        <td class="text-center" style="width:fit-content">
-                            <input type="text" name="pelayaran" required readonly value="{{$petikemas->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
-                            <div class="invalid-feedback"></div>
-                        </td>
-                        <td class="text-center">
-                            <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' ? 'success disabled' : 'danger' }} text-white rounded-3" href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" target="_blank" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
-                        </td>
-                        <td class="text-center">
-                            <button class="btn btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;" ></i></button>
-                        </td>
+                                <div class="invalid-feedback"></div>
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="jenis_ukuran" required readonly value="{{$petikemas->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                                <div class="invalid-feedback"></div>
+                            </td>
+                            <td class="text-center" style="width:fit-content">
+                                <input type="text" name="pelayaran" required readonly value="{{$petikemas->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                                <div class="invalid-feedback"></div>
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'success disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
+                            </td>
                         </tr>
                         @endforeach
-                        
-                        
+
+
                     </tbody>
                 </table>
 
             </div>
             <div class="mt-3 text-center">
                 <button type="submit" class="btn btn-success text-white rounded-3 mx-auto" id="button-submit">Simpan Data</button>
-            </div>            
+            </div>
         </form>
     </div>
 </div>
@@ -104,9 +104,25 @@ $petikemas = $data->penghubungs->map(function ($penghubung) {
         const $button_submit = $("#button-submit");
         const $button_edit = $("#button-edit");
 
-        $button_tambah_entry.hide();
-        $button_submit.hide();
+        $('.tabs').click(function() {
 
+
+            if ($('#EntryData').hasClass('d-none')) {
+                $button_edit.show();
+                $button_submit.hide();
+                $button_tambah_entry.hide();
+                $('select[name="no_petikemas[]"]').prop("disabled", true);
+                $('input[name="pelayaran"]').prop("disabled", true);
+                $('input[name="jenis_ukuran"]').prop("disabled", true);
+                $("#table_entrydata thead tr th:nth-child(4)").show();
+                $("#table_entrydata thead tr th:last-child").show();
+                $("#table_entrydata tbody tr td:nth-child(4)").show();
+                $("#table_entrydata tbody tr td:last-child").show();
+            }
+
+        });
+        $button_submit.hide();
+        $button_tambah_entry.hide();
 
         function fetchPetikemasOptions($select = null) {
             const selectedValues = $('select[name="no_petikemas[]"]').map(function() {
@@ -158,34 +174,27 @@ $petikemas = $data->penghubungs->map(function ($penghubung) {
         // Setiap baris berganti Sudah Cetak ketika ditekan
         $("#table_entrydata tbody tr").each(function(index, row) {
             $(this).find("#cetak_spk").on("click", function(e) {
-                /*console.log($(this).attr("data-status"));
-                e.preventDefault();
-                const link = $(this).attr("href");
-                if (!$(this).hasClass("btn-success disable")) {
-                    window.open(link, '_blank');
-                    $(this).css("pointer-events", "none");
-                }
-                $(this).removeClass("btn-danger").addClass("btn-success disable").text("Sudah Cetak");*/
                 $(this).attr('data-status', 'sudah cetak');
                 console.log($(this).attr("data-id"));
                 $.ajax({
-                    url: "/transaksi/cetak",
+                    url: "{{route('transaksi.cetakspk', $data->id)}}",
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
                         status: $(this).attr("data-status"),
                         id_penghubung: $(this).attr("data-id"),
-                         
-                     },
-                    success: function(response) {
-                        console.log("success");
-                        location.reload();
+
+                    },
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function(blob) {
+                        var url = window.URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                        showAlert('Data Berhasil Dicetak!')
                     },
                     error: function(xhr, status, error) {
-                        const errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                        console.log(value);
-                        });
+
                     }
                 });
             });

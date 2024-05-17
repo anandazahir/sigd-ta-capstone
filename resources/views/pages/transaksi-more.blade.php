@@ -99,7 +99,7 @@
         </div>
 
         <div id="Pembayaran" class="tab-pane fade in d-none">
-            <x-table-pembayaran :data="$transaksi"/>
+            <x-table-pembayaran :data="$transaksi" />
         </div>
 
         <div id="Pengecekan" class="tab-pane fade in d-none">
@@ -122,7 +122,7 @@
             <x-form-edit-transaksi :data="$transaksi" />
         </x-modal-form>
         <x-form-table-penempatan></x-form-table-penempatan>
-        <x-modal-form-delete route="/transaksi/deleteentrydata"/>
+        <x-modal-form-delete route="/transaksi/deleteentrydata" />
         <script>
             $(document).ready(function() {
 
@@ -174,10 +174,13 @@
                     if ($('#' + tabId).hasClass('d-none')) {
                         $('.tab-pane').removeClass('active show d-block').addClass('d-none');
                         $('#' + tabId).removeClass('d-none').addClass('active show d-block');
+
+
                     } else {
                         $('.tab-pane').removeClass('active show d-block').addClass('d-none');
                         $('#' + tabId).removeClass('d-none').addClass('active show d-block');
                     }
+
                     updateDropdownAndTab(tabId);
                 });
                 $('.dropdown-item').click(function() {

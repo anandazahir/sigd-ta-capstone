@@ -126,20 +126,6 @@ setlocale(LC_TIME, 'id_ID');
             </div>
         </div>
         <div class="row ">
-            @if($data->kasir)
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Kasir</p>
-                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
-                        <h5 class="fw-semibold fs-6 text-black d-inline ">
-                            {{ucfirst($data->kasir)}}
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            @endif
             @if ($data->tanggal_transaksi)
             <div class="col-lg-6 mb-3">
                 <div class="card shadow rounded-4 bg-white">

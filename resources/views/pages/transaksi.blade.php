@@ -8,17 +8,19 @@
         <style>
 
         </style>
+
         <div class="position-relative" style="margin-bottom: 33px;">
-            <select class="form-select bg-primary text-white font-semibold" id="jenis_transaksi" style="width: fit-content;">
+
+            <select class="form-select bg-primary text-white font-semibold" id="jenis_kegiatan" style="width: fit-content;" name="jenis_kegiatan">
                 <option selected value="">Jenis Transaksi</option>
                 <option value="impor">Impor</option>
                 <option value="ekspor">Ekspor</option>
             </select>
 
-            <form class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
+            <div class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
                 <i class="fa-solid fa-calendar-days text-white" style="font-size:35px;"></i>
-                <input type="month" name="" id="monthpicker">
-            </form>
+                <input type="month" name="bulan_transaksi" id="monthpicker">
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12 mb-3">
@@ -44,23 +46,23 @@
                     <div class="p-0" style="width: fit-content;">
 
                         <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
-                            <div class="d-flex gap-1" >
+                            <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
                                 </div>
                                 <span class="fs-5 fw-semibold">Tambah Transaksi</span>
                             </div>
                         </button>
-                        </a>
 
-                        <a href="" class="btn btn-info mb-2  ">
+
+                        <button type="submit" class="btn btn-info mb-2  " id="button-laporan-transaksi">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
                                 </div>
                                 <span class="fs-5 fw-semibold">Laporan Bulanan Transaksi</span>
                             </div>
-                        </a>
+                        </button>
                     </div>
 
                     <div class="p-0" style="width: fit-content;">
@@ -111,7 +113,7 @@
         <script>
             $(document).ready(function() {
                 let currentPage = 1
-                $('#jenis_transaksi').change(function() {
+                $('#jenis_kegiatan').change(function() {
                     let selectedType = $(this).val();
                     if (selectedType !== "") {
                         $('.text-table').text('DATA TRANSAKSI | ' + selectedType.charAt(0).toUpperCase() + selectedType.substring(1));
@@ -123,7 +125,7 @@
                 $('#searchForm').on('submit', function(event) {
                     event.preventDefault();
                     let searchQuery = $('#searchInput').val();
-                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), searchQuery);
+                    fetchDataAndUpdateTable($('#jenis_kegiatan').val(), $('#monthpicker').val(), searchQuery);
                 });
                 $('#monthpicker').change(function() {
                     let selectedMonth = $(this).val();
@@ -136,7 +138,7 @@
                     if (selectedMonth != "") {
                         $('.month-text').text(monthName + ' ' + year);
                     }
-                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), selectedMonth, $('#searchInput').val());
+                    fetchDataAndUpdateTable($('#jenis_kegiatan').val(), selectedMonth, $('#searchInput').val());
                 });
 
                 function updatePaginationLinks(totalPages) {
@@ -195,7 +197,7 @@
                     e.preventDefault();
                     let pageNum = $(this).text();
                     currentPage = parseInt(pageNum);
-                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
+                    fetchDataAndUpdateTable($('#jenis_kegiatan').val(), $('#monthpicker').val(), $('#searchInput').val());
                 });
 
 
@@ -203,8 +205,36 @@
                     e.preventDefault();
                     let pageNum = $(this).text();
                     currentPage = parseInt(pageNum);
-                    fetchDataAndUpdateTable($('#jenis_transaksi').val(), $('#monthpicker').val(), $('#searchInput').val());
+                    fetchDataAndUpdateTable($('#jenis_kegiatan').val(), $('#monthpicker').val(), $('#searchInput').val());
                 });
+
+
+                $("#button-laporan-transaksi").on("click", function(e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "{{ route('transaksi.laporantransaksi') }}",
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            jenis_kegiatan: $('#jenis_kegiatan').val(),
+                            bulan_transaksi: $('#monthpicker').val()
+                        },
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function(blob) {
+                            var url = window.URL.createObjectURL(blob);
+                            window.open(url, '_blank');
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            $('#response-message').text('Error generating report.');
+                        }
+                    });
+                });
+
+
                 fetchDataAndUpdateTable();
             });
         </script>

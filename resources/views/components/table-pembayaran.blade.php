@@ -47,8 +47,12 @@ return [
 'petikemas' => $penghubung->petikemas,
 'pembayaran' => $penghubung->pembayaran,
 ];
-});
 
+});
+function formatRupiah($number)
+{
+return 'Rp. ' . number_format($number, 2, ',', '.');
+}
 @endphp
 
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
@@ -72,9 +76,14 @@ return [
                             <th scope="col" class="fw-semibold">No Peti Kemas</th>
                             <th scope="col" class="fw-semibold">Size & Type</th>
                             <th scope="col" class="fw-semibold">Metode</th>
+
                             <th scope="col" class="fw-semibold">Biaya</th>
-                            <th scope="col" class="fw-semibold" id="hide-tanggal">Tanggal Pembayaran</th>
-                            <th scope="col" class="fw-semibold" id="hide-kwitansi">Cetak Kwitansi</th>
+
+                            @if ($data->tanggal_transaksi)
+                            <th scope="col" class="fw-semibold">Tanggal Pembayaran</th>
+                            @endif
+
+                            <th scope="col" class="fw-semibold">Cetak Kwitansi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,6 +91,7 @@ return [
                         @php
                         $petikemas = $item['petikemas'];
                         $pembayaran = $item['pembayaran'];
+
                         @endphp
                         <tr>
                             <td class="text-center">
@@ -107,14 +117,14 @@ return [
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <input type="text" name="harga" required readonly value="{{ $petikemas->harga }}" class="form-control mx-auto" style="width:fit-content" disabled>
 
+                                <input type="text" name="harga" required readonly value="{{ formatRupiah($petikemas->harga) }}" class="form-control mx-auto" style="width:fit-content" disabled>
                             </td>
+                            @if ($data->tanggal_transaksi)
                             <td class="text-center" id="tanggal_pembayaran">
-                                <span style="font-size: 16px;">
-                                    17-4-2024
-                                </span>
+                                {{$pembayaran->tanggal_pembayaran}}
                             </td>
+                            @endif
                             <td class="text-center" id="cetak-kwitansi">
                                 <span class="bg-{{ $pembayaran->status_pembayaran == 'sudah lunas' ? 'success' : 'danger' }} text-white p-1 rounded-2 fs-6">{{ $pembayaran->status_pembayaran}}</span>
                             </td>
@@ -123,9 +133,9 @@ return [
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-success text-white rounded-3 mt-3" id="button-submit2">
-                Simpan Data
-            </button>
+            <div class="mt-3 text-center">
+                <button type="submit" class="btn btn-success text-white rounded-3 mx-auto" id="button-submit2" value="{{$data->id}}">Simpan Data & Cetak Kwitansi</button>
+            </div>
     </div>
     </form>
 </div>
@@ -133,18 +143,33 @@ return [
 <script>
     $(document).ready(function() {
         const $button_edit = $("#button-edit2");
-        const $button_cetak = $("#button-cetak2");
         const $button_submit = $("#button-submit2");
         $button_submit.hide();
+
         $("#table_pembayaran tbody tr td:first-child").hide();
         $("#table_pembayaran thead tr th:first-child").hide();
+        $('.tabs').click(function() {
+            if ($('#Pembayaran').hasClass('d-none')) {
+                $('input[name="no_petikemas"]').prop("disabled", true);
+                $('input[name="jenis_ukuranpembayaran"]').prop("disabled", true);
+                $('input[name="harga"]').prop("disabled", true);
+                $("#button-edit2").show();
+                $("#button-submit2").hide();
+                $("#table_pembayaran thead tr th:nth-child(6)").show();
+                $("#table_pembayaran thead tr th:last-child").show();
+                $("#table_pembayaran tbody tr td:nth-child(6)").show();
+                $("#table_pembayaran tbody tr td:last-child").show();
+                $("#table_pembayaran tbody tr td:first-child").hide();
+                $("#table_pembayaran thead tr th:first-child").hide();
+
+            }
+        });
         $button_edit.on("click", function(e) {
             e.preventDefault();
             $('input[name="no_petikemas"]').prop("disabled", false);
             $('input[name="jenis_ukuranpembayaran"]').prop("disabled", false);
             $('input[name="harga"]').prop("disabled", false);
             $button_edit.hide();
-            $button_cetak.show();
             $button_submit.show();
             $button_submit.prop("disabled", true);
             $("#table_pembayaran thead tr th:nth-child(6)").hide();
@@ -180,16 +205,19 @@ return [
             let errorOccured = false; // Flag to track validation errors
             let checkboxval = [];
             let selectval = [];
+
             $("#table_pembayaran tbody tr").each(function(index, row) {
                 const $row = $(this);
                 const $checkbox = $row.find('input[name="id_penghubung[]"]');
                 const $select = $row.find('select[name="metode[]"]');
-                checkboxval.push($checkbox.val());
-                selectval.push($select.val());
+
                 if ($checkbox.prop("checked") && !$select.val()) {
                     $select.addClass('is-invalid');
                     $row.find('.invalid-feedback').text('Please select a method.');
-                    errorOccured = true; // Set error flag to true if validation fails
+                    errorOccured = true;
+                } else if ($checkbox.prop("checked") && $select.val()) {
+                    checkboxval.push($checkbox.val());
+                    selectval.push($select.val());
                 }
             });
 
@@ -201,12 +229,13 @@ return [
                     data: {
                         _token: '{{ csrf_token() }}',
                         id_penghubung: checkboxval,
-                        metode: selectval
+                        metode: selectval,
+                        id_transaksi: $("#button-submit2").val(),
                     },
 
                     success: function(response) {
-                        location.reload();
-                        console.log(repsone.id)
+                        showAlert(response.message);
+                        console.log(checkboxval);
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);

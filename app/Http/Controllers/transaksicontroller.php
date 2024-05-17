@@ -10,6 +10,8 @@ use App\Models\petikemas;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\UniqueArrayValues;
 use App\Rules\RequriedArrayValues;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class transaksicontroller extends Controller
 {
@@ -181,7 +183,33 @@ class transaksicontroller extends Controller
             ],
         ]);
     }
+    public function laporanbulanantransaksi(Request $request)
+    {
 
+        $selectedValue = $request->input('jenis_kegiatan');
+        $selectedMonth = $request->input('bulan_transaksi');
+
+        $query = Transaksi::query();
+
+        if ($selectedValue) {
+            $query->where('jenis_kegiatan', $selectedValue);
+        }
+
+        if ($selectedMonth) {
+            $query->whereMonth('tanggal_transaksi', date('m', strtotime($selectedMonth)));
+        }
+        $filteredData = $query->with('penghubungs.petikemas')->get();
+
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+        $pdf = PDF::loadView('pdf.laporanbulanantransaksi', [
+            'filteredData' => $filteredData,
+            'selectedValue' => $selectedValue,
+            'selectedMonth' => $selectedMonth,
+        ]);
+        return $pdf->download('laporan_bulanan_transaksi.pdf');
+    }
     public function editentrydata(Request $request, $id)
     {
         $transaksi = transaksi::where('id', $id)->first();
@@ -274,39 +302,55 @@ class transaksicontroller extends Controller
         ]);
     }
 
-    public function cetak(Request $request)
+    public function cetakspk(Request $request, $id)
     {
         $status_cetak_spk = $request->input('status');
         $id_penghubung = $request->input('id_penghubung');
         $penghubungs = penghubung::findOrFail($id_penghubung);
         $penghubungs->pembayaran->update(['status_cetak_spk' => $status_cetak_spk]);
+        $transaksi = transaksi::with('penghubungs.petikemas')
+            ->whereHas('penghubungs', function ($query) use ($id_penghubung) {
+                $query->where('id', $id_penghubung);
+            })
+            ->findOrFail($id);
+        $transaksi = transaksi::with(['penghubungs' => function ($query) use ($id_penghubung) {
+            $query->where('id', $id_penghubung);
+        }, 'penghubungs.petikemas'])
+            ->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-
+        // Assuming you only need one penghubung, take the first result
+        $relatedPenghubung = $transaksi->penghubungs->first();
+        $pdf = PDF::loadView('pdf.spk', [
+            'transaksi' => $transaksi,
+            'penghubung' => $relatedPenghubung,
         ]);
+
+        return $pdf->download('spk_' . $transaksi->no_transaksi . '.pdf');
     }
     public function editpembayaran(Request $request)
     {
         $id_penghubung = $request->input('id_penghubung');
         $metode = $request->input('metode');
+        $id_transaksi = $request->input('id_transaksi');
         $i = 0;
         foreach ($id_penghubung as $id) {
 
-            $penghubung = penghubung::where('id', $id)->first();
-            // Assuming $penghubung->pembayaran represents a single payment associated with $penghubung
-            $penghubung->pembayaran->update([
-                'metode' => $metode[$i], // Use the corresponding metode for the current $id_penghubung
-                'tanggal_pembayaran' => now()
-            ]);
+            $pembayaran = pembayaran::where('penghubung_id', $id)->first();
+            $pembayaran->metode =  $metode[$i];
+            $pembayaran->tanggal_pembayaran = now();
+            $pembayaran->status_pembayaran = "sudah lunas";
+            $pembayaran->save();
+
             $i++;
         }
-
-
+        $transaksi = transaksi::where('id', $id_transaksi)->first();
+        if ($transaksi->tanggal_transaksi == null) {
+            $transaksi->tanggal_transaksi = now();
+            $transaksi->save();
+        }
         return response()->json([
             'success' => true,
-            'message' => 'Data Transaksi Berhasil Dihapus!',
-            'id' => $request->id_penghubung,
+            'message' => 'Kwitansi Berhasil Dicetak!',
         ]);
     }
 }
