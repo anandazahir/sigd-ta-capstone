@@ -105,7 +105,7 @@
         <div id="Pengecekan" class="tab-pane fade in d-none">
             <x-table-pengecekan :data="$transaksi" />
             <x-table-kerusakan />
-            <x-form-table-pengecekan />
+            <x-form-create-pengecekan :data="$transaksi" />
             <x-form-edit-pengecekan />
         </div>
 

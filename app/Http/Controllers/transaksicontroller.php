@@ -371,15 +371,13 @@ class transaksicontroller extends Controller
         ]);
         return $pdf->download('kwitansi' . $transaksi->no_transaksi . '.pdf');
     }
+    
     public function storepengecekan(Request $request, $id)
     {
-        $transaksi = transaksi::with('penghubungs.petikemas')->findOrFail($id);
-        foreach ($transaksi->penghubung->pembayaran as $petikemas) {
-            $petikemascetak = $petikemas::where('status_cetak_spk', 'sudah cetak')->get();
-        }
         $validator = Validator::make($request->all(), [
             'id_penghubung' => 'required',
-            'jumlah_petikemas' => 'required|numeric|min:0|max:10',
+            'jumlah_kerusakan' => 'required|numeric|min:0|max:10',
+            'jenis_ukuran_pengecekan' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -389,11 +387,10 @@ class transaksicontroller extends Controller
         $pengecekan->kondisi_peti_kemas = $request->jumlah_kerusakan > 0 ? 'damage' : 'available';
         $pengecekan->tanggal_pengecekan = now();
         $pengecekan->survey_in = "rizal";
-        $pengecekan->$pengecekan->save();
+        $pengecekan->save();
         return response()->json([
             'success' => true,
-            'message' => 'Data Transaksi Berhasil Dihapus!',
-            'petikemas' => $petikemascetak,
+            'message' => 'Data Transaksi Berhasil Ditambah!',
         ]);
     }
 }

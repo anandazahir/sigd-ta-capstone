@@ -261,6 +261,7 @@ return [
         $('#edit-entrydata-form').on('submit', function(e) {
             e.preventDefault();
             const formData = $(this).serialize();
+            const $form = $(this);
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
@@ -282,14 +283,15 @@ return [
                         alert("Data Tidak Ditemukan!");
                     }
 
-                    $(this).find('.is-invalid').removeClass('is-invalid');
-                    $(this).find('.invalid-feedback').text('');
+                    $form.find('.is-invalid').removeClass('is-invalid');
+                    $form.find('.invalid-feedback').text('');
 
                     $.each(errors, function(key, value) {
-                        const element = $(this).find(`[name="${key}"]`);
+                        const element = $('#edit-entrydata-form').find(`[name="${key}"]`);
+                        console.log(element);
                         element.addClass('is-invalid');
                         element.next('.invalid-feedback').text(value[0]);
-                        const elementArray = $(this).find(`[name="${key}[]"]`);
+                        const elementArray = $('#edit-entrydata-form').find(`[name="${key}[]"]`);
                         elementArray.addClass('is-invalid');
                         elementArray.next('.invalid-feedback').text(value[0]);
                     });

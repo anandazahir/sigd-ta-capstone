@@ -1,3 +1,4 @@
+
 <div class="modal fade fade " tabindex="-1" id="create-pengecekan" aria-labelledby="create-pengecekan" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -6,25 +7,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form method= "POST" id="create_form_pengecekan" action="{{ route('transaksi.storepengecekan', $data->id) }}">
+                    @csrf
                     <div class="row">
                         <div class="col-lg-6 mb-3 form-group">
                             <label for="no peti kemas" class="form-label">No Peti Kemas</label>
-                            <select class="form-select" aria-label="Default select example" required>
+                            <select name="id_penghubung" class="form-select" id="id_penghubung" aria-label="Default select example" required>
                                 <option selected>Plih Opsi Ini</option>
-                                <option value="peti a">Peti A</option>
-                                <option value="peti b">Peti B</option>
+                                @foreach ($data->penghubungs as $penghubung)
+                                @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak')
+                                <option value="{{ $penghubung->pengecekan->penghubung_id }}" data-jenis-ukuran="{{ $penghubung->petikemas->jenis_ukuran }}">{{ $penghubung->petikemas->no_petikemas }}</option>
+                                @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-lg-6 mb-3 form-group">
-                            <label for="size & type" class="form-label">Size & Type:</label>
-                            <input type="text" class="form-control" id="size & type" placeholder="Size & Type" name="size & type" required>
+                            <label for="size & type" class="form-label">Size & Type:</label>     
+                            <input type="text" class="form-control" id="jenis_ukuran_pengecekan" placeholder="Size & Type" name="jenis_ukuran_pengecekan" required readonly>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-                            <input type="number" min="0" class="form-control" id="jumlahkerusakan2" placeholder="Jumlah Kerusakan" name="jumlah kerusakan" required value="0">
+                            <input type="number" min="0" class="form-control" id="jumlahkerusakan2" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan" required value="0">
                         </div>
                     </div>
 
@@ -106,5 +111,12 @@
                 $("#myTable2").hide();
             }
         });
+
+        $('#id_penghubung').change(function () {
+            var selectedOption = $(this).find('option:selected');
+            var jenisUkuran = selectedOption.data('jenis-ukuran');
+            $('#jenis_ukuran_pengecekan').val(jenisUkuran || '');
+        });
+
     });
 </script>
