@@ -16,6 +16,14 @@ class pengecekan extends Model
 
     public function penghubung()
     {
-        return $this->belongsTo(kerusakan::class);
+        return $this->belongsTo(penghubung::class);
+    }
+    public function pengecekanhistory()
+    {
+        return $this->hasMany(pengecekanhistory::class);
+    }
+    public function kerusakan()
+    {
+        return $this->hasMany(kerusakan::class);
     }
 }

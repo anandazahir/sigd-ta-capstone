@@ -147,3 +147,6 @@ setlocale(LC_TIME, 'id_ID');
         </button>
     </div>
 </div>
+<x-modal-form id="form-edit-transaksi" size="" text="Edit Transaksi | {{$data->no_transaksi}}">
+    <x-form-edit-transaksi :data="$data" />
+</x-modal-form>

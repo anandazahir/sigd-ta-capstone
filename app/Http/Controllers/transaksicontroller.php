@@ -237,7 +237,7 @@ class transaksicontroller extends Controller
                 if ($item->petikemas_id != $new_petikemas_id) {
 
                     $pembayarans = Pembayaran::where('penghubung_id', $item->id)->get();
-                    $pengecekan = Pengecekan::where('penghubung_id', $item->id)->get();
+                    $pengecekans = Pengecekan::where('penghubung_id', $item->id)->get();
                     foreach ($pembayarans as $pembayaran) {
 
                         $pembayaran->tanggal_pembayaran = null;
@@ -246,11 +246,15 @@ class transaksicontroller extends Controller
                         $pembayaran->metode = null;
                         $pembayaran->status_cetak_spk = "belum cetak";
                         $pembayaran->save();
+                    }
+                    foreach ($pengecekans as $pengecekan) {
                         $pengecekan->jumlah_kerusakan = null;
                         $pengecekan->kondisi_peti_kemas = null;
                         $pengecekan->tanggal_pengecekan = null;
                         $pengecekan->survey_in = null;
+                        $pengecekan->save();
                     }
+
                     $item->update(['petikemas_id' => $new_petikemas_id]);
                 }
             }
@@ -269,10 +273,10 @@ class transaksicontroller extends Controller
                 $new_pembayaran->status_cetak_spk = "belum cetak";
                 $new_pembayaran->status_pembayaran = "belum lunas";
                 $new_pembayaran->save();
-                $pengecekan = new pengecekan();
-                $pengecekan->penghubung_id = $new_penghubung->id;
-                $pengecekan->transaksi_id = $id;
-                $pengecekan->save();
+                $new_pengecekan = new pengecekan();
+                $new_pengecekan->penghubung_id = $new_penghubung->id;
+                $new_pengecekan->transaksi_id = $id;
+                $new_pengecekan->save();
             }
         }
         // $transaksi->jumlah_petikemas=count($penghubung);
@@ -284,7 +288,7 @@ class transaksicontroller extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Diubah!',
-            'data' => $transaksi,
+
         ]);
     }
 
@@ -371,20 +375,20 @@ class transaksicontroller extends Controller
         ]);
         return $pdf->download('kwitansi' . $transaksi->no_transaksi . '.pdf');
     }
-    
-    public function storepengecekan(Request $request, $id)
+
+    public function storepengecekan(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id_penghubung' => 'required',
-            'jumlah_kerusakan' => 'required|numeric|min:0|max:10',
+            'jumlah_kerusakan2' => 'required|numeric|min:0|max:10',
             'jenis_ukuran_pengecekan' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
         $pengecekan = pengecekan::where('penghubung_id', $request->id_penghubung)->first();
-        $pengecekan->jumlah_kerusakan = $request->jumlah_kerusakan;
-        $pengecekan->kondisi_peti_kemas = $request->jumlah_kerusakan > 0 ? 'damage' : 'available';
+        $pengecekan->jumlah_kerusakan = $request->jumlah_kerusakan2;
+        $pengecekan->kondisi_peti_kemas = $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available';
         $pengecekan->tanggal_pengecekan = now();
         $pengecekan->survey_in = "rizal";
         $pengecekan->save();

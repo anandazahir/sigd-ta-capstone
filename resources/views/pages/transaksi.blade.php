@@ -106,7 +106,7 @@
             </div>
         </div>
         <x-modal-form-delete route="/transaksi/delete" />
-        <x-modal-form id="form-create-transaksi" size="modal-xl">
+        <x-modal-form id="form-create-transaksi" size="modal-xl" text="Tambah Transaksi">
             <x-form-create-transaksi />
         </x-modal-form>
         <x-toast />

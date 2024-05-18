@@ -97,7 +97,7 @@ return [
         </form>
     </div>
 </div>
-
+<x-modal-form-delete route="/transaksi/deleteentrydata" />
 <script>
     $(document).ready(function() {
         const $button_tambah_entry = $("#button-tambah-entry");
@@ -259,44 +259,8 @@ return [
 
         // Handle form submission
         $('#edit-entrydata-form').on('submit', function(e) {
-            e.preventDefault();
-            const formData = $(this).serialize();
-            const $form = $(this);
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-
-                        showAlert(response.message); // Show success message
-                        $button_tambah_entry.hide();
-                        $button_submit.hide();
-                        $button_edit.show();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    const errors = xhr.responseJSON.errors;
-                    if (xhr.status === 500) {
-                        alert("Kolom Unik Tidak Boleh Sama!")
-                    } else if (xhr.status === 404) {
-                        alert("Data Tidak Ditemukan!");
-                    }
-
-                    $form.find('.is-invalid').removeClass('is-invalid');
-                    $form.find('.invalid-feedback').text('');
-
-                    $.each(errors, function(key, value) {
-                        const element = $('#edit-entrydata-form').find(`[name="${key}"]`);
-                        console.log(element);
-                        element.addClass('is-invalid');
-                        element.next('.invalid-feedback').text(value[0]);
-                        const elementArray = $('#edit-entrydata-form').find(`[name="${key}[]"]`);
-                        elementArray.addClass('is-invalid');
-                        elementArray.next('.invalid-feedback').text(value[0]);
-                    });
-                }
-            });
+            e.preventDefault()
+            handleFormSubmission(this);
         });
 
     });

@@ -21,4 +21,12 @@ class transaksi extends Model
     {
         return $this->hasMany(pengecekan::class);
     }
+    public function perbaikan()
+    {
+        return $this->hasMany(perbaikan::class);
+    }
+    public function penempatan()
+    {
+        return $this->hasMany(penempatan::class);
+    }
 }
