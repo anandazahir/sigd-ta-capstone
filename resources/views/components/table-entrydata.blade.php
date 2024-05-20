@@ -103,11 +103,10 @@ return [
         const $button_tambah_entry = $("#button-tambah-entry");
         const $button_submit = $("#button-submit");
         const $button_edit = $("#button-edit");
-
+        console.log($("#table_entrydata tbody tr").length)
         $('.tabs').click(function() {
-
-
             if ($('#EntryData').hasClass('d-none')) {
+
                 $button_edit.show();
                 $button_submit.hide();
                 $button_tambah_entry.hide();
@@ -118,6 +117,7 @@ return [
                 $("#table_entrydata thead tr th:last-child").show();
                 $("#table_entrydata tbody tr td:nth-child(4)").show();
                 $("#table_entrydata tbody tr td:last-child").show();
+
             }
 
         });

@@ -17,8 +17,4 @@ class perbaikan extends Model
     {
         return $this->belongsTo(transaksi::class);
     }
-    public function perbaikanhistory()
-    {
-        return $this->hasMany(perbaikanhistory::class);
-    }
 }

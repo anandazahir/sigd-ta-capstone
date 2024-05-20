@@ -21,7 +21,7 @@ break;
         </div>
 
         <div class="bg-white mt-3 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
-            @if($penghubung->pembayaran->status_pembayaran !== 'sudah lunas' && $semuaBelumCetak)
+            @if( $semuaBelumCetak)
             <div class="h-100 align-content-center">
                 <h3 class="text-center">Data Peti Kemas Belum Lunas / Cetak SPK</h3>
             </div>
@@ -30,13 +30,15 @@ break;
                 <thead>
                     <tr>
                         @foreach ($data->penghubungs as $penghubung)
-                        @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak')
+                        @if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak')
                         <th scope="col" class="fw-semibold">No Peti Kemas</th>
                         <th scope="col" class="fw-semibold">Size & Type</th>
                         <th scope="col" class="fw-semibold">List Kerusakan</th>
+                        @break
                         @endif
+                        @endforeach
+                        @foreach ($data->penghubungs as $penghubung)
                         @if ($penghubung->pengecekan->survey_in)
-
                         <th scope="col" class="fw-semibold">Jumlah Kerusakan</th>
                         <th scope="col" class="fw-semibold">Tanggal Pengecekan</th>
                         <th scope="col" class="fw-semibold">Kondisi</th>
@@ -49,8 +51,6 @@ break;
                 </thead>
                 <tbody>
                     @foreach($data->penghubungs as $penghubung)
-
-
                     @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak')
                     <tr>
                         <td class="text-center">
@@ -61,7 +61,7 @@ break;
                         </td>
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail kerusakan">
-                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#show-kerusakan"><span class="fs-semibold">LIST KERUSAKAN</span></button>
+                                <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" value="{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                             </div>
                         </td>
 
@@ -79,12 +79,15 @@ break;
 
                         </td>
                         <td class="text-center d-flex gap-1">
-                            <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
-                            <span>{{$penghubung->pengecekan->survey_in}}</span>
+                            <div class="mx-auto d-flex gap-1">
+                                <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
+                                <span>{{$penghubung->pengecekan->survey_in}}</span>
+                            </div>
+
                         </td>
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan">
+                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan" id="edit_pengecekan" value="{{$penghubung->pengecekan->id}}">
                                     <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
                                 </button>
                             </div>
@@ -102,5 +105,13 @@ break;
 <x-modal-form size="modal-xl" id="create-pengecekan-modal" text="Tambah Pengecekan">
     <x-form-create-pengecekan :data="$data" />
 </x-modal-form>
+
 <x-table-kerusakan />
+
 <x-form-edit-pengecekan />
+<script>
+    $(document).ready(function() {
+
+
+    });
+</script>

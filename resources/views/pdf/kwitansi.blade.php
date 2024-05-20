@@ -58,13 +58,16 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($penghubung as $item)
             <tr>
-                <td>{{ $penghubung->petikemas->no_petikemas }}</td>
-                <td>{{ $penghubung->petikemas->jenis_ukuran }}</td>
-                <td>{{ $penghubung->petikemas-> harga}}</td>
-                <td>{{ $penghubung->pembayaran-> metode}}</td>
-                <td>{{ $penghubung->petikemas->tanggal_pembayaran }}</td>
+                <td>{{ $item->petikemas->no_petikemas }}</td>
+                <td>{{ $item->petikemas->jenis_ukuran }}</td>
+                <td>{{ $item->petikemas-> harga}}</td>
+                <td>{{ $item->pembayaran-> metode}}</td>
+                <td>{{ $item->petikemas->tanggal_pembayaran }}</td>
             </tr>
+            @endforeach
+
         </tbody>
     </table>
 </body>

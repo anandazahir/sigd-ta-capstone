@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('petikemas', function (Blueprint $table) {
             $table->id();
             $table->string('no_petikemas')->unique();
-            /*$table->foreignId('transaksi_id');*/
             $table->dateTime('tanggal_keluar')->nullable();
             $table->dateTime('tanggal_masuk');
             $table->string('jenis_ukuran');
             $table->string('pelayaran');
             $table->bigInteger('harga');
+            $table->string('status_ketersediaan');
+            $table->string('status_kondisi');
+            $table->string('lokasi');
             $table->timestamps();
         });
     }

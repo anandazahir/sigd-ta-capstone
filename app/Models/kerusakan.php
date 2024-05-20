@@ -18,8 +18,4 @@ class kerusakan extends Model
     {
         return $this->belongsTo(perbaikan::class);
     }
-    public function kerusakanhistory()
-    {
-        return $this->hasMany(kerusakanhistory::class);
-    }
 }

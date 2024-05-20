@@ -1,4 +1,4 @@
-<form method="POST" id="create_form_pengecekan" action="{{ route('transaksi.storepengecekan', $data->id) }}">
+<form method="POST" id="create_form_pengecekan" action="{{ route('transaksi.storepengecekan', $data->id) }}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
@@ -25,7 +25,7 @@
     </div>
     <h5 id="text-between">List Kerusakan</h5>
     <div class="table-responsive">
-        <table class="table text-center" id="myTable2">
+        <table class="table text-center" id="table_create_pengecekan">
             <thead>
                 <tr>
                     <th scope="col">Lokasi</th>
@@ -47,43 +47,46 @@
 <script>
     $(document).ready(function() {
 
-        $("#myTable2").hide();
+        $("#table_create_pengecekan").hide();
         $("#text-between").hide();
         $("#jumlahkerusakan2").on("change", function() {
             var rowCount = parseInt($(this).val());
             if (rowCount > 0) {
-                $("#myTable2").show();
+                $("#table_create_pengecekan").show();
                 $("#text-between").show();
-                $("#myTable2 tbody").empty();
+                $("#table_create_pengecekan tbody").empty();
 
                 for (var i = 0; i < rowCount; i++) {
                     let rowObject = $('<tr>' +
                         '<td class="text-center">' +
-                        '<input class="form-control" type="text">' +
+                        '<input class="form-control" type="text" name="lokasi_kerusakan[]"> ' +
+                        '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
-                        '<input class="form-control" type="text">' +
+                        '<input class="form-control" type="text" name="komponen[]"> ' +
+                        '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
-                        '<select class="form-select" aria-label="Default select example">' +
-                        '<option selected>Open this select menu</option>' +
+                        '<select class="form-select" aria-label="Default select example" name="metode[]">' +
+                        '<option selected disabled>Open this select menu</option>' +
                         '<option value="1">One</option>' +
                         '<option value="2">Two</option>' +
                         '<option value="3">Three</option>' +
                         '</select>' +
+                        '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
-                        '<input type="file" name="foto_pengecekan_' + (i + 1) +
-                        '" id="" class="form-control">' +
+                        '<input type="file" name="foto_pengecekan[]" id="" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
+                        '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '</tr>');
-                    $("#myTable2 tbody").append(rowObject); // Append new rows using rowObject as a template
+                    $("#table_create_pengecekan tbody").append(rowObject); // Append new rows using rowObject as a template
                 }
 
 
             } else {
-                $("#myTable2").hide();
-                $("#myTable2 tbody").empty();
+                $("#table_create_pengecekan").hide();
+                $("#table_create_pengecekan tbody").empty();
                 $("#text-between").hide();
             }
         });

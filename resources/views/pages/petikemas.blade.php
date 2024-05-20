@@ -131,6 +131,7 @@
                                 <th scope="col" class="fw-semibold">Pelayaran</th>
                                 <th scope="col" class="fw-semibold">Status Kondisi</th>
                                 <th scope="col" class="fw-semibold">Status Ketersediaan</th>
+                                <th scope="col" class="fw-semibold">Lokasi</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -157,7 +158,7 @@
             </div>
         </div>
         <x-modal-form-delete route="/peti-kemas/delete" />
-        <x-modal-form id="form-create-petikemas" size="">
+        <x-modal-form id="form-create-petikemas" size="" text="Tambah Petikemas">
             <x-form-create-petikemas />
         </x-modal-form>
         <x-toast />

@@ -2,36 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pembayaran;
-use App\Models\pengecekan;
-use App\Models\penghubung;
-use Illuminate\Http\Request;
-use App\Models\transaksi;
+use App\Models\Kerusakan;
+use App\Models\Pembayaran;
+use App\Models\Penempatan;
+use App\Models\Pengecekan;
+use App\Models\Penghubung;
+use App\Models\Perbaikan;
 use App\Models\petikemas;
+use Illuminate\Http\Request;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\UniqueArrayValues;
 use App\Rules\RequriedArrayValues;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class transaksicontroller extends Controller
+class TransaksiController extends Controller
 {
     public function index()
     {
-        // $transaksi = transaksi::all();
-        // return view('pages.transaksi', compact('transaksi'));
         return view('pages.transaksi');
     }
 
     public function show($id)
     {
-        //$transaksi = transaksi::find($id);
-        $transaksi = transaksi::with('penghubungs.petikemas')->findOrFail($id);
+        $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
         return view('pages.transaksi-more', compact('transaksi'));
     }
+
+    private function createRelatedRecords($penghubungId, $transaksiId)
+    {
+        Pembayaran::create([
+            'penghubung_id' => $penghubungId,
+            'transaksi_id' => $transaksiId,
+            'status_cetak_spk' => 'belum cetak',
+            'status_pembayaran' => 'belum lunas',
+        ]);
+
+        $pengecekan = Pengecekan::create([
+            'penghubung_id' => $penghubungId,
+            'transaksi_id' => $transaksiId,
+        ]);
+
+        $perbaikan = Perbaikan::create([
+            'penghubung_id' => $penghubungId,
+            'transaksi_id' => $transaksiId,
+        ]);
+
+        Kerusakan::create([
+            'perbaikan_id' => $perbaikan->id,
+            'pengecekan_id' => $pengecekan->id,
+        ]);
+
+        Penempatan::create([
+            'penghubung_id' => $penghubungId,
+            'transaksi_id' => $transaksiId,
+        ]);
+    }
+
     public function storeEntryData(Request $request)
     {
-        // Validate the request data
         $validator = Validator::make($request->all(), [
             'jenis_kegiatan' => 'required|in:impor,ekspor',
             'perusahaan' => 'required',
@@ -50,7 +81,6 @@ class transaksicontroller extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Generate a unique transaction number
         $current_date = now();
         $jenis_kegiatan = $request->jenis_kegiatan == 'impor' ? 'DO.IN' : 'DO.OUT';
         $latest_transaction = Transaksi::latest()->where('jenis_kegiatan', $request->jenis_kegiatan)->first();
@@ -59,37 +89,27 @@ class transaksicontroller extends Controller
         $bulan_tahun = date('mY', strtotime($current_date));
         $no_transaksi = $nomor_urut . '-' . $jenis_kegiatan . '-' . $bulan_tahun;
 
-        // Create and save the transaction
-        $transaksi = new Transaksi();
-        $transaksi->jenis_kegiatan = $request->jenis_kegiatan;
-        $transaksi->perusahaan = $request->perusahaan;
-        $transaksi->no_do = $request->no_do;
-        $transaksi->tanggal_DO_rilis = $request->tanggal_DO_rilis;
-        $transaksi->tanggal_DO_exp = $request->tanggal_DO_exp;
-        $transaksi->kapal = $request->kapal;
-        $transaksi->emkl = $request->emkl;
-        $transaksi->jumlah_petikemas = $request->jumlah_petikemas;
-        $transaksi->inventory = "rizal";
-        $transaksi->no_transaksi = $no_transaksi;
-        $transaksi->save();
-        $transaksi_id = $transaksi->id;
+        $transaksi = Transaksi::create([
+            'jenis_kegiatan' => $request->jenis_kegiatan,
+            'perusahaan' => $request->perusahaan,
+            'no_do' => $request->no_do,
+            'tanggal_DO_rilis' => $request->tanggal_DO_rilis,
+            'tanggal_DO_exp' => $request->tanggal_DO_exp,
+            'kapal' => $request->kapal,
+            'emkl' => $request->emkl,
+            'jumlah_petikemas' => $request->jumlah_petikemas,
+            'inventory' => 'rizal',
+            'no_transaksi' => $no_transaksi,
+        ]);
+
         foreach ($request->no_petikemas as $no_petikemas) {
-            $penghubung = new penghubung();
-            $penghubung->transaksi_id = $transaksi_id;
-            $penghubung->petikemas_id = $no_petikemas;
-            $penghubung->save();
-            $relasiId = $penghubung->id;
-            $pembayaran = new pembayaran();
-            $pembayaran->penghubung_id = $relasiId;
-            $pembayaran->transaksi_id = $transaksi_id;
-            $pembayaran->status_pembayaran = "belum lunas";
-            $pembayaran->status_cetak_spk = "belum cetak";
-            $pembayaran->save();
-            $pengecekan = new pengecekan();
-            $pengecekan->penghubung_id = $relasiId;
-            $pengecekan->transaksi_id = $transaksi_id;
-            $pengecekan->save();
+            $penghubung = Penghubung::create([
+                'transaksi_id' => $transaksi->id,
+                'petikemas_id' => $no_petikemas,
+            ]);
+            $this->createRelatedRecords($penghubung->id, $transaksi->id);
         }
+
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Ditambahkan!',
@@ -110,30 +130,30 @@ class transaksicontroller extends Controller
             'inventory' => 'required',
             'tanggal_transaksi' => 'required',
         ];
+
         if ($request->has('no_do')) {
-            $rules['no_do'] = 'required|min:8|unique:transaksis,no_do,' . $request->input('no_do') . ',no_do';
+            $rules['no_do'] = 'required|min:8|unique:transaksis,no_do,' . $id;
         }
+
         $validator = Validator::make($request->all(), $rules);
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $transaksi = transaksi::findOrFail($id);
-        if ($request->jenis_kegiatan == 'impor') {
-            $transaksi->no_transaksi = str_replace('DO.OUT', 'DO.IN', $transaksi->no_transaksi);
-        } elseif ($request->jenis_kegiatan == 'ekspor') {
-            $transaksi->no_transaksi = str_replace('DO.IN', 'DO.OUT', $transaksi->no_transaksi);
-        }
-        $transaksi->save();
+
+        $transaksi = Transaksi::findOrFail($id);
+
         $transaksi->update($request->all());
+
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Diubah!',
         ]);
     }
+
     public function delete(Request $request)
     {
-
-        $transaksi = transaksi::findOrFail($request->id);
+        $transaksi = Transaksi::findOrFail($request->id);
         $transaksi->delete();
 
         return response()->json([
@@ -144,14 +164,11 @@ class transaksicontroller extends Controller
 
     public function filter(Request $request)
     {
-
         $selectedValue = $request->input('jenis_kegiatan');
         $selectedMonth = $request->input('bulan_transaksi');
         $searchTerm = $request->input('search');
 
-
         $query = Transaksi::query();
-
 
         if ($selectedValue) {
             $query->where('jenis_kegiatan', $selectedValue);
@@ -172,8 +189,10 @@ class transaksicontroller extends Controller
                     ->orWhere('emkl', 'like', '%' . $searchTerm . '%');
             });
         }
+
         $perPage = 3;
         $filteredData = $query->paginate($perPage);
+
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
@@ -188,9 +207,9 @@ class transaksicontroller extends Controller
             ],
         ]);
     }
+
     public function laporanbulanantransaksi(Request $request)
     {
-
         $selectedValue = $request->input('jenis_kegiatan');
         $selectedMonth = $request->input('bulan_transaksi');
 
@@ -203,21 +222,24 @@ class transaksicontroller extends Controller
         if ($selectedMonth) {
             $query->whereMonth('tanggal_transaksi', date('m', strtotime($selectedMonth)));
         }
+
         $filteredData = $query->with('penghubungs.petikemas')->get();
 
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
         }
-        $pdf = PDF::loadView('pdf.laporanbulanantransaksi', [
-            'filteredData' => $filteredData,
+
+        $pdf = Pdf::loadView('pdf.laporanbulanantransaksi', [
             'selectedValue' => $selectedValue,
             'selectedMonth' => $selectedMonth,
+            'transaksis' => $filteredData,
         ]);
+
         return $pdf->download('laporan_bulanan_transaksi.pdf');
     }
-    public function editentrydata(Request $request, $id)
+    public function editEntryData(Request $request, $id)
     {
-        $transaksi = transaksi::where('id', $id)->first();
+        $transaksi = Transaksi::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'no_petikemas' => ['required', 'array', 'min:1', new UniqueArrayValues, new RequriedArrayValues],
@@ -228,115 +250,118 @@ class transaksicontroller extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $penghubung = penghubung::where('transaksi_id', $id)->get(); // Assuming you want to retrieve all penghubung with the given transaksi_id
 
-        foreach ($penghubung as $index => $item) {
-            if (isset($request->no_petikemas[$index])) {
-                $new_petikemas_id = $request->no_petikemas[$index];
+        $existingPenghubung = Penghubung::where('transaksi_id', $id)->get();
+        $noPetikemas = $request->no_petikemas;
 
-                if ($item->petikemas_id != $new_petikemas_id) {
-
-                    $pembayarans = Pembayaran::where('penghubung_id', $item->id)->get();
-                    $pengecekans = Pengecekan::where('penghubung_id', $item->id)->get();
-                    foreach ($pembayarans as $pembayaran) {
-
-                        $pembayaran->tanggal_pembayaran = null;
-                        $pembayaran->status_pembayaran = "belum lunas";
-                        $pembayaran->kasir = null;
-                        $pembayaran->metode = null;
-                        $pembayaran->status_cetak_spk = "belum cetak";
-                        $pembayaran->save();
-                    }
-                    foreach ($pengecekans as $pengecekan) {
-                        $pengecekan->jumlah_kerusakan = null;
-                        $pengecekan->kondisi_peti_kemas = null;
-                        $pengecekan->tanggal_pengecekan = null;
-                        $pengecekan->survey_in = null;
-                        $pengecekan->save();
-                    }
-
-                    $item->update(['petikemas_id' => $new_petikemas_id]);
+        foreach ($existingPenghubung as $index => $item) {
+            if (isset($noPetikemas[$index])) {
+                $newPetikemasId = $noPetikemas[$index];
+                if ($item->petikemas_id != $newPetikemasId) {
+                    $this->resetRelatedEntries($item->id);
+                    $item->update(['petikemas_id' => $newPetikemasId]);
                 }
             }
         }
 
-        if (count($request->no_petikemas) > count($penghubung)) {
-            for ($i = 0; $i < (count($request->no_petikemas) - count($penghubung)); $i++) {
+        if (count($noPetikemas) > count($existingPenghubung)) {
+            for ($i = 0; $i < (count($noPetikemas) - count($existingPenghubung)); $i++) {
+                $new_penghubung = Penghubung::create([
+                    'transaksi_id' => $id,
+                    'petikemas_id' => $noPetikemas[$i + count($existingPenghubung)],
+                ]);
 
-                $new_penghubung = new Penghubung();
-                $new_penghubung->petikemas_id = $request->no_petikemas[$i + count($penghubung)];
-                $new_penghubung->transaksi_id = $id;
-                $new_penghubung->save();
-                $new_pembayaran = new Pembayaran();
-                $new_pembayaran->penghubung_id = $new_penghubung->id;
-                $new_pembayaran->transaksi_id = $id;
-                $new_pembayaran->status_cetak_spk = "belum cetak";
-                $new_pembayaran->status_pembayaran = "belum lunas";
-                $new_pembayaran->save();
-                $new_pengecekan = new pengecekan();
-                $new_pengecekan->penghubung_id = $new_penghubung->id;
-                $new_pengecekan->transaksi_id = $id;
-                $new_pengecekan->save();
+                $this->createRelatedRecords($new_penghubung->id, $id);
             }
         }
-        // $transaksi->jumlah_petikemas=count($penghubung);
-        // $transaksi->save();
-        $updated_penghubung_count = penghubung::where('transaksi_id', $id)->count();
 
-        $transaksi->update(['jumlah_petikemas' => $updated_penghubung_count]);
+        $updatedPenghubungCount = Penghubung::where('transaksi_id', $id)->count();
+        $transaksi->update(['jumlah_petikemas' => $updatedPenghubungCount]);
 
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Diubah!',
-
         ]);
     }
 
+    private function resetRelatedEntries($penghubungId)
+    {
+        Pembayaran::where('penghubung_id', $penghubungId)->update([
+            'tanggal_pembayaran' => null,
+            'status_pembayaran' => "belum lunas",
+            'kasir' => null,
+            'metode' => null,
+            'status_cetak_spk' => "belum cetak",
+        ]);
+
+        Pengecekan::where('penghubung_id', $penghubungId)->update([
+            'jumlah_kerusakan' => null,
+
+            'tanggal_pengecekan' => null,
+            'survey_in' => null,
+        ]);
+
+        $perbaikans = Perbaikan::where('penghubung_id', $penghubungId)->first();
+
+        $perbaikans->update([
+            'tanggal_perbaikan' => null,
+            'repair' => null,
+        ]);
+        $kerusakans = Kerusakan::where('perbaikan_id', $perbaikans->id)->get();
+        // Loop through each Kerusakan record
+        foreach ($kerusakans as $kerusakan) {
+            // Check if the file exists and delete it
+            if (Storage::disk('public')->exists($kerusakan->foto_pengecekan)) {
+                Storage::disk('public')->delete($kerusakan->foto_pengecekan);
+            }
+
+            // Delete the Kerusakan record
+            $kerusakan->delete();
+        }
+        Penempatan::where('penghubung_id', $penghubungId)->update([
+
+
+            'tanggal_penempatan' => null,
+            'operator_alat_berat' => null,
+            'tally' => null,
+        ]);
+    }
     public function deleteentrydata(Request $request)
     {
-        $penghubung = penghubung::where('id', $request->id)->first();
-        // $penghubung = penghubung::findOrFail($request->id);
-        // Get the associated transaksi_id before deletion
-        $transaksi_id = $penghubung->transaksi_id;
+        $penghubungId = $request->id;
 
-        // Delete the Penghubung record
-        $penghubung->delete();
+        // Use DB transaction for better performance and data consistency
+        DB::transaction(function () use ($penghubungId) {
+            // Get the associated transaksi_id before deletion
+            $penghubung = Penghubung::findOrFail($penghubungId);
+            $transaksiId = $penghubung->transaksi_id;
 
-        // Update the jumlah_petikemas field in the related transaksi record
-        $updated_penghubung_count = penghubung::where('transaksi_id', $transaksi_id)->count();
+            // Delete the Penghubung record
+            $penghubung->delete();
 
-        // Retrieve the transaksi record
-        $transaksi = transaksi::where('id', $transaksi_id)->first();
-
-        if ($transaksi) {
-            $transaksi->update(['jumlah_petikemas' => $updated_penghubung_count]);
-        }
+            // Update the jumlah_petikemas field in the related transaksi record
+            Transaksi::where('id', $transaksiId)->decrement('jumlah_petikemas');
+        });
 
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Dihapus!',
-
         ]);
     }
 
     public function cetakspk(Request $request, $id)
     {
-        $status_cetak_spk = $request->input('status');
-        $id_penghubung = $request->input('id_penghubung');
-        $penghubungs = penghubung::findOrFail($id_penghubung);
-        $penghubungs->pembayaran->update(['status_cetak_spk' => $status_cetak_spk]);
-        $transaksi = transaksi::with('penghubungs.petikemas')
-            ->whereHas('penghubungs', function ($query) use ($id_penghubung) {
-                $query->where('id', $id_penghubung);
-            })
-            ->findOrFail($id);
-        $transaksi = transaksi::with(['penghubungs' => function ($query) use ($id_penghubung) {
-            $query->where('id', $id_penghubung);
-        }, 'penghubungs.petikemas'])
-            ->findOrFail($id);
+        $statusCetakSpk = $request->input('status');
+        $idPenghubung = $request->input('id_penghubung');
 
-        // Assuming you only need one penghubung, take the first result
+        $transaksi = Transaksi::with(['penghubungs' => function ($query) use ($idPenghubung) {
+            $query->where('id', $idPenghubung);
+        }, 'penghubungs.pembayaran'])->findOrFail($id);
+
         $relatedPenghubung = $transaksi->penghubungs->first();
+
+        $relatedPenghubung->pembayaran->update(['status_cetak_spk' => $statusCetakSpk]);
+
         $pdf = PDF::loadView('pdf.spk', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,
@@ -350,30 +375,31 @@ class transaksicontroller extends Controller
         $metode = $request->input('metode');
         $i = 0;
         foreach ($id_penghubung as $id) {
-
-            $pembayaran = pembayaran::where('penghubung_id', $id)->first();
+            $pembayaran = Pembayaran::where('penghubung_id', $id)->first();
             $pembayaran->metode =  $metode[$i];
             $pembayaran->tanggal_pembayaran = now();
             $pembayaran->status_pembayaran = "sudah lunas";
             $pembayaran->save();
-
             $i++;
         }
-        $transaksi = transaksi::with(['penghubungs' => function ($query) use ($id_penghubung) {
-            $query->where('id', $id_penghubung);
-        }, 'penghubungs.petikemas'])
-            ->findOrFail($id_transaksi);
+
+        $transaksi = Transaksi::with(['penghubungs' => function ($query) use ($id_penghubung) {
+            $query->whereIn('id', $id_penghubung);
+        }, 'penghubungs.petikemas'])->findOrFail($id_transaksi);
+
         if ($transaksi->tanggal_transaksi == null) {
             $transaksi->tanggal_transaksi = now();
             $transaksi->save();
         }
 
-        $relatedPenghubung = $transaksi->penghubungs->first();
+        $relatedPenghubung = $transaksi->penghubungs;
+
         $pdf = PDF::loadView('pdf.kwitansi', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,
         ]);
-        return $pdf->download('kwitansi' . $transaksi->no_transaksi . '.pdf');
+
+        return $pdf->download('kwitansi_' . $transaksi->no_transaksi . '.pdf');
     }
 
     public function storepengecekan(Request $request)
@@ -382,19 +408,131 @@ class transaksicontroller extends Controller
             'id_penghubung' => 'required',
             'jumlah_kerusakan2' => 'required|numeric|min:0|max:10',
             'jenis_ukuran_pengecekan' => 'required',
+            'lokasi_kerusakan' => 'required|array',
+            'lokasi_kerusakan.*' => 'required|string|max:255',
+            'komponen' => 'required|array',
+            'komponen.*' => 'required|string|max:255',
+            'metode' => 'required|array',
+            'metode.*' => 'required|integer|in:1,2,3',
+            'foto_pengecekan' => 'required|array',
+            'foto_pengecekan.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $pengecekan = pengecekan::where('penghubung_id', $request->id_penghubung)->first();
-        $pengecekan->jumlah_kerusakan = $request->jumlah_kerusakan2;
-        $pengecekan->kondisi_peti_kemas = $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available';
-        $pengecekan->tanggal_pengecekan = now();
-        $pengecekan->survey_in = "rizal";
-        $pengecekan->save();
+        $penghubung = Penghubung::findOrFail($request->id_penghubung);
+
+        $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
+        $pengecekan = Pengecekan::where('penghubung_id', $request->id_penghubung)->first();
+        $perbaikan = Perbaikan::where('penghubung_id', $request->id_penghubung)->first();
+        $pengecekan->update([
+            'jumlah_kerusakan' => $request->jumlah_kerusakan2,
+            'tanggal_pengecekan' => now(),
+            'survey_in' => "rizal",
+        ]);
+        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
+
+
+        foreach ($request->lokasi_kerusakan as $index => $lokasi) {
+            $path = $request->file('foto_pengecekan')[$index]->store('uploads', 'public');
+
+            Kerusakan::create([
+                'lokasi_kerusakan' => $lokasi,
+                'komponen' => $request->komponen[$index],
+                'status' => "damage",
+                'metode' => $request->metode[$index],
+                'foto_pengecekan' => $path,
+                'pengecekan_id' => $pengecekan->id,
+                'perbaikan_id' => $perbaikan->id,
+            ]);
+        }
+
         return response()->json([
             'success' => true,
-            'message' => 'Data Transaksi Berhasil Ditambah!',
+            'message' => 'Data Pengecekan Berhasil Ditambah!',
+        ]);
+    }
+    public function indexkerusakan(Request $request)
+    {
+        $id_pengecekan = $request->input('id_pengecekan');
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($id_pengecekan);
+        $kerusakan = $pengecekan->kerusakan;
+        return response()->json([
+            'kerusakan' => $kerusakan,
+        ]);
+    }
+    public function editpengecekan(Request $request)
+    {
+
+
+        $validator = Validator::make($request->all(), [
+            'id_pengecekan',
+            'jumlah_kerusakan2' => 'required|numeric|min:0|max:10',
+            'survey_in' => 'required',
+            'jenis_ukuran_pengecekan' => 'required',
+            'lokasi_kerusakan' => 'required|array',
+            'lokasi_kerusakan.*' => 'required|string|max:255',
+            'komponen' => 'required|array',
+            'komponen.*' => 'required|string|max:255',
+            'metode' => 'required|array',
+            'metode.*' => 'required|integer|in:1,2,3',
+            'foto_pengecekan' => 'required|array',
+            'foto_pengecekan.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($request->id_pengecekan);
+        $kerusakan = $pengecekan->kerusakan;
+
+        $pengecekan->update([
+            'jumlah_kerusakan' => $request->jumlah_kerusakan2,
+            'kondisi_peti_kemas' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available',
+            'tanggal_pengecekan' => now(),
+            'survey_in' => $request->survey_in,
+        ]);
+        foreach ($kerusakan as $index => $item) {
+
+            if (Storage::disk('public')->exists($kerusakan->foto_pengecekan)) {
+                Storage::disk('public')->delete($kerusakan->foto_pengecekan);
+                $path = $request->file('foto_pengecekan')[$index]->store('uploads', 'public');
+            }
+            $item->update([
+                'lokasi_kerusakan' => $request->lokasi_kerusakan[$index],
+                'komponen' => $request->komponen[$index],
+                'status' => "damage",
+                'metode' => $request->metode[$index],
+                'foto_pengecekan' => $path,
+            ]);
+        }
+        if ($request->jumlah_kerusakan2 > count($kerusakan)) {
+            for ($i = 0; $i < ($request->jumlah_kerusakan2 - count($kerusakan)); $i++) {
+                $newpath = $request->file('foto_pengecekan')[$i + count($kerusakan)]->store('uploads', 'public');
+                Kerusakan::create([
+                    'lokasi_kerusakan' => $request->lokasi_kerusakan[$i + count($kerusakan)],
+                    'komponen' => $request->komponen[$i + count($kerusakan)],
+                    'status' => "damage",
+                    'metode' => $request->metode[$i + count($kerusakan)],
+                    'foto_pengecekan' => $newpath,
+                    'pengecekan_id' => $pengecekan->id,
+                    'perbaikan_id' => $pengecekan->id,
+                ]);
+            }
+        } else if ($request->jumlah_kerusakan2 < count($kerusakan)) {
+            $lastKerusakan = Kerusakan::orderBy('id', 'desc')->take($request->jumlah_kerusakan2)->get();
+            foreach ($lastKerusakan as $kerusakan) {
+                if (Storage::disk('public')->exists($kerusakan->foto_pengecekan)) {
+                    Storage::disk('public')->delete($kerusakan->foto_pengecekan);
+                }
+                $kerusakan->delete();
+            }
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Peti Kemas Berhasil Diubah!',
         ]);
     }
 }

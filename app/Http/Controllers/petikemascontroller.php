@@ -12,6 +12,7 @@ use App\Models\transaksi;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
+
 class petikemascontroller extends Controller
 {
     public function index()
@@ -32,6 +33,7 @@ class petikemascontroller extends Controller
             'no_petikemas' => 'required|unique:petikemas',
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
+            'status_kondisi' => 'required',
 
         ]);
         if ($Validator->fails()) {
@@ -53,7 +55,14 @@ class petikemascontroller extends Controller
         $petikemas->tanggal_keluar = null;
         $petikemas->tanggal_masuk = now();
         $petikemas->harga = $harga;
+        $petikemas->status_ketersediaan = "in";
+        $petikemas->status_kondisi = "available";
+        $petikemas->lokasi = "pending";
+
         $petikemas->save();
+
+
+
         return response()->json([
             'success' => true,
             'message' => 'Data Peti Kemas Berhasil Dibuat!',

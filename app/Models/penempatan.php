@@ -18,8 +18,4 @@ class penempatan extends Model
     {
         return $this->belongsTo(kerusakan::class);
     }
-    public function penempatanhistory()
-    {
-        return $this->hasMany(penempatanhistory::class);
-    }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class petikemas extends Model
 {
     use HasFactory;
-    protected $fillable = ['no_petikemas', 'tanggal_keluar', 'tanggal_masuk', 'jenis_ukuran', 'pelayaran', 'harga'];
+    protected $fillable = ['no_petikemas', 'tanggal_keluar', 'tanggal_masuk', 'jenis_ukuran', 'pelayaran', 'harga', 'status_kondisi', 'status_ketersediaan', 'lokasi'];
 
     public function penghubungs()
     {

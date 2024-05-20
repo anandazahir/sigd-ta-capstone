@@ -108,7 +108,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
                             </td>
                             <td class="text-center">
                                 <select class="form-select mx-auto" name="metode[]" style="width: fit-content;" disabled required>
-                                    <option selected disabled>Pilih Opsi Ini</option>
+                                    <option selected disabled></option>
                                     <option value="BCA" {{ $pembayaran->metode == 'BCA' ? 'selected' : '' }}>Transfer BCA
                                     </option>
                                     <option value="BRI" {{ $pembayaran->metode == 'BRI' ? 'selected' : '' }}>Transfer BRI
@@ -188,11 +188,13 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
             $row.find('input[name="id_penghubung[]"]').on("change", function(e) {
                 let $atLeastOneChecked = false;
                 $row.find('select[name="metode[]"]').prop("disabled", !this.checked);
+
                 if ($(this).prop("checked")) {
                     atLeastOneChecked = true;
-                }
-                if (!$(this).prop("checked")) {
+                    $row.find('select[name="metode[]"] option[disabled]').text("Pilih Opsi Ini");
+                } else {
                     atLeastOneChecked = false;
+                    $row.find('select[name="metode[]"] option[disabled]').text("");
                 }
                 $button_submit.prop("disabled", !atLeastOneChecked);
                 $row.find('.invalid-feedback').text('');
