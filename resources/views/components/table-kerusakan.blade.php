@@ -8,6 +8,7 @@
             <div class="modal-body">
                 <input type="hidden" value="" id="input_id_penghubung"></input>
                 <div class="p-1 rounded-4  table-responsive" style="height: rem;">
+                    <h1 id="text_kerusakan_pengecekan">Data Kerusakan Tidak Ada</h1>
                     <table class="table-variations-3  text-center" id="table_kerusakan_pengecekan">
                         <thead>
                             <tr>
@@ -35,6 +36,9 @@
             $("#show-kerusakan").modal('show');
             $('#table_kerusakan_pengecekan tbody tr').empty();
             $("#input_id_penghubung").val($(this).val());
+            $('#table_kerusakan_pengecekan').hide();
+            $('#text_kerusakan_pengecekan').show();                           
+
             $.ajax({
                 url: '/transaksi/indexkerusakan',
                 type: 'POST',
@@ -67,7 +71,16 @@
                             '<a class="btn btn-danger text-white rounded-3" value="' + item.id + '"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></a>' +
                             '</td>' +
                             '</tr>';
-                        $('#table_kerusakan_pengecekan').append(newRow);
+
+                            if (item.status !== null) {
+                                $('#table_kerusakan_pengecekan tbody').append(newRow);
+                                $('#table_kerusakan_pengecekan').show();                           
+                                $('#text_kerusakan_pengecekan').hide();
+                            }
+                            else {
+                                $('#text_kerusakan_pengecekan').show();
+                                $('#table_kerusakan_pengecekan').hide();                           
+                            }
                     });
                 },
                 error: function(xhr, status, error) {

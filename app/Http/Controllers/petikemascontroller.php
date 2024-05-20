@@ -33,7 +33,6 @@ class petikemascontroller extends Controller
             'no_petikemas' => 'required|unique:petikemas',
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
-            'status_kondisi' => 'required',
 
         ]);
         if ($Validator->fails()) {

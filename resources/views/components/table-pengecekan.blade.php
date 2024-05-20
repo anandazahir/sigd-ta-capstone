@@ -73,8 +73,8 @@ break;
                             {{$penghubung->pengecekan->tanggal_pengecekan}}
                         </td>
                         <td>
-                            <span class="{{ $penghubung->pengecekan->kondisi_peti_kemas == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{$penghubung->pengecekan->kondisi_peti_kemas}}
+                            <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
+                                {{$penghubung->petikemas->status_kondisi}}
                             </span>
 
                         </td>

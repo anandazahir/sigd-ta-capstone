@@ -1,26 +1,38 @@
-<form method="POST" id="create_form_pengecekan" action="{{ route('transaksi.storepengecekan', $data->id) }}" enctype="multipart/form-data">
+<form method="POST" id="create_form_pengecekan" action="{{ route('transaksi.storepengecekan', $data->id) }}"
+    enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="no peti kemas" class="form-label">No Peti Kemas</label>
-            <select name="id_penghubung" class="form-select" id="id_penghubung" aria-label="Default select example" required>
+            <select name="id_penghubung" class="form-select" id="id_penghubung" aria-label="Default select example"
+                required>
                 <option selected disabled>Pilih Opsi Ini</option>
                 @foreach ($data->penghubungs as $penghubung)
-                @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $penghubung->pengecekan->survey_in === null)
-                <option value="{{ $penghubung->pengecekan->penghubung_id }}" data-jenis-ukuran="{{ $penghubung->petikemas->jenis_ukuran }}">{{ $penghubung->petikemas->no_petikemas }}</option>
-                @endif
+                    @if (
+                        $penghubung->pembayaran->status_pembayaran === 'sudah lunas' &&
+                            $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' &&
+                            $penghubung->pengecekan->survey_in === null)
+                        <option value="{{ $penghubung->pengecekan->penghubung_id }}"
+                            data-jenis-ukuran="{{ $penghubung->petikemas->jenis_ukuran }}">
+                            {{ $penghubung->petikemas->no_petikemas }}</option>
+                    @endif
                 @endforeach
             </select>
+            <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="size & type" class="form-label">Size & Type:</label>
-            <input type="text" class="form-control" id="jenis_ukuran_pengecekan" placeholder="Size & Type" name="jenis_ukuran_pengecekan" required readonly>
+            <input type="text" class="form-control" id="jenis_ukuran_pengecekan" placeholder="Size & Type"
+                name="jenis_ukuran_pengecekan" required readonly>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 mb-3">
             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-            <input type="number" min="0" class="form-control" id="jumlahkerusakan2" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan2" required value="0">
+            <input type="number" min="0" class="form-control" id="jumlahkerusakan2"
+                placeholder="Jumlah Kerusakan" name="jumlah_kerusakan2" required value="0">
+            <div class="invalid-feedback"></div>
         </div>
     </div>
     <h5 id="text-between">List Kerusakan</h5>
@@ -40,7 +52,7 @@
 
         </table>
     </div>
-    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
+    <button type="submit" class="btn btn-primary text-white">Submit</button>
 </form>
 
 
@@ -80,9 +92,9 @@
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '</tr>');
-                    $("#table_create_pengecekan tbody").append(rowObject); // Append new rows using rowObject as a template
+                    $("#table_create_pengecekan tbody").append(
+                    rowObject); // Append new rows using rowObject as a template
                 }
-
 
             } else {
                 $("#table_create_pengecekan").hide();
@@ -98,12 +110,59 @@
             $('#jenis_ukuran_pengecekan').val(jenisUkuran || '');
         });
 
-        $("#create_pengecekan_form").submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+        $("#create_form_pengecekan").submit(function(
+        event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
             event.preventDefault();
-            const selectedOption = $("#id_penghubung option:selected"); // Select the selected option using jQuery
+            const selectedOption = $(
+            "#id_penghubung option:selected"); // Select the selected option using jQuery
             if (selectedOption.length) {
                 selectedOption.attr("data-submit-check", "sudah submit"); // Remove the selected option
             }
+            
+            var formData = new FormData(this);
+            $.ajax({
+                url: "{{ route('transaksi.storepengecekan', $data->id) }}", // Ganti dengan endpoint Anda
+                type: 'POST',
+                data: formData,
+                processData: false, // Mengatur false, karena kita menggunakan FormData
+                contentType: false, // Mengatur false, karena kita menggunakan FormData
+                success: function(response) {
+                    // Handle response sukses
+                    /*$('#create-pengecekan-modal').modal('hide');*/
+                    showAlert(response.message);
+                    console.log('Success:', response);
+                },
+
+                error: function(xhr, status, error) {
+                    const errors = xhr.responseJSON.errors;
+                    if (xhr.status === 500) {
+                        alert("Kolom Unik Tidak Boleh Sama!")
+                    } else if (xhr.status === 404) {
+                        alert("Data Tidak Ditemukan!");
+                    }
+
+                    $('#create_form_pengecekan').find('.is-invalid').removeClass('is-invalid');
+                    $('#create_form_pengecekan').find('.invalid-feedback').text('');
+
+                    $.each(errors, function(key, value) {
+                        const element = $('#create_form_pengecekan').find('[name="' + key + '"]');
+                        /*const elementSelector = $('#create_form_pengecekan').find('[name="' + key + '"]');
+                        if (kalimat.indexOf('.0') !== -1) {
+                            
+                        }*/
+                        var cleanInputName = key.replace(/\.\d+/g, '');
+                        var cleanAngka = value[0].replace(/\.\d+/g, '');
+                        element.addClass('is-invalid');
+                        element.next('.invalid-feedback').text(value[0]);
+                        console.log(key + '[]');
+                        const elementArray = $('#create_form_pengecekan').find('[name="' + cleanInputName + '[]"]');
+                        elementArray.addClass('is-invalid');
+                        elementArray.next('.invalid-feedback').text(cleanAngka);
+                    });
+
+                }
+            });
+
         });
     });
 </script>

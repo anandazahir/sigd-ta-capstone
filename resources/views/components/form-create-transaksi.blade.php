@@ -132,11 +132,11 @@
             }
 
         });
-        /*
+        
                 $('#create-transaksi-form').submit(function(event) {
                      handleFormSubmission(this);
 
-                 });*/
+                 });
 
         function fetchPetikemasOptions($row, value) {
             const $select = $row.find('select[name="no_petikemas[]"]');
