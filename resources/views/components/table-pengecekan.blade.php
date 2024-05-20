@@ -87,8 +87,8 @@ break;
                         </td>
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan" id="edit_pengecekan" value="{{$penghubung->pengecekan->id}}">
-                                    <i class="fa-solid fa-pen-to-square fa-lg my-1"></i></a>
+                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal" id="edit_pengecekan_button" value="{{$penghubung->pengecekan->id}}">
+                                    <i class="fa-solid fa-pen-to-square fa-lg my-1"></i>
                                 </button>
                             </div>
                         </td>
@@ -108,7 +108,10 @@ break;
 
 <x-table-kerusakan />
 
-<x-form-edit-pengecekan />
+<x-modal-form size="modal-xl" id="edit-pengecekan-modal" text="Edit Pengecekan">
+<x-form-edit-pengecekan :data="$data" />
+</x-modal-form>
+
 <script>
     $(document).ready(function() {
 

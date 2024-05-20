@@ -495,13 +495,14 @@ class TransaksiController extends Controller
             'kerusakan' => $kerusakan,
         ]);
     }
+    
     public function editpengecekan(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
             'id_pengecekan',
-            'jumlah_kerusakan2' => 'required|numeric|min:0|max:10',
-            'survey_in' => 'required',
+            'jumlah_kerusakan3' => 'required|numeric|min:0|max:10',
+            'survey_in2' => 'required',
             'jenis_ukuran_pengecekan' => 'required',
             'lokasi_kerusakan' => 'required|array',
             'lokasi_kerusakan.*' => 'required|string|max:255',
@@ -523,12 +524,12 @@ class TransaksiController extends Controller
         $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
 
         $pengecekan->update([
-            'jumlah_kerusakan' => $request->jumlah_kerusakan2,
+            'jumlah_kerusakan' => $request->jumlah_kerusakan3,
             'tanggal_pengecekan' => now(),
-            'survey_in' => $request->survey_in,
+            'survey_in' => $request->survey_in2,
         ]);
 
-        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
+        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3 > 0 ? 'damage' : 'available']);
 
         foreach ($kerusakan as $index => $item) {
 
@@ -544,8 +545,8 @@ class TransaksiController extends Controller
                 'foto_pengecekan' => $path,
             ]);
         }
-        if ($request->jumlah_kerusakan2 > count($kerusakan)) {
-            for ($i = 0; $i < ($request->jumlah_kerusakan2 - count($kerusakan)); $i++) {
+        if ($request->jumlah_kerusakan3 > count($kerusakan)) {
+            for ($i = 0; $i < ($request->jumlah_kerusakan3 - count($kerusakan)); $i++) {
                 $newpath = $request->file('foto_pengecekan')[$i + count($kerusakan)]->store('uploads', 'public');
                 Kerusakan::create([
                     'lokasi_kerusakan' => $request->lokasi_kerusakan[$i + count($kerusakan)],
@@ -557,8 +558,8 @@ class TransaksiController extends Controller
                     'perbaikan_id' => $pengecekan->id,
                 ]);
             }
-        } else if ($request->jumlah_kerusakan2 < count($kerusakan)) {
-            $lastKerusakan = Kerusakan::orderBy('id', 'desc')->take($request->jumlah_kerusakan2)->get();
+        } else if ($request->jumlah_kerusakan3 < count($kerusakan)) {
+            $lastKerusakan = Kerusakan::orderBy('id', 'desc')->take($request->jumlah_kerusakan3)->get();
             foreach ($lastKerusakan as $kerusakan) {
                 if (Storage::disk('public')->exists($kerusakan->foto_pengecekan)) {
                     Storage::disk('public')->delete($kerusakan->foto_pengecekan);
@@ -568,7 +569,9 @@ class TransaksiController extends Controller
         }
         return response()->json([
             'success' => true,
-            'message' => 'Data Peti Kemas Berhasil Diubah!',
+            'message' => 'Data Pengecekan Berhasil Diubah!',
+            'pengecekan' => $pengecekan,
+            'kerusakan' => $kerusakan,
         ]);
     }
 }
