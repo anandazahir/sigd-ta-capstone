@@ -28,6 +28,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         $(document).on('click', '#button_listkerusakan_pengecekan', function(e) {
@@ -65,7 +66,7 @@
                             '</td>' +
                             '</div>' +
                             '<td class="text-center">' +
-                            '<a class="btn btn-danger text-white rounded-3" value="' + item.id + '"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></a>' +
+                            '<button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan" value="' + item.id + '" data-bs-toggle="modal"> <i class="fa-solid fa-trash-can fa-lg my-1"></i></button>' +
                             '</td>' +
                             '</tr>';
                         $('#table_kerusakan_pengecekan').append(newRow);
@@ -75,7 +76,29 @@
                     console.error(error);
                 }
             });
+
         });
 
+        $(document).on('click', '#button_delete_kerusakan', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/transaksi/deletekerusakan',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id_kerusakan: $(this).val(),
+                },
+                success: function(response) {
+                    $("#show-kerusakan").modal('hide');
+                    showAlert(response.message);
+                },
+                error: function(xhr, status, error) {
+
+                }
+            });
+
+            console.log($(this).val());
+        });
+        
     });
 </script>

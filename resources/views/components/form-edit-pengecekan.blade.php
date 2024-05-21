@@ -6,8 +6,8 @@
                 <span>Survey In</span>
                 {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
             </label>
-            <select name="survey_in" class="form-select" aria-label="Default select example" required>
-                <option selected>Pilih Opsi Ini</option>
+            <select name="survey_in2" class="form-select" aria-label="Default select example" required>
+                <option selected disabled>Pilih Opsi Ini</option>
                 <option value="survey in 1">Survey in 1</option>
                 <option value="survey in 2">Survey in 2</option>
                 <option value="survey in 3">Survey in 3</option>
@@ -20,6 +20,7 @@
             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
             <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan3" required>
             <input type="hidden" name="id_pengecekan" id="id_pengecekan2">
+            <input type="hidden" name="id_penghubung" id="id_penghubung2">
         </div>
     </div>
     <h5 id="text-kerusakan-edit">List Kerusakan</h5>
@@ -50,6 +51,7 @@
         $(document).on('click', '#edit_pengecekan_button', function(e) {
             e.preventDefault();
             $("#id_pengecekan2").val($(this).val());
+            $("#id_penghubung2").val($(this).data('id'));
 
             $("#edit-pengecekan-modal").find(".modal-title").text("Edit Pengecekan | No.Petikemas " + $(this).data("nopetikemas"));
 
@@ -78,7 +80,7 @@
                                 '<div class="invalid-feedback"></div>' +
                                 '</td>' +
                                 '<td class="text-center">' +
-                                '<input type="file" name="foto_pengecekan[]" id="" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
+                                    '<input type="file" name="foto_pengecekan[]" id="foto_pengecekan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                                 '<div class="invalid-feedback"></div>' +
                                 '</td>' +
                                 '</tr>');
@@ -109,7 +111,7 @@
                         _token: '{{ csrf_token() }}',
                     },
                     success: function(response) {
-                        $('select[name="survey_in"]').find('option[value="' + response.pengecekan.survey_in + '"]').prop('selected', true);
+                        $('select[name="survey_in2"]').find('option[value="' + response.pengecekan.survey_in + '"]').prop('selected', true);
                         $('input[name="jumlah_kerusakan3"]').val(response.pengecekan.jumlah_kerusakan);
                         if ($("#jumlah_kerusakan").val() > 0) {
 
@@ -133,6 +135,8 @@
                                     '<div class="invalid-feedback"></div>' +
                                     '</td>' +
                                     '<td class="text-center">' +
+                                    '<label for="foto_pengecekan">file</label>' +
+                                    '<input type="hidden" value="'+ item.foto_pengecekan +'" name="url_foto[]">' +
                                     '<div class="d-flex gap-2">' +
                                     '<input type="file" name="foto_pengecekan[]" id="" class="form-control" accept="image/png, image/jpeg, image/jpg"  data-index="' + index + '">' +
                                     '<a href="/storage/' + item.foto_pengecekan + '" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_' + index + '">Preview</a>' +

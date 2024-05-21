@@ -61,7 +61,7 @@ break;
                         </td>
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail kerusakan">
-                                <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>
+                                <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-bs-toggle="modal" data-bs-target="#show-kerusakan"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                             </div>
                         </td>
 
@@ -87,7 +87,7 @@ break;
                         </td>
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal" id="edit_pengecekan_button" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}">
+                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal" id="edit_pengecekan_button" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}">
                                     <i class="fa-solid fa-pen-to-square fa-lg my-1"></i>
                                 </button>
                             </div>

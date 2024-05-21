@@ -48,7 +48,8 @@ Route::prefix('transaksi')->group(function () {
     Route::post('/laporantransaksi', [TransaksiController::class, 'laporanbulanantransaksi'])->name('transaksi.laporantransaksi');
     Route::post('/store/pengecekan/{id}', [TransaksiController::class, 'storepengecekan'])->name('transaksi.storepengecekan');
     Route::post('/indexkerusakan', [TransaksiController::class, 'indexkerusakan'])->name('transaksi.indexkerusakan');
-    Route::put('/editpengecekan', [TransaksiController::class, 'editpengecekan'])->name('transaksi.editpengecekan');
+    Route::post('/editpengecekan', [TransaksiController::class, 'editpengecekan'])->name('transaksi.editpengecekan');
+    Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('transaksi.deletekerusakan');
 });
 
 Route::prefix('peti-kemas')->group(function () {
