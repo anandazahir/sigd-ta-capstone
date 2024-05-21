@@ -404,9 +404,9 @@ class TransaksiController extends Controller
             'jumlah_kerusakan2' => 'required|numeric|min:0|max:10',
             'jenis_ukuran_pengecekan' => 'required',
             'lokasi_kerusakan' => 'array',
-            'lokasi_kerusakan.*' => 'string|max:255|unique',
+            'lokasi_kerusakan.*' => 'string|max:255|unique:kerusakans,lokasi_kerusakan',
             'komponen' => 'array',
-            'komponen.*' => 'string|max:255|unique',
+            'komponen.*' => 'string|max:255|unique:kerusakans,komponen',
             'metode' => ['array', new UniqueArrayValues, new RequriedArrayValues],
             'metode.*' => 'integer|in:1,2,3',
             'foto_pengecekan' => ['array', new UniqueArrayValues, new RequriedArrayValues],
@@ -417,7 +417,7 @@ class TransaksiController extends Controller
             $validator->sometimes('lokasi_kerusakan', 'required|array', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
-        
+
             $validator->sometimes('lokasi_kerusakan.*', 'required', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
@@ -425,7 +425,7 @@ class TransaksiController extends Controller
             $validator->sometimes('komponen', 'required|array', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
-        
+
             $validator->sometimes('komponen.*', 'required', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
@@ -433,7 +433,7 @@ class TransaksiController extends Controller
             $validator->sometimes('metode', 'required|array', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
-        
+
             $validator->sometimes('metode.*', 'required', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
@@ -441,7 +441,7 @@ class TransaksiController extends Controller
             $validator->sometimes('foto_pengecekan', 'required|array', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
-        
+
             $validator->sometimes('foto_pengecekan.*', 'required', function ($input) {
                 return $input->jumlah_kerusakan2 > 0;
             });
@@ -464,10 +464,10 @@ class TransaksiController extends Controller
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
 
         if ($request->jumlah_kerusakan2 > 0) {
-            
+
             foreach ($request->lokasi_kerusakan as $index => $lokasi) {
                 $path = $request->file('foto_pengecekan')[$index]->store('uploads', 'public');
-    
+
                 Kerusakan::create([
                     'lokasi_kerusakan' => $lokasi,
                     'komponen' => $request->komponen[$index],
@@ -485,7 +485,7 @@ class TransaksiController extends Controller
             'message' => 'Data Pengecekan Berhasil Ditambah!',
         ]);
     }
-    
+
     public function indexkerusakan(Request $request)
     {
         $id_pengecekan = $request->input('id_pengecekan');
@@ -493,85 +493,149 @@ class TransaksiController extends Controller
         $kerusakan = $pengecekan->kerusakan;
         return response()->json([
             'kerusakan' => $kerusakan,
+            'pengecekan' => $pengecekan,
         ]);
     }
-    
+
     public function editpengecekan(Request $request)
     {
-
+        // Initial validation rules
         $validator = Validator::make($request->all(), [
             'id_pengecekan',
             'jumlah_kerusakan3' => 'required|numeric|min:0|max:10',
-            'survey_in2' => 'required',
-            'jenis_ukuran_pengecekan' => 'required',
-            'lokasi_kerusakan' => 'required|array',
-            'lokasi_kerusakan.*' => 'required|string|max:255',
-            'komponen' => 'required|array',
-            'komponen.*' => 'required|string|max:255',
-            'metode' => 'required|array',
-            'metode.*' => 'required|integer|in:1,2,3',
-            'foto_pengecekan' => 'required|array',
-            'foto_pengecekan.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'survey_in2' => 'required|string',
+            'lokasi_kerusakan' => 'array',
+            'lokasi_kerusakan.*' => 'string|max:255',
+            'komponen' => 'array',
+            'komponen.*' => 'string|max:255',
+            'metode' => 'array',
+            'metode.*' => 'integer|in:1,2,3',
         ]);
+
+        // Conditional validation if jumlah_kerusakan2 > 0
+        if ($request->input('jumlah_kerusakan2') > 0) {
+            $validator->sometimes('lokasi_kerusakan', 'required|array', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+
+            $validator->sometimes('lokasi_kerusakan.*', 'required', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+
+            $validator->sometimes('komponen', 'required|array', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+
+            $validator->sometimes('komponen.*', 'required', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+
+            $validator->sometimes('metode', 'required|array', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+
+            $validator->sometimes('metode.*', 'required', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+        }
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
-        }
-
+        };
+        // Fetching related models
         $pengecekan = pengecekan::with('kerusakan')->findOrFail($request->id_pengecekan);
         $kerusakan = $pengecekan->kerusakan;
         $penghubung = Penghubung::findOrFail($request->id_penghubung);
         $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
 
+        // Updating pengecekan
         $pengecekan->update([
             'jumlah_kerusakan' => $request->jumlah_kerusakan3,
             'tanggal_pengecekan' => now(),
             'survey_in' => $request->survey_in2,
         ]);
 
+        // Updating petikemas status
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3 > 0 ? 'damage' : 'available']);
 
+        // Updating kerusakan and handling file uploads
         foreach ($kerusakan as $index => $item) {
 
-            if (Storage::disk('public')->exists($kerusakan->foto_pengecekan)) {
-                Storage::disk('public')->delete($kerusakan->foto_pengecekan);
-                $path = $request->file('foto_pengecekan')[$index]->store('uploads', 'public');
-            }
+
             $item->update([
                 'lokasi_kerusakan' => $request->lokasi_kerusakan[$index],
                 'komponen' => $request->komponen[$index],
                 'status' => "damage",
                 'metode' => $request->metode[$index],
-                'foto_pengecekan' => $path,
             ]);
         }
+
+        // Handling new kerusakan
         if ($request->jumlah_kerusakan3 > count($kerusakan)) {
             for ($i = 0; $i < ($request->jumlah_kerusakan3 - count($kerusakan)); $i++) {
-                $newpath = $request->file('foto_pengecekan')[$i + count($kerusakan)]->store('uploads', 'public');
                 Kerusakan::create([
                     'lokasi_kerusakan' => $request->lokasi_kerusakan[$i + count($kerusakan)],
                     'komponen' => $request->komponen[$i + count($kerusakan)],
                     'status' => "damage",
                     'metode' => $request->metode[$i + count($kerusakan)],
-                    'foto_pengecekan' => $newpath,
                     'pengecekan_id' => $pengecekan->id,
                     'perbaikan_id' => $pengecekan->id,
                 ]);
             }
         } else if ($request->jumlah_kerusakan3 < count($kerusakan)) {
-            $lastKerusakan = Kerusakan::orderBy('id', 'desc')->take($request->jumlah_kerusakan3)->get();
-            foreach ($lastKerusakan as $kerusakan) {
-                if (Storage::disk('public')->exists($kerusakan->foto_pengecekan)) {
-                    Storage::disk('public')->delete($kerusakan->foto_pengecekan);
+            $extraKerusakan = $kerusakan->splice($request->jumlah_kerusakan3);
+            foreach ($extraKerusakan as $extra) {
+                if (Storage::disk('public')->exists($extra->foto_pengecekan)) {
+                    Storage::disk('public')->delete($extra->foto_pengecekan);
                 }
-                $kerusakan->delete();
+                $extra->delete();
             }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Pengecekan Berhasil Diubah!',
+        ]);
+    }
+    public function editfotopengecekan(Request $request)
+    {
+        // Initial validation rules
+        $validator = Validator::make($request->all(), [
+            'foto_pengecekan' => ['array', new UniqueArrayValues, new RequriedArrayValues],
+            'foto_pengecekan.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $id_pengecekan = $request->input('id_pengecekan');
+        // Conditional validation if jumlah_kerusakan2 > 0
+        if ($request->input('jumlah_kerusakan2') > 0) {
+            $validator->sometimes('foto_pengecekan', 'required|array', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+
+            $validator->sometimes('foto_pengecekan.*', 'required', function ($input) {
+                return $input->jumlah_kerusakan2 > 0;
+            });
+        }
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        };
+        // Fetching related models
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($id_pengecekan);
+        $kerusakan = $pengecekan->kerusakan;
+
+        foreach ($kerusakan as  $item) {
+            $oldImagePath = $item->foto_pengecekan;
+            if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImagePath);
+            }
+            $newImagePath = $request->file('new_image')->store('images', 'public');
+            $item->update([
+                'foto_pengecekan' => $newImagePath,
+            ]);
         }
         return response()->json([
             'success' => true,
             'message' => 'Data Pengecekan Berhasil Diubah!',
-            'pengecekan' => $pengecekan,
-            'kerusakan' => $kerusakan,
         ]);
     }
 }
