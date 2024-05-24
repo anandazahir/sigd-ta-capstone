@@ -81,7 +81,7 @@ break;
                         @endif
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal" id="edit_pengecekan_button" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}" data-ajax="true">
+                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-perbaikan" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}" data-ajax="true">
                                     <i class="fa-solid fa-pen-to-square fa-lg my-1"></i>
                                 </button>
                             </div>
