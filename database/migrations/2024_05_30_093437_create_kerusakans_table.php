@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('harga')->nullable();
             $table->string('foto_pengecekan')->nullable();
             $table->string('foto_perbaikan')->nullable();
+            $table->string('foto_pengecekan_name')->nullable();
+            $table->string('foto_perbaikan_name')->nullable();
             $table->foreignId('pengecekan_id')->constrained('pengecekans')->onDelete('cascade')->nullable();
             $table->foreignId('perbaikan_id')->constrained('perbaikans')->onDelete('cascade')->nullable();
             $table->timestamps();

@@ -75,7 +75,8 @@
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
-                        '<select class="form-select" aria-label="Default select example" name="metode[]">' +
+                        '<input type="hidden" name="metode_value[]"/>' +
+                        '<select class="form-select"  name="metodes[]">' +
                         '<option selected disabled>Open this select menu</option>' +
                         '<option value="1">One</option>' +
                         '<option value="2">Two</option>' +
@@ -84,6 +85,7 @@
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
+                        '<input type="hidden" name="foto_pengecekan_name[]">' +
                         '<input type="file" name="foto_pengecekan[]" id="" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +
@@ -91,7 +93,20 @@
                     $("#table_create_pengecekan tbody").append(
                         rowObject); // Append new rows using rowObject as a template
                 }
-
+                $('input[type="file"][name="foto_pengecekan[]"]').on('change', function() {
+                    // Get the selected file name
+                    var fileName = $(this).val().split('\\').pop();
+                    console.log(fileName);
+                    // Update the label with the selected file name
+                    $(this).siblings('input[type="hidden"]').val(fileName);
+                });
+                $('select[name="metodes[]"]').on('change', function() {
+                    // Get the selected file name
+                    var selectedOptionval = $(this).find('option:selected').val();
+                    console.log(selectedOptionval);
+                    // Update the label with the selected file name
+                    $(this).siblings('input[type="hidden"]').val(selectedOptionval);
+                });
             } else {
                 $("#table_create_pengecekan").hide();
                 $("#table_create_pengecekan tbody").empty();
@@ -105,6 +120,7 @@
             var jenisUkuran = selectedOption.data('jenis-ukuran');
             $('#jenis_ukuran_pengecekan').val(jenisUkuran || '');
         });
+
 
         $("#create_form_pengecekan").submit(function(
             event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
@@ -156,7 +172,7 @@
 
                 }
             });
-
         });
+
     });
 </script>

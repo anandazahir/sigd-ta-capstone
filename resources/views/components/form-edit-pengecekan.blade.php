@@ -47,14 +47,15 @@
 
 <script>
     $(document).ready(function() {
-        var ajaxCompleted = true;
         $(document).on('click', '#edit_pengecekan_button', function(e) {
+            $("#table_edit_pengecekan tbody").empty();
+            $('select[name="survey_in2"]').find('option[disabled]').prop('selected', true);
+            $('input[name="jumlah_kerusakan3"]').val("");
             e.preventDefault();
             $("#id_pengecekan2").val($(this).val());
             $("#id_penghubung2").val($(this).data('id'));
-
             $("#edit-pengecekan-modal").find(".modal-title").text("Edit Pengecekan | No.Petikemas " + $(this).data("nopetikemas"));
-
+            console.log($(this).val());
             $("#jumlah_kerusakan").on("change", function() {
                 var rowCount = parseInt($(this).val());
                 var lengthTable = $("#table_edit_pengecekan tbody tr").length;
@@ -71,6 +72,7 @@
                                 '<div class="invalid-feedback"></div>' +
                                 '</td>' +
                                 '<td class="text-center">' +
+                                '<input type="hidden" name="metode_value[]"/>' +
                                 '<select class="form-select" aria-label="Default select example" name="metode[]">' +
                                 '<option selected disabled>Open this select menu</option>' +
                                 '<option value="1">One</option>' +
@@ -80,12 +82,29 @@
                                 '<div class="invalid-feedback"></div>' +
                                 '</td>' +
                                 '<td class="text-center">' +
-                                    '<input type="file" name="foto_pengecekan[]" id="foto_pengecekan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
+                                '<input type="file" name="foto_pengecekan[]" id="foto_pengecekan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
+                                '<input type="hidden" name="foto_pengecekan_name[]"/>' +
                                 '<div class="invalid-feedback"></div>' +
                                 '</td>' +
                                 '</tr>');
                             $("#table_edit_pengecekan tbody").append(rowObject); // Append new rows
                         }
+                        $('input[type="file"][name="foto_pengecekan[]"]').on('change', function() {
+                            // Get the selected file name
+                            var fileName = $(this).val().split('\\').pop();
+                            if (fileName === '') {
+                                fileName = 'No file chosen';
+                            }
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(fileName);
+                        });
+                        $('select[name="metode[]"]').on('change', function() {
+                            // Get the selected file name
+                            var selectedOptionval = $(this).find('option:selected').val();
+                            console.log(selectedOptionval);
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(selectedOptionval);
+                        });
                     } else if (rowCount < lengthTable) { // This is the corrected part
                         for (var i = 0; i < (lengthTable - rowCount); i++) {
                             $("#table_edit_pengecekan tbody tr:last-child").remove();
@@ -101,68 +120,143 @@
                 jumlah_kerusakan3_value = $(this).val();
             });
 
-            if (ajaxCompleted) {
-                console.log(ajaxCompleted);
+            console.log($(this).data('ajax'));
+
+
+            $.ajax({
+                url: '/transaksi/indexkerusakan',
+                type: 'POST',
+                data: {
+                    id_pengecekan: $(this).val(),
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    $('select[name="survey_in2"]').find('option[value="' + response.pengecekan.survey_in + '"]').prop('selected', true);
+                    $('input[name="jumlah_kerusakan3"]').val(response.pengecekan.jumlah_kerusakan);
+                    if ($("#jumlah_kerusakan").val() > 0) {
+
+                        $.each(response.kerusakan, function(index, item) {
+                            let rowObject = $('<tr>' +
+                                '<td class="text-center">' +
+                                '<input class="form-control" type="text" name="lokasi_kerusakan[]"> ' +
+                                '<div class="invalid-feedback"></div>' +
+                                '</td>' +
+                                '<td class="text-center">' +
+                                '<input class="form-control" type="text" name="komponen[]"> ' +
+                                '<div class="invalid-feedback"></div>' +
+                                '</td>' +
+                                '<td class="text-center">' +
+                                '<input type="hidden" name="metode_value[]" value="' + item.metode + '"/>' +
+                                '<select class="form-select" aria-label="Default select example" name="metode[]">' +
+
+                                '<option selected disabled>Open this select menu</option>' +
+                                '<option value="1">One</option>' +
+                                '<option value="2">Two</option>' +
+                                '<option value="3">Three</option>' +
+                                '</select>' +
+                                '<div class="invalid-feedback"></div>' +
+                                '</td>' +
+                                '<td class="text-center">' +
+                                '<input type="hidden" value="' + item.foto_pengecekan + '" name="url_foto[]">' +
+                                '<div class="d-flex gap-2">' +
+                                ' <div class="input-group">' +
+                                '<span class="input-group-text" style="height: fit-content">Pilih File</span>' +
+                                '<label tabindex="0" class="form-control text-start" style="height:2.3rem">' +
+                                '<span class="file-name">' + item.foto_pengecekan_name + '</span>' +
+                                '<input type="file" name="foto_pengecekan[]" id="" class="invisible" accept="image/png, image/jpeg, image/jpg"  data-index="' + index + '" style="height:fit-content">' +
+                                '<input type="hidden" name="foto_pengecekan_name[]" value="' + item.foto_pengecekan_name + '"/>' +
+                                '</label>' +
+                                '</div>' +
+                                '<a href="/storage/' + item.foto_pengecekan + '" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_' + index + '">Preview</a>' +
+                                '</div>' +
+                                '<div class="invalid-feedback"></div>' +
+                                '</td>' +
+                                '</tr>');
+                            $(rowObject).find('input[name="lokasi_kerusakan[]"]').val(item.lokasi_kerusakan);
+                            $(rowObject).find('input[name="komponen[]"]').val(item.komponen);
+                            $(rowObject).find('select[name="metode[]"]').val(item.metode).find('option[value="' + item.metode + '"]').prop('selected', true);
+
+                            $("#table_edit_pengecekan tbody").append(
+                                rowObject);
+                        });
+                        $('input[type="file"][name="foto_pengecekan[]"]').on('change', function() {
+                            // Get the selected file name
+                            var fileName = $(this).val().split('\\').pop();
+                            if (fileName === '') {
+                                fileName = 'No file chosen';
+                            }
+                            // Update the label with the selected file name
+                            $(this).siblings('.file-name').text(fileName);
+                            $(this).siblings('input[type="hidden"]').val(fileName);
+                        });
+                        $('select[name="metode[]"]').on('change', function() {
+                            // Get the selected file name
+                            var selectedOptionval = $(this).find('option:selected').val();
+                            console.log(selectedOptionval);
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(selectedOptionval);
+                        });
+
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                },
+            });
+
+
+
+            $("#edit_form_pengecekan").submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+                event.preventDefault();
+                const selectedOption = $(
+                    "#id_penghubung option:selected"); // Select the selected option using jQuery
+                if (selectedOption.length) {
+                    selectedOption.attr("data-submit-check", "sudah submit"); // Remove the selected option
+                }
+
+                var formData = new FormData(this);
                 $.ajax({
-                    url: '/transaksi/indexkerusakan',
+                    url: "{{ route('transaksi.editpengecekan') }}", // Ganti dengan endpoint Anda
                     type: 'POST',
-                    data: {
-                        id_pengecekan: $("#edit_pengecekan_button").val(),
-                        _token: '{{ csrf_token() }}',
-                    },
+                    data: formData,
+                    processData: false, // Mengatur false, karena kita menggunakan FormData
+                    contentType: false, // Mengatur false, karena kita menggunakan FormData
                     success: function(response) {
-                        $('select[name="survey_in2"]').find('option[value="' + response.pengecekan.survey_in + '"]').prop('selected', true);
-                        $('input[name="jumlah_kerusakan3"]').val(response.pengecekan.jumlah_kerusakan);
-                        if ($("#jumlah_kerusakan").val() > 0) {
+                        // Handle response sukses
+                        $('#edit-pengecekan-modal').modal('hide');
+                        showAlert(response.message);
+                        console.log('Success:', response);
+                    },
 
-                            $.each(response.kerusakan, function(index, item) {
-                                let rowObject = $('<tr>' +
-                                    '<td class="text-center">' +
-                                    '<input class="form-control" type="text" name="lokasi_kerusakan[]"> ' +
-                                    '<div class="invalid-feedback"></div>' +
-                                    '</td>' +
-                                    '<td class="text-center">' +
-                                    '<input class="form-control" type="text" name="komponen[]"> ' +
-                                    '<div class="invalid-feedback"></div>' +
-                                    '</td>' +
-                                    '<td class="text-center">' +
-                                    '<select class="form-select" aria-label="Default select example" name="metode[]">' +
-                                    '<option selected disabled>Open this select menu</option>' +
-                                    '<option value="1">One</option>' +
-                                    '<option value="2">Two</option>' +
-                                    '<option value="3">Three</option>' +
-                                    '</select>' +
-                                    '<div class="invalid-feedback"></div>' +
-                                    '</td>' +
-                                    '<td class="text-center">' +
-                                    '<label for="foto_pengecekan">file</label>' +
-                                    '<input type="hidden" value="'+ item.foto_pengecekan +'" name="url_foto[]">' +
-                                    '<div class="d-flex gap-2">' +
-                                    '<input type="file" name="foto_pengecekan[]" id="" class="form-control" accept="image/png, image/jpeg, image/jpg"  data-index="' + index + '">' +
-                                    '<a href="/storage/' + item.foto_pengecekan + '" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_' + index + '">Preview</a>' +
-                                    '</div>' +
-                                    '<div class="invalid-feedback"></div>' +
-                                    '</td>' +
-                                    '</tr>');
-                                $(rowObject).find('input[name="lokasi_kerusakan[]"]').val(item.lokasi_kerusakan);
-                                $(rowObject).find('input[name="komponen[]"]').val(item.komponen);
-                                $(rowObject).find('select[name="metode[]"]').val(item.metode).find('option[value="' + item.metode + '"]').prop('selected', true);
-                                $("#table_edit_pengecekan tbody").append(
-                                    rowObject);
-                            });
-                            $('input[type="file"]').on('change', function() {
-
-                            });
-
-                            ajaxCompleted = false;
+                    error: function(xhr, status, error) {
+                        const errors = xhr.responseJSON.errors;
+                        if (xhr.status === 500) {
+                            alert("Kolom Unik Tidak Boleh Sama!")
+                        } else if (xhr.status === 404) {
+                            alert("Data Tidak Ditemukan!");
                         }
 
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    },
+                        $('#edit_form_pengecekan').find('.is-invalid').removeClass('is-invalid');
+                        $('#edit_form_pengecekan').find('.invalid-feedback').text('');
+
+                        $.each(errors, function(key, value) {
+                            const element = $('#edit_form_pengecekan').find('[name="' + key + '"]');
+
+
+                            var cleanInputName = key.replace(/\.\d+/g, '');
+                            var cleanAngka = value[0].replace(/\.\d+/g, '');
+                            element.addClass('is-invalid');
+                            element.next('.invalid-feedback').text(value[0]);
+                            console.log(key + '[]');
+                            const elementArray = $('#edit_form_pengecekan').find('[name="' + cleanInputName + '[]"]');
+                            elementArray.addClass('is-invalid');
+                            elementArray.next('.invalid-feedback').text(cleanAngka);
+                        });
+
+                    }
                 });
-            }
+            });
         });
 
     });
