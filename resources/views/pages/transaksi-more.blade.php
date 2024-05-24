@@ -108,7 +108,7 @@
         </div>
 
         <div id="Perbaikan" class="tab-pane fade in d-none">
-            <x-table-perbaikan />
+            <x-table-perbaikan :data="$transaksi" />
             <x-form-edit-perbaikan />
         </div>
 

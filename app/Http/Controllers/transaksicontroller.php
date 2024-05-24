@@ -459,6 +459,7 @@ class TransaksiController extends Controller
         $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
         $pengecekan = Pengecekan::where('penghubung_id', $request->id_penghubung)->first();
         $perbaikan = Perbaikan::where('penghubung_id', $request->id_penghubung)->first();
+        $perbaikan->jumlah_perbaikan = $request->jumlah_kerusakan2;
         $pengecekan->update([
             'jumlah_kerusakan' => $request->jumlah_kerusakan2,
             'tanggal_pengecekan' => now(),
@@ -505,8 +506,7 @@ class TransaksiController extends Controller
         $validator = Validator::make($request->all(), [
             'url_foto' => 'array',
             'id_penghubung' => 'required',
-            'jumlah_kerusakan2' => 'required|numeric|min:0|max:10',
-            'jenis_ukuran_pengecekan' => 'required',
+            'jumlah_kerusakan3' => 'required|numeric|min:0|max:10',
             'lokasi_kerusakan' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
             'komponen' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
             'metode' => ['array', new UniqueArrayValueFoto('metode_value'), new RequiredArrayValuesFoto('metode_value')],
