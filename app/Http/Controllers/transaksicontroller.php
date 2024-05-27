@@ -24,7 +24,8 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        return view('pages.transaksi');
+        $transaksi = transaksi::paginate(3);
+        return view('pages.transaksi', compact('transaksi'));
     }
 
     public function show($id)
@@ -631,8 +632,13 @@ class TransaksiController extends Controller
     public function deletekerusakan(Request $request)
     {
         $id = $request->input("id_kerusakan");
+        $id_petikemas = $request->input("id_petikemas");
         $kerusakans = Kerusakan::findOrFail($id);
         Pengecekan::where('id', $kerusakans->pengecekan_id)->decrement('jumlah_kerusakan');
+        $pengecekan =  Pengecekan::where('id', $kerusakans->pengecekan_id)->first();
+        $petikemas = Petikemas::findOrFail($id_petikemas);
+
+        $petikemas->update(['status_kondisi' => $pengecekan->jumlah_petikemas > 0 ? 'damage' : 'available']);
 
 
         // Check if the file exists and delete it

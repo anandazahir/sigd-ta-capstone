@@ -113,10 +113,11 @@
         </div>
 
         <div id="Penempatan" class="tab-pane fade in d-none">
-            <x-table-penempatan />
+            <x-table-penempatan :data="$transaksi" />
             <x-form-edit-penempatan />
+            <x-form-table-penempatan></x-form-table-penempatan>
         </div>
-        <x-form-table-penempatan></x-form-table-penempatan>
+
 
         <script>
             $(document).ready(function() {

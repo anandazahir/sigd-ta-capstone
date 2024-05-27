@@ -49,7 +49,7 @@
     <p>Jenis Kegiatan: {{ $selectedValue }}</p>
     <p>Bulan Transaksi: {{ $selectedMonth }}</p>
 
-    @foreach($filteredData as $transaksi)
+    @foreach($transaksis as $transaksi)
     <table border="1">
         <thead>
             <tr>

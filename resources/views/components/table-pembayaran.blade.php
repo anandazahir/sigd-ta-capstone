@@ -186,16 +186,14 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
         $("#table_pembayaran tbody tr").each(function(index, row) {
             const $row = $(this);
             $row.find('input[name="id_penghubung[]"]').on("change", function(e) {
-                let $atLeastOneChecked = false;
                 $row.find('select[name="metode[]"]').prop("disabled", !this.checked);
 
                 if ($(this).prop("checked")) {
-                    atLeastOneChecked = true;
                     $row.find('select[name="metode[]"] option[disabled]').text("Pilih Opsi Ini");
                 } else {
-                    atLeastOneChecked = false;
                     $row.find('select[name="metode[]"] option[disabled]').text("");
                 }
+                let atLeastOneChecked = $('input[name="id_penghubung[]"]:checked').length > 0;
                 $button_submit.prop("disabled", !atLeastOneChecked);
                 $row.find('.invalid-feedback').text('');
                 $row.find('select[name="metode[]"]').removeClass('is-invalid');

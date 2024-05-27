@@ -84,6 +84,23 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($transaksi as $item)
+                            <tr>
+                                <td>{{ $item['no_transaksi'] }}</td>
+                                <td>{{ ucfirst($item['jenis_kegiatan']) }}</td>
+                                <td>{{ $item['jumlah_petikemas'] }}</td>
+                                <td>
+                                    <div class="btn-group gap-2">
+                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/{{ $item['id'] }}">
+                                            <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
+                                        </a>
+                                        <button class="btn btn-danger text-white p-0 rounded-3 deletetransaksi" style="width: 2.5rem; height: 2.2rem;" value="{{ $item['id'] }}">
+                                            <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
 
                         </tbody>
                     </table>
@@ -113,6 +130,11 @@
         <script>
             $(document).ready(function() {
                 let currentPage = 1
+                var now = new Date();
+                var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+                var year = now.getFullYear();
+                var currentMonth = year + '-' + month;
+                $('#monthpicker').val(currentMonth);
                 $('#jenis_kegiatan').change(function() {
                     let selectedType = $(this).val();
                     if (selectedType !== "") {
@@ -233,9 +255,6 @@
                         }
                     });
                 });
-
-
-                fetchDataAndUpdateTable();
             });
         </script>
 </x-layout>
