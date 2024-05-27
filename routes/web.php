@@ -50,6 +50,7 @@ Route::prefix('transaksi')->group(function () {
     Route::post('/indexkerusakan', [TransaksiController::class, 'indexkerusakan'])->name('transaksi.indexkerusakan');
     Route::post('/editpengecekan', [TransaksiController::class, 'editpengecekan'])->name('transaksi.editpengecekan');
     Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('transaksi.deletekerusakan');
+    Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('transaksi.editperbaikan');
 });
 
 Route::prefix('peti-kemas')->group(function () {

@@ -655,4 +655,141 @@ class TransaksiController extends Controller
             'message' => 'Data Kerusakan Berhasil Dihapus!',
         ]);
     }
+
+    public function editperbaikan(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'url_foto' => 'array',
+            'id_penghubung' => 'required',
+            'repair' => 'required',
+            'jumlah_perbaikan' => 'required|numeric|min:0|max:10',
+            'lokasi_kerusakan' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
+            'komponen' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
+            'metode' => ['array', new UniqueArrayValueFoto('metode_value'), new RequiredArrayValuesFoto('metode_value')],
+            'harga_kerusakan' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
+            'harga_kerusakan*' =>'numeric|min:1000',
+            'status' => ['array', new UniqueArrayValueFoto('status_value'), new RequiredArrayValuesFoto('status_value')],
+            'foto_perbaikan' => ['array', new UniqueArrayValueFoto('foto_perbaikan_name'), new RequiredArrayValuesFoto('foto_perbaikan_name')],
+            'foto_perbaikan.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'foto_perbaikan_name' => ['array', new RequiredArrayValues()],
+            'metode_value' => ['array', new RequiredArrayValues()],
+            'status_value' => ['array', new RequiredArrayValues()]
+        ]);
+
+        if ($request->input('jumlah_perbaikan') > 0) {
+            $validator->sometimes('foto_perbaikan_name', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+
+            $validator->sometimes('lokasi_kerusakan', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+
+            $validator->sometimes('komponen', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+
+            $validator->sometimes('metode', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+
+            $validator->sometimes('harga_kerusakan', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+
+            $validator->sometimes('status', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+
+            $validator->sometimes('foto_perbaikan', 'required|array', function ($input) {
+                return $input->jumlah_perbaikan > 0;
+            });
+        }
+
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        // Fetching related models
+        $perbaikan = perbaikan::with('kerusakan')->findOrFail($request->id_pengecekan);
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($request->id_pengecekan);
+        $kerusakan = $pengecekan->kerusakan;
+        $penghubung = Penghubung::findOrFail($request->id_penghubung);
+        $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
+
+        // Updating perbaikan
+        $perbaikan->update([
+            'tanggal_perbaikan' => now(),
+            'repair' => $request->repair,
+        ]);
+        dd($petikemas);
+
+        // Updating petikemas status
+        $petikemas->update(['status_kondisi' => $request->jumlah_perbaikan > 0 ? 'damage' : 'available']);
+        if ($request->jumlah_perbaikan == count($kerusakan)) {
+            // Updating kerusakan and handling file uploads
+            foreach ($kerusakan as $index => $item) {
+                // Cek apakah ada file gambar baru yang diunggah
+                if ($request->hasFile("foto_perbaikan.$index")) {
+                    // Hapus gambar lama jika ada
+                    if (Storage::disk('public')->exists($item->foto_perbaikan)) {
+                        Storage::disk('public')->delete($item->foto_perbaikan);
+                    }
+
+                    // Simpan gambar baru
+                    $newImagePath = $request->file("foto_perbaikan.$index")->store('uploads', 'public');
+                    $newImageName = $request->file('foto_perbaikan')[$index]->getClientOriginalName();
+                    // Perbarui dengan gambar baru
+                    $item->update(['foto_perbaikan' => $newImagePath]);
+                } else {
+                    // Jika tidak ada file gambar baru, gunakan url_foto yang ada
+                    $newImagePath = $request->url_foto[$index];
+                    $newImageName = $item->foto_perbaikan_name;
+                }
+
+                // Perbarui data lainnya
+                $item->update([
+                    'lokasi_kerusakan' => $request->lokasi_kerusakan[$index],
+                    'komponen' => $request->komponen[$index],
+                    'harga' => $request->harga_kerusakan[$index],
+                    'status' => $request->status[$index],
+                    'metode' => $request->metode[$index],
+                    'foto_perbaikan_name' => $newImageName,
+                    'foto_perbaikan' => $newImagePath, // Gunakan nilai yang sudah ditentukan
+                ]);
+            }
+        }
+
+        // Handling new kerusakan
+        if ($request->jumlah_perbaikan > count($kerusakan)) {
+            for ($i = 0; $i < $request->jumlah_perbaikan - count($kerusakan); $i++) {
+                $path = $request->file('foto_perbaikan')[$i + count($kerusakan)]->store('uploads', 'public');
+                $name = $request->file('foto_perbaikan')[$i + count($kerusakan)]->getClientOriginalName();
+                Kerusakan::create([
+                    'lokasi_kerusakan' => $request->lokasi_kerusakan[$i + count($kerusakan)],
+                    'komponen' => $request->komponen[$i + count($kerusakan)],
+                    'harga' => $request->harga_kerusakan[$i + count($kerusakan)],
+                    'status' => $request->status[$i + count($kerusakan)],
+                    'metode' => $request->metode[$i + count($kerusakan)],
+                    'pengecekan_id' => $pengecekan->id,
+                    'perbaikan_id' => $pengecekan->id,
+                    'foto_pengecekan' => $path,
+                    'foto_pengecekan_name' => $name,
+                ]);
+            }
+        } elseif ($request->jumlah_perbaikan < count($kerusakan)) {
+            $extraKerusakan = $kerusakan->splice($request->jumlah_perbaikan);
+            foreach ($extraKerusakan as $extra) {
+                if (Storage::disk('public')->exists($extra->foto_perbaikan)) {
+                    Storage::disk('public')->delete($extra->foto_perbaikan);
+                }
+                $extra->delete();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Perbaikan Berhasil Diubah!',
+        ]);
+    }
 }

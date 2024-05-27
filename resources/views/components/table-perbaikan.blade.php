@@ -81,7 +81,7 @@ break;
                         @endif
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-perbaikan" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}" data-ajax="true">
+                                <button class="btn btn-info mx-auto" data-bs-toggle="modal" data-bs-target="#edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}" data-ajax="true">
                                     <i class="fa-solid fa-pen-to-square fa-lg my-1"></i>
                                 </button>
                             </div>
@@ -94,3 +94,8 @@ break;
         </div>
     </div>
 </div>
+@foreach ($data->penghubungs as $penghubung)
+<x-modal-form size="modal-xl" id="edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" text="Edit perbaikan | {{$penghubung->petikemas->no_petikemas}}">
+    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}"/>
+</x-modal-form>
+@endforeach

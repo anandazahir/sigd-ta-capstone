@@ -109,13 +109,10 @@
 
         <div id="Perbaikan" class="tab-pane fade in d-none">
             <x-table-perbaikan :data="$transaksi" />
-            <x-form-edit-perbaikan />
         </div>
 
         <div id="Penempatan" class="tab-pane fade in d-none">
             <x-table-penempatan :data="$transaksi" />
-            <x-form-edit-penempatan />
-            <x-form-table-penempatan></x-form-table-penempatan>
         </div>
 
 
