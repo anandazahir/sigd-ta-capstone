@@ -127,11 +127,7 @@ setlocale(LC_TIME, 'id_ID');
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Ketersediaan</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
                             <h5 class="fw-semibold fs-5  bg-success p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-
-                                <!-- Pengkondisian sementara -->
-
-                                In
-
+                                {{$data -> status_ketersediaan}}
                             </h5>
                         </h5>
                     </div>
@@ -152,8 +148,8 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Lokasi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="fw-semibold fs-5  bg-success p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-                                A0 01-01
+                            <h5 class="fw-semibold fs-5  bg-warning p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                                {{$data -> lokasi}}
                             </h5>
                     </div>
                 </div>

@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('perbaikanhistories', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('tanggal_perubahan')->nullable();
-            $table->foreignId('perbaikan_id')->constrained('perbaikans')->onDelete('cascade')->nullable();
+            $table->integer('jumlah_perbaikan')->nullable();
+            $table->dateTime('tanggal_perbaikan')->nullable();
+            $table->string('repair')->nullable();
+            $table->string('estimator')->nullable();
+            $table->string('status_kondisi')->nullable();
+            $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }

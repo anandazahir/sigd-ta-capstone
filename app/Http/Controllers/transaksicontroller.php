@@ -9,6 +9,7 @@ use App\Models\Pengecekan;
 use App\Models\pengecekanhistory;
 use App\Models\Penghubung;
 use App\Models\Perbaikan;
+use App\Models\perbaikanhistory;
 use App\Models\petikemas;
 
 use App\Rules\RequiredArrayValuesFoto;
@@ -636,6 +637,15 @@ class TransaksiController extends Controller
             $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
         }
         $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
+        
+        pengecekanhistory::create([
+            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
+            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
+            'survey_in' => $pengecekan->survey_in,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi
+        ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Data Pengecekan Berhasil Diubah!',
@@ -662,6 +672,17 @@ class TransaksiController extends Controller
 
         // Delete the Kerusakan record
         $kerusakans->delete();
+        $pengecekan->update([
+            'tanggal_pengecekan' => now(),
+        ]);
+
+        pengecekanhistory::create([
+            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
+            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
+            'survey_in' => $pengecekan->survey_in,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi
+        ]);
 
 
         return response()->json([
@@ -808,6 +829,16 @@ class TransaksiController extends Controller
         if ($request->jumlah_perbaikan == 0) {
             $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
         }
+
+        perbaikanhistory::create([
+            'jumlah_perbaikan' => $perbaikan->jumlah_perbaikan,
+            'tanggal_perbaikan' => $perbaikan->tanggal_perbaikan,
+            'repair' => $perbaikan->repair,
+            'estimator' => $perbaikan->estimator,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi
+        ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Data Perbaikan Berhasil Diubah!',
