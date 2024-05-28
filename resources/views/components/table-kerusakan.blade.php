@@ -42,9 +42,14 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $item['id'] }}" data-bs-toggle="modal">
-                                        <i class="fa-solid fa-trash-can fa-lg my-1"></i>
-                                    </button>
+                                    <form action="/transaksi/deletekerusakan" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id_kerusakan" value="{{$item->id}}">
+                                        <input type="hidden" name="id_petikemas" value="{{$petikemas}}">
+                                        <button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $item['id'] }}" data-bs-toggle="modal">
+                                            <i class="fa-solid fa-trash-can fa-lg my-1"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
@@ -61,10 +66,9 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         let Id = "table-kerusakan-{{$data->id}}";
         let $modalId = $("#" + Id);
-
         $(document).on('click', '#button_delete_kerusakan', function(e) {
             e.preventDefault();
             $.ajax({
@@ -78,11 +82,12 @@
                 success: function(response) {
                     $("#show-kerusakan").modal('hide');
                     showAlert(response.message);
+                    console.log(response.petikemas);
                 },
                 error: function(xhr, status, error) {}
             });
             console.log($(this).val());
         });
 
-    });
+    });*/
 </script>

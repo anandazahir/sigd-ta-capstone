@@ -124,25 +124,31 @@
                             '<div class="invalid-feedback"></div>' +
                             '</td>' +
                             '</tr>');
-                        $("#" + formId).find("#table_edit_pengecekan tbody").append(rowObject); // Append new rows
+                        $("#" + formId).find("#table_edit_pengecekan tbody").append(rowObject);
+
                     }
-                    $("#" + formId).find('#foto_pengecekan').on('change', function() {
-                        // Get the selected file name
-                        var fileName = $(this).val().split('\\').pop();
-                        if (fileName === '') {
-                            fileName = 'No file chosen';
-                        }
-                        // Update the label with the selected file name
-                        $(this).siblings('input[type="hidden"]').val(fileName);
-                        $(this).siblings('.file-name').text(fileName);
+                    $("#" + formId).find("#table_edit_pengecekan tbody tr").each(function(index) {
+                        let $metodeId = $(this).find('select[name="metode[]"]');
+                        let $fotoPengecekanId = $(this).find('input[name="foto_pengecekan[]"]');
+                        $fotoPengecekanId.on('change', function() {
+                            // Get the selected file name
+                            var fileName = $(this).val().split('\\').pop();
+                            if (fileName === '') {
+                                fileName = 'No file chosen';
+                            }
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(fileName);
+                            $(this).siblings('.file-name').text(fileName);
+                        });
+                        $metodeId.on('change', function() {
+                            // Get the selected file name
+                            var selectedOptionval = $(this).find('option:selected').val();
+                            console.log(selectedOptionval);
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(selectedOptionval);
+                        });
                     });
-                    $("#" + formId).find('#metode').on('change', function() {
-                        // Get the selected file name
-                        var selectedOptionval = $(this).find('option:selected').val();
-                        console.log(selectedOptionval);
-                        // Update the label with the selected file name
-                        $(this).siblings('input[type="hidden"]').val(selectedOptionval);
-                    });
+
                 } else if (rowCount < lengthTable) { // This is the corrected part
                     for (var i = 0; i < (lengthTable - rowCount); i++) {
                         $("#" + formId).find("#table_edit_pengecekan tbody tr:last-child").remove();
@@ -157,7 +163,7 @@
             }
             jumlah_kerusakan3_value = $(this).val();
         });
-        $("#" + formId).find('#foto_pengecekan').on('change', function() {
+        $("#" + formId).find('input[name="foto_pengecekan[]"]').on('change', function() {
             // Get the selected file name
             var fileName = $(this).val().split('\\').pop();
             if (fileName === '') {
@@ -167,7 +173,7 @@
             $(this).siblings('input[type="hidden"]').val(fileName);
             $(this).siblings('.file-name').text(fileName);
         });
-        $("#" + formId).find('#metode').on('change', function() {
+        $("#" + formId).find('select[name="metode[]"]').on('change', function() {
             // Get the selected file name
             var selectedOptionval = $(this).find('option:selected').val();
             console.log(selectedOptionval);

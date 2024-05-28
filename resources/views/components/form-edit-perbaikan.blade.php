@@ -1,18 +1,9 @@
-<form data-id="{{ $id }}" method="POST" id="edit_form_perbaikan_{{$data->id}}" action="/transaksi/editperbaikan" enctype="multipart/form-data" novalidate>
+<form data-id="{{ $id }}" method="POST" id="edit_form_perbaikan_{{ $data->id }}" action="/transaksi/editperbaikan" enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
-        {{--  <div class="col-lg-6 mb-3 form-group">
-            <label for="estimator" class="form-label">Estimator</label>
-            <select name="estimator" class="form-select" aria-label="Default select example" required>
-                <option selected>Plih Opsi Ini</option>
-                <option value="estimator 1">estimator 1</option>
-                <option value="estimator 2">estimator 2</option>
-            </select>
-        </div>  --}}
         <div class="col-lg-6 mb-3 form-group">
             <label for="status pernikahan" class="form-label">
                 <span>Repair</span>
-                {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
             </label>
             <select name="repair" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
@@ -25,9 +16,9 @@
     <div class="row">
         <div class="col-lg-12 mb-3">
             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-            <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_perbaikan" required value="{{$data->jumlah_kerusakan}}">
-            <input type="hidden" name="id_perbaikan" id="id_perbaikan" value="{{$data->id}}">
-            <input type="hidden" name="id_penghubung" id="id_penghubung2" value="{{$data->penghubung_id}}">
+            <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_perbaikan" required value="{{ $data->jumlah_kerusakan }}">
+            <input type="hidden" name="id_perbaikan" id="id_perbaikan" value="{{ $data->id }}">
+            <input type="hidden" name="id_penghubung" id="id_penghubung2" value="{{ $data->penghubung_id }}">
         </div>
     </div>
 
@@ -36,7 +27,6 @@
         <table class="table text-center" id="table_edit_perbaikan">
             <thead>
                 <tr>
-
                     <th scope="col">Lokasi</th>
                     <th scope="col">Component</th>
                     <th scope="col">Metode</th>
@@ -46,16 +36,14 @@
                 </tr>
             </thead>
             <tbody>
-
-
                 @foreach ($data->kerusakan as $index => $item)
                 <tr>
                     <td class="text-center">
-                        <input class="form-control" type="text" name="lokasi_kerusakan[]" value="{{$item->lokasi_kerusakan}}">
+                        <input class="form-control" type="text" name="lokasi_kerusakan[]" value="{{ $item->lokasi_kerusakan }}">
                         <div class="invalid-feedback"></div>
                     </td>
                     <td class="text-center">
-                        <input class="form-control" type="text" name="komponen[]" value="{{$item->komponen}}">
+                        <input class="form-control" type="text" name="komponen[]" value="{{ $item->komponen }}">
                         <div class="invalid-feedback"></div>
                     </td>
                     <td class="text-center">
@@ -69,32 +57,28 @@
                         <div class="invalid-feedback"></div>
                     </td>
                     <td class="text-center">
-                        <div class="input-group mb-3">
-                            {{--  <span class="input-group-text">Rp.</span>  --}}
-                            <input type="number" class="form-control" name="harga_kerusakan[]">
-                            {{--  <span class="input-group-text">.00</span>  --}}
-                        </div>
+                        <input type="number" class="form-control" name="harga_kerusakan[]" placeholder="ex: 10000" value="{{ $item->harga }}">
                     </td>
                     <td>
-                        <input type="hidden" name="status_value[]" value="">
-                        <select class="form-select" aria-label="Default select example" name="status[]" id="status_perbaikan">
+                        <input type="hidden" name="status_value[]" value="{{$item->status}}">
+                        <select class="form-select" aria-label="Default select example" name="status[]" id="status_perbaikan" value="{{ $item->status }}">
                             <option selected disabled>Pilih Status</option>
-                            <option value="fix">FIX</option>
-                            <option value="damage">DAMAGE</option>
+                            <option value="fix" {{ $item->status == 'fix' ? 'selected' : '' }}>FIX</option>
+                            <option value="damage" {{ $item->status == 'damage' ? 'selected' : '' }}>DAMAGE</option>
                         </select>
                     </td>
                     <td class="text-center">
                         <input type="hidden" value="{{ $item->foto_perbaikan }}" name="url_foto[]">
                         <div class="d-flex gap-2">
-                            <div class="input-group" style="width: 100%;">
-                                <span class="input-group-text" style="height: fit-content; width: 20%;">Pilih File</span>
-                                <label tabindex="0" class="form-control text-start p-1" style="height: 2.3rem; width: 80%;">
-                                    <span class="file-name">{{ $item->foto_perbaikan_name }}</span>
-                                    <input style="width: 20rem" type="file" name="foto_perbaikan[]" id="foto_perbaikan" class="invisible" accept="image/png, image/jpeg, image/jpg" data-index="{{ $index }}" style="height: fit-content;">
+                            <div class="input-group">
+                                <span class="input-group-text" style="height: fit-content;">Pilih File</span>
+                                <label tabindex="0" class="form-control text-start p-1" style="height: 2.3rem;">
+                                    <span class="file-name">{{ $item->foto_perbaikan_name ?? 'tidak ada file dipilih' }}</span>
+                                    <input type="file" name="foto_perbaikan[]" id="foto_perbaikan" class="invisible" accept="image/png, image/jpeg, image/jpg" style="height: fit-content;">
                                     <input type="hidden" name="foto_perbaikan_name[]" value="{{ $item->foto_perbaikan_name }}">
                                 </label>
                             </div>
-                            @if ($item->foto_perbaikan)                         
+                            @if ($item->foto_perbaikan)
                             <a href="/storage/{{ $item->foto_perbaikan }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
                             @endif
                         </div>
@@ -102,30 +86,28 @@
                     </td>
                 </tr>
                 @endforeach
-
             </tbody>
         </table>
     </div>
 
     <button type="submit" class="btn btn-primary text-white">Submit</button>
 </form>
-
 <script>
     $(document).ready(function() {
         let formId = "edit_form_perbaikan_{{$data->id}}";
         let $form = $("#" + formId);
         console.log($form);
-        if ($("#" + formId).find("#jumlah_kerusakan").val() > 0) {
-            $("#" + formId).find("#table_edit_perbaikan").show();
-            $("#" + formId).find("#text-perbaikan-edit").show();
+        if ($form.find("#jumlah_kerusakan").val() > 0) {
+            $form.find("#table_edit_perbaikan").show();
+            $form.find("#text-perbaikan-edit").show();
         } else {
-            $("#" + formId).find("#table_edit_perbaikan").hide();
-            $("#" + formId).find("#text-perbaikan-edit").hide();
+            $form.find("#table_edit_perbaikan").hide();
+            $form.find("#text-perbaikan-edit").hide();
         }
-        $("#" + formId).find("#jumlah_kerusakan").on("change", function() {
+        $form.find("#jumlah_kerusakan").on("change", function() {
             console.log("hai")
             var rowCount = parseInt($(this).val());
-            var lengthTable = $("#" + formId).find("#table_edit_perbaikan tbody tr").length;
+            var lengthTable = $form.find("#table_edit_perbaikan tbody tr").length;
             console.log(rowCount, lengthTable);
             if (rowCount > 0) {
                 if (rowCount > lengthTable) {
@@ -155,7 +137,7 @@
                             '</div>' +
                             '</td>' +
                             '<td>' +
-                            '<input type="hidden" name="status_value[]"/>' +                               
+                            '<input type="hidden" name="status_value[]"/>' +
                             '<select class="form-select" aria-label="Default select example" name="status[]" id="status_perbaikan">' +
                             '<option selected disabled>Pilih Status</option>' +
                             '<option value="fix">FIX</option>' +
@@ -163,82 +145,82 @@
                             '</select>' +
                             '</td>' +
                             '<td class="text-center">' +
-                            '<input type="file" name="foto_perbaikan[]" id="foto_perbaikan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                             '<input type="hidden" name="foto_perbaikan_name[]"/>' +
+                            '<input type="file" name="foto_perbaikan[]" id="foto_perbaikan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                             '<div class="invalid-feedback"></div>' +
                             '</td>' +
                             '</tr>');
-                        $("#" + formId).find("#table_edit_perbaikan tbody").append(rowObject); // Append new rows
+                        $form.find("#table_edit_perbaikan tbody").append(rowObject); // Append new rows
                     }
-                    $("#" + formId).find('#foto_perbaikan').on('change', function() {
-                        // Get the selected file name
-                        var fileName = $(this).val().split('\\').pop();
-                        if (fileName === '') {
-                            fileName = 'No file chosen';
-                        }
-                        // Update the label with the selected file name
-                        $(this).siblings('input[type="hidden"]').val(fileName);
-                        $(this).siblings('.file-name').text(fileName);
+                    $form.find("#table_edit_perbaikan tbody tr").each(function(index) {
+                        let $metodeId = $(this).find('select[name="metode[]"]');
+                        let $fotoPerbaikanId = $(this).find('input[name="foto_perbaikan[]"]');
+                        let $statusId = $(this).find('select[name="status[]"]');
+
+                        $fotoPerbaikanId.on('change', function() {
+                            // Get the selected file name
+                            var fileName = $(this).val().split('\\').pop();
+                            if (fileName === '') {
+                                fileName = 'No file chosen';
+                            }
+                            console.log($fotoPerbaikanId);
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(fileName);
+                            $(this).siblings('.file-name').text(fileName);
+                        });
+                        $metodeId.on('change', function() {
+                            // Get the selected file name
+                            var selectedOptionval = $(this).find('option:selected').val();
+                            console.log(selectedOptionval);
+                            // Update the label with the selected file name
+                            $(this).siblings('input[type="hidden"]').val(selectedOptionval);
+                        });
+                        $statusId.on('change', function() {
+                            var selectedOptionval = $(this).find('option:selected').val();
+                            console.log(selectedOptionval);
+                            $(this).siblings('input[type="hidden"]').val(selectedOptionval);
+                        });
                     });
-                    $("#" + formId).find('#metode').on('change', function() {
-                        // Get the selected file name
-                        var selectedOptionval = $(this).find('option:selected').val();
-                        console.log(selectedOptionval);
-                        // Update the label with the selected file name
-                        $(this).siblings('input[type="hidden"]').val(selectedOptionval);
-                    });
-                    $("#" + formId).find('#status_perbaikan').on('change', function() {
-                        // Get the selected file name
-                        var selectedOptionval = $(this).find('option:selected').val();
-                        console.log(selectedOptionval);
-                        // Update the label with the selected file name
-                        $(this).siblings('input[type="hidden"]').val(selectedOptionval);
-                    });
-                } else if (rowCount < lengthTable) { // This is the corrected part
+
+
+                } else if (rowCount < lengthTable) {
                     for (var i = 0; i < (lengthTable - rowCount); i++) {
-                        $("#" + formId).find("#table_edit_perbaikan tbody tr:last-child").remove();
+                        $form.find("#table_edit_perbaikan tbody tr:last-child").remove();
                     }
                 }
-                $("#" + formId).find("#table_edit_perbaikan").show();
-                $("#" + formId).find("#text-perbaikan-edit").show();
+                $form.find("#table_edit_perbaikan").show();
+                $form.find("#text-perbaikan-edit").show();
             } else {
-                $("#" + formId).find("#table_edit_perbaikan").hide();
-                $("#" + formId).find("#text-perbaikan-edit").hide();
-                $("#" + formId).find("#table_edit_perbaikan tbody").empty();
+                $form.find("#table_edit_perbaikan").hide();
+                $form.find("#text-perbaikan-edit").hide();
+                $form.find("#table_edit_perbaikan tbody").empty();
             }
             jumlah_kerusakan3_value = $(this).val();
         });
-        $("#" + formId).find('#foto_perbaikan').on('change', function() {
-            // Get the selected file name
+        $form.find('input[name="foto_perbaikan[]"]').on('change', function() {
             var fileName = $(this).val().split('\\').pop();
             if (fileName === '') {
                 fileName = 'No file chosen';
             }
-            // Update the label with the selected file name
             $(this).siblings('input[type="hidden"]').val(fileName);
             $(this).siblings('.file-name').text(fileName);
         });
-        $("#" + formId).find('#metode').on('change', function() {
-            // Get the selected file name
+        $form.find('select[name="metode[]"]').on('change', function() {
             var selectedOptionval = $(this).find('option:selected').val();
             console.log(selectedOptionval);
-            // Update the label with the selected file name
             $(this).siblings('input[type="hidden"]').val(selectedOptionval);
         });
-        $("#" + formId).find('#status_perbaikan').on('change', function() {
-            // Get the selected file name
+        $form.find('select[name="status[]"]').on('change', function() {
             var selectedOptionval = $(this).find('option:selected').val();
             console.log(selectedOptionval);
-            // Update the label with the selected file name
             $(this).siblings('input[type="hidden"]').val(selectedOptionval);
         });
-        console.log( $("#" + formId).find('#status_perbaikan').length);
-        /*$form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+        $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
             event.preventDefault();
             var formData = new FormData(this);
             var modalId = $(this).data('id');
             $.ajax({
-                url: "", // Ganti dengan endpoint Anda
+                url: "{{ route('transaksi.editperbaikan') }}", // Ganti dengan endpoint Anda
                 type: 'POST',
                 data: formData,
                 processData: false, // Mengatur false, karena kita menggunakan FormData
@@ -275,6 +257,6 @@
 
                 }
             });
-        });*/
+        });
     });
 </script>

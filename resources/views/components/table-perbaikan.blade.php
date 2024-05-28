@@ -1,8 +1,18 @@
 @php
 $semuaBelumCetak = true;
+$value = true;
+$tanggal_perbaikan = true;
 foreach($data->penghubungs as $penghubung) {
-if($penghubung->petikemas->status_kondisi === 'damage') {
+if($penghubung->perbaikan->jumlah_perbaikan > 0) {
 $semuaBelumCetak = false;
+break;
+}
+if($penghubung->perbaikan->repair && $penghubung->perbaikan->estimator) {
+$value = false;
+break;
+}
+if($penghubung->perbaikan->tanggal_perbaikan) {
+$tanggal_perbaikan = false;
 break;
 }
 }
@@ -22,19 +32,25 @@ break;
                 <thead>
                     <tr>
                         @foreach ($data->penghubungs as $penghubung)
-                        @if($penghubung->petikemas->status_kondisi === 'damage')
+                        @if($penghubung->perbaikan->jumlah_perbaikan > 0)
                         <th scope="col" class="fw-semibold">No Peti Kemas</th>
                         <th scope="col" class="fw-semibold">Size & Type</th>
                         <th scope="col" class="fw-semibold">List Kerusakan</th>
-                        <th scope="col" class="fw-semibold">Jumlah Kerusakan</th>
+                        <th scope="col" class="fw-semibold">Jumlah Perbaikan</th>
                         <th scope="col" class="fw-semibold">Kondisi</th>
                         @break
                         @endif
                         @endforeach
                         @foreach ($data->penghubungs as $penghubung)
                         @if ($penghubung->perbaikan->repair)
-                        <th scope="col" class="fw-semibold">Tanggal Perbaikan</th>
                         <th scope="col" class="fw-semibold">Repair</th>
+                        <th scope="col" class="fw-semibold">Estimator</th>
+                        @break
+                        @endif
+                        @endforeach
+                        @foreach ($data->penghubungs as $penghubung)
+                        @if ($penghubung->perbaikan->tanggal_perbaikan)
+                        <th scope="col" class="fw-semibold">Tanggal Perbaikan</th>
                         @break
                         @endif
                         @endforeach
@@ -43,7 +59,7 @@ break;
                 </thead>
                 <tbody>
                     @foreach($data->penghubungs as $penghubung)
-                    @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $penghubung->petikemas->status_kondisi ==='damage')
+                    @if($penghubung->perbaikan->jumlah_perbaikan > 0)
                     <tr>
                         <td class="text-center">
                             {{$penghubung->petikemas->no_petikemas}}
@@ -57,7 +73,7 @@ break;
                             </div>
                         </td>
                         <td class="text-center">
-                            {{$penghubung->pengecekan->jumlah_kerusakan}}
+                            {{$penghubung->perbaikan->jumlah_perbaikan}}
                         </td>
                         <td>
                             <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
@@ -66,17 +82,22 @@ break;
 
                         </td>
                         @if ($penghubung->perbaikan->repair)
-
-                        <td class="text-center m-0 p-0">
-                            {{$penghubung->perbaikan->tanggal_perbaikan}}
-                        </td>
-
-                        <td class="text-center d-flex gap-1">
+                        <td class="text-center">
                             <div class="mx-auto d-flex gap-1">
                                 <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
                                 <span>{{$penghubung->perbaikan->repair}}</span>
                             </div>
-
+                        </td>
+                        <td class="text-center">
+                            <div class="mx-auto d-flex gap-1" style="width:fit-content">
+                                <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
+                                <span>{{$penghubung->perbaikan->estimator}}</span>
+                            </div>
+                        </td>
+                        @endif
+                        @if ($penghubung->perbaikan->tanggal_perbaikan)
+                        <td class="text-center">
+                            {{$penghubung->perbaikan->tanggal_perbaikan}}
                         </td>
                         @endif
                         <td class="text-center">
@@ -96,6 +117,6 @@ break;
 </div>
 @foreach ($data->penghubungs as $penghubung)
 <x-modal-form size="modal-xl" id="edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" text="Edit perbaikan | {{$penghubung->petikemas->no_petikemas}}">
-    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}"/>
+    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}" />
 </x-modal-form>
 @endforeach

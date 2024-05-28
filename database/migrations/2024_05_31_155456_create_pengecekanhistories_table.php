@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('pengecekanhistories', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('tanggal_diubah')->nullable();
-            $table->foreignId('pengecekan_id')->constrained('pengecekans')->onDelete('cascade')->nullable();
+            $table->integer('jumlah_kerusakan')->nullable();
+            $table->dateTime('tanggal_pengecekan')->nullable();
+            $table->string('survey_in')->nullable();
+            $table->string('status_kondisi')->nullable();
+            $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }

@@ -6,9 +6,11 @@ use App\Models\Kerusakan;
 use App\Models\Pembayaran;
 use App\Models\Penempatan;
 use App\Models\Pengecekan;
+use App\Models\pengecekanhistory;
 use App\Models\Penghubung;
 use App\Models\Perbaikan;
 use App\Models\petikemas;
+
 use App\Rules\RequiredArrayValuesFoto;
 use App\Rules\UniqueArrayValueFoto;
 use Illuminate\Http\Request;
@@ -466,8 +468,9 @@ class TransaksiController extends Controller
             'tanggal_pengecekan' => now(),
             'survey_in' => 'rizal',
         ]);
-        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
 
+        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
+        $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
         if ($request->jumlah_kerusakan2 > 0) {
             foreach ($request->lokasi_kerusakan as $index => $lokasi) {
                 $path = $request->file('foto_pengecekan')[$index]->store('uploads', 'public');
@@ -484,7 +487,13 @@ class TransaksiController extends Controller
                 ]);
             }
         }
-
+        pengecekanhistory::create([
+            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
+            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
+            'survey_in' => $pengecekan->survey_in,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi
+        ]);
         return response()->json([
             'success' => true,
             'message' => 'Data Pengecekan Berhasil Ditambah!',
@@ -551,6 +560,8 @@ class TransaksiController extends Controller
         }
         // Fetching related models
         $pengecekan = pengecekan::with('kerusakan')->findOrFail($request->id_pengecekan);
+        $perbaikan = perbaikan::findOrFail($request->id_pengecekan);
+
         $kerusakan = $pengecekan->kerusakan;
         $penghubung = Penghubung::findOrFail($request->id_penghubung);
         $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
@@ -561,7 +572,6 @@ class TransaksiController extends Controller
             'tanggal_pengecekan' => now(),
             'survey_in' => $request->survey_in2,
         ]);
-
         // Updating petikemas status
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3 > 0 ? 'damage' : 'available']);
         if ($request->jumlah_kerusakan3 == count($kerusakan)) {
@@ -622,7 +632,10 @@ class TransaksiController extends Controller
                 $extra->delete();
             }
         }
-
+        if ($request->jumlah_kerusakan3 == 0) {
+            $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
+        }
+        $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
         return response()->json([
             'success' => true,
             'message' => 'Data Pengecekan Berhasil Diubah!',
@@ -636,9 +649,10 @@ class TransaksiController extends Controller
         $kerusakans = Kerusakan::findOrFail($id);
         Pengecekan::where('id', $kerusakans->pengecekan_id)->decrement('jumlah_kerusakan');
         $pengecekan =  Pengecekan::where('id', $kerusakans->pengecekan_id)->first();
-        $petikemas = Petikemas::findOrFail($id_petikemas);
-
-        $petikemas->update(['status_kondisi' => $pengecekan->jumlah_petikemas > 0 ? 'damage' : 'available']);
+        $petikemas = petikemas::where('id', $id_petikemas)->first();
+        $perbaikan = perbaikan::where('id', $pengecekan->id)->first();
+        $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
+        $petikemas->update(['status_kondisi' => $pengecekan->jumlah_kerusakan > 0 ? 'damage' : 'available']);
 
 
         // Check if the file exists and delete it
@@ -652,6 +666,7 @@ class TransaksiController extends Controller
 
         return response()->json([
             'success' => true,
+            'petikemas' => $petikemas,
             'message' => 'Data Kerusakan Berhasil Dihapus!',
         ]);
     }
@@ -667,8 +682,8 @@ class TransaksiController extends Controller
             'komponen' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
             'metode' => ['array', new UniqueArrayValueFoto('metode_value'), new RequiredArrayValuesFoto('metode_value')],
             'harga_kerusakan' => ['array', new UniqueArrayValues(), new RequiredArrayValues()],
-            'harga_kerusakan*' =>'numeric|min:1000',
-            'status' => ['array', new UniqueArrayValueFoto('status_value'), new RequiredArrayValuesFoto('status_value')],
+            'harga_kerusakan.*' => 'numeric|min:1000',
+            'status' => ['array', new RequiredArrayValuesFoto('status_value')],
             'foto_perbaikan' => ['array', new UniqueArrayValueFoto('foto_perbaikan_name'), new RequiredArrayValuesFoto('foto_perbaikan_name')],
             'foto_perbaikan.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'foto_perbaikan_name' => ['array', new RequiredArrayValues()],
@@ -700,10 +715,6 @@ class TransaksiController extends Controller
             $validator->sometimes('status', 'required|array', function ($input) {
                 return $input->jumlah_perbaikan > 0;
             });
-
-            $validator->sometimes('foto_perbaikan', 'required|array', function ($input) {
-                return $input->jumlah_perbaikan > 0;
-            });
         }
 
 
@@ -711,33 +722,33 @@ class TransaksiController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         // Fetching related models
-        $perbaikan = perbaikan::with('kerusakan')->findOrFail($request->id_pengecekan);
-        $pengecekan = pengecekan::with('kerusakan')->findOrFail($request->id_pengecekan);
+        $perbaikan = perbaikan::findOrFail($request->id_perbaikan);
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($request->id_perbaikan);
         $kerusakan = $pengecekan->kerusakan;
         $penghubung = Penghubung::findOrFail($request->id_penghubung);
         $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
 
         // Updating perbaikan
         $perbaikan->update([
-            'tanggal_perbaikan' => now(),
             'repair' => $request->repair,
+            'estimator' => "rizal",
+            'jumlah_perbaikan' => $request->jumlah_perbaikan
         ]);
-        dd($petikemas);
 
         // Updating petikemas status
-        $petikemas->update(['status_kondisi' => $request->jumlah_perbaikan > 0 ? 'damage' : 'available']);
+
         if ($request->jumlah_perbaikan == count($kerusakan)) {
             // Updating kerusakan and handling file uploads
             foreach ($kerusakan as $index => $item) {
                 // Cek apakah ada file gambar baru yang diunggah
                 if ($request->hasFile("foto_perbaikan.$index")) {
                     // Hapus gambar lama jika ada
-                    if (Storage::disk('public')->exists($item->foto_perbaikan)) {
+                    if (!empty($item->foto_perbaikan) && Storage::disk('public')->exists($item->foto_perbaikan)) {
+                        // Delete the old photo if it exists
                         Storage::disk('public')->delete($item->foto_perbaikan);
                     }
-
                     // Simpan gambar baru
-                    $newImagePath = $request->file("foto_perbaikan.$index")->store('uploads', 'public');
+                    $newImagePath = $request->file("foto_perbaikan")[$index]->store('uploads', 'public');
                     $newImageName = $request->file('foto_perbaikan')[$index]->getClientOriginalName();
                     // Perbarui dengan gambar baru
                     $item->update(['foto_perbaikan' => $newImagePath]);
@@ -786,7 +797,17 @@ class TransaksiController extends Controller
                 $extra->delete();
             }
         }
-
+        $datadamage = $kerusakan->where('status', 'damage')
+            ->count();
+        if ($datadamage <= 0) {
+            $petikemas->update(['status_kondisi' =>  'available']);
+            $perbaikan->update([
+                'tanggal_perbaikan' => now()
+            ]);
+        }
+        if ($request->jumlah_perbaikan == 0) {
+            $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
+        }
         return response()->json([
             'success' => true,
             'message' => 'Data Perbaikan Berhasil Diubah!',

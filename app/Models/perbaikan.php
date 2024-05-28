@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class perbaikan extends Model
 {
     use HasFactory;
-    protected $fillable = ['tanggal_perbaikan', 'repair', 'penghubung_id', 'transaksi_id'];
+    protected $fillable = ['tanggal_perbaikan', 'repair', 'penghubung_id', 'transaksi_id', 'estimator', 'jumlah_perbaikan'];
     public function penghubung()
     {
         return $this->belongsTo(penghubung::class);
