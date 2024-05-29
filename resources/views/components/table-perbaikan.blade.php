@@ -79,7 +79,6 @@ break;
                             <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
                                 {{$penghubung->petikemas->status_kondisi}}
                             </span>
-
                         </td>
                         @if ($penghubung->perbaikan->repair)
                         <td class="text-center">

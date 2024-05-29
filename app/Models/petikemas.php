@@ -18,4 +18,8 @@ class petikemas extends Model
     {
         return $this->hasMany(pengecekanhistory::class);
     }
+    public function perbaikanhistory()
+    {
+        return $this->hasMany(perbaikanhistory::class);
+    }
 }

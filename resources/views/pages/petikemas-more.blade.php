@@ -23,26 +23,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($petikemas->penghubungs as $penghubung)
                             <tr>
                                 <td class="text-center m-0 p-0">
-                                    01-11-2023 <br> 10:00:00
+                                    {{$penghubung->pengecekan->tanggal_pengecekan}}
                                 </td>
                                 <td class="text-center">
-                                    3
+                                    {{$penghubung->pengecekan->jumlah_kerusakan}}
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-info "><span class="fs-semibold">LIST KERUSAKAN</span></a>
+                                    <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" data-bs-toggle="modal" data-bs-target="#table-kerusakan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                                 </td>
 
                                 <td>
-                                    <span class="bg-danger p-1 rounded-2 text-white">Damage</span>
+                                    <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
+                                        {{$penghubung->petikemas->status_kondisi}}
+                                    </span>
                                 </td>
                                 <td class="text-center d-flex gap-1">
                                     <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
-                                    <span>Survey In 1</span>
+                                    <span>{{$penghubung->pengecekan->survey_in}}</span>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -70,27 +74,31 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($petikemas->penghubungs as $penghubung)
                             <tr>
                                 <td class="text-center m-0 p-0">
-                                    01-11-2023 <br> 10:00:00
+                                    {{$penghubung->perbaikan->tanggal_perbaikan}}
                                 </td>
                                 <td class="text-center">
-                                    3
+                                    {{$penghubung->perbaikan->jumlah_perbaikan}}
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-info"><span class="fs-semibold">LIST KERUSAKAN</span></a>
+                                    <a href="#" class="btn btn-info"><span class="fs-semibold">LIST PERBAIKAN</span></a>
                                 </td>
 
                                 <td>
-                                    <span class="bg-danger p-1 rounded-2 text-white">Damage</span>
+                                    <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
+                                        {{$penghubung->petikemas->status_kondisi}}
+                                    </span>
                                 </td>
                                 <td class="text-center d-flex gap-1">
                                     <i class="fa-solid fa-circle-user text-primary my-1 fa-l d-none d-lg-block"></i>
-                                    <span>Repair</span>
+                                    <span>{{$penghubung->perbaikan->repair}}</span>
                                 </td>
 
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -141,3 +149,7 @@
             </div>
         </div>
 </x-layout>
+
+@foreach ($petikemas->penghubungs as $penghubung)
+<x-table-kerusakan :data="$penghubung->pengecekan" id="table-kerusakan-{{$penghubung->pengecekan->id}}" text="List Kerusakan | {{$penghubung->petikemas->no_petikemas}}" petikemas="{{$penghubung->petikemas->id}}" />
+@endforeach
