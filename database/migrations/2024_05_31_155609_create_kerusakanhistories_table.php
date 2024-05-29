@@ -13,8 +13,17 @@ return new class extends Migration
     {
         Schema::create('kerusakanhistories', function (Blueprint $table) {
             $table->id();
+            $table->string('lokasi_kerusakan')->nullable();
+            $table->string('komponen')->nullable();
+            $table->string('status')->nullable();
+            $table->string('metode')->nullable();
+            $table->string('harga')->nullable();
+            $table->string('foto_pengecekan')->nullable();
+            $table->string('foto_perbaikan')->nullable();
+            $table->integer('id_kerusakan')->nullable();
+            $table->integer('id_pengecekanhistory')->nullable();
             $table->dateTime('tanggal_perubahan')->nullable();
-            $table->foreignId('kerusakan_id')->constrained('kerusakans')->onDelete('cascade')->nullable();
+            $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }

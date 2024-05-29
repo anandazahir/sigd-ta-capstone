@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kerusakan;
+use App\Models\Kerusakanhistory;
 use App\Models\Pembayaran;
 use App\Models\Penempatan;
 use App\Models\Pengecekan;
@@ -488,6 +489,10 @@ class TransaksiController extends Controller
                 ]);
             }
         }
+
+        $kerusakan = kerusakan::where('pengecekan_id', $pengecekan->id)->get();
+
+        
         pengecekanhistory::create([
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
             'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
@@ -495,6 +500,30 @@ class TransaksiController extends Controller
             'petikemas_id' => $petikemas->id,
             'status_kondisi' => $petikemas->status_kondisi
         ]);
+        
+        $pengecekanhistory = new pengecekanhistory();
+        $pengecekanhistory->jumlah_kerusakan = $pengecekan->jumlah_kerusakan;
+        $pengecekanhistory->tanggal_pengecekan = $pengecekan->tanggal_pengecekan;
+        $pengecekanhistory->survey_in = $pengecekan->survey_in;
+        $pengecekanhistory->petikemas_id = $petikemas->id;
+        $pengecekanhistory->status_kondisi = $petikemas->status_kondisi;
+        
+        foreach ($kerusakan as $item) {
+            kerusakanhistory::create([
+                'lokasi_kerusakan' => $item->lokasi_kerusakan,
+                'komponen' => $item->komponen,
+                'status' => $item->status,
+                'metode' => $item->metode,
+                'harga' => $item->harga,
+                'foto_pengecekan' => $item->foto_pengecekan,
+                'foto_perbaikan' => $item->foto_perbaikan,
+                'tanggal_perubahan' => now(),
+                'id_kerusakan' => $item->id,
+                'id_pengecekanhistory' => $pengecekanhistory->id,
+                'petikemas_id' => $petikemas->id,
+            ]);
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Data Pengecekan Berhasil Ditambah!',
@@ -623,6 +652,19 @@ class TransaksiController extends Controller
                     'foto_pengecekan' => $path,
                     'foto_pengecekan_name' => $name,
                 ]);
+
+                kerusakanhistory::create([
+                    'lokasi_kerusakan' => $extra->lokasi_kerusakan,
+                    'komponen' => $extra->komponen,
+                    'status' => $extra->status,
+                    'metode' => $extra->metode,
+                    'harga' => $extra->harga,
+                    'foto_pengecekan' => $extra->foto_pengecekan,
+                    'foto_perbaikan' => $extra->foto_perbaikan,
+                    'tanggal_perubahan' => now(),
+                    'petikemas_id' => $petikemas->id,
+                ]);
+                
             }
         } elseif ($request->jumlah_kerusakan3 < count($kerusakan)) {
             $extraKerusakan = $kerusakan->splice($request->jumlah_kerusakan3);
@@ -631,6 +673,18 @@ class TransaksiController extends Controller
                     Storage::disk('public')->delete($extra->foto_pengecekan);
                 }
                 $extra->delete();
+                kerusakanhistory::create([
+                    'lokasi_kerusakan' => $extra->lokasi_kerusakan,
+                    'komponen' => $extra->komponen,
+                    'status' => $extra->status,
+                    'metode' => $extra->metode,
+                    'harga' => $extra->harga,
+                    'foto_pengecekan' => $extra->foto_pengecekan,
+                    'foto_perbaikan' => $extra->foto_perbaikan,
+                    'tanggal_perubahan' => now(),
+                    'petikemas_id' => $petikemas->id,
+                ]);
+                
             }
         }
         if ($request->jumlah_kerusakan3 == 0) {
@@ -638,6 +692,20 @@ class TransaksiController extends Controller
         }
         $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
         
+        foreach ($pengecekan->kerusakan as $item) {
+            kerusakanhistory::create([
+                'lokasi_kerusakan' => $item->lokasi_kerusakan,
+                'komponen' => $item->komponen,
+                'status' => $item->status,
+                'metode' => $item->metode,
+                'harga' => $item->harga,
+                'foto_pengecekan' => $item->foto_pengecekan,
+                'foto_perbaikan' => $item->foto_perbaikan,
+                'tanggal_perubahan' => now(),
+                'petikemas_id' => $petikemas->id,
+            ]);
+        }     
+
         pengecekanhistory::create([
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
             'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
@@ -672,13 +740,23 @@ class TransaksiController extends Controller
 
         // Delete the Kerusakan record
         $kerusakans->delete();
-        $pengecekan->update([
-            'tanggal_pengecekan' => now(),
+
+        // foreach ($kerusakans as $item) {
+        kerusakanhistory::create([
+            'lokasi_kerusakan' => $kerusakans->lokasi_kerusakan,
+            'komponen' => $kerusakans->komponen,
+            'status' => $kerusakans->status,
+            'metode' => $kerusakans->metode,
+            'harga' => $kerusakans->harga,
+            'foto_pengecekan' => $kerusakans->foto_pengecekan,
+            'foto_perbaikan' => $kerusakans->foto_perbaikan,
+            'tanggal_perubahan' => now(),
+            'petikemas_id' => $petikemas->id,
         ]);
 
         pengecekanhistory::create([
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
-            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
+            'tanggal_pengecekan' => now(),
             'survey_in' => $pengecekan->survey_in,
             'petikemas_id' => $petikemas->id,
             'status_kondisi' => $petikemas->status_kondisi
@@ -829,6 +907,10 @@ class TransaksiController extends Controller
         if ($request->jumlah_perbaikan == 0) {
             $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
         }
+
+        $perbaikan->update([
+            'tanggal_perbaikan' => now(),
+        ]);
 
         perbaikanhistory::create([
             'jumlah_perbaikan' => $perbaikan->jumlah_perbaikan,

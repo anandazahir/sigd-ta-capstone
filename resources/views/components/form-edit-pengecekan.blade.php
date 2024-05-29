@@ -2,7 +2,7 @@
     @csrf
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
-            <label for="status pernikahan" class="form-label">
+            <label for="Survey In" class="form-label">
                 <span>Survey In</span>
                 {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
             </label>

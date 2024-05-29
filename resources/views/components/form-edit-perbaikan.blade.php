@@ -2,7 +2,7 @@
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
-            <label for="status pernikahan" class="form-label">
+            <label for="Repair" class="form-label">
                 <span>Repair</span>
             </label>
             <select name="repair" class="form-select" aria-label="Default select example" required>
