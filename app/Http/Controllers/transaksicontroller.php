@@ -530,6 +530,15 @@ class TransaksiController extends Controller
         ]);
     }
 
+    public function indexpengecekanhistory(Request $request)
+    {
+        $id_pengecekanhistory = $request->input('id_pengecekanhistory');
+        $kerusakan = kerusakan::where('id_pengecekanhistory', $id_pengecekanhistory);
+        return response()->json([
+            'kerusakan' => $kerusakan,
+        ]);
+    }
+
     public function editpengecekan(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -839,6 +848,8 @@ class TransaksiController extends Controller
                     $newImageName = $item->foto_perbaikan_name;
                 }
 
+                dd ($request->harga_kerusakan[$index]);
+
                 // Perbarui data lainnya
                 $item->update([
                     'lokasi_kerusakan' => $request->lokasi_kerusakan[$index],
@@ -878,6 +889,8 @@ class TransaksiController extends Controller
             }
         }
 
+        $datadamage = $kerusakan->where('status', 'damage')
+            ->count();
         // Handling new kerusakan
         if ($request->jumlah_perbaikan > count($kerusakan)) {
             for ($i = 0; $i < $request->jumlah_perbaikan - count($kerusakan); $i++) {
@@ -908,14 +921,18 @@ class TransaksiController extends Controller
                     'petikemas_id' => $petikemas->id,
                 ]);
             }
+
+            $datadamage = ($kerusakan->where('status', 'damage')
+            ->count()) + ($request->jumlah_perbaikan - count($kerusakan));
+
+            
         } elseif ($request->jumlah_perbaikan < count($kerusakan)) {
             $extraKerusakan = $kerusakan->splice($request->jumlah_perbaikan);
             foreach ($extraKerusakan as $extra) {
                 $extra->delete();
             }
         }
-        $datadamage = $kerusakan->where('status', 'damage')
-            ->count();
+        
         if ($datadamage <= 0) {
             $petikemas->update(['status_kondisi' =>  'available']);
 
@@ -928,7 +945,7 @@ class TransaksiController extends Controller
 
         return response()->json([
             'success' => true,
-            'history' => $newkerusakanhistory,
+            'history' => $kerusakan,
             'message' => 'Data Perbaikan Berhasil Diubah!',
         ]);
     }
