@@ -1,24 +1,26 @@
 <form data-id="{{ $id }}" method="POST" id="edit_form_perbaikan_{{ $data->id }}" action="/transaksi/editperbaikan" enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
-        <div class="col-lg-6 mb-3 form-group">
+        <div class="col-lg-12 mb-3 form-group">
             <label for="Repair" class="form-label">
                 <span>Repair</span>
             </label>
             <select name="repair" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="repair 1">Repair 1</option>
-                <option value="repair 2">Repair 2</option>
-                <option value="repair 3">Repair 3</option>
+                <option value="repair 1" {{ $perbaikan->repair == 'repair 1' ? 'selected' : '' }}>Repair 1</option>
+                <option value="repair 2" {{ $perbaikan->repair == 'repair 2' ? 'selected' : '' }}>Repair 2</option>
+                <option value="repair 3" {{ $perbaikan->repair == 'repair 3' ? 'selected' : '' }}>Repair 3</option>
             </select>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 mb-3">
             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-            <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_perbaikan" required value="{{ $data->jumlah_kerusakan }}">
+            <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_perbaikan" required value="{{ $perbaikan->jumlah_perbaikan }}">
             <input type="hidden" name="id_perbaikan" id="id_perbaikan" value="{{ $data->id }}">
             <input type="hidden" name="id_penghubung" id="id_penghubung2" value="{{ $data->penghubung_id }}">
+            <div class="invalid-feedback"></div>
         </div>
     </div>
 
@@ -137,11 +139,9 @@
                             '</div>' +
                             '</td>' +
                             '<td>' +
-                            '<input type="hidden" name="status_value[]"/>' +
-                            '<select class="form-select" aria-label="Default select example" name="status[]" id="status_perbaikan">' +
-                            '<option selected disabled>Pilih Status</option>' +
-                            '<option value="fix">FIX</option>' +
-                            '<option value="damage">DAMAGE</option>' +
+                            '<input type="hidden" name="status_value[]" value="damage"/>' +
+                            '<select class="form-select" aria-label="Default select example" name="status[]" id="status_perbaikan" readonly>' +
+                            '<option selected value="damage">DAMAGE</option>' +
                             '</select>' +
                             '</td>' +
                             '<td class="text-center">' +
@@ -215,48 +215,50 @@
             console.log(selectedOptionval);
             $(this).siblings('input[type="hidden"]').val(selectedOptionval);
         });
-        $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
-            event.preventDefault();
-            var formData = new FormData(this);
-            var modalId = $(this).data('id');
-            $.ajax({
-                url: "{{ route('transaksi.editperbaikan') }}", // Ganti dengan endpoint Anda
-                type: 'POST',
-                data: formData,
-                processData: false, // Mengatur false, karena kita menggunakan FormData
-                contentType: false, // Mengatur false, karena kita menggunakan FormData
-                success: function(response) {
-                    // Handle response sukses
-                    $('#' + modalId).modal('hide');
-                    showAlert(response.message);
-                    console.log('Success:', response);
-                },
+        /*
+                $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+                    event.preventDefault();
+                    var formData = new FormData(this);
+                    var modalId = $(this).data('id');
+                    $.ajax({
+                        url: "{{ route('transaksi.editperbaikan') }}", // Ganti dengan endpoint Anda
+                        type: 'POST',
+                        data: formData,
+                        processData: false, // Mengatur false, karena kita menggunakan FormData
+                        contentType: false, // Mengatur false, karena kita menggunakan FormData
+                        success: function(response) {
+                            // Handle response sukses
+                            $('#' + modalId).modal('hide');
+                            showAlert(response.message);
+                            console.log('Success:', response);
+                        },
 
-                error: function(xhr, status, error) {
-                    const errors = xhr.responseJSON.errors;
-                    if (xhr.status === 500) {
-                        alert("Kolom Unik Tidak Boleh Sama!")
-                    } else if (xhr.status === 404) {
-                        alert("Data Tidak Ditemukan!");
-                    }
+                        error: function(xhr, status, error) {
+                            const errors = xhr.responseJSON.errors;
+                            if (xhr.status === 500) {
+                                alert("Kolom Unik Tidak Boleh Sama!")
+                            } else if (xhr.status === 404) {
+                                alert("Data Tidak Ditemukan!");
+                            }
 
-                    $form.find('.is-invalid').removeClass('is-invalid');
-                    $form.find('.invalid-feedback').text('');
+                            $form.find('.is-invalid').removeClass('is-invalid');
+                            $form.find('.invalid-feedback').text('');
 
-                    $.each(errors, function(key, value) {
-                        const element = $form.find('[name="' + key + '"]');
-                        var cleanInputName = key.replace(/\.\d+/g, '');
-                        var cleanAngka = value[0].replace(/\.\d+/g, '');
-                        element.addClass('is-invalid');
-                        element.next('.invalid-feedback').text(value[0]);
-                        console.log(key + '[]');
-                        const elementArray = $form.find('[name="' + cleanInputName + '[]"]');
-                        elementArray.addClass('is-invalid');
-                        elementArray.next('.invalid-feedback').text(cleanAngka);
+                            $.each(errors, function(key, value) {
+                                const element = $form.find('[name="' + key + '"]');
+                                var cleanInputName = key.replace(/\.\d+/g, '');
+                                var cleanAngka = value[0].replace(/\.\d+/g, '');
+                                element.addClass('is-invalid');
+                                element.next('.invalid-feedback').text(value[0]);
+                                console.log(key + '[]');
+                                const elementArray = $form.find('[name="' + cleanInputName + '[]"]');
+                                elementArray.addClass('is-invalid');
+                                elementArray.next('.invalid-feedback').text(cleanAngka);
+                            });
+
+                        }
                     });
-
-                }
-            });
-        });
+                });
+        */
     });
 </script>

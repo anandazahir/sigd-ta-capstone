@@ -180,48 +180,50 @@
             // Update the label with the selected file name
             $(this).siblings('input[type="hidden"]').val(selectedOptionval);
         });
-        $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
-            event.preventDefault();
-            var formData = new FormData(this);
-            var modalId = $(this).data('id');
-            $.ajax({
-                url: "{{ route('transaksi.editpengecekan') }}", // Ganti dengan endpoint Anda
-                type: 'POST',
-                data: formData,
-                processData: false, // Mengatur false, karena kita menggunakan FormData
-                contentType: false, // Mengatur false, karena kita menggunakan FormData
-                success: function(response) {
-                    // Handle response sukses
-                    $('#' + modalId).modal('hide');
-                    showAlert(response.message);
-                    console.log('Success:', response);
-                },
+        /*
+                $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+                    event.preventDefault();
+                    var formData = new FormData(this);
+                    var modalId = $(this).data('id');
+                    $.ajax({
+                        url: "{{ route('transaksi.editpengecekan') }}", // Ganti dengan endpoint Anda
+                        type: 'POST',
+                        data: formData,
+                        processData: false, // Mengatur false, karena kita menggunakan FormData
+                        contentType: false, // Mengatur false, karena kita menggunakan FormData
+                        success: function(response) {
+                            // Handle response sukses
+                            $('#' + modalId).modal('hide');
+                            showAlert(response.message);
+                            console.log('Success:', response);
+                        },
 
-                error: function(xhr, status, error) {
-                    const errors = xhr.responseJSON.errors;
-                    if (xhr.status === 500) {
-                        alert("Kolom Unik Tidak Boleh Sama!")
-                    } else if (xhr.status === 404) {
-                        alert("Data Tidak Ditemukan!");
-                    }
+                        error: function(xhr, status, error) {
+                            const errors = xhr.responseJSON.errors;
+                            if (xhr.status === 500) {
+                                alert("Kolom Unik Tidak Boleh Sama!")
+                            } else if (xhr.status === 404) {
+                                alert("Data Tidak Ditemukan!");
+                            }
 
-                    $form.find('.is-invalid').removeClass('is-invalid');
-                    $form.find('.invalid-feedback').text('');
+                            $form.find('.is-invalid').removeClass('is-invalid');
+                            $form.find('.invalid-feedback').text('');
 
-                    $.each(errors, function(key, value) {
-                        const element = $form.find('[name="' + key + '"]');
-                        var cleanInputName = key.replace(/\.\d+/g, '');
-                        var cleanAngka = value[0].replace(/\.\d+/g, '');
-                        element.addClass('is-invalid');
-                        element.next('.invalid-feedback').text(value[0]);
-                        console.log(key + '[]');
-                        const elementArray = $form.find('[name="' + cleanInputName + '[]"]');
-                        elementArray.addClass('is-invalid');
-                        elementArray.next('.invalid-feedback').text(cleanAngka);
+                            $.each(errors, function(key, value) {
+                                const element = $form.find('[name="' + key + '"]');
+                                var cleanInputName = key.replace(/\.\d+/g, '');
+                                var cleanAngka = value[0].replace(/\.\d+/g, '');
+                                element.addClass('is-invalid');
+                                element.next('.invalid-feedback').text(value[0]);
+                                console.log(key + '[]');
+                                const elementArray = $form.find('[name="' + cleanInputName + '[]"]');
+                                elementArray.addClass('is-invalid');
+                                elementArray.next('.invalid-feedback').text(cleanAngka);
+                            });
+
+                        }
                     });
-
-                }
-            });
-        });
+                });
+        */
     });
 </script>

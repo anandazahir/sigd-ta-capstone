@@ -473,11 +473,18 @@ class TransaksiController extends Controller
 
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
         $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
+        $pengecekanhistory = pengecekanhistory::create([
+            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
+            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
+            'survey_in' => $pengecekan->survey_in,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi,
+        ]);
         if ($request->jumlah_kerusakan2 > 0) {
             foreach ($request->lokasi_kerusakan as $index => $lokasi) {
                 $path = $request->file('foto_pengecekan')[$index]->store('uploads', 'public');
                 $newFileName = $request->file('foto_pengecekan')[$index]->getClientOriginalName();
-                Kerusakan::create([
+                $kerusakan = Kerusakan::create([
                     'lokasi_kerusakan' => $lokasi,
                     'komponen' => $request->komponen[$index],
                     'status' => 'damage',
@@ -487,42 +494,24 @@ class TransaksiController extends Controller
                     'pengecekan_id' => $pengecekan->id,
                     'perbaikan_id' => $perbaikan->id,
                 ]);
+                kerusakanhistory::create([
+                    'lokasi_kerusakan' => $kerusakan->lokasi_kerusakan,
+                    'komponen' => $kerusakan->komponen,
+                    'status' => $kerusakan->status,
+                    'metode' => $kerusakan->metode,
+                    'harga' => $kerusakan->harga,
+                    'foto_pengecekan' => $kerusakan->foto_pengecekan,
+                    'foto_perbaikan' => $kerusakan->foto_perbaikan,
+                    'tanggal_perubahan' => now(),
+                    'id_kerusakan' => $kerusakan->id,
+                    'id_pengecekanhistory' => $pengecekanhistory->id,
+                    'petikemas_id' => $petikemas->id,
+                ]);
             }
         }
 
-        $kerusakan = kerusakan::where('pengecekan_id', $pengecekan->id)->get();
 
-        
-        pengecekanhistory::create([
-            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
-            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
-            'survey_in' => $pengecekan->survey_in,
-            'petikemas_id' => $petikemas->id,
-            'status_kondisi' => $petikemas->status_kondisi
-        ]);
-        
-        $pengecekanhistory = new pengecekanhistory();
-        $pengecekanhistory->jumlah_kerusakan = $pengecekan->jumlah_kerusakan;
-        $pengecekanhistory->tanggal_pengecekan = $pengecekan->tanggal_pengecekan;
-        $pengecekanhistory->survey_in = $pengecekan->survey_in;
-        $pengecekanhistory->petikemas_id = $petikemas->id;
-        $pengecekanhistory->status_kondisi = $petikemas->status_kondisi;
-        
-        foreach ($kerusakan as $item) {
-            kerusakanhistory::create([
-                'lokasi_kerusakan' => $item->lokasi_kerusakan,
-                'komponen' => $item->komponen,
-                'status' => $item->status,
-                'metode' => $item->metode,
-                'harga' => $item->harga,
-                'foto_pengecekan' => $item->foto_pengecekan,
-                'foto_perbaikan' => $item->foto_perbaikan,
-                'tanggal_perubahan' => now(),
-                'id_kerusakan' => $item->id,
-                'id_pengecekanhistory' => $pengecekanhistory->id,
-                'petikemas_id' => $petikemas->id,
-            ]);
-        }
+
 
         return response()->json([
             'success' => true,
@@ -604,17 +593,18 @@ class TransaksiController extends Controller
         ]);
         // Updating petikemas status
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3 > 0 ? 'damage' : 'available']);
+        $pengecekanhistory = pengecekanhistory::create([
+            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
+            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
+            'survey_in' => $pengecekan->survey_in,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi,
+        ]);
         if ($request->jumlah_kerusakan3 == count($kerusakan)) {
             // Updating kerusakan and handling file uploads
             foreach ($kerusakan as $index => $item) {
                 // Cek apakah ada file gambar baru yang diunggah
                 if ($request->hasFile("foto_pengecekan.$index")) {
-                    // Hapus gambar lama jika ada
-                    if (Storage::disk('public')->exists($item->foto_pengecekan)) {
-                        Storage::disk('public')->delete($item->foto_pengecekan);
-                    }
-
-                    // Simpan gambar baru
                     $newImagePath = $request->file("foto_pengecekan.$index")->store('uploads', 'public');
                     $newImageName = $request->file('foto_pengecekan')[$index]->getClientOriginalName();
                     // Perbarui dengan gambar baru
@@ -636,13 +626,37 @@ class TransaksiController extends Controller
                 ]);
             }
         }
-
+        foreach ($kerusakan as $item) {
+            kerusakanhistory::create([
+                'lokasi_kerusakan' => $item->lokasi_kerusakan,
+                'komponen' => $item->komponen,
+                'status' => $item->status,
+                'metode' => $item->metode,
+                'harga' => $item->harga,
+                'foto_pengecekan' => $item->foto_pengecekan,
+                'foto_perbaikan' => $item->foto_perbaikan,
+                'tanggal_perubahan' => now(),
+                'id_kerusakan' => $item->id,
+                'id_pengecekanhistory' => $pengecekanhistory->id,
+                'petikemas_id' => $petikemas->id,
+            ]);
+            if ($request->jumlah_kerusakan3 < count($kerusakan)) {
+                // Adjust the query condition to match potential existing records
+                $extraKerusakanhistory = kerusakanhistory::where("id_pengecekanhistory", $pengecekanhistory->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->splice($request->jumlah_kerusakan3);
+                foreach ($extraKerusakanhistory as $extra) {
+                    $extra->delete();
+                }
+            }
+        }
         // Handling new kerusakan
         if ($request->jumlah_kerusakan3 > count($kerusakan)) {
             for ($i = 0; $i < $request->jumlah_kerusakan3 - count($kerusakan); $i++) {
                 $path = $request->file('foto_pengecekan')[$i + count($kerusakan)]->store('uploads', 'public');
                 $name = $request->file('foto_pengecekan')[$i + count($kerusakan)]->getClientOriginalName();
-                Kerusakan::create([
+                $newKerusakan = Kerusakan::create([
                     'lokasi_kerusakan' => $request->lokasi_kerusakan[$i + count($kerusakan)],
                     'komponen' => $request->komponen[$i + count($kerusakan)],
                     'status' => 'damage',
@@ -654,66 +668,29 @@ class TransaksiController extends Controller
                 ]);
 
                 kerusakanhistory::create([
-                    'lokasi_kerusakan' => $extra->lokasi_kerusakan,
-                    'komponen' => $extra->komponen,
-                    'status' => $extra->status,
-                    'metode' => $extra->metode,
-                    'harga' => $extra->harga,
-                    'foto_pengecekan' => $extra->foto_pengecekan,
-                    'foto_perbaikan' => $extra->foto_perbaikan,
+                    'lokasi_kerusakan' => $newKerusakan->lokasi_kerusakan,
+                    'komponen' => $newKerusakan->komponen,
+                    'status' => $newKerusakan->status,
+                    'metode' => $newKerusakan->metode,
+                    'harga' => $newKerusakan->harga,
+                    'foto_pengecekan' => $newKerusakan->foto_pengecekan,
+                    'foto_perbaikan' => $newKerusakan->foto_perbaikan,
                     'tanggal_perubahan' => now(),
+                    'id_kerusakan' => $newKerusakan->id,
+                    'id_pengecekanhistory' => $pengecekanhistory->id,
                     'petikemas_id' => $petikemas->id,
                 ]);
-                
             }
         } elseif ($request->jumlah_kerusakan3 < count($kerusakan)) {
             $extraKerusakan = $kerusakan->splice($request->jumlah_kerusakan3);
             foreach ($extraKerusakan as $extra) {
-                if (Storage::disk('public')->exists($extra->foto_pengecekan)) {
-                    Storage::disk('public')->delete($extra->foto_pengecekan);
-                }
                 $extra->delete();
-                kerusakanhistory::create([
-                    'lokasi_kerusakan' => $extra->lokasi_kerusakan,
-                    'komponen' => $extra->komponen,
-                    'status' => $extra->status,
-                    'metode' => $extra->metode,
-                    'harga' => $extra->harga,
-                    'foto_pengecekan' => $extra->foto_pengecekan,
-                    'foto_perbaikan' => $extra->foto_perbaikan,
-                    'tanggal_perubahan' => now(),
-                    'petikemas_id' => $petikemas->id,
-                ]);
-                
             }
         }
         if ($request->jumlah_kerusakan3 == 0) {
             $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
         }
         $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
-        
-        foreach ($pengecekan->kerusakan as $item) {
-            kerusakanhistory::create([
-                'lokasi_kerusakan' => $item->lokasi_kerusakan,
-                'komponen' => $item->komponen,
-                'status' => $item->status,
-                'metode' => $item->metode,
-                'harga' => $item->harga,
-                'foto_pengecekan' => $item->foto_pengecekan,
-                'foto_perbaikan' => $item->foto_perbaikan,
-                'tanggal_perubahan' => now(),
-                'petikemas_id' => $petikemas->id,
-            ]);
-        }     
-
-        pengecekanhistory::create([
-            'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
-            'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
-            'survey_in' => $pengecekan->survey_in,
-            'petikemas_id' => $petikemas->id,
-            'status_kondisi' => $petikemas->status_kondisi
-        ]);
-
         return response()->json([
             'success' => true,
             'message' => 'Data Pengecekan Berhasil Diubah!',
@@ -733,34 +710,35 @@ class TransaksiController extends Controller
         $petikemas->update(['status_kondisi' => $pengecekan->jumlah_kerusakan > 0 ? 'damage' : 'available']);
 
 
-        // Check if the file exists and delete it
-        if (Storage::disk('public')->exists($kerusakans->foto_pengecekan)) {
-            Storage::disk('public')->delete($kerusakans->foto_pengecekan);
-        }
-
         // Delete the Kerusakan record
         $kerusakans->delete();
 
-        // foreach ($kerusakans as $item) {
-        kerusakanhistory::create([
-            'lokasi_kerusakan' => $kerusakans->lokasi_kerusakan,
-            'komponen' => $kerusakans->komponen,
-            'status' => $kerusakans->status,
-            'metode' => $kerusakans->metode,
-            'harga' => $kerusakans->harga,
-            'foto_pengecekan' => $kerusakans->foto_pengecekan,
-            'foto_perbaikan' => $kerusakans->foto_perbaikan,
-            'tanggal_perubahan' => now(),
-            'petikemas_id' => $petikemas->id,
-        ]);
-
-        pengecekanhistory::create([
+        $pengecekanhistory = pengecekanhistory::create([
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
             'tanggal_pengecekan' => now(),
             'survey_in' => $pengecekan->survey_in,
             'petikemas_id' => $petikemas->id,
             'status_kondisi' => $petikemas->status_kondisi
         ]);
+        // foreach ($kerusakans as $item) {
+        foreach ($pengecekan->kerusakan as $item) {
+            kerusakanhistory::create([
+                'lokasi_kerusakan' => $item->lokasi_kerusakan,
+                'komponen' => $item->komponen,
+                'status' => $item->status,
+                'metode' => $item->metode,
+                'harga' => $item->harga,
+                'foto_pengecekan' => $item->foto_pengecekan,
+                'foto_perbaikan' => $item->foto_perbaikan,
+                'tanggal_perubahan' => now(),
+                'id_kerusakan' => $item->id,
+                'id_pengecekanhistory' => $pengecekanhistory->id,
+                'petikemas_id' => $petikemas->id,
+            ]);
+        }
+
+
+
 
 
         return response()->json([
@@ -831,21 +809,25 @@ class TransaksiController extends Controller
         $perbaikan->update([
             'repair' => $request->repair,
             'estimator' => "rizal",
-            'jumlah_perbaikan' => $request->jumlah_perbaikan
+            'jumlah_perbaikan' => $request->jumlah_perbaikan,
+            'tanggal_perbaikan' => now()
         ]);
 
         // Updating petikemas status
-
+        $perbaikanhistory = perbaikanhistory::create([
+            'jumlah_perbaikan' => $perbaikan->jumlah_perbaikan,
+            'tanggal_perbaikan' => $perbaikan->tanggal_perbaikan,
+            'repair' => $perbaikan->repair,
+            'estimator' => $perbaikan->estimator,
+            'petikemas_id' => $petikemas->id,
+            'status_kondisi' => $petikemas->status_kondisi
+        ]);
         if ($request->jumlah_perbaikan == count($kerusakan)) {
             // Updating kerusakan and handling file uploads
             foreach ($kerusakan as $index => $item) {
                 // Cek apakah ada file gambar baru yang diunggah
                 if ($request->hasFile("foto_perbaikan.$index")) {
                     // Hapus gambar lama jika ada
-                    if (!empty($item->foto_perbaikan) && Storage::disk('public')->exists($item->foto_perbaikan)) {
-                        // Delete the old photo if it exists
-                        Storage::disk('public')->delete($item->foto_perbaikan);
-                    }
                     // Simpan gambar baru
                     $newImagePath = $request->file("foto_perbaikan")[$index]->store('uploads', 'public');
                     $newImageName = $request->file('foto_perbaikan')[$index]->getClientOriginalName();
@@ -869,13 +851,39 @@ class TransaksiController extends Controller
                 ]);
             }
         }
+        foreach ($kerusakan as $item) {
+            $newkerusakanhistory = kerusakanhistory::create([
+                'lokasi_kerusakan' => $item->lokasi_kerusakan,
+                'komponen' => $item->komponen,
+                'status' => $item->status,
+                'metode' => $item->metode,
+                'harga' => $item->harga,
+                'foto_pengecekan' => $item->foto_pengecekan,
+                'foto_perbaikan' => $item->foto_perbaikan,
+                'tanggal_perubahan' => now(),
+                'id_kerusakan' => $item->id,
+                'id_perbaikanhistory' => $perbaikanhistory->id,
+                'petikemas_id' => $petikemas->id,
+            ]);
+
+            if ($request->jumlah_perbaikan < count($kerusakan)) {
+                // Adjust the query condition to match potential existing records
+                $extraKerusakanhistory = kerusakanhistory::where("id_perbaikanhistory", $perbaikanhistory->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->splice($request->jumlah_perbaikan);
+                foreach ($extraKerusakanhistory as $extra) {
+                    $extra->delete();
+                }
+            }
+        }
 
         // Handling new kerusakan
         if ($request->jumlah_perbaikan > count($kerusakan)) {
             for ($i = 0; $i < $request->jumlah_perbaikan - count($kerusakan); $i++) {
                 $path = $request->file('foto_perbaikan')[$i + count($kerusakan)]->store('uploads', 'public');
                 $name = $request->file('foto_perbaikan')[$i + count($kerusakan)]->getClientOriginalName();
-                Kerusakan::create([
+                $newkerusakan = Kerusakan::create([
                     'lokasi_kerusakan' => $request->lokasi_kerusakan[$i + count($kerusakan)],
                     'komponen' => $request->komponen[$i + count($kerusakan)],
                     'harga' => $request->harga_kerusakan[$i + count($kerusakan)],
@@ -883,16 +891,26 @@ class TransaksiController extends Controller
                     'metode' => $request->metode[$i + count($kerusakan)],
                     'pengecekan_id' => $pengecekan->id,
                     'perbaikan_id' => $pengecekan->id,
-                    'foto_pengecekan' => $path,
-                    'foto_pengecekan_name' => $name,
+                    'foto_perbaikan' => $path,
+                    'foto_perbaikan_name' => $name,
+                ]);
+                kerusakanhistory::create([
+                    'lokasi_kerusakan' => $newkerusakan->lokasi_kerusakan,
+                    'komponen' => $newkerusakan->komponen,
+                    'status' => $newkerusakan->status,
+                    'metode' => $newkerusakan->metode,
+                    'harga' => $newkerusakan->harga,
+                    'foto_pengecekan' => $newkerusakan->foto_pengecekan,
+                    'foto_perbaikan' => $newkerusakan->foto_perbaikan,
+                    'tanggal_perubahan' => now(),
+                    'id_kerusakan' => $newkerusakan->id,
+                    'id_perbaikanhistory' => $perbaikanhistory->id,
+                    'petikemas_id' => $petikemas->id,
                 ]);
             }
         } elseif ($request->jumlah_perbaikan < count($kerusakan)) {
             $extraKerusakan = $kerusakan->splice($request->jumlah_perbaikan);
             foreach ($extraKerusakan as $extra) {
-                if (Storage::disk('public')->exists($extra->foto_perbaikan)) {
-                    Storage::disk('public')->delete($extra->foto_perbaikan);
-                }
                 $extra->delete();
             }
         }
@@ -900,29 +918,17 @@ class TransaksiController extends Controller
             ->count();
         if ($datadamage <= 0) {
             $petikemas->update(['status_kondisi' =>  'available']);
-            $perbaikan->update([
-                'tanggal_perbaikan' => now()
-            ]);
-        }
-        if ($request->jumlah_perbaikan == 0) {
-            $perbaikan->update(['repair' => null, 'estimator' => null, 'tanggal_perbaikan' => null]);
-        }
 
-        $perbaikan->update([
-            'tanggal_perbaikan' => now(),
-        ]);
-
-        perbaikanhistory::create([
-            'jumlah_perbaikan' => $perbaikan->jumlah_perbaikan,
-            'tanggal_perbaikan' => $perbaikan->tanggal_perbaikan,
-            'repair' => $perbaikan->repair,
-            'estimator' => $perbaikan->estimator,
-            'petikemas_id' => $petikemas->id,
-            'status_kondisi' => $petikemas->status_kondisi
-        ]);
+            foreach ($kerusakan as $item) {
+                $item->delete();
+            }
+        }
+        $perbaikan->update(['jumlah_perbaikan' => $datadamage]);
+        $pengecekan->update(['jumlah_kerusakan' => $perbaikan->jumlah_perbaikan]);
 
         return response()->json([
             'success' => true,
+            'history' => $newkerusakanhistory,
             'message' => 'Data Perbaikan Berhasil Diubah!',
         ]);
     }

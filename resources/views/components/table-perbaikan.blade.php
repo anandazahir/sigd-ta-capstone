@@ -42,19 +42,24 @@ break;
                         @endif
                         @endforeach
                         @foreach ($data->penghubungs as $penghubung)
-                        @if ($penghubung->perbaikan->repair)
+                        @if ($penghubung->perbaikan->repair && $penghubung->perbaikan->jumlah_perbaikan > 0)
                         <th scope="col" class="fw-semibold">Repair</th>
                         <th scope="col" class="fw-semibold">Estimator</th>
                         @break
                         @endif
                         @endforeach
                         @foreach ($data->penghubungs as $penghubung)
-                        @if ($penghubung->perbaikan->tanggal_perbaikan)
+                        @if ($penghubung->perbaikan->tanggal_perbaikan && $penghubung->perbaikan->jumlah_perbaikan > 0)
                         <th scope="col" class="fw-semibold">Tanggal Perbaikan</th>
                         @break
                         @endif
                         @endforeach
+                        @foreach ($data->penghubungs as $penghubung)
+                        @if($penghubung->perbaikan->jumlah_perbaikan > 0)
                         <th scope="col"></th>
+                        @break
+                        @endif
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody>
@@ -116,6 +121,6 @@ break;
 </div>
 @foreach ($data->penghubungs as $penghubung)
 <x-modal-form size="modal-xl" id="edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" text="Edit perbaikan | {{$penghubung->petikemas->no_petikemas}}">
-    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}" />
+    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}" :perbaikan="$penghubung->perbaikan" />
 </x-modal-form>
 @endforeach

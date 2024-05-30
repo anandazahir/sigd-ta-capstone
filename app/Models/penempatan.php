@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class penempatan extends Model
 {
-    protected $fillable = ['lokasi_petikemas', 'ketersediaan_peti_kemas', 'tanggal_penempatan', 'operator_alat_berat', 'tally', 'penghubung_id', 'transaksi_id'];
+    protected $fillable = ['tanggal_penempatan', 'operator_alat_berat', 'tally', 'penghubung_id', 'transaksi_id'];
 
     public function transaksi()
     {
@@ -16,6 +16,6 @@ class penempatan extends Model
 
     public function penghubung()
     {
-        return $this->belongsTo(kerusakan::class);
+        return $this->belongsTo(penghubung::class);
     }
 }

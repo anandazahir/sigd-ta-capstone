@@ -15,8 +15,10 @@
                                 <th scope="col" class="fw-semibold">Lokasi</th>
                                 <th scope="col" class="fw-semibold">Component</th>
                                 <th scope="col" class="fw-semibold">Metode</th>
+                                <th scope="col" class="fw-semibold">Biaya</th>
                                 <th scope="col" class="fw-semibold">Status</th>
                                 <th scope="col" class="fw-semibold">Foto Pengecekan</th>
+                                <th scope="col" class="fw-semibold">Foto Perbaikan</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -66,7 +68,7 @@
 </div>
 
 <script>
-    /*$(document).ready(function() {
+    $(document).ready(function() {
         let Id = "table-kerusakan-{{$data->id}}";
         let $modalId = $("#" + Id);
         $(document).on('click', '#button_delete_kerusakan', function(e) {
@@ -89,5 +91,5 @@
             console.log($(this).val());
         });
 
-    });*/
+    });
 </script>
