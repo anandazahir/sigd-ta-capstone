@@ -6,7 +6,7 @@
         <h5 class="text-black fw-bold my-2 text-center" id="session-text"></h5>
     </div>
 </div>
-
+@push('toast-script')
 <script>
     function showAlert(text) {
         let alertContainer = $("#alertContainer");
@@ -17,3 +17,4 @@
         }, 1000);
     }
 </script>
+@endpush

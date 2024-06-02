@@ -98,6 +98,7 @@ return [
     </div>
 </div>
 <x-modal-form-delete route="/transaksi/deleteentrydata" />
+@push('transaksi-more-script')
 <script>
     $(document).ready(function() {
         const $button_tambah_entry = $("#button-tambah-entry");
@@ -265,3 +266,4 @@ return [
 
     });
 </script>
+@endpush

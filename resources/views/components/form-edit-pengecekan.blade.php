@@ -36,6 +36,7 @@
             </thead>
             <tbody>
                 @foreach($data->kerusakan as $index => $item)
+                @if ($item->status === "damage")
                 <tr>
                     <td class="text-center">
                         <input class="form-control" type="text" name="lokasi_kerusakan[]" value="{{$item->lokasi_kerusakan}}">
@@ -71,8 +72,8 @@
                         <div class="invalid-feedback"></div>
                     </td>
                 </tr>
+                @endif
                 @endforeach
-
             </tbody>
 
         </table>
@@ -115,6 +116,7 @@
                             '<option value="1">One</option>' +
                             '<option value="2">Two</option>' +
                             '<option value="3">Three</option>' +
+                            '<option value="4">Four</option>' +
                             '</select>' +
                             '<div class="invalid-feedback"></div>' +
                             '</td>' +
@@ -158,8 +160,9 @@
                 $("#" + formId).find("#text-kerusakan-edit").show();
             } else {
                 $("#" + formId).find("#table_edit_pengecekan").hide();
-                $("#" + formId).find("#text-kerusakan-edit").hide();
                 $("#" + formId).find("#table_edit_pengecekan tbody").empty();
+                $("#" + formId).find("#text-kerusakan-edit").hide();
+
             }
             jumlah_kerusakan3_value = $(this).val();
         });

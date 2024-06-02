@@ -11,6 +11,7 @@
         </div>
     </div>
 </div>
+@push('form-modal')
 <script>
     function handleFormSubmission(formElement) {
         event.preventDefault();
@@ -50,3 +51,4 @@
         });
     }
 </script>
+@endpush

@@ -1,7 +1,7 @@
 @php
 $semuaBelumCetak = true;
 foreach($data->penghubungs as $penghubung) {
-if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak') {
+if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor') {
 $semuaBelumCetak = false;
 break;
 }
@@ -30,7 +30,7 @@ break;
                 <thead>
                     <tr>
                         @foreach ($data->penghubungs as $penghubung)
-                        @if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak')
+                        @if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor')
                         <th scope="col" class="fw-semibold">No Peti Kemas</th>
                         <th scope="col" class="fw-semibold">Size & Type</th>
                         <th scope="col" class="fw-semibold">List Kerusakan</th>
@@ -51,7 +51,7 @@ break;
                 </thead>
                 <tbody>
                     @foreach($data->penghubungs as $penghubung)
-                    @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak')
+                    @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor')
                     <tr>
                         <td class="text-center">
                             {{$penghubung->petikemas->no_petikemas}}

@@ -97,6 +97,7 @@
     </div>
     <button type="submit" class="btn btn-primary text-white mb-3" style="width: fit-content; margin-left:15px;">Submit</button>
 </form>
+@push('transaksi-more-script')
 <script>
     $(document).ready(function() {
         $('#edit-transaksi-form').submit(function(event) {
@@ -104,3 +105,4 @@
         });
     });
 </script>
+@endpush

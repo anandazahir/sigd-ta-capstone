@@ -1,6 +1,3 @@
-@php
-
-@endphp
 <x-layout>
     <x-slot:title>
         Transaksi

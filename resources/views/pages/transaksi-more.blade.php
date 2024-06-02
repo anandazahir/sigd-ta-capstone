@@ -114,8 +114,8 @@
         <div id="Penempatan" class="tab-pane fade in d-none">
             <x-table-penempatan :data="$transaksi" />
         </div>
-
-
+        <x-toast />
+        @push('page-script')
         <script>
             $(document).ready(function() {
 
@@ -191,6 +191,9 @@
 
             });
         </script>
-        <x-toast />
+        @stack('form-modal')
+        @stack('transaksi-more-script')
+        @stack('toast-script')
+        @endpush
 
 </x-layout>
