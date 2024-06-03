@@ -124,6 +124,7 @@
             <x-form-create-transaksi />
         </x-modal-form>
         <x-toast />
+        @push('page-script')
         <script>
             $(document).ready(function() {
                 let currentPage = 1
@@ -254,4 +255,7 @@
                 });
             });
         </script>
+        @stack('form-modal')
+        @stack('toast-script')
+        @endpush
 </x-layout>

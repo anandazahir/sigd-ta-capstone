@@ -179,6 +179,7 @@
         <x-form-create-petikemas />
     </x-modal-form>
     <x-toast />
+    @push('page-script')
     <script>
         $(document).ready(function() {
             var currentPage = 1
@@ -263,5 +264,8 @@
             fetchDataAndUpdateTable();
         });
     </script>
+    @stack('form-modal')
+    @stack('toast-script')
+    @endpush
 
 </x-layout>

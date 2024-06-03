@@ -107,7 +107,7 @@ break;
 
 
 @foreach ($data->penghubungs as $penghubung)
-<x-table-kerusakan :data="$penghubung->pengecekan" id="table-kerusakan-{{$penghubung->pengecekan->id}}" text="List Kerusakan | {{$penghubung->petikemas->no_petikemas}}" petikemas="{{$penghubung->petikemas->id}}" />
+<x-table-kerusakan test="false" :data="$penghubung->pengecekan" id="table-kerusakan-{{$penghubung->pengecekan->id}}" text="List Kerusakan | {{$penghubung->petikemas->no_petikemas}}" petikemas="{{$penghubung->petikemas->id}}" />
 <x-modal-form size="modal-xl" id="edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" text="Edit Pengecekan | {{$penghubung->petikemas->no_petikemas}}">
     <x-form-edit-pengecekan :data="$penghubung->pengecekan" id="edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" />
 </x-modal-form>
