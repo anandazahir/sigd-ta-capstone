@@ -351,14 +351,14 @@ class TransaksiController extends Controller
             $transaksiId = $penghubung->transaksi_id;
             $petikemas = petikemas::where('id', $penghubung->petikemas_id)->first();
             $transaksi = Transaksi::where('id', $transaksiId);
-            if ($transaksi->jenis_kegiatan == "impor") {
-                $petikemas->status_ketersediaan = "out";
-                $petikemas->lokasi = "out";
-            } else {
-                $petikemas->status_ketersediaan = "in";
-                $petikemas->lokasi = "pending";
-            }
-            $petikemas->save();
+            // if ($transaksi->jenis_kegiatan == "impor") {
+            //     $petikemas->status_ketersediaan = "out";
+            //     $petikemas->lokasi = "out";
+            // } else {
+            //     $petikemas->status_ketersediaan = "in";
+            //     $petikemas->lokasi = "pending";
+            // }
+            // $petikemas->save();
             // Delete the Penghubung record
             $penghubung->delete();
 
@@ -499,6 +499,7 @@ class TransaksiController extends Controller
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
         $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
         $pengecekanhistory = pengecekanhistory::create([
+            'id_pengecekan' => $pengecekan->id,
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
             'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
             'survey_in' => $pengecekan->survey_in,
@@ -628,6 +629,7 @@ class TransaksiController extends Controller
         // Updating petikemas status
         $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3 > 0 ? 'damage' : 'available']);
         $pengecekanhistory = pengecekanhistory::create([
+            'id_pengecekan' => $pengecekan->id,
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
             'tanggal_pengecekan' => $pengecekan->tanggal_pengecekan,
             'survey_in' => $pengecekan->survey_in,
@@ -751,6 +753,7 @@ class TransaksiController extends Controller
         $kerusakans->delete();
 
         $pengecekanhistory = pengecekanhistory::create([
+            'id_pengecekan' => $pengecekan->id,
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
             'tanggal_pengecekan' => now(),
             'survey_in' => $pengecekan->survey_in,
@@ -868,6 +871,7 @@ class TransaksiController extends Controller
 
         // Updating perbaikan history
         $perbaikanhistory = perbaikanhistory::create([
+            'id_perbaikan' => $perbaikan->id,
             'jumlah_perbaikan' => $perbaikan->jumlah_perbaikan,
             'tanggal_perbaikan' => $perbaikan->tanggal_perbaikan,
             'repair' => $perbaikan->repair,

@@ -23,7 +23,7 @@ class petikemascontroller extends Controller
 
     public function show($id)
     {
-        $petikemas = petikemas::findOrFail($id);
+        $petikemas = Petikemas::with('pengecekanhistories', 'perbaikanhistories')->findOrFail($id);
         return view('pages.petikemas-more', compact('petikemas'));
     }
 

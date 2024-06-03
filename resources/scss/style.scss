@@ -186,6 +186,31 @@ $input-focus-box-shadow: transparent;
         font-size: 100px; /* Adjust the size as needed */
     }
 }
+.date-picker {
+    position: relative; // Ensure proper positioning for absolute positioning of child elements
+    overflow: hidden; // Hide overflowing child elements
+
+    i {
+        position: relative;
+        pointer-events: none;
+        z-index: 1;
+        cursor: pointer; // Ensure the icon doesn't interfere with mouse events
+    }
+
+    input[type="date"] {
+        position: absolute; // Position the input absolutely
+        width: 100%; // Ensure the input takes up the full width of the button
+        height: 100%; // Ensure the input takes up the full height of the button
+        opacity: 0; // Hide the input
+        right: 0px; // Position the input off-screen
+        top: 0px;
+        z-index: 0; // Position the input off-screen
+        cursor: pointer;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        font-size: 100px; /* Adjust the size as needed */
+    }
+}
 .table-variations-3 {
     @extend .table;
     tr th {

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('estimator')->nullable();
             $table->string('status_kondisi')->nullable();
             $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
+            $table->bigInteger('id_perbaikan')->nullable();
             $table->timestamps();
         });
     }
