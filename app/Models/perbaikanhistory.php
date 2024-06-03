@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class perbaikanhistory extends Model
 {
     use HasFactory;
-    protected $fillable = ['tanggal_perbaikan', 'jumlah_perbaikan', 'repair', 'estimator', 'status_kondisi', 'petikemas_id'];
+    protected $fillable = ['tanggal_perbaikan', 'jumlah_perbaikan', 'repair', 'estimator', 'status_kondisi', 'petikemas_id', 'id_perbaikan'];
     public function petikemas()
     {
         return $this->belongsTo(petikemas::class);

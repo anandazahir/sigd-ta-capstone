@@ -15,16 +15,20 @@
                                 <th scope="col" class="fw-semibold">Lokasi</th>
                                 <th scope="col" class="fw-semibold">Component</th>
                                 <th scope="col" class="fw-semibold">Metode</th>
-                                <th scope="col" class="fw-semibold">Biaya</th>
                                 <th scope="col" class="fw-semibold">Status</th>
+                                @if ($test == "false")
                                 <th scope="col" class="fw-semibold">Foto Pengecekan</th>
+                                @endif
+                                @if ($test == "true")
                                 <th scope="col" class="fw-semibold">Foto Perbaikan</th>
+                                @endif
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data->kerusakan as $index => $item)
                             @php
+                            $foto_perbaikan = asset('storage') . '/' . $item['foto_perbaikan'];
                             $fotoLink = asset('storage') . '/' . $item['foto_pengecekan'];
                             $statusClass = $item['status'] === 'damage' ? 'bg-danger' : 'bg-success';
                             @endphp
@@ -38,11 +42,20 @@
                                         <span>{{ $item['status'] }}</span>
                                     </div>
                                 </td>
+                                @if ($test == "false")
                                 <td class="text-center">
                                     <div class="my-2" style="height: fit-content">
                                         <a href="{{ $fotoLink }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
                                     </div>
                                 </td>
+                                @endif
+                                @if ($test == "true")
+                                <td class="text-center">
+                                    <div class="my-2" style="height: fit-content">
+                                        <a href="{{ $foto_perbaikan }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
+                                    </div>
+                                </td>
+                                @endif
                                 <td class="text-center">
                                     <form action="/transaksi/deletekerusakan" method="POST">
                                         @csrf

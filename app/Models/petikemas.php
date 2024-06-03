@@ -14,15 +14,15 @@ class petikemas extends Model
     {
         return $this->hasMany(penghubung::class);
     }
-    public function pengecekanhistory()
+    public function pengecekanhistories()
     {
         return $this->hasMany(pengecekanhistory::class);
     }
-    public function perbaikanhistory()
+    public function perbaikanhistories()
     {
         return $this->hasMany(perbaikanhistory::class);
     }
-    public function kerusakanhistory()
+    public function kerusakanhistories()
     {
         return $this->hasMany(kerusakanhistory::class);
     }

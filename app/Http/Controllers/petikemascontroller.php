@@ -23,8 +23,30 @@ class petikemascontroller extends Controller
 
     public function show($id)
     {
-        $petikemas = petikemas::findOrFail($id);
+        $petikemas = Petikemas::with('pengecekanhistories', 'perbaikanhistories')->findOrFail($id);
         return view('pages.petikemas-more', compact('petikemas'));
+    }
+
+    public function kerusakanhistory(Request $request)
+    {
+        $id_pengecekan = $request->input('id_pengecekan');
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($id_pengecekan);
+        $kerusakan = $pengecekan->kerusakan;
+        return response()->json([
+            'kerusakan' => $kerusakan,
+            'pengecekan' => $pengecekan,
+        ]);
+    }
+
+    public function indexkerusakan(Request $request)
+    {
+        $id_pengecekan = $request->input('id_pengecekan');
+        $pengecekan = pengecekan::with('kerusakan')->findOrFail($id_pengecekan);
+        $kerusakan = $pengecekan->kerusakan;
+        return response()->json([
+            'kerusakan' => $kerusakan,
+            'pengecekan' => $pengecekan,
+        ]);
     }
 
     public function storePetiKemas(Request $request)
