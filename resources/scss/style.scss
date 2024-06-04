@@ -85,13 +85,13 @@ $input-focus-box-shadow: transparent;
     @extend .table;
     thead th {
         border-bottom: 2px solid;
-        background-color: #f09259;
+        background-color: var(--bs-primary);
         color: white;
     }
 
     tbody tr td {
         border-bottom: hidden;
-        background-color: #f09259;
+        background-color: var(--bs-primary);
         color: white;
     }
 }

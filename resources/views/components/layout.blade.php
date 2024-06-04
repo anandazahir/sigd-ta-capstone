@@ -8,10 +8,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico') }}">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        // Apply the saved color from localStorage as soon as possible
+        (function() {
+            const savedColor = localStorage.getItem('primaryColor');
+            if (savedColor) {
+                document.documentElement.style.setProperty('--bs-primary-rgb', savedColor);
+            }
+        })();
+    </script>
+    </script>
     @vite([
     "resources/scss/style.scss",
     "resources/js/app.js",
     ])
+    <style>
+        :root {
+            --bs-primary-rgb: 240, 146, 89;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -24,6 +39,7 @@
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
+
     @stack('page-script')
 </body>
 

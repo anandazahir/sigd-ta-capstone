@@ -33,7 +33,9 @@ Route::get('/pegawai', function () {
 Route::get('/login', function () {
     return view('pages/login');
 });
-
+Route::get('/setting', function () {
+    return view('pages/setting');
+});
 Route::prefix('transaksi')->group(function () {
     Route::get('/', [transaksiController::class, 'index']);
     Route::get('/index', [transaksiController::class, 'filter']);
