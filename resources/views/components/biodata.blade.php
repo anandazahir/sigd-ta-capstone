@@ -110,7 +110,7 @@
                 <div class="card shadow rounded-4 bg-white">
 
                     <div class="card-body">
-                        <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#f09259" width="63" height="63" class="position-absolute top-0 start-0 my-2" style="margin-left: 15px ;">
+                        <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" style="fill:var(--bs-primary)" width="63" height="63" class="position-absolute top-0 start-0 my-2" style="margin-left: 15px ;">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                             <g id="SVGRepo_iconCarrier">
@@ -118,7 +118,7 @@
                                     <style>
                                         .cls-1 {
                                             fill: none;
-                                            stroke: #f09259;
+                                            stroke: var(--bs-primary);
                                             stroke-miterlimit: 10;
                                             stroke-width: 1.91px;
                                         }

@@ -12,8 +12,10 @@
         // Apply the saved color from localStorage as soon as possible
         (function() {
             const savedColor = localStorage.getItem('primaryColor');
+            const savedRGBColor = localStorage.getItem('primaryRGBColor');
             if (savedColor) {
                 document.documentElement.style.setProperty('--bs-primary-rgb', savedColor);
+                document.documentElement.style.setProperty('--bs-primary', savedRGBColor);
             }
         })();
     </script>
@@ -24,6 +26,7 @@
     ])
     <style>
         :root {
+            --bs-primary:#f09259;
             --bs-primary-rgb: 240, 146, 89;
         }
 

@@ -4,7 +4,7 @@ $segments = explode('/', $url);
 @endphp
 <style>
   .fa-house:hover {
-    color: #f09259;
+    color: var(--bs-primary);
   }
 
   .fa-house {
@@ -17,7 +17,7 @@ $segments = explode('/', $url);
   }
 
   .hovertext:hover {
-    color: #f09259;
+    color:var(--bs-primary);
   }
 </style>
 <nav class="navbar navbar-expand p-0 m-0">

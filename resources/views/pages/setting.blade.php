@@ -25,10 +25,10 @@
                                             <h5 class="m-0 fw-semibold">Pilih Warnna:</h5>
                                             <div class="d-flex mt-3 gap-2" id="color-pick">
                                                 <div class="bg-white  rounded-3" style="padding:5px;">
-                                                    <button class=" btn color-button" style="width: 40px; height: 40px; background-color:#f09259" value="240, 146, 89" data-color="#f09259"></button>
+                                                    <button class=" btn color-button" style="width: 40px; height: 40px; background-color:#f09259" value="240, 146, 89" data-test="#f09259"></button>
                                                 </div>
                                                 <div class="bg-white  rounded-3" style="padding:5px;">
-                                                    <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#F48FB1" value="244, 143, 177" data-color="#F48FB"></button>
+                                                    <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#F48FB1" value="244, 143, 177" data-test="#F48FB"></button>
                                                 </div>
                                                 <div class="bg-white  rounded-3" style="padding:5px;">
                                                     <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#CE93D8"></button>
@@ -83,6 +83,7 @@
         <script>
             $(document).ready(function() {
                 let selectedColor = '';
+                let selectedRGBColor = '';
                 // Set the initial selected color based on the CSS variable
                 const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-primary-rgb').trim();
                 $('#color-pick').find('.color-button').each(function() {
@@ -94,6 +95,8 @@
 
                 // Handle click on color buttons
                 $('#color-pick').find('.color-button').click(function() {
+                    selectedRGBColor = $(this).attr('data-test');
+                    console.log(selectedRGBColor);
                     selectedColor = $(this).val();
                     // Add border to the clicked button and remove from others
                     $('.color-button').parent().removeClass('selected');
@@ -103,9 +106,11 @@
 
                 $('#change-color').click(function() {
                     if (selectedColor) {
+                        $(':root').css('--bs-primary', selectedRGBColor);
                         $(':root').css('--bs-primary-rgb', selectedColor);
                         // Save the selected color to localStorage
                         localStorage.setItem('primaryColor', selectedColor);
+                        localStorage.setItem('primaryRGBColor', selectedRGBColor);
                     }
                 });
             });

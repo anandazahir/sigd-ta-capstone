@@ -36,7 +36,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg fill="#f09259 " viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -57,7 +57,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg fill="#f09259 " viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -116,7 +116,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg fill="#f09259 " viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -138,7 +138,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg fill="#f09259 " viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">

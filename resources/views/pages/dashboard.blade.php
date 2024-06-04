@@ -74,7 +74,7 @@
                                     <div class="d-flex flex-row gap-4">
 
                                         <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">
-                                            <svg fill="#f09259" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                                        <svg style="fill: red;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
                                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                                 <g id="SVGRepo_iconCarrier">

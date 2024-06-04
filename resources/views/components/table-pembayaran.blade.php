@@ -35,7 +35,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
         appearance: none;
         width: 20px;
         height: 20px;
-        background-color: #f09259;
+        background-color: var(--bs-primary);
         /* Ubah ke warna yang Anda inginkan */
         /* Ganti ke warna yang Anda inginkan */
         border-radius: 3px;
