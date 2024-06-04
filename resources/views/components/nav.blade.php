@@ -58,7 +58,13 @@ $segments = explode('/', $url);
                   <span class="text">Profile</span>
                 </div>
               </a></li>
-            <li><a class="dropdown-item" href="#">
+            <li><a class="dropdown-item" href="/setting">
+                <div class="d-flex flex-row gap-2">
+                  <i class="fa-solid fa-gear text-primary" style="font-size:27px"></i>
+                  <span class="text">Setting</span>
+                </div>
+              </a></li>
+            <li><a class="dropdown-item" href="/login">
                 <div class="d-flex flex-row gap-2">
                   <i class="fa-solid fa-power-off text-danger" style="font-size:27px"></i>
                   <span class="text">Logout</span>
