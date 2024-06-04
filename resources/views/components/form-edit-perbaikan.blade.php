@@ -287,7 +287,7 @@
             });
 
         });
-        /*
+
         $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
             event.preventDefault();
             var formData = new FormData(this);
@@ -324,6 +324,19 @@
                         element.next('.invalid-feedback').text(value[0]);
                         console.log(key + '[]');
                         const elementArray = $form.find('[name="' + cleanInputName + '[]"]');
+                        if (cleanInputName.includes("name")) {
+                            const index = cleanInputName.replace(/_name/i, "");
+                            console.log(index);
+                            const elements = $form.find('[name="' + index + '[]"]');
+                            elements.addClass('is-invalid');
+                            elements.next('.invalid-feedback').text(cleanAngka);
+                        } else if (cleanInputName.includes("value")) {
+                            const index = cleanInputName.replace(/_value/i, "");
+                            console.log(index);
+                            const elements = $form.find('[name="' + index + '[]"]');
+                            elements.addClass('is-invalid');
+                            elements.next('.invalid-feedback').text(cleanAngka);
+                        }
                         elementArray.addClass('is-invalid');
                         elementArray.next('.invalid-feedback').text(cleanAngka);
                     });
@@ -331,7 +344,7 @@
                 }
             });
         });
-*/
+
     });
 </script>
 @endpush
