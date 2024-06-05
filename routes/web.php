@@ -52,6 +52,7 @@ Route::prefix('transaksi')->group(function () {
     Route::post('/indexkerusakan', [TransaksiController::class, 'indexkerusakan'])->name('transaksi.indexkerusakan');
     Route::post('/editpengecekan', [TransaksiController::class, 'editpengecekan'])->name('transaksi.editpengecekan');
     Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('transaksi.deletekerusakan');
+    
     Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('transaksi.editperbaikan');
 });
 
@@ -61,4 +62,6 @@ Route::prefix('peti-kemas')->group(function () {
     Route::get('/{id}', [petikemasController::class, 'show'])->name('petikemas.show');
     Route::post('/store', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
     Route::post('/delete', [petikemasController::class, 'delete'])->name('petikemas.delete');
+    Route::get('/pengecekanhistory/{id}/kerusakan', [petikemasController::class, 'listkerusakan']);
+    Route::delete('/pengecekanhistory/deletelistkerusakan', [PetikemasController::class, 'deletelistkerusakan'])->name('pengecekanhistory.deletelistkerusakan');
 });

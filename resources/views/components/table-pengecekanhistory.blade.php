@@ -14,6 +14,7 @@
                         <th scope="col" class="fw-semibold">List Kerusakan</th>
                         <th scope="col" class="fw-semibold">Kondisi</th>
                         <th scope="col" class="fw-semibold">Survey In</th>
+                        <th scope="col" class="fw-semibold"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,25 +26,34 @@
                         <td class="text-center">
                             {{$penghubung->jumlah_kerusakan}}
                         </td>
-
                         <td class="text-center">
-                            On progress
-                            {{--  <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" data-bs-toggle="modal" data-bs-target="#table-kerusakan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>  --}}
+                            <button class="btn bg-primary mx-auto" id="button-listkerusakan-pengecekan-{{ $penghubung->id }}" value="{{$penghubung->id}}" data-bs-toggle="modal" data-bs-target="#table-kerusakan-pengecekan-{{ $penghubung->id }}">
+                                <span class="fs-semibold">LIST KERUSAKAN</span>
+                            </button>
                         </td>
-
                         <td>
-                            <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{$penghubung->petikemas->status_kondisi}}
+                            <span class="{{ $penghubung->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
+                                {{$penghubung->status_kondisi}}
                             </span>
                         </td>
                         <td class="text-center d-flex gap-1">
                             <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
                             <span>{{$penghubung->survey_in}}</span>
                         </td>
+
+                        <td class="text-center gap-1">
+                            <button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $penghubung->id }}}" data-bs-toggle="modal">
+                                <i class="fa-solid fa-trash-can fa-lg my-1"></i>
+                            </button>
+                        </td>
                     </tr>
                     @endforeach
-                </tbody>
+                </tbody>                
             </table>
         </div>
     </div>
 </div>
+
+@foreach ($data->pengecekanhistories as $penghubung)
+<x-table-listkerusakan data="{{ $penghubung->id }}" id="table-kerusakan-pengecekan-{{$penghubung->id}}" text="List Kerusakan History | {{$data->no_petikemas}}" />
+@endforeach

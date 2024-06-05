@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\petikemas;
 use App\Models\kerusakan;
+use App\Models\Kerusakanhistory;
 use App\Models\penempatan;
 use App\Models\pengecekan;
 use App\Models\perbaikan;
@@ -27,27 +28,28 @@ class petikemascontroller extends Controller
         return view('pages.petikemas-more', compact('petikemas'));
     }
 
-    public function kerusakanhistory(Request $request)
+    public function listkerusakan($id)
     {
-        $id_pengecekan = $request->input('id_pengecekan');
-        $pengecekan = pengecekan::with('kerusakan')->findOrFail($id_pengecekan);
-        $kerusakan = $pengecekan->kerusakan;
-        return response()->json([
-            'kerusakan' => $kerusakan,
-            'pengecekan' => $pengecekan,
-        ]);
+        $kerusakanhistories = Kerusakanhistory::where('id_pengecekanhistory', $id)->get();
+        return response()->json($kerusakanhistories);
     }
 
-    public function indexkerusakan(Request $request)
+    public function deletelistkerusakan(Request $request)
     {
-        $id_pengecekan = $request->input('id_pengecekan');
-        $pengecekan = pengecekan::with('kerusakan')->findOrFail($id_pengecekan);
-        $kerusakan = $pengecekan->kerusakan;
-        return response()->json([
-            'kerusakan' => $kerusakan,
-            'pengecekan' => $pengecekan,
-        ]);
+        $pengecekanhistory = Pengecekanhistory::findOrFail($request->id);
+        // Hapus data terkait di tabel kerusakanhistories
+        Kerusakanhistory::where('id_pengecekanhistory', $pengecekanhistory->id)->delete();
+        // Hapus data pengecekanhistory
+        $pengecekanhistory->delete();
+
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
     }
+    
+    // public function listperbaikan($id)
+    // {
+    //     $kerusakanhistories = Kerusakanhistory::where('id_perbaikanhistory', $id)->get();
+    //     return response()->json($kerusakanhistories);
+    // }
 
     public function storePetiKemas(Request $request)
     {

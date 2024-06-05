@@ -50,7 +50,3 @@
             </div>
         </div>
 </x-layout>
-
-@foreach ($petikemas->penghubungs as $penghubung)
-<x-table-kerusakan :data="$penghubung->pengecekan" id="table-kerusakan-{{$penghubung->pengecekan->id}}" text="List Kerusakan | {{$penghubung->petikemas->no_petikemas}}" petikemas="{{$penghubung->petikemas->id}}" />
-@endforeach
