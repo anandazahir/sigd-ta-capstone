@@ -70,7 +70,7 @@ $tier=$parts[2];
         </div>
 
     </div>
-    <button type="submit" class="btn btn-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">Submit</button>
 </form>
 <script>
     $(document).ready(function() {

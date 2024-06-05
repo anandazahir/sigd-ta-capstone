@@ -36,7 +36,7 @@
                             <option value="izin">Izin</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
+                    <button type="submit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>
             </div>
         </div>

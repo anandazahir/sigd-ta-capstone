@@ -4,20 +4,20 @@ $segments = explode('/', $url);
 @endphp
 <style>
   .fa-house:hover {
-    color: var(--bs-primary);
+    color: gray;
   }
 
   .fa-house {
-    color: #a57250;
+    color: rgb(var(--bs-primary-rgb));
   }
 
   .hovertext {
-    color: #a57250;
+    color: var(--bs-primary);
     text-decoration: none;
   }
 
   .hovertext:hover {
-    color:var(--bs-primary);
+    color: gray;
   }
 </style>
 <nav class="navbar navbar-expand p-0 m-0">
@@ -33,10 +33,10 @@ $segments = explode('/', $url);
           <path d="M17.8866 22.3725L25.9248 28.1186L45.8489 29.0395L45.7966 22.3725H17.8866Z" stroke="black" stroke-miterlimit="10" />
           <path d="M43.9417 3.78445C47.8894 3.78445 50.7289 4.34582 55.8324 5.15317C64.8979 6.57865 71.5282 10.0919 76.7602 14.4125C81.7971 18.5502 86.0397 23.6024 85.9874 33.8016C85.9351 44.0007 81.2311 49.4756 76.5176 55.2469C71.7898 61.1002 64.5555 63.1375 55.6945 65.0739C51.1284 66.0641 48.132 65.856 44.9928 65.7046L43.9417 3.78445ZM48.4887 53.7268C52.8883 53.2537 53.4257 53.6637 55.9228 53.096C61.4496 51.8346 75.0812 50.6866 75.1525 36.3372C75.2144 24.5801 67.3237 20.4613 58.1678 17.9131C55.9275 17.2824 52.2366 16.0209 48.3317 15.9767L48.4887 53.7268Z" fill="#A57250" stroke="black" />
         </svg>
-        <h1 class="title-simgd fw-bolder text-secondary fs-sm-1 fs-3">SIMGD</h1>
+        <h1 class="title-simgd fw-bolder text-primary fs-sm-1 fs-3">SIMGD</h1>
       </div>
-      <hr class="mt-0 mx-0 line" style="height: 7px; background-color:#A57250" />
-      <p class="desc fw-bold text-start text-secondary ">Sistem Informasi Manajemen Garbantara Depo</p>
+      <hr class="mt-0 mx-0 line" style="height: 7px; background-color:rgb(var(--bs-primary-rgb))" />
+      <p class="desc fw-bold text-start text-primary ">Sistem Informasi Manajemen Garbantara Depo</p>
     </a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
@@ -76,19 +76,19 @@ $segments = explode('/', $url);
     </div>
   </div>
 </nav>
-<div class="d-flex flex-row  justify-content-between mt-3 mb-2 text-secondary">
+<div class="d-flex flex-row  justify-content-between mt-3 mb-2 text-primary">
   <h3 style="font-size: 1rem;">{{$msg}}</h3>
   <div class="d-flex align-items-center">
     <a href="/" style="height: fit-content; ">
-      <i class="fa-solid fa-house  mx-1"></i>
+      <i class="fa-solid fa-house mx-1"></i>
     </a>
     @if(count($segments) > 0 && $segments[0] !== '')
     @foreach($segments as $key => $segment)
     @if($key == 0)
-    <span class="text-secondary">/</span>
+    <span class="text-primary">/</span>
     @endif
     <a class="hovertext" href="{{ url(implode('/', array_slice($segments, 0, $key + 1))) }}">{{ ucfirst(str_replace("-", " ", $segment)) }}</a>
-    @if($key < count($segments) - 1) <span class="text-secondary">/</span>
+    @if($key < count($segments) - 1) <span class="text-primary">/</span>
       @endif
       @endforeach
       @endif

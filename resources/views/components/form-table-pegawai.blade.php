@@ -82,7 +82,7 @@
                             <textarea class="form-control" id="alamat" rows="3"></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
+                    <button type="submit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>
             </div>
         </div>

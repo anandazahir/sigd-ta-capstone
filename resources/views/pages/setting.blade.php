@@ -40,7 +40,7 @@
                                         </div>
                                         <hr class="line mb-0 mt-3" style="height: 1px; background-color:#FFF;">
 
-                                        <button class="btn btn-success mt-3" id="change-color">Submit</button>
+                                        <button class="btn bg-white mt-3 text-primary" id="change-color"><span class="fw-semibold">Submit</span></button>
 
                                     </div>
                                 </div>
@@ -56,8 +56,8 @@
                                                 <i class="fa-solid fa-circle-user" style="font-size:200px;"></i>
                                             </div>
                                             <div class="col-md-10 my-auto text-center text-lg-start" style="width: 25rem">
-                                                <button class="btn-info btn">Ubah Foto Profil</button>
-                                                <button class="btn-danger btn text-white">Hapus Foto Profil</button>
+                                                <button class="bg-white btn fs-semibold text-primary"><span class="fw-semibold">Ubah Foto Profil</span></button>
+                                                <button class="btn-danger btn text-white fs-semibold"><span class="fw-semibold">Hapus Foto Profil</span></button>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -65,7 +65,7 @@
                                                 <label for="" class="form-label">Username</label>
                                                 <form action="">
                                                     <input type="text" name="user" id="" class="form-control mb-3" required>
-                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                    <button type="submit" class="btn bg-white text-primary"><span class="fw-semibold">Submit</span></button>
                                                 </form>
                                             </div>
                                         </div>

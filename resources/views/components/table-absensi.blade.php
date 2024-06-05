@@ -2,7 +2,7 @@
     <div class="container position-relative">
         <h1 class="text-white fw-semibold month-text">Kehadiran</h1>
 
-        <form class="btn-light rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Data Berdasarkan Bulan">
+        <form class="btn bg-white rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Data Berdasarkan Bulan">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="month" name="" id="selectedMonth">
         </form>
@@ -93,16 +93,16 @@
                             07.45
                         </td>
                         <td class="text-center">
-                            <span class="bg-success p-1 rounded-3 text-white">Absen</span>
+                            <span class="bg-primary p-1 rounded-3 text-white">Absen</span>
                         </td>
                         <td class="text-center">
                             16.00
                         </td>
                         <td class="text-center">
-                            <span class="bg-success p-1 rounded-3 text-white">Absen</span>
+                            <span class="bg-primary p-1 rounded-3 text-white">Absen</span>
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#form-table-absensi"> <i class="fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Absensi Pegawai"></i></button>
+                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#form-table-absensi"> <i class="fa-solid fa-pen-to-square fa-xl my-1 text-white" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Absensi Pegawai"></i></button>
                         </td>
                     </tr>
                 </tbody>

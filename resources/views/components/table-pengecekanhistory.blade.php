@@ -1,7 +1,7 @@
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold">Riwayat Pengecekan</h2>
-        <div class="btn-light rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
+        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="date" name="" id="">
         </div>
@@ -28,11 +28,11 @@
 
                         <td class="text-center">
                             On progress
-                            {{--  <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" data-bs-toggle="modal" data-bs-target="#table-kerusakan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>  --}}
+                            {{-- <button class="btn btn-info mx-auto" id="button_listkerusakan_pengecekan" data-bs-toggle="modal" data-bs-target="#table-kerusakan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button> --}}
                         </td>
 
                         <td>
-                            <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-success' : 'bg-danger' }} p-1 rounded-2 text-white">
+                            <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
                                 {{$penghubung->petikemas->status_kondisi}}
                             </span>
                         </td>

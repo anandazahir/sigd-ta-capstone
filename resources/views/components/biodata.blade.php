@@ -110,7 +110,7 @@
                 <div class="card shadow rounded-4 bg-white">
 
                     <div class="card-body">
-                        <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" style="fill:var(--bs-primary)" width="63" height="63" class="position-absolute top-0 start-0 my-2" style="margin-left: 15px ;">
+                        <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="63" height="63" class="position-absolute top-0 start-0 my-2" style="margin-left: 15px ;">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                             <g id="SVGRepo_iconCarrier">
@@ -118,7 +118,7 @@
                                     <style>
                                         .cls-1 {
                                             fill: none;
-                                            stroke: var(--bs-primary);
+                                            stroke: rgb(var(--bs-primary-rgb));
                                             stroke-miterlimit: 10;
                                             stroke-width: 1.91px;
                                         }
@@ -149,10 +149,10 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-info rounded-3  d-flex mx-auto mt-3" data-bs-toggle="modal" data-bs-target="#create-pegawai">
+        <button class="btn rounded-3  d-flex mx-auto mt-3 bg-white" data-bs-toggle="modal" data-bs-target="#create-pegawai">
             <div data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Biodata">
-                <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
-                <span class="fw-semibold my-auto fs-6">EDIT DATA</span>
+                <i class="fa-solid fa-pen-to-square fa-lg my-auto text-primary"></i>
+                <span class="fw-semibold my-auto fs-6 text-primary">EDIT DATA</span>
             </div>
         </button>
     </div>

@@ -10,7 +10,7 @@
             <div class=" container position-relative">
 
                 <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Riwayat Penempatan</h2>
-                <form class="btn-light rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
+                <form class="btn bg-white rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
                     <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
                     <input type="month" name="" id="">
                 </form>
@@ -31,7 +31,7 @@
                                     31-01-2024:10:00:00
                                 </td>
                                 <td class="text-center">
-                                    <span class="bg-success text-white p-1 rounded-2">A0-01-01</span>
+                                    <span class="bg-primary text-white p-1 rounded-2">A0-01-01</span>
                                 </td>
                                 <td class="text-center d-flex gap-1 justify-content-center">
                                     <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>

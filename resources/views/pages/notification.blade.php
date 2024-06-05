@@ -36,9 +36,9 @@
                                     </td>
                                     <td>
                                         <div class="btn-group gap-2">
-                                            <a class="btn btn-info text-white rounded-3 text-center" style="height: 2.2rem">
-                                                <i class="fa-solid fa-arrow-up-right-from-square text-white " style="font-size: 20px;"></i>
-                                                <span class="text-white mx-1 fw-semibold d-none d-lg-inline-block">OPEN</span>
+                                            <a class="btn bg-white text-white rounded-3 text-center" style="height: 2.2rem">
+                                                <i class="fa-solid fa-arrow-up-right-from-square text-primary " style="font-size: 20px;"></i>
+                                                <span class="text-primary mx-1 fw-semibold d-none d-lg-inline-block">OPEN</span>
                                             </a>
                                             <button class="btn btn-danger text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                                         </div>

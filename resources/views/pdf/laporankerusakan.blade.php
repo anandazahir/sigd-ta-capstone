@@ -45,25 +45,25 @@
 
 <body>
     <h2>Laporan Kerusakan</h2>
-   
+
     <table border="1">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Lokasi</th>
-            <th>Component</th>
-            <th>Metode</th>
-            <th>Biaya</th>
-            <th>Status</th>
-            <th>Foto Pengecekan</th>
-            <th>Foto Perbaikan</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($kerusakan as $index => $item)
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Lokasi</th>
+                <th>Component</th>
+                <th>Metode</th>
+                <th>Biaya</th>
+                <th>Status</th>
+                <th>Foto Pengecekan</th>
+                <th>Foto Perbaikan</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($kerusakan as $index => $item)
             @php
             $fotoLink = asset('storage') . '/' . $item['foto_pengecekan'];
-            $statusClass = $item['status'] === 'damage' ? 'bg-danger' : 'bg-success';
+            $statusClass = $item['status'] === 'damage' ? 'bg-danger' : 'bg-primary';
             $fotoperbaikan = asset('storage') . '/' . $item['foto_perbaikan'];
             @endphp
             <tr>
@@ -88,9 +88,9 @@
                     </div>
                 </td>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+            @endforeach
+        </tbody>
+    </table>
 
 </body>
 

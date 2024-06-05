@@ -35,7 +35,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
         appearance: none;
         width: 20px;
         height: 20px;
-        background-color: var(--bs-primary);
+        background-color: rgb(var(--bs-primary-rgb));
         /* Ubah ke warna yang Anda inginkan */
         /* Ganti ke warna yang Anda inginkan */
         border-radius: 3px;
@@ -49,6 +49,18 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
         display: inline-block;
         font-size: 16px;
         color: white;
+
+        /* Ganti ke warna yang Anda inginkan */
+        line-height: 20px;
+        text-align: center;
+    }
+
+    input[type="checkbox"]:checked::before {
+
+        display: inline-block;
+        font-size: 16px;
+        color: white;
+
         /* Ganti ke warna yang Anda inginkan */
         line-height: 20px;
         text-align: center;
@@ -60,10 +72,10 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
     <div class="container">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pembayaran</h2>
-            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit2">
+            <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit2">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
-                    <i class="fa-solid fa-pen-to-square text-white my-1" style="font-size:21px"></i>
-                    <span class="fw-semibold fs-6 my-1">Edit Pembayaran</span>
+                    <i class="fa-solid fa-pen-to-square text-primary my-1" style="font-size:21px"></i>
+                    <span class="fw-semibold fs-6 my-1 text-primary">Edit Pembayaran</span>
                 </div>
             </button>
 
@@ -127,7 +139,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
                             </td>
                             @endif
                             <td class="text-center" id="cetak-kwitansi">
-                                <span class="bg-{{ $pembayaran->status_pembayaran == 'sudah lunas' ? 'success' : 'danger' }} text-white p-1 rounded-2 fs-6">{{ $pembayaran->status_pembayaran}}</span>
+                                <span class="bg-{{ $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary' : 'danger' }} text-white p-1 rounded-2 fs-6">{{ $pembayaran->status_pembayaran}}</span>
                             </td>
                         </tr>
                         @endforeach
@@ -135,7 +147,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
                 </table>
             </div>
             <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-success text-white rounded-3 mx-auto" id="button-submit2" value="{{$data->id}}">Simpan Data & Cetak Kwitansi</button>
+                <button type="submit" class="btn rounded-3 mx-auto bg-white" id="button-submit2" value="{{$data->id}}"> <span class="fw-semibold text-primary"> Simpan Data & Cetak Kwitansi</span></button>
             </div>
     </div>
     </form>

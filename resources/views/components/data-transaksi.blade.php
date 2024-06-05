@@ -141,9 +141,9 @@ setlocale(LC_TIME, 'id_ID');
             @endif
         </div>
 
-        <button class="btn btn-info rounded-3  d-flex mx-auto mt-1" data-bs-toggle="modal" data-bs-target="#form-edit-transaksi">
-            <i class="fa-solid fa-pen-to-square fa-lg my-auto"></i>
-            <span class="fw-semibold mx-2 my-auto fs-6">EDIT DATA</span>
+        <button class="btn rounded-3  d-flex mx-auto mt-1 bg-white" data-bs-toggle="modal" data-bs-target="#form-edit-transaksi">
+            <i class="fa-solid fa-pen-to-square fa-lg my-auto text-primary"></i>
+            <span class="fw-semibold mx-2 my-auto fs-6 text-primary">EDIT DATA</span>
         </button>
     </div>
 </div>

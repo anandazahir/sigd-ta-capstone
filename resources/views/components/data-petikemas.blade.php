@@ -36,7 +36,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:rgb(var(--bs-primary-rgb))" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -57,7 +57,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:rgb(var(--bs-primary-rgb))" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -67,7 +67,7 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Kondisi</p>
-                        <h5 class="fw-semibold fs-5  bg-success p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                        <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
 
 
                             available
@@ -116,7 +116,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:rgb(var(--bs-primary-rgb))" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -126,7 +126,7 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Ketersediaan</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="fw-semibold fs-5  bg-success p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                            <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
                                 {{$data -> status_ketersediaan}}
                             </h5>
                         </h5>
@@ -138,7 +138,7 @@ setlocale(LC_TIME, 'id_ID');
                 <div class="card shadow rounded-4 bg-white">
                     <div class="card-body">
                         <div class="position-absolute top-0 start-0 my-3" style="margin-left: 10px">
-                            <svg style="fill:var(--bs-primary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
+                            <svg style="fill:rgb(var(--bs-primary-rgb))" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3.7rem" height="3.7rem">
                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -148,7 +148,7 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Lokasi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="fw-semibold fs-5  bg-warning p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                            <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
                                 {{$data -> lokasi}}
                             </h5>
                     </div>
