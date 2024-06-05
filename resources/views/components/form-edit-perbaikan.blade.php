@@ -80,7 +80,7 @@
                                 </label>
                             </div>
                             @if ($item->foto_perbaikan)
-                            <a href="/storage/{{ $item->foto_perbaikan }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
+                            <a href="/storage/{{ $item->foto_perbaikan }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
                             @endif
                         </div>
                         <div class="invalid-feedback"></div>
@@ -109,7 +109,7 @@
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn btn-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">Submit</button>
 </form>
 @push('transaksi-more-script')
 <script>

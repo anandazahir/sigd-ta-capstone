@@ -30,7 +30,7 @@
                             @php
                             $foto_perbaikan = asset('storage') . '/' . $item['foto_perbaikan'];
                             $fotoLink = asset('storage') . '/' . $item['foto_pengecekan'];
-                            $statusClass = $item['status'] === 'damage' ? 'bg-danger' : 'bg-success';
+                            $statusClass = $item['status'] === 'damage' ? 'bg-danger' : 'bg-primary';
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $index + 1 }}</td>
@@ -45,14 +45,14 @@
                                 @if ($test == "false")
                                 <td class="text-center">
                                     <div class="my-2" style="height: fit-content">
-                                        <a href="{{ $fotoLink }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
+                                        <a href="{{ $fotoLink }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
                                     </div>
                                 </td>
                                 @endif
                                 @if ($test == "true")
                                 <td class="text-center">
                                     <div class="my-2" style="height: fit-content">
-                                        <a href="{{ $foto_perbaikan }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
+                                        <a href="{{ $foto_perbaikan }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
                                     </div>
                                 </td>
                                 @endif

@@ -14,7 +14,7 @@
                 <option value="ekspor">Ekspor</option>
             </select>
 
-            <div class="btn-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
+            <div class="bg-primary rounded-circle btn month-picker  position-absolute top-0 end-0 " style="margin-right: 10px; margin-bottom:15px; padding:14px 17px 14px 17px">
                 <i class="fa-solid fa-calendar-days text-white" style="font-size:35px;"></i>
                 <input type="month" name="bulan_transaksi" id="monthpicker">
             </div>
@@ -42,28 +42,28 @@
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
 
-                        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
+                        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
                             <div class="d-flex gap-1">
-                                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
-                                    <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
+                                <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
+                                    <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
                                 </div>
-                                <span class="fs-5 fw-semibold">Tambah Transaksi</span>
+                                <span class="fs-5 fw-semibold text-primary">Tambah Transaksi</span>
                             </div>
                         </button>
 
 
-                        <button type="submit" class="btn btn-info mb-2  " id="button-laporan-transaksi">
+                        <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
                             <div class="d-flex gap-1">
-                                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
-                                    <i class="fa-solid fa-download text-info" style="font-size:17px;"></i>
+                                <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
+                                    <i class="fa-solid fa-download text-white" style="font-size:17px;"></i>
                                 </div>
-                                <span class="fs-5 fw-semibold">Laporan Bulanan Transaksi</span>
+                                <span class="fs-5 fw-semibold text-primary">Laporan Bulanan Transaksi</span>
                             </div>
                         </button>
                     </div>
 
                     <div class="p-0" style="width: fit-content;">
-                        <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 21rem;">
+                        <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
                             <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
                             <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                         </form>
@@ -88,7 +88,7 @@
                                 <td>{{ $item['jumlah_petikemas'] }}</td>
                                 <td>
                                     <div class="btn-group gap-2">
-                                        <a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/{{ $item['id'] }}">
+                                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/{{ $item['id'] }}">
                                             <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
                                         </a>
                                         <button class="btn btn-danger text-white p-0 rounded-3 deletetransaksi" style="width: 2.5rem; height: 2.2rem;" value="{{ $item['id'] }}">
@@ -188,7 +188,7 @@
                             $('#text-error').hide();
                             $('#table_transaksi tbody').empty();
                             $.each(response.Data, function(index, item) {
-                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1) + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn btn-info text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletetransaksi"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
+                                $('#table_transaksi tbody').append('<tr><td>' + item.no_transaksi + '</td><td>' + item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1) + '</td><td>' + item.jumlah_petikemas + '</td><td><div class="btn-group gap-2"><a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/' + item.id + '"> <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a><button class="btn btn-danger text-white p-0 rounded-3" id="deletetransaksi"  style="width: 2.5rem; height: 2.2rem;"   value="' + item.id + '"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td>' +
                                     '</tr>');
                             });
                             $(document).on('click', '#deletetransaksi', function(e) {

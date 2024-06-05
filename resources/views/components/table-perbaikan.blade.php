@@ -73,8 +73,8 @@ break;
                             {{$penghubung->petikemas->jenis_ukuran}}
                         </td>
                         <td class="text-center">
-                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail perbaikan">
-                                <button class="btn bg-primary mx-auto" id="button_listkerusakan_pengecekan" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-bs-toggle="modal" data-bs-target="#table-perbaikan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold text-white">LIST PERBAIKAN</span></button>
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail kerusakan">
+                                <button class="btn bg-primary text-white mx-auto" id="button_listkerusakan_pengecekan" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-bs-toggle="modal" data-bs-target="#table-perbaikan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                             </div>
                         </td>
                         <td class="text-center">
@@ -106,8 +106,8 @@ break;
                         @endif
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn bg-primary mx-auto" data-bs-toggle="modal" data-bs-target="#edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}" data-ajax="true">
-                                    <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i>
+                                <button class="btn bg-primary text-white mx-auto" data-bs-toggle="modal" data-bs-target="#edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" value="{{$penghubung->pengecekan->id}}" data-nopetikemas="{{$penghubung->petikemas->no_petikemas}}" data-id="{{ $penghubung->id }}" data-ajax="true">
+                                    <i class="fa-solid fa-pen-to-square fa-lg my-1"></i>
                                 </button>
                             </div>
                         </td>

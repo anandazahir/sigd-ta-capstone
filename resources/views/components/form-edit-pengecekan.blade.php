@@ -67,7 +67,7 @@
                                     <input type="hidden" name="foto_pengecekan_name[]" value="{{ $item->foto_pengecekan_name }}">
                                 </label>
                             </div>
-                            <a href="/storage/{{ $item->foto_pengecekan }}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
+                            <a href="/storage/{{ $item->foto_pengecekan }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
                         </div>
                         <div class="invalid-feedback"></div>
                     </td>
@@ -78,7 +78,7 @@
 
         </table>
     </div>
-    <button type="submit" class="btn btn-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">Submit</button>
 </form>
 
 <script>

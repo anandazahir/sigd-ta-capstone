@@ -10,7 +10,7 @@
                         <input type="hidden" name="id" id="input_form_delete">
                         <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
                     </form>
-                    <button class="btn btn-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
+                    <button class="btn bg-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
                 </div>
             </div>
         </div>

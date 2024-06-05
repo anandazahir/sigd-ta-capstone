@@ -2,12 +2,12 @@
     <div class="container position-relative">
         <h1 class="text-white fw-semibold">Pengajuan</h1>
         {{--tambah transaksi belom--}}
-        <button class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan">
+        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan">
             <div class="d-flex gap-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Pengajuan">
-                <div class="rounded-circle bg-white p-1 " style="width: 30px; height:min-content;">
-                    <i class="fa-solid fa-plus text-info" style="font-size:17px;"></i>
+                <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
+                    <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
                 </div>
-                <span class="fs-5 fw-semibold">Tambah Pengajuan</span>
+                <span class="fs-5 fw-semibold text-primary">Tambah Pengajuan</span>
             </div>
         </button>
         <div class="row mt-3">
@@ -63,7 +63,7 @@
                             01 Desember 2022
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-info rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;">
+                            <button class="btn bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;">
                                 <i class="fa-solid fa-file-pdf position-absolute my-2 my-lg-0" style="font-size:20px;"></i>
                                 <span class="fw-normal text-white mx-lg-4 mx-2 " style="font-size: 1.4vh;">SURAT PENGAJUAN CUTI....</span>
                             </button>
@@ -72,7 +72,7 @@
                             16.00
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-info text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai"></i></button>
+                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai"></i></button>
                         </td>
                     </tr>
                 </tbody>

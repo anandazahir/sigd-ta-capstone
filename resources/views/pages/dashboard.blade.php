@@ -4,7 +4,7 @@
         </x-slot>
         <div class="row">
             <div class="col-lg-12 mb-3">
-                <div class="card shadow rounded-4 text-white bg-primary" >
+                <div class="card shadow rounded-4 text-white bg-primary">
                     <div class="card-body">
                         <div class="row justify-content-center justify-content-lg-start">
                             <div class="col-md-2" style="width: auto;">
@@ -17,7 +17,7 @@
                             </div>
                         </div>
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
-                            <a class="btn btn-light  rounded-3 text-center" style="padding:4px 7px 4px 7px;" href="/profile">
+                            <a class="btn bg-white rounded-3 text-center" style="padding:4px 7px 4px 7px;" href="/profile">
                                 <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
                             </a>
                         </div>
@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
                             <div class="rounded-3 d-flex flex-row justify-content-center" style="width: 2rem; height: 2rem; place-items: center; background: #edf5f5;">
-                                <a class="btn btn-light  rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/notification">
+                                <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/notification">
                                     <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
                                 </a>
                             </div>
@@ -74,7 +74,7 @@
                                     <div class="d-flex flex-row gap-4">
 
                                         <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">
-                                            <svg fill="#f09259" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                                            <svg style="fill:rgb(var(--bs-primary-rgb))" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
                                                 <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
                                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                                 <g id="SVGRepo_iconCarrier">

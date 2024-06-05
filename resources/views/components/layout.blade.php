@@ -12,8 +12,10 @@
         // Apply the saved color from localStorage as soon as possible
         (function() {
             const savedColor = localStorage.getItem('primaryColor');
+            const savedRGBColor = localStorage.getItem('primaryRGBColor');
             if (savedColor) {
                 document.documentElement.style.setProperty('--bs-primary-rgb', savedColor);
+                document.documentElement.style.setProperty('--bs-primary', savedRGBColor);
             }
         })();
     </script>
@@ -24,6 +26,7 @@
     ])
     <style>
         :root {
+            --bs-primary: #f09259;
             --bs-primary-rgb: 240, 146, 89;
         }
 
@@ -41,7 +44,7 @@
         .loader {
             width: 60px;
             aspect-ratio: 2;
-            --_g: no-repeat radial-gradient(circle closest-side, var(--bs-light) 90%, #0000);
+            --_g: no-repeat radial-gradient(circle closest-side, white 90%, #0000);
             background:
                 var(--_g) 0% 50%,
                 var(--_g) 50% 50%,
@@ -95,10 +98,10 @@
     </style>
 </head>
 
-<body class="bg-light">
+<body>
     <div id="loading" class="bg-primary ">
 
-        <svg style="fill: var(--bs-light)" class=" loading-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+        <svg style="fill: white" class=" loading-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
             <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
             <g id="SVGRepo_iconCarrier">

@@ -41,7 +41,7 @@
     .loader {
       width: 60px;
       aspect-ratio: 2;
-      --_g: no-repeat radial-gradient(circle closest-side, var(--bs-light) 90%, #0000);
+      --_g: no-repeat radial-gradient(circle closest-side, white 90%, #0000);
       background:
         var(--_g) 0% 50%,
         var(--_g) 50% 50%,
@@ -102,7 +102,7 @@
 <body class="bg-primary">
   <div id="loading" class="bg-primary ">
 
-    <svg style="fill: var(--bs-light)" class=" loading-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+    <svg style="fill: white" class=" loading-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
       <g id="SVGRepo_bgCarrier" stroke-width="1"></g>
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
       <g id="SVGRepo_iconCarrier">
@@ -137,7 +137,7 @@
                           <path d="M43.9417 3.78445C47.8894 3.78445 50.7289 4.34582 55.8324 5.15317C64.8979 6.57865 71.5282 10.0919 76.7602 14.4125C81.7971 18.5502 86.0397 23.6024 85.9874 33.8016C85.9351 44.0007 81.2311 49.4756 76.5176 55.2469C71.7898 61.1002 64.5555 63.1375 55.6945 65.0739C51.1284 66.0641 48.132 65.856 44.9928 65.7046L43.9417 3.78445ZM48.4887 53.7268C52.8883 53.2537 53.4257 53.6637 55.9228 53.096C61.4496 51.8346 75.0812 50.6866 75.1525 36.3372C75.2144 24.5801 67.3237 20.4613 58.1678 17.9131C55.9275 17.2824 52.2366 16.0209 48.3317 15.9767L48.4887 53.7268Z" fill="#A57250" stroke="black" />
                         </svg>
                         <div class="vr"></div>
-                        <span class="h1 fw-bold mb-0 text-secondary">SIMGD</span>
+                        <span class="h1 fw-bold mb-0 text-primary">SIMGD</span>
                       </div>
                       <h5 class="fw-normal mb-3 pb-3 text-black">Please Sign In to Your Account </h5>
                       <div class="mb-4">
@@ -149,7 +149,7 @@
                         <input type="password" id="password" class="form-control text-white" style="background-color: #2B3674" placeholder="Password">
                       </div>
                       <div class="mb-4 text-center">
-                        <a href="/" class="btn w-100 text-white btn-primary" style="background-color: #2B3674">Login</a>
+                        <a href="/" class="btn w-100 text-white bg-primary" style="background-color: #2B3674">Login</a>
                       </div>
                     </form>
                   </div>

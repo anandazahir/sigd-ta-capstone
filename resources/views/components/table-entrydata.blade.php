@@ -27,16 +27,16 @@ return [
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Entry Data</h2>
-            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
+            <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
-                    <i class="fa-solid fa-pen-to-square text-white   my-1" style="font-size:21px"></i>
-                    <span class="fw-semibold fs-6 my-1">Edit Data</span>
+                    <i class="fa-solid fa-pen-to-square text-primary   my-1" style="font-size:21px"></i>
+                    <span class="fw-semibold fs-6 my-1 text-primary">Edit Data</span>
                 </div>
             </button>
-            <button class="btn btn-info p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry" style="width: fit-content;">
+            <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry" style="width: fit-content;">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data peti kemas">
-                    <i class="fa-solid fa-circle-plus text-white my-2" style="font-size:25px"></i>
-                    <span class="fw-semibold fs-6 my-2">Tambah Baris Baru</span>
+                    <i class="fa-solid fa-circle-plus text-primary my-2" style="font-size:25px"></i>
+                    <span class="fw-semibold fs-6 my-2 text-primary">Tambah Baris Baru</span>
                 </div>
             </button>
         </div>
@@ -78,7 +78,7 @@ return [
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'success disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
+                                <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
                             </td>
                             <td class="text-center">
                                 <button class="btn btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
@@ -92,7 +92,7 @@ return [
 
             </div>
             <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-success text-white rounded-3 mx-auto" id="button-submit">Simpan Data</button>
+                <button type="submit" class="btn bg-white text-white rounded-3 mx-auto" id="button-submit"><span class="fw-semibold text-primary">Simpan Data</span></button>
             </div>
         </form>
     </div>
