@@ -63,5 +63,6 @@ Route::prefix('peti-kemas')->group(function () {
     Route::post('/store', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
     Route::post('/delete', [petikemasController::class, 'delete'])->name('petikemas.delete');
     Route::get('/pengecekanhistory/{id}/kerusakan', [petikemasController::class, 'listkerusakan']);
-    Route::delete('/pengecekanhistory/deletelistkerusakan', [PetikemasController::class, 'deletelistkerusakan'])->name('pengecekanhistory.deletelistkerusakan');
+    Route::post('/pengecekanhistory/deletelistkerusakan', [PetikemasController::class, 'deletelistkerusakan'])->name('pengecekanhistory.deletelistkerusakan');
+    Route::post('/pengecekanhistory/filter', [petikemascontroller::class, 'filterlistkerusakan']);
 });

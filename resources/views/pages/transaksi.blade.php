@@ -91,7 +91,7 @@
                                         <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/{{ $item['id'] }}">
                                             <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
                                         </a>
-                                        <button class="btn btn-danger text-white p-0 rounded-3 deletetransaksi" style="width: 2.5rem; height: 2.2rem;" value="{{ $item['id'] }}">
+                                        <button class="btn btn-danger text-white p-0 rounded-3" id="deletetransaksi" style="width: 2.5rem; height: 2.2rem;" value="{{ $item['id'] }}">
                                             <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                         </button>
                                     </div>
@@ -256,6 +256,7 @@
             });
         </script>
         @stack('form-modal')
+        @stack('form-delete')
         @stack('toast-script')
         @endpush
 </x-layout>

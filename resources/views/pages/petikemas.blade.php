@@ -253,6 +253,7 @@
             });
         </script>
         @stack('form-modal')
+        @stack('form-delete')
         @stack('toast-script')
         @endpush
 

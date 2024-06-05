@@ -49,4 +49,7 @@
                 </div>
             </div>
         </div>
+        <x-toast />
+        @stack('toast-script')
+        @stack('form-delete')
 </x-layout>

@@ -76,11 +76,8 @@ $(document).ready(function() {
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <form action="/transaksi/deletekerusakan" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="id_kerusakan" value="${item.id}">
-                                        <input type="hidden" name="id_petikemas" value="${item.petikemas_id}">
-                                    </form>
+                                    <input type="hidden" name="id_kerusakan" value="${item.id}">
+                                    <input type="hidden" name="id_petikemas" value="${item.petikemas_id}">
                                 </td>
                             </tr>
                         `;
@@ -89,29 +86,6 @@ $(document).ready(function() {
                 } else {
                     (tableID).find('#no-data-message').show();
                 }
-            }
-        });
-    });
-
-    $(document).on('click', '#button_delete_kerusakan', function(e) {
-        e.preventDefault();
-        var idKerusakan = $(this).val();
-        var idPetikemas = $(this).siblings('input[name="id_petikemas"]').val();
-        $.ajax({
-            type: 'POST',
-            url: '/transaksi/deletekerusakan',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id_kerusakan: idKerusakan,
-                id_petikemas: idPetikemas,
-            },
-            success: function(response) {
-                $("#table-listkerusakan").modal('hide');
-                showAlert(response.message);
-                console.log(response.petikemas);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
             }
         });
     });

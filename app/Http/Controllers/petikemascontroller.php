@@ -8,6 +8,7 @@ use App\Models\kerusakan;
 use App\Models\Kerusakanhistory;
 use App\Models\penempatan;
 use App\Models\pengecekan;
+use App\Models\Pengecekanhistory;
 use App\Models\perbaikan;
 use App\Models\transaksi;
 use Illuminate\Support\Facades\Validator;
@@ -38,11 +39,42 @@ class petikemascontroller extends Controller
     {
         $pengecekanhistory = Pengecekanhistory::findOrFail($request->id);
         // Hapus data terkait di tabel kerusakanhistories
-        Kerusakanhistory::where('id_pengecekanhistory', $pengecekanhistory->id)->delete();
+        $kerusakanhistory = Kerusakanhistory::where('id_pengecekanhistory', $pengecekanhistory->id)->get();
+        foreach ($kerusakanhistory as $item) {
+            $item->delete();
+        }
+
         // Hapus data pengecekanhistory
         $pengecekanhistory->delete();
 
-        return redirect()->back()->with('success', 'Data berhasil dihapus');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Riwayat Pengecekan Berhasil Dihapus!',
+        ]);
+
+    }
+
+    public function filterlistkerusakan(Request $request)
+    {
+        $selectedDate = $request->input('tanggal_pengecekanhistory');
+
+        $query = pengecekanhistory::query();
+
+        if ($selectedDate) {
+            $query->whereDate('tanggal_pengecekan', $selectedDate);
+        }
+
+        $filteredData = $query->get();
+
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return response()->json([
+            'Data' => $filteredData,
+        ]);
+
+        dd($filteredData);
     }
     
     // public function listperbaikan($id)

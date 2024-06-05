@@ -92,7 +92,7 @@ return [
 
             </div>
             <div class="mt-3 text-center">
-                <button type="submit" class="btn bg-white text-white rounded-3 mx-auto" id="button-submit"><span class="fw-semibold text-primary">Simpan Data</span></button>
+                <button type="submit" class="btn btn-info text-white rounded-3 mx-auto" id="button-submit"><span class="fw-semibold text-white">Simpan Data</span></button>
             </div>
         </form>
     </div>

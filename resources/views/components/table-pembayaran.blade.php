@@ -147,7 +147,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
                 </table>
             </div>
             <div class="mt-3 text-center">
-                <button type="submit" class="btn rounded-3 mx-auto bg-white" id="button-submit2" value="{{$data->id}}"> <span class="fw-semibold text-primary"> Simpan Data & Cetak Kwitansi</span></button>
+                <button type="submit" class="btn rounded-3 mx-auto btn-info" id="button-submit2" value="{{$data->id}}"> <span class="fw-semibold text-white"> Simpan Data & Cetak Kwitansi</span></button>
             </div>
     </div>
     </form>

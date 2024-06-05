@@ -16,7 +16,8 @@
         </div>
     </div>
 </div>
-/*
+@push ('form-delete')
+
 <script>
     $(document).ready(function() {
         $('#delete-form').submit(function(event) {
@@ -39,4 +40,5 @@
             });
         });
     });
-</script>*/
+</script>
+@endpush
