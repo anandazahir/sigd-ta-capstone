@@ -9,7 +9,8 @@ use App\Models\kerusakanhistory;
 use App\Models\penempatan;
 use App\Models\penempatanhistory;
 use App\Models\pengecekan;
-use App\Models\pengecekanhistory;
+use App\Models\Pengecekanhistory;
+use App\Models\penempatanhistory;
 use App\Models\perbaikan;
 use App\Models\perbaikanhistory;
 use App\Models\transaksi;
@@ -27,6 +28,18 @@ class petikemascontroller extends Controller
 
     public function show($id)
     {
+        $petikemas = Petikemas::with([
+            'pengecekanhistories' => function ($query) {
+                $query->whereNotNull('survey_in'); // Replace 'some_field' with the actual field name you want to check for null
+            },
+            'perbaikanhistories' => function ($query) {
+                $query->whereNotNull('repair'); // Replace 'some_field' with the actual field name you want to check for null
+            },
+            'penempatanistories' => function ($query) {
+                $query->whereNotNull('tally'); // Replace 'some_field' with the actual field name you want to check for null
+            },
+        ])->findOrFail($id);
+
         return view('pages.petikemas-more', compact('petikemas'));
         $petikemas = Petikemas::with([
             'pengecekanhistories' => function ($query) {
@@ -63,7 +76,6 @@ class petikemascontroller extends Controller
             'success' => true,
             'message' => 'Data Riwayat Pengecekan Berhasil Dihapus!',
         ]);
-
     }
 
     public function filterlistkerusakan(Request $request)
@@ -85,53 +97,15 @@ class petikemascontroller extends Controller
         return response()->json([
             'Data' => $filteredData,
         ]);
-    }
-    
-    public function listperbaikan($id)
-    {
-        $perbaikanhistories = kerusakanhistory::where('id_perbaikanhistory', $id)->get();
-        return response()->json($perbaikanhistories);
+
+        dd($filteredData);
     }
 
-    public function deletelistperbaikan(Request $request)
-    {
-        $perbaikanhistory = perbaikanhistory::findOrFail($request->id);
-        // Hapus data terkait di tabel kerusakanhistories
-        $kerusakanhistory = kerusakanhistory::where('id_perbaikanhistory', $perbaikanhistory->id)->get();
-        foreach ($kerusakanhistory as $item2) {
-            $item2->delete();
-        }
-
-        // Hapus data perbaikanhistory
-        $perbaikanhistory->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Data Riwayat Perbaikan Berhasil Dihapus!',
-        ]);
-
-    }
-
-    public function filterlistperbaikan(Request $request)
-    {
-        $selectedDate = $request->input('tanggal_perbaikanhistory');
-
-        $query = perbaikanhistory::query();
-
-        if ($selectedDate) {
-            $query->whereDate('tanggal_perbaikan', $selectedDate);
-        }
-
-        $filteredData = $query->get();
-
-        if ($filteredData->isEmpty()) {
-            return response()->json(['message' => 'No data found']);
-        }
-
-        return response()->json([
-            'Data' => $filteredData,
-        ]);
-    }
+    // public function listperbaikan($id)
+    // {
+    //     $kerusakanhistories = Kerusakanhistory::where('id_perbaikanhistory', $id)->get();
+    //     return response()->json($kerusakanhistories);
+    // }
 
     public function storePetiKemas(Request $request)
     {

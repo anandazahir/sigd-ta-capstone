@@ -194,6 +194,7 @@
         @stack('form-modal')
         @stack('transaksi-more-script')
         @stack('toast-script')
+        @stack('form-delete')
         @endpush
 
 </x-layout>

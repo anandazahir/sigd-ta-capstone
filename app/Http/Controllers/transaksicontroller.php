@@ -6,6 +6,7 @@ use App\Models\Kerusakan;
 use App\Models\Kerusakanhistory;
 use App\Models\Pembayaran;
 use App\Models\Penempatan;
+use App\Models\penempatanhistory;
 use App\Models\Pengecekan;
 use App\Models\pengecekanhistory;
 use App\Models\Penghubung;
@@ -23,13 +24,14 @@ use App\Rules\RequiredArrayValues;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Charts\TransaksiBulananChart;
 
 class TransaksiController extends Controller
 {
-    public function index()
+    public function index(TransaksiBulananChart $chart)
     {
         $transaksi = transaksi::paginate(3);
-        return view('pages.transaksi', compact('transaksi'));
+        return view('pages.transaksi', compact('transaksi'), ['chart' => $chart->build()]);
     }
 
     public function show($id)
@@ -38,7 +40,7 @@ class TransaksiController extends Controller
         return view('pages.transaksi-more', compact('transaksi'));
     }
 
-    private function createRelatedRecords($penghubungId, $transaksiId)
+    private function createRelatedRecords($penghubungId, $transaksiId, $petikemas)
     {
         Pembayaran::create([
             'penghubung_id' => $penghubungId,
@@ -46,7 +48,6 @@ class TransaksiController extends Controller
             'status_cetak_spk' => 'belum cetak',
             'status_pembayaran' => 'belum lunas',
         ]);
-
         $pengecekan = Pengecekan::create([
             'penghubung_id' => $penghubungId,
             'transaksi_id' => $transaksiId,
@@ -57,9 +58,28 @@ class TransaksiController extends Controller
             'transaksi_id' => $transaksiId,
         ]);
 
-        Penempatan::create([
+        $penempatan = Penempatan::create([
             'penghubung_id' => $penghubungId,
             'transaksi_id' => $transaksiId,
+        ]);
+
+        pengecekanhistory::create([
+            'id_pengecekan' => $pengecekan->id,
+            'status_kondisi' => $petikemas->status_kondisi,
+            'petikemas_id' => $petikemas->id,
+        ]);
+
+        perbaikanhistory::create([
+            'id_perbaikan' => $perbaikan->id,
+            'status_kondisi' => $petikemas->status_kondisi,
+            'petikemas_id' => $petikemas->id,
+        ]);
+
+        penempatanhistory::create([
+            'id_penempatan' => $penempatan->id,
+            'lokasi' => $petikemas->lokasi,
+            'status_ketersediaan' => $petikemas->status_ketersediaan,
+            'petikemas_id' => $petikemas->id,
         ]);
     }
 
@@ -111,7 +131,11 @@ class TransaksiController extends Controller
                 'transaksi_id' => $transaksi->id,
                 'petikemas_id' => $no_petikemas,
             ]);
-            $this->createRelatedRecords($penghubung->id, $transaksi->id);
+            $petikemas = petikemas::find($no_petikemas);
+            $petikemas->update([
+                'status_order' => 'false',
+            ]);
+            $this->createRelatedRecords($penghubung->id, $transaksi->id, $petikemas);
         }
 
         return response()->json([
@@ -260,21 +284,18 @@ class TransaksiController extends Controller
         $noPetikemas = $request->no_petikemas;
 
         foreach ($existingPenghubung as $index => $item) {
-            $petikemas = petikemas::where(['id' => $item->petikemas_id])->first();
+
             if (isset($noPetikemas[$index])) {
+                $petikemas = petikemas::where(['id' => $item->petikemas_id])->first();
                 $newPetikemasId = $noPetikemas[$index];
                 if ($item->petikemas_id != $newPetikemasId) {
                     $this->resetRelatedEntries($item->id);
+                    $this->resethistory($item->id, $petikemas);
                     $item->update(['petikemas_id' => $newPetikemasId]);
-                    $petikemas->status_kondisi = "available";
-                    if ($transaksi->jenis_kegiatan == "impor") {
-                        $petikemas->status_ketersediaan = "out";
-                        $petikemas->lokasi = "out";
-                    } else {
-                        $petikemas->status_ketersediaan = "in";
-                        $petikemas->lokasi = "pending";
-                    }
-                    $petikemas->save();
+                    $newpetikemas = petikemas::where(['id' => $newPetikemasId])->first();
+                    $newpetikemas->update([
+                        'status_order' => 'false',
+                    ]);
                 }
             }
         }
@@ -285,8 +306,11 @@ class TransaksiController extends Controller
                     'transaksi_id' => $id,
                     'petikemas_id' => $noPetikemas[$i + count($existingPenghubung)],
                 ]);
-
-                $this->createRelatedRecords($new_penghubung->id, $id);
+                $petikemas = petikemas::where('id', $noPetikemas[$i + count($existingPenghubung)])->first();
+                $petikemas->update([
+                    'status_order' => 'false',
+                ]);
+                $this->createRelatedRecords($new_penghubung->id, $id, $petikemas);
             }
         }
 
@@ -309,20 +333,20 @@ class TransaksiController extends Controller
             'status_cetak_spk' => 'belum cetak',
         ]);
 
-        Pengecekan::where('penghubung_id', $penghubungId)->update([
+        $pengecekan = Pengecekan::where('penghubung_id', $penghubungId);
+        $pengecekan->update([
             'jumlah_kerusakan' => null,
 
             'tanggal_pengecekan' => null,
             'survey_in' => null,
         ]);
+        $perbaikan = Perbaikan::where('penghubung_id', $penghubungId)->first();
 
-        $perbaikans = Perbaikan::where('penghubung_id', $penghubungId)->first();
-
-        $perbaikans->update([
+        $perbaikan->update([
             'tanggal_perbaikan' => null,
             'repair' => null,
         ]);
-        $kerusakans = Kerusakan::where('perbaikan_id', $perbaikans->id)->get();
+        $kerusakans = Kerusakan::where('perbaikan_id', $perbaikan->id)->get();
         // Loop through each Kerusakan record
         foreach ($kerusakans as $kerusakan) {
             // Check if the file exists and delete it
@@ -333,13 +357,59 @@ class TransaksiController extends Controller
             // Delete the Kerusakan record
             $kerusakan->delete();
         }
-        Penempatan::where('penghubung_id', $penghubungId)->update([
+        $penempatan = Penempatan::where('penghubung_id', $penghubungId);
+        $penempatan->update([
             'tanggal_penempatan' => null,
             'operator_alat_berat' => null,
             'tally' => null,
         ]);
     }
+    private function resethistory($penghubungId, $petikemas)
+    {
+        $pengecekan = Pengecekan::where('penghubung_id', $penghubungId)->first();
+        $perbaikan = Perbaikan::where('penghubung_id', $penghubungId)->first();
+        $penempatan = Penempatan::where('penghubung_id', $penghubungId)->first();
+        $pengecekanhistory = pengecekanhistory::where('id_pengecekan', $pengecekan->id)
+            ->orderBy('created_at', 'asc')
+            ->first();
+        $penempatanhistory = penempatanhistory::where('id_penempatan', $penempatan->id)
+            ->orderBy('created_at', 'asc')
+            ->first();
 
+        $petikemas->update([
+            'status_kondisi' => $pengecekanhistory->status_kondisi,
+            'status_order' => 'true',
+            'lokasi' => $penempatanhistory->lokasi,
+            'status_ketersediaan' => $penempatanhistory->status_ketersediaan,
+        ]);
+        $pengecekanhistories = pengecekanhistory::where('id_pengecekan', $pengecekan->id)
+            ->orderBy('created_at', 'desc')->get();
+        $perbaikanshistories = perbaikanhistory::where('id_perbaikan', $perbaikan->id)
+            ->orderBy('created_at', 'asc')->get();
+        $penempatanhistories = penempatanhistory::where('id_penempatan', $penempatan->id)
+            ->orderBy('created_at', 'asc')->get();
+        // Exclude the oldest record
+        $idsToDeletepengecekan = $pengecekanhistories->slice(1);
+        $idsToDeleteperbaikan = $perbaikanshistories->slice(1);
+        $idsToDeletepenempatan = $penempatanhistories->slice(1);
+        foreach ($idsToDeletepengecekan as $value) {
+            $value->delete();
+            $kerusakanhistory = kerusakanhistory::where('id_pengecekanhistory', $value->id);
+            foreach ($kerusakanhistory as $item) {
+                $item->delete();
+            }
+        };
+        foreach ($idsToDeleteperbaikan as $value) {
+            $value->delete();
+            $kerusakanhistory = kerusakanhistory::where('id_perbaikanhistory', $value->id);
+            foreach ($kerusakanhistory as $item) {
+                $item->delete();
+            }
+        };
+        foreach ($idsToDeletepenempatan as $value) {
+            $value->delete();
+        }
+    }
     public function deleteentrydata(Request $request)
     {
         $penghubungId = $request->id;
@@ -350,6 +420,7 @@ class TransaksiController extends Controller
             $penghubung = Penghubung::findOrFail($penghubungId);
             $transaksiId = $penghubung->transaksi_id;
             $petikemas = petikemas::where('id', $penghubung->petikemas_id)->first();
+            $this->resethistory($penghubungId, $petikemas);
             $transaksi = Transaksi::where('id', $transaksiId);
             // if ($transaksi->jenis_kegiatan == "impor") {
             //     $petikemas->status_ketersediaan = "out";
@@ -418,6 +489,7 @@ class TransaksiController extends Controller
             if ($transaksi->jenis_kegiatan == "impor") {
                 $petikemas->status_ketersediaan = "in";
                 $petikemas->lokasi = "pending";
+                $petikemas->tanggal_masuk = now();
                 $petikemas->save();
             }
         }
@@ -496,7 +568,8 @@ class TransaksiController extends Controller
             'survey_in' => 'rizal',
         ]);
 
-        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available']);
+        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan2 > 0 ? 'damage' : 'available', 'status_order' => $request->jumlah_kerusakan2 > 0 ? 'false' : 'true']);
+
         $perbaikan->update(['jumlah_perbaikan' => $pengecekan->jumlah_kerusakan]);
         $pengecekanhistory = pengecekanhistory::create([
             'id_pengecekan' => $pengecekan->id,
@@ -627,7 +700,7 @@ class TransaksiController extends Controller
             'survey_in' => $request->survey_in2,
         ]);
         // Updating petikemas status
-        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3 > 0 ? 'damage' : 'available']);
+        $petikemas->update(['status_kondisi' => $request->jumlah_kerusakan3s > 0 ? 'damage' : 'available', 'status_order' => $request->jumlah_kerusakan3 > 0 ? 'false' : 'true']);
         $pengecekanhistory = pengecekanhistory::create([
             'id_pengecekan' => $pengecekan->id,
             'jumlah_kerusakan' => $pengecekan->jumlah_kerusakan,
@@ -1062,7 +1135,7 @@ class TransaksiController extends Controller
         }
 
         if ($request->jumlah_perbaikan == 0) {
-            $petikemas->update(['status_kondisi' => 'available']);
+            $petikemas->update(['status_kondisi' => 'available', 'status_order' => 'true']);
             foreach ($pengecekan->kerusakan as $item) {
                 $item->delete();
             }
@@ -1076,6 +1149,59 @@ class TransaksiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data Perbaikan Berhasil Diubah!',
+        ]);
+    }
+    public function editpenempatan(Request $request, $id)
+    {
+        $rules = [
+            'operator_alat_berat' => 'required',
+            'tally' => 'required',
+            'blok' => 'required',
+            'row' => 'required',
+            'tier' => 'required',
+            'lokasi' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($request->lokasi !== "pending" && $request->lokasi !== "out") {
+            $validator->sometimes('lokasi', 'required|unique:petikemas,lokasi,' . $id, function ($input) {
+                return $input->lokasi !== "pending" && $input->lokasi !== "out";
+            });
+        }
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $penempatan = penempatan::where('id', $request->id_penempatan);
+        $petikemas = petikemas::where('id', $id);
+        $penempatan->update([
+            'tanggal_penempatan' => now(),
+            'operator_alat_berat' => $request->operator_alat_berat,
+            'tally' => $request->tally,
+        ]);
+        if ($request->lokasi == 'out' && $petikemas->status_ketersediaan == 'in') {
+            $petikemas->update([
+                'lokasi' => $request->lokasi,
+                'status_ketersediaan' => 'out',
+                'tanggal_keluar' => now(),
+                'status_order' => 'false',
+            ]);
+        }
+        $petikemas->update([
+            'lokasi' => $request->lokasi,
+        ]);
+        penempatanhistory::create([
+            'tanggal_penempatan' => now(),
+            'operator_alat_berat' => $request->operator_alat_berat,
+            'tally' => $request->tally,
+            'lokasi' => $request->lokasi,
+            'status_ketersediaan' => $petikemas->status_ketersediaan,
+            'petikemas_id' => $petikemas->id,
+            'id_penempatan' => $penempatan->id,
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Penempatan Berhasil Diubah!',
         ]);
     }
 }

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class penempatanhistory extends Model
 {
     use HasFactory;
-    protected $fillable = ['tanggal_perubahan', 'penempatan_id'];
-    public function penempatan()
+    protected $fillable = ['tanggal_penempatan', 'operator_alat_berat', 'tally', 'petikemas_id', 'id_penempatan', 'status_ketersediaan', 'lokasi'];
+    public function petikemas()
     {
-        return $this->belongsTo(penempatan::class);
+        return $this->belongsTo(petikemas::class);
     }
 }

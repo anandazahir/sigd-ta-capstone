@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="jenis_transaksi" class="form-label">Jenis Transaksi</label>
-            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required>
+            <select class="form-select" id="jenis_kegiatan3" name="jenis_kegiatan" required>
                 <option selected disabled>Pilih Opsi Ini</option>
                 <option value="impor">Impor</option>
                 <option value="ekspor">Ekspor</option>
@@ -81,10 +81,21 @@
 
 <script>
     $(document).ready(function() {
+        // Declare the value3 variable at a broader scope so it's accessible
+        let value3 = $("#jenis_kegiatan3").val();
         $("#table_create_transaksi").hide();
+
+        $("#jenis_kegiatan3").on("change", function(e) {
+            e.preventDefault();
+            value3 = $(this).val();
+
+            // Trigger change event for the #jumlah_petikemas field to update rows
+            $("#jumlah_petikemas").trigger("change");
+        });
 
         $("#jumlah_petikemas").on("change", function(e) {
             e.preventDefault();
+
             let rowCount = parseInt($(this).val());
 
             // Show or hide the table based on rowCount
@@ -124,21 +135,23 @@
                 $("#table_create_transaksi tbody").append(newRow);
 
                 // Fetch data for the new row
-                fetchPetikemasOptions(newRow);
+                fetchPetikemasOptions(newRow, newRow.find('select[name="no_petikemas[]"]').val(), value3);
+
                 newRow.find('select[name="no_petikemas[]"]').on('change', function(e) {
                     var value = $(this).val();
-                    fetchPetikemasOptions(newRow, value);
+                    fetchPetikemasOptions(newRow, value, value3);
                 });
             }
 
+            // Update existing rows
+            $("#table_create_transaksi tbody tr").each(function() {
+                const $row = $(this);
+                const value = $row.find('select[name="no_petikemas[]"]').val();
+                fetchPetikemasOptions($row, value, value3);
+            });
         });
 
-        $('#create-transaksi-form').submit(function(event) {
-            handleFormSubmission(this);
-
-        });
-
-        function fetchPetikemasOptions($row, value) {
+        function fetchPetikemasOptions($row, value, value2) {
             const $select = $row.find('select[name="no_petikemas[]"]');
             const $inputjenis_ukuran = $row.find('input[name="jenis_ukuran"]');
             const $inputpelayaran = $row.find('input[name="pelayaran"]');
@@ -147,23 +160,26 @@
                 type: 'GET',
                 data: {
                     id: value,
+                    jenis_transaksi: value2,
                 },
                 success: function(response) {
-                    console.log(response.AllData);
+                    $select.empty().append('<option selected disabled>Pilih Opsi Ini</option>'); // Clear previous options and add default option
                     $.each(response.AllData, function(index, item) {
                         $select.append('<option value="' + item.id + '">' + item.no_petikemas + '</option>');
                     });
-                    $.each(response.DataPetikemas, function(index, item) {
+                    if (response.DataPetikemas.length > 0) {
+                        const item = response.DataPetikemas[0];
                         $inputjenis_ukuran.val(item.jenis_ukuran);
                         $inputpelayaran.val(item.pelayaran);
-                    });
+                    } else {
+                        $inputjenis_ukuran.val('');
+                        $inputpelayaran.val('');
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.log(xhr.responseText);
                 }
             });
         }
-
-
     });
 </script>

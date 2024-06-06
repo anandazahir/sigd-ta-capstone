@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('harga');
             $table->string('status_ketersediaan');
             $table->string('status_kondisi');
+            $table->string('status_order');
             $table->string('lokasi');
             $table->timestamps();
         });

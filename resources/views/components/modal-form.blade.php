@@ -40,6 +40,17 @@
 
                 $.each(errors, function(key, value) {
                     const element = form.find('[name="' + key + '"]');
+                    if (key == 'lokasi') {
+                        const elementrow = form.find('[name="row"]');
+                        const elementblok = form.find('[name="blok"]');
+                        const elementtier = form.find('[name="tier"]');
+                        elementrow.addClass('is-invalid');
+                        elementrow.next('.invalid-feedback').text(value[0]);
+                        elementblok.addClass('is-invalid');
+                        elementblok.next('.invalid-feedback').text(value[0]);
+                        elementtier.addClass('is-invalid');
+                        elementtier.next('.invalid-feedback').text(value[0]);
+                    }
                     element.addClass('is-invalid');
                     element.next('.invalid-feedback').text(value[0]);
                     const elementArray = form.find('[name="' + key + '[]"]');

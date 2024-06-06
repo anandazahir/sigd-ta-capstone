@@ -55,13 +55,16 @@
                     <td class="text-center">
                         {{$penghubung->penempatan->tanggal_penempatan}}
                     </td>
-                    <td class="text-center d-flex gap-1">
-                        <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
-                        <span>{{$penghubung->penempatan->tally}}</span>
+                    <td class="text-center">
+                        <div class="d-flex gap-2 mx-auto" style="width:fit-content;">
+                            <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
+                            <span>{{$penghubung->penempatan->tally}}</span>
+                        </div>
+
                     </td>
                     <td class="text-center">
-                        <div class="d-flex gap-1">
-                            <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
+                        <div class="d-flex gap-2 text-center mx-auto" style="width:fit-content;">
+                            <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block "></i>
                             <span>{{$penghubung->penempatan->operator_alat_berat}}</span>
                         </div>
                     </td>
@@ -69,7 +72,7 @@
                     <td class="text-center">
                         <div class="btn-group gap-2 mx-auto">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data penempatan">
-                                <button class="btn bg-primary  rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-{{$penghubung->penempatan->id}}"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i></button>
+                                <button class="btn bg-primary  rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-{{$penghubung->penempatan->id}}" value="{{$penghubung->penempatan->id}}" id="edit-button-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i></button>
                             </div>
                         </div>
                     </td>
@@ -83,6 +86,6 @@
 </div>
 @foreach ($data->penghubungs as $item)
 <x-modal-form size="modal-xl" text="Form Edit Penempatan" id="edit-penempatan-{{$item->penempatan->id}}">
-    <x-form-edit-penempatan :data="$item" jenis="{{$data->jenis_kegiatan}}" id="form-edit-penempatan-{{$item->penempatan->id}}" />
+    <x-form-edit-penempatan :data="$item" jenis="{{$data->jenis_kegiatan}}" id="form-edit-penempatan-{{$item->penempatan->id}}" value="{{$item->penempatan->id}}" lokasi="{{$item->petikemas->lokasi}}" tally="{{$item->penempatan->tally}}" operator="{{$item->penempatan->operator_alat_berat}}" />
 </x-modal-form>
 @endforeach

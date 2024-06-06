@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class petikemas extends Model
 {
     use HasFactory;
-    protected $fillable = ['no_petikemas', 'tanggal_keluar', 'tanggal_masuk', 'jenis_ukuran', 'pelayaran', 'harga', 'status_kondisi', 'status_ketersediaan', 'lokasi'];
+    protected $fillable = ['no_petikemas', 'tanggal_keluar', 'tanggal_masuk', 'jenis_ukuran', 'pelayaran', 'harga', 'status_kondisi', 'status_ketersediaan', 'lokasi', 'status_order'];
 
     public function penghubungs()
     {
@@ -21,6 +21,10 @@ class petikemas extends Model
     public function perbaikanhistories()
     {
         return $this->hasMany(perbaikanhistory::class);
+    }
+    public function penempatanistories()
+    {
+        return $this->hasMany(penempatanhistory::class);
     }
     public function kerusakanhistories()
     {

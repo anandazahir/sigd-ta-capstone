@@ -34,6 +34,22 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+                    <div class="container bg-white">
+                        {!! $chart->container() !!}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+                    <div class="container bg-white">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
             <div class="container">
                 <h3 class=" text-white mb-2 text-table">DATA TRANSAKSI</h3>
@@ -125,6 +141,8 @@
         </x-modal-form>
         <x-toast />
         @push('page-script')
+        <script src="{{ $chart->cdn() }}"></script>
+        {{ $chart->script() }}
         <script>
             $(document).ready(function() {
                 let currentPage = 1

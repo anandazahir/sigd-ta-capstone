@@ -258,12 +258,12 @@ return [
             console.log($(this).val());
         });
 
-        // Handle form submission
+        /*   // Handle form submission
         $('#edit-entrydata-form').on('submit', function(e) {
             e.preventDefault()
             handleFormSubmission(this);
         });
-
+*/
     });
 </script>
 @endpush
