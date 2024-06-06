@@ -54,6 +54,7 @@ Route::prefix('transaksi')->group(function () {
     Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('transaksi.deletekerusakan');
     
     Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('transaksi.editperbaikan');
+    Route::post('/editpenempatan/{id}', [TransaksiController::class, 'editpenempatan'])->name('transaksi.editpenempatan');
 });
 
 Route::prefix('peti-kemas')->group(function () {
@@ -63,6 +64,9 @@ Route::prefix('peti-kemas')->group(function () {
     Route::post('/store', [petikemascontroller::class, 'storePetiKemas'])->name('petikemas.petikemasstore');
     Route::post('/delete', [petikemasController::class, 'delete'])->name('petikemas.delete');
     Route::get('/pengecekanhistory/{id}/kerusakan', [petikemasController::class, 'listkerusakan']);
-    Route::post('/pengecekanhistory/deletelistkerusakan', [PetikemasController::class, 'deletelistkerusakan'])->name('pengecekanhistory.deletelistkerusakan');
+    Route::post('/pengecekanhistory/deletelistkerusakan', [petikemasController::class, 'deletelistkerusakan'])->name('pengecekanhistory.deletelistkerusakan');
     Route::post('/pengecekanhistory/filter', [petikemascontroller::class, 'filterlistkerusakan']);
+    Route::get('/perbaikanhistory/{id}/kerusakan', [petikemasController::class, 'listperbaikan']);
+    Route::post('/perbaikanhistory/deletelistperbaikan', [petikemasController::class, 'deletelistperbaikan'])->name('perbaikanhistory.deletelistperbaikan');
+    Route::post('/perbaikanhistory/filter', [petikemascontroller::class, 'filterlistperbaikan']);
 });

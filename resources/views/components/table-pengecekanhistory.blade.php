@@ -7,7 +7,7 @@
             <input type="date" name="" id="date_pengecekanhistory">
         </div>
         <div class="bg-white mt-4 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
-            <h1 class="text-center mt-3 text-primary" id="text-error"></h1>
+            <h1 class="text-center mt-3 text-black" id="text-error"></h1>
             <table class="table-variations-3  text-center" id="table_pengecekanhistory">
                 <thead>
                     <tr>
@@ -46,7 +46,6 @@
                                 <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
                                 <span>{{ $penghubung->survey_in }}</span>
                             </td>
-
                             <td class="text-center gap-1">
                                 <button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan"
                                     value="{{ $penghubung->id }}">
@@ -82,7 +81,6 @@
                     $('#table_pengecekanhistory').show();
                     $('#text-error').hide();
                     $('#table_pengecekanhistory tbody').empty();
-                    console.log(response.Data);
                     $.each(response.Data, function(index, item) {
                         $('#table_pengecekanhistory tbody').append(
                             '<tr>' +

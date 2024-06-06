@@ -16,7 +16,6 @@
                                 <th scope="col" class="fw-semibold">Metode</th>
                                 <th scope="col" class="fw-semibold">Status</th>
                                 <th scope="col" class="fw-semibold">Foto Pengecekan</th>
-                                <th scope="col" class="fw-semibold">Foto Perbaikan</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -52,7 +51,6 @@ $(document).ready(function() {
                     (tableID).find('#no-data-message').hide();
                     var baseUrl = '{{ asset('storage') }}';
                     response.forEach((item, index) => {
-                        var fotoPerbaikan = baseUrl + '/' + item.foto_perbaikan;
                         var fotoPengecekan = baseUrl + '/' + item.foto_pengecekan;
                         var row = `
                             <tr>
@@ -68,11 +66,6 @@ $(document).ready(function() {
                                 <td class="text-center">
                                     <div class="my-2" style="height: fit-content">
                                         <a href="${fotoPengecekan}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <div class="my-2" style="height: fit-content">
-                                        <a href="${fotoPerbaikan}" target="_blank" class="bg-info p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>
                                     </div>
                                 </td>
                                 <td class="text-center">

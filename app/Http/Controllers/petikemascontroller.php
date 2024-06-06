@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\petikemas;
 use App\Models\kerusakan;
-use App\Models\Kerusakanhistory;
+use App\Models\kerusakanhistory;
 use App\Models\penempatan;
+use App\Models\penempatanhistory;
 use App\Models\pengecekan;
-use App\Models\Pengecekanhistory;
+use App\Models\pengecekanhistory;
 use App\Models\perbaikan;
+use App\Models\perbaikanhistory;
 use App\Models\transaksi;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -25,21 +27,31 @@ class petikemascontroller extends Controller
 
     public function show($id)
     {
-        $petikemas = Petikemas::with('pengecekanhistories', 'perbaikanhistories')->findOrFail($id);
         return view('pages.petikemas-more', compact('petikemas'));
+        $petikemas = Petikemas::with([
+            'pengecekanhistories' => function ($query) {
+                $query->whereNotNull('survey_in'); // Replace 'some_field' with the actual field name you want to check for null
+            },
+            'perbaikanhistories' => function ($query) {
+                $query->whereNotNull('repair'); // Replace 'some_field' with the actual field name you want to check for null
+            },
+            'penempatanistories' => function ($query) {
+                $query->whereNotNull('tally'); // Replace 'some_field' with the actual field name you want to check for null
+            },
+        ])->findOrFail($id);
     }
 
     public function listkerusakan($id)
     {
-        $kerusakanhistories = Kerusakanhistory::where('id_pengecekanhistory', $id)->get();
+        $kerusakanhistories = kerusakanhistory::where('id_pengecekanhistory', $id)->get();
         return response()->json($kerusakanhistories);
     }
 
     public function deletelistkerusakan(Request $request)
     {
-        $pengecekanhistory = Pengecekanhistory::findOrFail($request->id);
+        $pengecekanhistory = pengecekanhistory::findOrFail($request->id);
         // Hapus data terkait di tabel kerusakanhistories
-        $kerusakanhistory = Kerusakanhistory::where('id_pengecekanhistory', $pengecekanhistory->id)->get();
+        $kerusakanhistory = kerusakanhistory::where('id_pengecekanhistory', $pengecekanhistory->id)->get();
         foreach ($kerusakanhistory as $item) {
             $item->delete();
         }
@@ -73,15 +85,53 @@ class petikemascontroller extends Controller
         return response()->json([
             'Data' => $filteredData,
         ]);
-
-        dd($filteredData);
     }
     
-    // public function listperbaikan($id)
-    // {
-    //     $kerusakanhistories = Kerusakanhistory::where('id_perbaikanhistory', $id)->get();
-    //     return response()->json($kerusakanhistories);
-    // }
+    public function listperbaikan($id)
+    {
+        $perbaikanhistories = kerusakanhistory::where('id_perbaikanhistory', $id)->get();
+        return response()->json($perbaikanhistories);
+    }
+
+    public function deletelistperbaikan(Request $request)
+    {
+        $perbaikanhistory = perbaikanhistory::findOrFail($request->id);
+        // Hapus data terkait di tabel kerusakanhistories
+        $kerusakanhistory = kerusakanhistory::where('id_perbaikanhistory', $perbaikanhistory->id)->get();
+        foreach ($kerusakanhistory as $item2) {
+            $item2->delete();
+        }
+
+        // Hapus data perbaikanhistory
+        $perbaikanhistory->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Riwayat Perbaikan Berhasil Dihapus!',
+        ]);
+
+    }
+
+    public function filterlistperbaikan(Request $request)
+    {
+        $selectedDate = $request->input('tanggal_perbaikanhistory');
+
+        $query = perbaikanhistory::query();
+
+        if ($selectedDate) {
+            $query->whereDate('tanggal_perbaikan', $selectedDate);
+        }
+
+        $filteredData = $query->get();
+
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return response()->json([
+            'Data' => $filteredData,
+        ]);
+    }
 
     public function storePetiKemas(Request $request)
     {
@@ -112,6 +162,7 @@ class petikemascontroller extends Controller
         $petikemas->harga = $harga;
         $petikemas->status_ketersediaan = "in";
         $petikemas->status_kondisi = "available";
+        $petikemas->status_order = "true";
         $petikemas->lokasi = "pending";
 
         $petikemas->save();
@@ -142,6 +193,7 @@ class petikemascontroller extends Controller
 
         $searchTerm = $request->input('search');
         $idpetikemas = $request->input('id');
+        $jenis_transaki = $request->input('jenis_transaksi');
         $query = petikemas::query();
         if ($idpetikemas) {
             $petikemas = Petikemas::where('id', $request->id)->get();
@@ -156,12 +208,18 @@ class petikemascontroller extends Controller
                     ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%');
             });
         }
+        if ($jenis_transaki == 'impor') {
+            $query->where('status_ketersediaan', 'out')->where('status_order', 'true');
+        } else  if ($jenis_transaki == 'ekspor') {
+            $query->where('status_ketersediaan', 'in')->where('status_order', 'true');
+        }
         $data = $query->get();
         $perPage = 3;
         $filteredData = $query->paginate($perPage);
 
         if ($filteredData->isEmpty()) {
-            return response()->json(['message' => 'No data found']);
+            $jenis_transaki = $request->input('jenis_transaki');
+            return response()->json(['message' => 'No data found', 'test' => $jenis_transaki]);
         }
         return response()->json([
             'Data' => $filteredData->items(),
