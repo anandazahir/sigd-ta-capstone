@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('penempatanhistories', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('tanggal_perubahan')->nullable();
-            $table->foreignId('penempatan_id')->constrained('penempatans')->onDelete('cascade')->nullable();
+            $table->dateTime('tanggal_penempatan')->nullable();
+            $table->string('operator_alat_berat')->nullable();
+            $table->string('tally')->nullable();
+            $table->string('lokasi')->nullable();
+            $table->string('status_ketersediaan')->nullable();
+            $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
+            $table->bigInteger('id_penempatan')->nullable();
             $table->timestamps();
         });
     }
