@@ -50,6 +50,22 @@
                 </div>
             </div>
 
+            @if ($transaksi->jenis_kegiatan == 'ekspor')
+            <div class="col-lg-4 mb-3 d-lg-block d-none">
+                <div class="card shadow rounded-4 bg-primary text-white onhover">
+                    <div class="card-body tabs" data-tab="Penempatan">
+                        <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
+                            <i class="fa-solid fa-location-dot text-primary" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
+                        </div>
+                        <h4 class="my-2" style="margin-left:85px;">PENEMPATAN</h4>
+                        <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
+                        <p class="my-2" style="margin-left:85px;">PENEMPATAN PETI KEMAS</p>
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            @if ($transaksi->jenis_kegiatan == 'impor')
             <div class="col-lg-4  mb-3 d-lg-block d-none">
                 <div class="card shadow rounded-4 bg-primary text-white onhover ">
                     <div class="card-body tabs" data-tab="Pengecekan">
@@ -63,8 +79,10 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
+        @if ($transaksi->jenis_kegiatan == 'impor')
         <div class="row ">
             <div class="col-lg-6 mb-3 d-lg-block d-none">
                 <div class="card shadow rounded-4 bg-primary text-white onhover">
@@ -93,6 +111,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <div id="EntryData" class="tab-pane fade in active show d-block">
             <x-table-entrydata :data="$transaksi" />

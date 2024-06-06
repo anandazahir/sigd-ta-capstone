@@ -1,5 +1,20 @@
+@php
+$semuaBelumCetak = true;
+foreach($data->penghubungs as $penghubung) {
+if(($data->jenis_kegiatan == "ekspor" && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak') || ($data->jenis_kegiatan == "impor" && $penghubung->pengecekan->survey_in && $penghubung->petikemas->status_kondisi == "available")) {
+$semuaBelumCetak = false;
+break;
+}
+}
+@endphp
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
+    <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Penempatan</h2>
     <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
+        @if( $semuaBelumCetak)
+            <div class="h-100 align-content-center">
+                <h3 class="text-center">Data Penempatan Belum Lunas / Cetak SPK</h3>
+            </div>
+        @endif
 
         <table class="table-variations-3  text-center">
             <thead>

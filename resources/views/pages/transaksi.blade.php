@@ -118,21 +118,7 @@
                         </tbody>
                     </table>
                 </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true" class="">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item active" aria-current="page"><a class="page-link " href="#">1</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span class="" aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                {{ $transaksi->links() }}
             </div>
         </div>
         <x-modal-form-delete route="/transaksi/delete" />
@@ -150,7 +136,6 @@
                 var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
                 var year = now.getFullYear();
                 var currentMonth = year + '-' + month;
-                $('#monthpicker').val(currentMonth);
                 $('#jenis_kegiatan').change(function() {
                     let selectedType = $(this).val();
                     if (selectedType !== "") {

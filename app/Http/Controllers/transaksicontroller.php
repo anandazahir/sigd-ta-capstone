@@ -1172,8 +1172,8 @@ class TransaksiController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $penempatan = penempatan::where('id', $request->id_penempatan);
-        $petikemas = petikemas::where('id', $id);
+        $penempatan = penempatan::find($request->id_penempatan);
+        $petikemas = petikemas::find($id);
         $penempatan->update([
             'tanggal_penempatan' => now(),
             'operator_alat_berat' => $request->operator_alat_berat,
@@ -1184,7 +1184,7 @@ class TransaksiController extends Controller
                 'lokasi' => $request->lokasi,
                 'status_ketersediaan' => 'out',
                 'tanggal_keluar' => now(),
-                'status_order' => 'false',
+                'status_order' => 'true',
             ]);
         }
         $petikemas->update([

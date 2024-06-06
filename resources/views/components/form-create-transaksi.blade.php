@@ -143,12 +143,10 @@
                 });
             }
 
-            // Update existing rows
-            $("#table_create_transaksi tbody tr").each(function() {
-                const $row = $(this);
-                const value = $row.find('select[name="no_petikemas[]"]').val();
-                fetchPetikemasOptions($row, value, value3);
-            });
+        });
+
+        $('#create-transaksi-form').submit(function(event) {
+            handleFormSubmission(this);
         });
 
         function fetchPetikemasOptions($row, value, value2) {
@@ -163,11 +161,10 @@
                     jenis_transaksi: value2,
                 },
                 success: function(response) {
-                    $select.empty().append('<option selected disabled>Pilih Opsi Ini</option>'); // Clear previous options and add default option
                     $.each(response.AllData, function(index, item) {
                         $select.append('<option value="' + item.id + '">' + item.no_petikemas + '</option>');
                     });
-                    if (response.DataPetikemas.length > 0) {
+                    if (response.DataPetikemas) {
                         const item = response.DataPetikemas[0];
                         $inputjenis_ukuran.val(item.jenis_ukuran);
                         $inputpelayaran.val(item.pelayaran);

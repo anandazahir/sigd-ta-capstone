@@ -8,10 +8,6 @@
     <x-slot:title>
         Pengaturan
         </x-slot>
-        <div class="container">
-            <div class="container">
-                <div class="container">
-                    <div class="container">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <div class="card shadow rounded-4 text-white bg-primary">
@@ -73,12 +69,6 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
         @push('page-script')
         <script>
             $(document).ready(function() {
