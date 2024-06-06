@@ -10,7 +10,6 @@ use App\Models\penempatan;
 use App\Models\penempatanhistory;
 use App\Models\pengecekan;
 use App\Models\Pengecekanhistory;
-use App\Models\penempatanhistory;
 use App\Models\perbaikan;
 use App\Models\perbaikanhistory;
 use App\Models\transaksi;
@@ -41,17 +40,7 @@ class petikemascontroller extends Controller
         ])->findOrFail($id);
 
         return view('pages.petikemas-more', compact('petikemas'));
-        $petikemas = Petikemas::with([
-            'pengecekanhistories' => function ($query) {
-                $query->whereNotNull('survey_in'); // Replace 'some_field' with the actual field name you want to check for null
-            },
-            'perbaikanhistories' => function ($query) {
-                $query->whereNotNull('repair'); // Replace 'some_field' with the actual field name you want to check for null
-            },
-            'penempatanistories' => function ($query) {
-                $query->whereNotNull('tally'); // Replace 'some_field' with the actual field name you want to check for null
-            },
-        ])->findOrFail($id);
+
     }
 
     public function listkerusakan($id)
