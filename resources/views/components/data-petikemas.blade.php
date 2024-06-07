@@ -12,7 +12,6 @@ setlocale(LC_TIME, 'id_ID');
                         <p style="margin-left:55px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NO.Peti Kemas</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:55px">
                             {{$data->no_petikemas}}
-                            {{-- 022847-DO.IN-1223  --}}
                         </h5>
                     </div>
                 </div>
@@ -68,10 +67,7 @@ setlocale(LC_TIME, 'id_ID');
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Kondisi</p>
                         <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-
-
-                            available
-
+                            {{$data->status_kondisi}}
                         </h5>
                     </div>
                 </div>
@@ -85,10 +81,7 @@ setlocale(LC_TIME, 'id_ID');
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Keluar</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-
-
-                            05 Desember 2022
-
+                            {{strftime('%e %B %Y', strtotime($data->tanggal_keluar))}}
                         </h5>
                     </div>
                 </div>
@@ -100,11 +93,7 @@ setlocale(LC_TIME, 'id_ID');
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Masuk</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-
-
-
                             {{strftime('%e %B %Y', strtotime($data->tanggal_masuk))}}
-
                         </h5>
                     </div>
                 </div>
@@ -126,8 +115,8 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Ketersediaan</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-                                {{$data -> status_ketersediaan}}
+                            <h5 class="{{ $data->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                                {{ $data->status_ketersediaan }}
                             </h5>
                         </h5>
                     </div>
@@ -148,9 +137,10 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Lokasi</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                            <h5 class="{{ $data->lokasi == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
                                 {{$data -> lokasi}}
                             </h5>
+                        </h5>
                     </div>
                 </div>
             </div>

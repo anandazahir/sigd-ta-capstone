@@ -9,7 +9,7 @@ use App\Models\kerusakanhistory;
 use App\Models\penempatan;
 use App\Models\penempatanhistory;
 use App\Models\pengecekan;
-use App\Models\Pengecekanhistory;
+use App\Models\pengecekanhistory;
 use App\Models\perbaikan;
 use App\Models\perbaikanhistory;
 use App\Models\transaksi;
@@ -34,7 +34,7 @@ class petikemascontroller extends Controller
             'perbaikanhistories' => function ($query) {
                 $query->whereNotNull('repair'); // Replace 'some_field' with the actual field name you want to check for null
             },
-            'penempatanistories' => function ($query) {
+            'penempatanhistories' => function ($query) {
                 $query->whereNotNull('tally'); // Replace 'some_field' with the actual field name you want to check for null
             },
         ])->findOrFail($id);
@@ -87,15 +87,90 @@ class petikemascontroller extends Controller
             'Data' => $filteredData,
         ]);
 
-        dd($filteredData);
     }
 
-    // public function listperbaikan($id)
-    // {
-    //     $kerusakanhistories = Kerusakanhistory::where('id_perbaikanhistory', $id)->get();
-    //     return response()->json($kerusakanhistories);
-    // }
+    public function listperbaikan($id)
+    {
+        $perbaikanhistories = kerusakanhistory::where('id_perbaikanhistory', $id)->get();
+        return response()->json($perbaikanhistories);
+    }
 
+    public function deletelistperbaikan(Request $request)
+    {
+        $perbaikanhistory = perbaikanhistory::findOrFail($request->id);
+        // Hapus data terkait di tabel kerusakanhistories
+        $kerusakanhistory = kerusakanhistory::where('id_perbaikanhistory', $perbaikanhistory->id)->get();
+        foreach ($kerusakanhistory as $item2) {
+            $item2->delete();
+        }
+
+        // Hapus data perbaikanhistory
+        $perbaikanhistory->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Riwayat Perbaikan Berhasil Dihapus!',
+        ]);
+    }
+
+    public function filterlistperbaikan(Request $request)
+    {
+        $selectedDate = $request->input('tanggal_perbaikanhistory');
+
+        $query = perbaikanhistory::query();
+
+        if ($selectedDate) {
+            $query->whereDate('tanggal_perbaikan', $selectedDate);
+        }
+
+        $filteredData = $query->get();
+
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return response()->json([
+            'Data' => $filteredData,
+        ]);
+    }
+
+    public function deletelistpenempatan(Request $request)
+    {
+        // Cari dan hapus data berdasarkan id yang diterima dari request
+        $penempatanhistory = penempatanHistory::findOrFail($request->id);
+        
+        // Hapus data yang ditemukan
+        $penempatanhistory->delete();
+
+        // Kembalikan response json sebagai tanda berhasil
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Riwayat Penempatan Berhasil Dihapus!',
+        ]);
+    }
+
+    
+    public function filterlistpenempatan(Request $request)
+    {
+        $selectedDate = $request->input('tanggal_penempatanhistory');
+
+        $query = penempatanhistory::query();
+
+        if ($selectedDate) {
+            $query->whereDate('tanggal_penempatan', $selectedDate);
+        }
+
+        $filteredData = $query->get();
+
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return response()->json([
+            'Data' => $filteredData,
+        ]);
+    }
+    
     public function storePetiKemas(Request $request)
     {
         $Validator = Validator::make($request->all(), [
@@ -156,7 +231,7 @@ class petikemascontroller extends Controller
 
         $searchTerm = $request->input('search');
         $idpetikemas = $request->input('id');
-        $jenis_transaki = $request->input('jenis_transaksi');
+        $jenis_transaksi = $request->input('jenis_transaksi');
         $query = petikemas::query();
         if ($idpetikemas) {
             $petikemas = Petikemas::where('id', $request->id)->get();
@@ -171,9 +246,9 @@ class petikemascontroller extends Controller
                     ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%');
             });
         }
-        if ($jenis_transaki == 'impor') {
+        if ($jenis_transaksi == 'impor') {
             $query->where('status_ketersediaan', 'out')->where('status_order', 'true');
-        } else  if ($jenis_transaki == 'ekspor') {
+        } else  if ($jenis_transaksi == 'ekspor') {
             $query->where('status_ketersediaan', 'in')->where('status_order', 'true');
         }
         $data = $query->get();
@@ -181,8 +256,8 @@ class petikemascontroller extends Controller
         $filteredData = $query->paginate($perPage);
 
         if ($filteredData->isEmpty()) {
-            $jenis_transaki = $request->input('jenis_transaki');
-            return response()->json(['message' => 'No data found', 'test' => $jenis_transaki]);
+            $jenis_transaksi = $request->input('jenis_transaksi');
+            return response()->json(['message' => 'No data found', 'test' => $jenis_transaksi]);
         }
         return response()->json([
             'Data' => $filteredData->items(),

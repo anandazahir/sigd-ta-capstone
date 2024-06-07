@@ -168,9 +168,9 @@ $tier=$parts[2];
                     form.find('input[name="lokasi"]').val($(this).val());
                 }
             });
-            /*form.submit(function(event) {
+            form.submit(function(event) {
                 handleFormSubmission(this);
-            });*/
+            });
         });
 
     });
