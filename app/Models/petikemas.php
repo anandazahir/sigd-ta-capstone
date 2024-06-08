@@ -22,7 +22,7 @@ class petikemas extends Model
     {
         return $this->hasMany(perbaikanhistory::class);
     }
-    public function penempatanistories()
+    public function penempatanhistories()
     {
         return $this->hasMany(penempatanhistory::class);
     }

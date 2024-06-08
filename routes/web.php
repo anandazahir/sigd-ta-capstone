@@ -68,4 +68,6 @@ Route::prefix('peti-kemas')->group(function () {
     Route::get('/perbaikanhistory/{id}/kerusakan', [petikemasController::class, 'listperbaikan']);
     Route::post('/perbaikanhistory/deletelistperbaikan', [petikemasController::class, 'deletelistperbaikan'])->name('perbaikanhistory.deletelistperbaikan');
     Route::post('/perbaikanhistory/filter', [petikemascontroller::class, 'filterlistperbaikan']);
+    Route::post('/penempatanhistory/deletelistpenempatan', [petikemasController::class, 'deletelistpenempatan'])->name('penempatanhistory.deletelistpenempatan');
+    Route::post('/penempatanhistory/filter', [petikemascontroller::class, 'filterlistpenempatan']);
 });
