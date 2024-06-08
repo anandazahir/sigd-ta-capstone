@@ -106,6 +106,6 @@ break;
 </div>
 @foreach ($data->penghubungs as $item)
 <x-modal-form size="modal-xl" text="Form Edit Penempatan" id="edit-penempatan-{{$item->penempatan->id}}">
-    <x-form-edit-penempatan :data="$item" jenis="{{$data->jenis_kegiatan}}" id="form-edit-penempatan-{{$item->penempatan->id}}" value="{{$item->penempatan->id}}" lokasi="{{$item->petikemas->lokasi}}" tally="{{$item->penempatan->tally}}" operator="{{$item->penempatan->operator_alat_berat}}" />
+    <x-form-edit-penempatan :data="$item" jenis="{{$data->jenis_kegiatan}}" id="form-edit-penempatan-{{$item->penempatan->id}}" value="{{$item->penempatan->id}}" lokasi="{{$item->petikemas->lokasi}}" tally="{{$item->penempatan->tally}}" operator="{{$item->penempatan->operator_alat_berat}} " petikemas="{{$item->petikemas->id}}" />
 </x-modal-form>
 @endforeach
