@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\JumlahTransaksiPie;
 use App\Models\Kerusakan;
 use App\Models\Kerusakanhistory;
 use App\Models\Pembayaran;
@@ -24,14 +25,22 @@ use App\Rules\RequiredArrayValues;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Charts\TransaksiBulananChart;
+use App\Charts\TransaksiBulananLine;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
+use Carbon\Carbon;
 
 class TransaksiController extends Controller
 {
-    public function index(TransaksiBulananChart $chart)
+    public function index(TransaksiBulananLine $chart)
     {
+        $grafikjumlahtransaksi = LarapexChart::setType('pie');
+        $grafikjumlahtransaksi
+            ->setDataset([40, 50, 30])
+            ->setLabels(['Player 7', 'Player 10', 'Player 9'])->setWidth(300)->setHeight(300);
+
+
         $transaksi = transaksi::paginate(3);
-        return view('pages.transaksi', compact('transaksi'), ['chart' => $chart->build()]);
+        return view('pages.transaksi', compact('transaksi',  'grafikjumlahtransaksi'), ['chart' => $chart->build()]);
     }
 
     public function show($id)
@@ -234,8 +243,10 @@ class TransaksiController extends Controller
                 'last_page' => $filteredData->lastPage(),
                 'per_page' => $filteredData->perPage(),
             ],
+
         ]);
     }
+
 
     public function laporanbulanantransaksi(Request $request)
     {

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="jenis_kegiatan" class="form-label">Jenis Transaksi</label>
-            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required>
+            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required @if($data->tanggal_transaksi) readonly @endif>
                 <option selected disabled>Pilih Opsi Ini</option>
                 <option value="impor" {{ $data->jenis_kegiatan == 'impor' ? 'selected' : '' }}>Impor</option>
                 <option value="ekspor" {{ $data->jenis_kegiatan == 'ekspor' ? 'selected' : '' }}>Ekspor</option>

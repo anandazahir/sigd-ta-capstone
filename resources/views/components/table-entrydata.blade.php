@@ -102,6 +102,7 @@ return [
 <script>
     $(document).ready(function() {
         const $button_tambah_entry = $("#button-tambah-entry");
+        const jenis_kegiatan = "{{$data->jenis_kegiatan}}";
         const $button_submit = $("#button-submit");
         const $button_edit = $("#button-edit");
         console.log($("#table_entrydata tbody tr").length)
@@ -139,8 +140,10 @@ return [
                 $.ajax({
                     url: '/peti-kemas/index',
                     type: 'GET',
+                    data: {
+                        jenis_transaksi: jenis_kegiatan,
+                    },
                     success: function(response) {
-                        $selectElement.empty().append('<option selected disabled>Pilih Opsi Ini</option>');
                         response.AllData.forEach(item => {
                             if (!selectedValues.includes(item.id) || item.id == originalValue) {
                                 $selectElement.append(`<option value="${item.id}" ${item.id == originalValue ? 'selected' : ''}>${item.no_petikemas}</option>`);
@@ -159,7 +162,8 @@ return [
                 url: '/peti-kemas/index',
                 type: 'GET',
                 data: {
-                    id: value
+                    id: value,
+                    jenis_transaksi: jenis_kegiatan,
                 },
                 success: function(response) {
                     const petikemas = response.DataPetikemas[0];

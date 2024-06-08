@@ -26,9 +26,11 @@ $utilities: map-merge(
             ),
     )
 );
+$nav-link-color: $white;
+$nav-link-hover-color: $white;
 $pagination-color: $blue;
-$pagination-active-color: $blue;
-$pagination-active-bg: white;
+$pagination-active-color: $white;
+$pagination-active-bg: $blue;
 $pagination-border-color: $blue;
 $pagination-focus-color: $blue;
 $pagination-hover-color: $blue;
