@@ -15,6 +15,7 @@ use App\Models\perbaikanhistory;
 use App\Models\transaksi;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Carbon;
 
 
 class petikemascontroller extends Controller
@@ -22,9 +23,55 @@ class petikemascontroller extends Controller
     public function index()
     {
         $petikemas = petikemas::all();
-        return view('pages.petikemas', compact('petikemas'));
-    }
 
+        // Total sums
+        $totalIn = $petikemas->where('status_ketersediaan', 'in')->count();
+        $totalOut = $petikemas->where('status_ketersediaan', 'out')->count();
+        $totalAvailable = $petikemas->where('status_kondisi', 'available')->count();
+        $totalDamage = $petikemas->where('status_kondisi', 'damage')->count();
+
+        // Current date
+        $today = Carbon::today();
+
+        // Total Hari Ini
+        $todayIn = $petikemas->where('status_ketersediaan', 'in')->where('updated_at', '>=', $today)->count();
+        $todayOut = $petikemas->where('status_ketersediaan', 'out')->where('updated_at', '>=', $today)->count();
+        $todayAvailable = $petikemas->where('status_kondisi', 'available')->where('updated_at', '>=', $today)->count();
+        $todayDamage = $petikemas->where('status_kondisi', 'damage')->where('updated_at', '>=', $today)->count();
+
+        // Current week sums
+        $currentWeek = Carbon::now()->startOfWeek();
+        $weekIn = $petikemas->where('status_ketersediaan', 'in')->where('updated_at', '>=', $currentWeek)->count();
+        $weekOut = $petikemas->where('status_ketersediaan', 'out')->where('updated_at', '>=', $currentWeek)->count();
+        $weekAvailable = $petikemas->where('status_kondisi', 'available')->where('updated_at', '>=', $currentWeek)->count();
+        $weekDamage = $petikemas->where('status_kondisi', 'damage')->where('updated_at', '>=', $currentWeek)->count();
+
+        // Current month sums
+        $currentMonth = Carbon::now()->startOfMonth();
+        $monthIn = $petikemas->where('status_ketersediaan', 'in')->where('updated_at', '>=', $currentMonth)->count();
+        $monthOut = $petikemas->where('status_ketersediaan', 'out')->where('updated_at', '>=', $currentMonth)->count();
+        $monthAvailable = $petikemas->where('status_kondisi', 'available')->where('updated_at', '>=', $currentMonth)->count();
+        $monthDamage = $petikemas->where('status_kondisi', 'damage')->where('updated_at', '>=', $currentMonth)->count();
+
+        return view('pages.petikemas', compact(
+            'totalIn',
+            'totalOut',
+            'totalAvailable',
+            'totalDamage',
+            'todayIn',
+            'todayOut',
+            'todayAvailable',
+            'todayDamage',
+            'weekIn',
+            'weekOut',
+            'weekAvailable',
+            'weekDamage',
+            'monthIn',
+            'monthOut',
+            'monthAvailable',
+            'monthDamage'
+        ));
+    }
     public function show($id)
     {
         $petikemas = Petikemas::with([
@@ -40,7 +87,6 @@ class petikemascontroller extends Controller
         ])->findOrFail($id);
 
         return view('pages.petikemas-more', compact('petikemas'));
-
     }
 
     public function listkerusakan($id)
@@ -86,7 +132,6 @@ class petikemascontroller extends Controller
         return response()->json([
             'Data' => $filteredData,
         ]);
-
     }
 
     public function listperbaikan($id)
@@ -138,7 +183,7 @@ class petikemascontroller extends Controller
     {
         // Cari dan hapus data berdasarkan id yang diterima dari request
         $penempatanhistory = penempatanHistory::findOrFail($request->id);
-        
+
         // Hapus data yang ditemukan
         $penempatanhistory->delete();
 
@@ -149,7 +194,7 @@ class petikemascontroller extends Controller
         ]);
     }
 
-    
+
     public function filterlistpenempatan(Request $request)
     {
         $selectedDate = $request->input('tanggal_penempatanhistory');
@@ -170,7 +215,7 @@ class petikemascontroller extends Controller
             'Data' => $filteredData,
         ]);
     }
-    
+
     public function storePetiKemas(Request $request)
     {
         $Validator = Validator::make($request->all(), [
@@ -232,6 +277,10 @@ class petikemascontroller extends Controller
         $searchTerm = $request->input('search');
         $idpetikemas = $request->input('id');
         $jenis_transaksi = $request->input('jenis_transaksi');
+        $condition = $request->input('condition');
+        $blok = $request->input('blok');
+        $row = $request->input('row');
+        $tier = $request->input('tier');
         $query = petikemas::query();
         if ($idpetikemas) {
             $petikemas = Petikemas::where('id', $request->id)->get();
@@ -250,6 +299,26 @@ class petikemascontroller extends Controller
             $query->where('status_ketersediaan', 'out')->where('status_order', 'true');
         } else  if ($jenis_transaksi == 'ekspor') {
             $query->where('status_ketersediaan', 'in')->where('status_order', 'true');
+        }
+        if ($condition == 'available' || $condition == 'damage') {
+            $query->where('status_kondisi', $condition);
+        } else if ($condition == 'out' || $condition == 'in') {
+            $query->where('status_ketersediaan', $condition);
+        } else if ($condition == 'petikemas-tidak-dipesan') {
+            $query->where('status_order', 'true');
+        } else if ($condition == 'petikemas-dipesan') {
+            $query->where('status_order', 'false');
+        } else if ($condition == 'pending') {
+            $query->where('lokasi', $condition);
+        }
+        if ($blok) {
+            $query->where('lokasi', $blok);
+        }
+        if ($row) {
+            $query->where('lokasi', $row);
+        }
+        if ($tier) {
+            $query->where('lokasi', $tier);
         }
         $data = $query->get();
         $perPage = 3;

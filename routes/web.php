@@ -37,9 +37,10 @@ Route::get('/setting', function () {
     return view('pages/setting');
 });
 Route::prefix('transaksi')->group(function () {
+    Route::get('/chart/{month}', [TransaksiController::class, 'getSalesData']);
     Route::get('/', [transaksiController::class, 'index']);
-    Route::get('/index', [transaksiController::class, 'filter']);
-    Route::get('/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
+    Route::get('/index', [TransaksiController::class, 'filter']);
+    Route::get('/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
     Route::post('/store', [transaksiController::class, 'storeEntryData'])->name('transaksi.transaksistore');
     Route::put('/edit/{id}', [transaksiController::class, 'update'])->name('transaksi.update');
     Route::post('/delete', [transaksiController::class, 'delete'])->name('transaksi.delete');
@@ -55,6 +56,7 @@ Route::prefix('transaksi')->group(function () {
     Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('transaksi.editperbaikan');
     Route::post('/editpenempatan/{id}', [TransaksiController::class, 'editpenempatan'])->name('transaksi.editpenempatan');
 });
+
 
 Route::prefix('peti-kemas')->group(function () {
     Route::get('/', [petikemascontroller::class, 'index']);

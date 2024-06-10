@@ -14,7 +14,8 @@ use App\Models\Penghubung;
 use App\Models\Perbaikan;
 use App\Models\perbaikanhistory;
 use App\Models\petikemas;
-
+use DateTime;
+use Carbon\Carbon;
 use App\Rules\RequiredArrayValuesFoto;
 use App\Rules\UniqueArrayValueFoto;
 use Illuminate\Http\Request;
@@ -25,28 +26,153 @@ use App\Rules\RequiredArrayValues;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Charts\TransaksiBulananLine;
-use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
-use Carbon\Carbon;
+
 
 class TransaksiController extends Controller
 {
-    public function index(TransaksiBulananLine $chart)
+    public function index()
     {
-        $grafikjumlahtransaksi = LarapexChart::setType('pie');
-        $grafikjumlahtransaksi
-            ->setDataset([40, 50, 30])
-            ->setLabels(['Player 7', 'Player 10', 'Player 9'])->setWidth(300)->setHeight(300);
+        $transaksi = transaksi::all();
+        $totaltransaksi = count($transaksi);
+        $totaltransaksiimpor = count($transaksi->where('jenis_kegiatan', 'impor'));
+        $totaltransaksiekspor = count($transaksi->where('jenis_kegiatan', 'ekspor'));
+        $totalHarga = 0;
+        foreach ($transaksi as $transaksis) {
+            // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'lunas' and date conditions
+            $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) {
+                $query->where('status_pembayaran', 'sudah lunas')
+                    ->whereYear('tanggal_pembayaran', date('Y'))  // Current year
+                    ->whereMonth('tanggal_pembayaran', date('m')); // Current month
+            })->with('petikemas')->get();
+            // Extract and sum the harga values from the related petikemas models for each transaksi
+            $totalHarga += $lunasPenghubungs->pluck('petikemas.harga')->sum();
+        }
 
-
-        $transaksi = transaksi::paginate(3);
-        return view('pages.transaksi', compact('transaksi',  'grafikjumlahtransaksi'), ['chart' => $chart->build()]);
+        return view('pages.transaksi', compact('transaksi', 'totaltransaksi', 'totaltransaksiekspor', 'totaltransaksiimpor', 'totalHarga'));
     }
 
     public function show($id)
     {
         $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
         return view('pages.transaksi-more', compact('transaksi'));
+    }
+    public function getSalesData($month)
+    {
+        // Get the current month
+        $currentMonth = date('n'); // n for numeric month without leading zeros
+        $currentYear = date('Y');
+        $dataImpor = [];
+        $dataEkspor = [];
+
+        // Retrieve all Transaksi instances once
+        $transaksiCollectionImpor = Transaksi::where('jenis_kegiatan', 'impor')->get();
+        $transaksiCollectionEkspor = Transaksi::where('jenis_kegiatan', 'ekspor')->get();
+        if ($month === 'all') {
+            for ($i = 1; $i <= $currentMonth; $i++) {
+                $totalpetikemasImpor = 0;
+                $totalpetikemasEkspor = 0;
+
+                foreach ($transaksiCollectionImpor as $transaksi) {
+                    // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+                    $lunasPenghubungs = $transaksi->penghubungs()->whereHas('pembayaran', function ($query) use ($currentYear, $i) {
+                        $query->where('status_pembayaran', 'sudah lunas')
+                            ->whereYear('tanggal_pembayaran', $currentYear)
+                            ->whereMonth('tanggal_pembayaran', $i);
+                    })->with('petikemas')->get();
+
+                    // Sum the harga values from the related petikemas models for each transaksi
+                    $totalpetikemasImpor += $lunasPenghubungs->pluck('petikemas')->count();
+                }
+                foreach ($transaksiCollectionEkspor as $transaksi) {
+                    // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+                    $lunasPenghubungs = $transaksi->penghubungs()->whereHas('pembayaran', function ($query) use ($currentYear, $i) {
+                        $query->where('status_pembayaran', 'sudah lunas')
+                            ->whereYear('tanggal_pembayaran', $currentYear)
+                            ->whereMonth('tanggal_pembayaran', $i);
+                    })->with('petikemas')->get();
+
+                    // Sum the harga values from the related petikemas models for each transaksi
+                    $totalpetikemasEkspor += $lunasPenghubungs->pluck('petikemas')->count();
+                }
+                // Store the total harga for the current month
+                $dataImpor[Carbon::create()->month($i)->format('M')] = $totalpetikemasImpor;
+                $dataEkspor[Carbon::create()->month($i)->format('M')] = $totalpetikemasEkspor;
+                $total = $totalpetikemasImpor + $totalpetikemasEkspor;
+            }
+            return response()->json([
+                'impor' =>  $dataImpor,
+                'ekspor' => $dataEkspor,
+                'total' => $total,
+                'isMonthly' => true
+            ]);
+        } else {
+            // Determine the number of days in the given month
+            $year = date('Y'); // Use the current year
+            $date = new DateTime("$year-$month-01");
+            $daysInMonth = $date->format('t'); // 't' returns the number of days in the month
+            $transaksiCollectionImpor = Transaksi::where('jenis_kegiatan', 'impor')->get();
+            $transaksiCollectionEkspor = Transaksi::where('jenis_kegiatan', 'ekspor')->get();
+            // Generate sales and returns data for each day of the given month
+            $dataImpor = [];
+            $dataEkspor = [];
+            $totalmonth = 0;
+            $transaksiall = Transaksi::all();
+
+
+
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $date = "$year-$month-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+                $totalpetikemasImpor = 0;
+                $totalpetikemasEkspor = 0;
+                foreach ($transaksiall as $transaksis) {
+                    // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+                    $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) use ($date) {
+                        $query->where('status_pembayaran', 'sudah lunas')
+                            ->whereDate('tanggal_pembayaran', $date);
+                    })->with('petikemas')->get();
+
+                    // Sum the harga values from the related petikemas models for each transaksi
+                    $totalmonth += $lunasPenghubungs->pluck('petikemas')->count();
+                    /*if ($totalpetikemasImpor > 0) {
+                        $totalmonth++;
+                    }*/
+                };
+                foreach ($transaksiCollectionImpor as $transaksi) {
+                    // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+                    $lunasPenghubungs = $transaksi->penghubungs()->whereHas('pembayaran', function ($query) use ($date) {
+                        $query->where('status_pembayaran', 'sudah lunas')
+                            ->whereDate('tanggal_pembayaran', $date);
+                    })->with('petikemas')->get();
+
+                    // Sum the harga values from the related petikemas models for each transaksi
+                    $totalpetikemasImpor += $lunasPenghubungs->pluck('petikemas')->count();
+                    /*if ($totalpetikemasImpor > 0) {
+                        $totalmonth++;
+                    }*/
+                };
+                foreach ($transaksiCollectionEkspor as $transaksi) {
+                    // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+                    $lunasPenghubungs = $transaksi->penghubungs()->whereHas('pembayaran', function ($query) use ($date) {
+                        $query->where('status_pembayaran', 'sudah lunas')
+                            ->whereDate('tanggal_pembayaran', $date);
+                    })->with('petikemas')->get();
+
+                    // Sum the harga values from the related petikemas models for each transaksi
+                    $totalpetikemasEkspor += $lunasPenghubungs->pluck('petikemas')->count();
+                }
+
+                // Store the total harga for the current day
+                $dataImpor[Carbon::parse($date)->format('d M ')] = $totalpetikemasImpor;
+                $dataEkspor[Carbon::parse($date)->format('d M')] = $totalpetikemasEkspor;
+            }
+
+            return response()->json([
+                'impor' =>  $dataImpor,
+                'ekspor' => $dataEkspor,
+                'total' =>  $totalmonth,
+                'isMonthly' => false
+            ]);
+        }
     }
 
     private function createRelatedRecords($penghubungId, $transaksiId, $petikemas)
@@ -208,7 +334,13 @@ class TransaksiController extends Controller
         $query = Transaksi::query();
 
         if ($selectedValue) {
-            $query->where('jenis_kegiatan', $selectedValue);
+            if ($selectedValue == 'impor' || $selectedValue == 'ekspor') {
+                $query->where('jenis_kegiatan', $selectedValue);
+            } else if ($selectedValue == 'transaksi-belum-selesai') {
+                $query->whereNull('tanggal_transaksi');
+            } else if ($selectedValue == 'transaksi-selesai') {
+                $query->whereNotNull('tanggal_transaksi');
+            }
         }
 
         if ($selectedMonth) {

@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{$title ?? " "}}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico') }}">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <script>
         // Apply the saved color from localStorage as soon as possible
         (function() {
@@ -126,6 +130,7 @@
             $("#loading").fadeOut(1000);
         });
     </script>
+
     @stack('page-script')
 </body>
 
