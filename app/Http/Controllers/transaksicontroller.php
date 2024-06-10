@@ -387,7 +387,7 @@ class TransaksiController extends Controller
 
         $query = Transaksi::query();
 
-        if ($selectedValue) {
+        if ($selectedValue == 'impor' || $selectedValue == 'ekspor') {
             $query->where('jenis_kegiatan', $selectedValue);
         }
 

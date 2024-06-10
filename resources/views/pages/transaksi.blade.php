@@ -35,7 +35,7 @@
                             12 => 'Desember'
                             ];
                             @endphp
-                            @for ($i = 1; $i <= $currentMonth; $i++) <option value="{{ $i }}" {{ $i == $currentMonth ? 'selected' : '' }}>{{ $months[$i] }}</option>
+                            @for ($i = 1; $i <= $currentMonth; $i++) <option value="{{ $i }}">{{ $months[$i] }}</option>
                                 @endfor
                         </select>
                     </div>
@@ -378,11 +378,12 @@
                         <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td></tr>`
                                 );
                             });
-
-                            window.scrollTo({
-                                top: document.body.scrollHeight,
-                                behavior: 'smooth'
-                            });
+                            /*
+                                                        window.scrollTo({
+                                                            top: document.body.scrollHeight,
+                                                            behavior: 'smooth'
+                                                        });
+                                                        */
 
                             if (response.message) {
                                 $tableTransaksi.hide();
@@ -426,7 +427,7 @@
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
-                            jenis_kegiatan: $('#jenis_kegiatan').val(),
+                            jenis_kegiatan: valueselect,
                             bulan_transaksi: $monthPicker.val()
                         },
                         xhrFields: {

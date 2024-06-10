@@ -49,8 +49,8 @@
                     <div>
 
                     </div>
-                    <div class="bg-white  p-3 d-flex align-content-center " style="border-radius:0px 0px 7px 7px; height: 138px">
-                        <table class="table w-100 table-responsive custom-table show active" id="in-tab-pane">
+                    <div class="bg-white  p-3 d-flex align-content-center w-100" style="border-radius:0px 0px 7px 7px; height: 138px">
+                        <table class="table w-100 table-responsive custom-table show active fade" id="in-tab-pane">
                             <tr>
                                 <td class=" text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
@@ -64,7 +64,7 @@
                                 <td class="text-center"><span id="total-in" class="text-black fw-bold" style="font-size: 20px;">0</span></td>
                             </tr>
                         </table>
-                        <table class="table w-100 table-responsive custom-table d-none" id="out-tab-pane">
+                        <table class="table w-100 table-responsive custom-table d-none fade" id="out-tab-pane">
                             <tr>
                                 <td class="text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
@@ -79,13 +79,12 @@
                             </tr>
                         </table>
                     </div>
-
-
                 </div>
             </div>
 
 
             <!-- Status Kondisi Petikemas -->
+
             <div class="col-lg-6 mb-3">
                 <div class="w-100 p-3 bg-primary text-white rounded-4 shadow">
                     <div class="d-flex gap-2">
@@ -112,7 +111,7 @@
                         </li>
                     </ul>
                     <div class="bg-white  p-3 d-flex align-content-center " style="border-radius:0px 0px 7px 7px; height: 138px">
-                        <table class="table w-100 table-responsive custom-table show active" id="available-tab-pane">
+                        <table class="table w-100 table-responsive custom-table show active fade" id="available-tab-pane">
                             <tr>
                                 <td class=" text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
@@ -126,7 +125,7 @@
                                 <td class="text-center"><span id="total-available" class="text-black fw-bold" style="font-size: 20px;">0</span></td>
                             </tr>
                         </table>
-                        <table class="table w-100 table-responsive custom-table d-none" id="damage-tab-pane">
+                        <table class="table w-100 table-responsive custom-table d-none fade" id="damage-tab-pane">
                             <tr>
                                 <td class="text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
@@ -144,112 +143,115 @@
 
                 </div>
             </div>
-            <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3 ">
-                <div class="container">
-                    <h3 class=" text-white mb-3" id="texttable">DATA PETI KEMAS</h3>
-                    <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
-                        <div class="p-0" style="width: fit-content;">
-                            <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
-                                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
-                                    <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                        <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
-                                    </div>
-                                    <span class="fs-5 fw-semibold text-primary">Tambah Petikemas</span>
-                                </div>
-                            </button>
-
-                            <a href="" class="btn bg-white mb-2  ">
-                                <div class="d-flex gap-1">
-                                    <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                        <i class="fa-solid fa-download text-white" style="font-size:17px;"></i>
-                                    </div>
-                                    <span class="fs-5 fw-semibold text-primary">Laporan Harian </span>
-                                </div>
-                            </a>
-                        </div>
-
-
-                    </div>
-                    <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
-                        <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
-                            <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
-                            <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
-                        </form>
-                        <div class="d-flex">
-                            <label for="" class="form-label text-white fw-semibold position-absolute d-none d-lg-block" style="font-size: 12px; top:-1.5rem; right:10rem;">Filter Berdasarkan Lokasi Petikemas</label>
-                            <div class="d-flex gap-1">
-                                <select name="" id="blok" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
-                                    <option value="">Blok</option>
-                                    <option value="A1">A1</option>
-                                </select>
-                                <span class="text-white fw-semibold fs-4">-</span>
-                                <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
-                                    <option value="">Row</option>
-                                    <option value="11">Row</option>
-                                </select>
-                                <span class="text-white fw-semibold fs-4">-</span>
-                                <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
-                                    <option value="">Tier</option>
-                                    <option value="11">11</option>
-                                </select>
-                            </div>
-
-                            <div class="dropdown">
-                                <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div class="d-flex gap-1 position-relative">
-                                        <i class="fa-solid fa-sliders my-1 text-black"></i>
-                                        <span>Filter</span>
+            <div class="container">
+                <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3 ">
+                    <div class="container">
+                        <h3 class=" text-white mb-3" id="texttable">DATA PETI KEMAS</h3>
+                        <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
+                            <div class="p-0" style="width: fit-content;">
+                                <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
+                                    <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
+                                        <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
+                                            <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
+                                        </div>
+                                        <span class="fs-5 fw-semibold text-primary">Tambah Petikemas</span>
                                     </div>
                                 </button>
-                                <ul class="dropdown-menu my-2" id="filter">
-                                    <li data-value="" class="dropdown-item" style="cursor:pointer;">Semua</li>
-                                    <li data-value="available" class="dropdown-item" style="cursor:pointer;">AVAILABLE</li>
-                                    <li data-value="damage" class="dropdown-item" style="cursor:pointer;">DAMAGE</li>
-                                    <li data-value="out" class="dropdown-item" style="cursor:pointer;">OUT</li>
-                                    <li data-value="in" class="dropdown-item" style="cursor:pointer;">IN</li>
-                                    <li data-value="pending" class="dropdown-item" style="cursor:pointer;">PENDING</li>
-                                    <li data-value="petikemas-dipesan" class="dropdown-item" style="cursor:pointer;">Petikemas Dipesan</li>
-                                    <li data-value="petikemas-tidak-dipesan" class="dropdown-item" style="cursor:pointer;">Petikemas Tidak Dipesan</li>
-                                </ul>
+
+                                <button id="laporan_harian" class="btn bg-white mb-2  ">
+                                    <div class="d-flex gap-1">
+                                        <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
+                                            <i class="fa-solid fa-download text-white" style="font-size:17px;"></i>
+                                        </div>
+                                        <span class="fs-5 fw-semibold text-primary">Laporan Harian </span>
+                                    </div>
+                                </button>
+                            </div>
+
+
+                        </div>
+                        <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
+                            <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
+                                <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
+                                <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
+                            </form>
+                            <div class="d-flex">
+                                <label for="" class="form-label text-white fw-semibold position-absolute d-none d-lg-block" style="font-size: 12px; top:-1.5rem; right:10rem;">Filter Berdasarkan Lokasi Petikemas</label>
+                                <div class="d-flex gap-1">
+                                    <select name="" id="blok" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
+                                        <option value="">Blok</option>
+                                        <option value="A1">A1</option>
+                                    </select>
+                                    <span class="text-white fw-semibold fs-4">-</span>
+                                    <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
+                                        <option value="">Row</option>
+                                        <option value="11">Row</option>
+                                    </select>
+                                    <span class="text-white fw-semibold fs-4">-</span>
+                                    <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
+                                        <option value="">Tier</option>
+                                        <option value="11">11</option>
+                                    </select>
+                                </div>
+
+                                <div class="dropdown">
+                                    <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div class="d-flex gap-1 position-relative">
+                                            <i class="fa-solid fa-sliders my-1 text-black"></i>
+                                            <span>Filter</span>
+                                        </div>
+                                    </button>
+                                    <ul class="dropdown-menu my-2" id="filter">
+                                        <li data-value="" class="dropdown-item" style="cursor:pointer;">Semua</li>
+                                        <li data-value="available" class="dropdown-item" style="cursor:pointer;">AVAILABLE</li>
+                                        <li data-value="damage" class="dropdown-item" style="cursor:pointer;">DAMAGE</li>
+                                        <li data-value="out" class="dropdown-item" style="cursor:pointer;">OUT</li>
+                                        <li data-value="in" class="dropdown-item" style="cursor:pointer;">IN</li>
+                                        <li data-value="pending" class="dropdown-item" style="cursor:pointer;">PENDING</li>
+                                        <li data-value="petikemas-dipesan" class="dropdown-item" style="cursor:pointer;">Petikemas Dipesan</li>
+                                        <li data-value="petikemas-tidak-dipesan" class="dropdown-item" style="cursor:pointer;">Petikemas Tidak Dipesan</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <h1 class="text-center mt-3 text-white" id="text-error"></h1>
+                        <div class="text-center">
+                            <div class="spinner-grow text-light mx-auto my-auto" style="width: 3rem; height: 3rem;" role="status" id="loading-table">
                             </div>
                         </div>
+                        <div class="onscroll table-responsive">
+                            <table class="table-variations-2  text-center" rules="groups" id="table_petikemas">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="fw-semibold">No Peti Kemas</th>
+                                        <th scope="col" class="fw-semibold">Size & Type</th>
+                                        <th scope="col" class="fw-semibold">Pelayaran</th>
+                                        <th scope="col" class="fw-semibold">Status Kondisi</th>
+                                        <th scope="col" class="fw-semibold">Status Ketersediaan</th>
+                                        <th scope="col" class="fw-semibold">Lokasi</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
+                                </tbody>
+                            </table>
+                            <div id="pagination" class="mx-auto" style="width:fit-content">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
 
-                    </div>
-                    <h1 class="text-center mt-3 text-white" id="text-error"></h1>
-                    <div class="text-center">
-                        <div class="spinner-grow text-light mx-auto my-auto" style="width: 3rem; height: 3rem;" role="status" id="loading-table">
+                                    </ul>
+                                </nav>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="onscroll table-responsive">
-                        <table class="table-variations-2  text-center" rules="groups" id="table_petikemas">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="fw-semibold">No Peti Kemas</th>
-                                    <th scope="col" class="fw-semibold">Size & Type</th>
-                                    <th scope="col" class="fw-semibold">Pelayaran</th>
-                                    <th scope="col" class="fw-semibold">Status Kondisi</th>
-                                    <th scope="col" class="fw-semibold">Status Ketersediaan</th>
-                                    <th scope="col" class="fw-semibold">Lokasi</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                        <div id="pagination" class="mx-auto" style="width:fit-content">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-
-                                </ul>
-                            </nav>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
+
         <x-modal-form-delete route="/peti-kemas/delete" />
         <x-modal-form id="form-create-petikemas" size="" text="Tambah Petikemas">
             <x-form-create-petikemas />
@@ -292,6 +294,7 @@
                 let monthOut = parseInt("{{ $monthOut }}");
                 let monthAvailable = parseInt("{{ $monthAvailable }}");
                 let monthDamage = parseInt("{{ $monthDamage }}");
+                const $laporanharian = $("#laporan_harian");
 
                 function initCountUp(id, endVal) {
                     let demo = new CountUp(id, 0, endVal, 0, 3);
@@ -472,8 +475,10 @@
                                 $('#table_petikemas').hide();
                                 $('#text-error').show().text(response.message);
                                 pagination.hide();
+                            } else {
+                                pagination.show();
                             }
-                            pagination.show();
+
                             updatePaginationLinks(response.meta.last_page);
                             lastPage = response.meta.last_page;
                             showPage(currentPage);
@@ -509,6 +514,29 @@
                 });
 
                 fetchDataAndUpdateTable();
+                $laporanharian.on("click", function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: "{{ route('petikemas.laporanharian') }}",
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            condition: valueselect,
+                        },
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function(blob) {
+                            var url = window.URL.createObjectURL(blob);
+                            window.open(url, '_blank');
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+
+                        }
+                    });
+                });
+
             });
         </script>
         @stack('form-modal')

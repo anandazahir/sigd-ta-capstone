@@ -16,6 +16,7 @@ use App\Models\transaksi;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class petikemascontroller extends Controller
@@ -338,5 +339,28 @@ class petikemascontroller extends Controller
             ],
             'count' => $filteredData->total(),
         ]);
+    }
+    public  function laporanharian(Request $request)
+    {
+        $condition = $request->input('condition');
+        $query = petikemas::query();
+        if ($condition == 'available' || $condition == 'damage') {
+            $query->where('status_kondisi', $condition);
+        } else if ($condition == 'out' || $condition == 'in') {
+            $query->where('status_ketersediaan', $condition);
+        } else if ($condition == 'petikemas-tidak-dipesan') {
+            $query->where('status_order', 'true');
+        } else if ($condition == 'petikemas-dipesan') {
+            $query->where('status_order', 'false');
+        } else if ($condition == 'pending') {
+            $query->where('lokasi', $condition);
+        }
+        $data = $query->get();
+        $pdf = Pdf::loadView('pdf.laporanharianpetikemas', [
+            'selectedValue' => $condition,
+            'petikemas' => $data,
+        ]);
+
+        return $pdf->download('laporan_harian_petikemas.pdf');
     }
 }
