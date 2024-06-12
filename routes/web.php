@@ -121,5 +121,20 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
             Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('inventory.petikemas.filterpenempatanhistory');
             Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('inventory.petikemas.laporanharian');
         });
+        Route::get('/notification', function () {
+            return view('pages/notification');
+        });
+        Route::get('/profile', function () {
+            return view('pages/profile');
+        });
+        Route::get('/pegawai/more', function () {
+            return view('pages/pegawai-more');
+        });
+        Route::get('/pegawai', function () {
+            return view('pages/pegawai');
+        });
+        Route::get('/setting', function () {
+            return view('pages/setting');
+        });
     });
 });

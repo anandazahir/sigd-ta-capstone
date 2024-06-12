@@ -15,11 +15,8 @@ $segments = array_filter($segments, function($segment) {
 return $segment !== 'dashboard';
 });
 $route = '';
-if (auth()->user()->hasRole('direktur')) {
-$route = 'direktur.dashboard';
-} elseif (auth()->user()->hasRole('inventory')) {
-$route = 'inventory.dashboard';
-}
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 <style>
   .fa-house:hover {
@@ -41,7 +38,7 @@ $route = 'inventory.dashboard';
 </style>
 <nav class="navbar navbar-expand p-0 m-0">
   <div class="container-fluid p-0 m-0">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="{{route($cleaned.'.dashboard')}}">
       <div class="d-flex flex-row gap-2">
         <svg viewBox="0 0 90 70" fill="none" xmlns="http://www.w3.org/2000/svg" class="d-inline-block align-text-top img-title">
           <path d="M25.6822 28.6547L72.6269 29.5504L73.0407 49.4314L25.6013 48.561L25.6822 28.6547ZM25.6822 28.6547L17.8866 22.3725L66.3629 22.8014L72.6269 29.5504" stroke="black" stroke-miterlimit="10" />
@@ -60,7 +57,7 @@ $route = 'inventory.dashboard';
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a href="/notification">
+          <a href="/{{$cleaned}}/notification">
 
             <i class="fa-solid fa-bell text-primary img-notif my-2 mx-3"></i>
           </a>
@@ -71,13 +68,13 @@ $route = 'inventory.dashboard';
           </a>
           <ul class="dropdown-menu">
 
-            <li><a class="dropdown-item" href="/profile">
+            <li><a class="dropdown-item" href="/{{$cleaned}}/profile">
                 <div class="d-flex flex-row gap-2">
                   <i class="fa-solid fa-circle-user text-primary " style="font-size: 27px;"></i>
                   <span class="text">Profile</span>
                 </div>
               </a></li>
-            <li><a class="dropdown-item" href="/setting">
+            <li><a class="dropdown-item" href="/{{$cleaned}}/setting">
                 <div class="d-flex flex-row gap-2">
                   <i class="fa-solid fa-gear text-primary" style="font-size:27px"></i>
                   <span class="text">Setting</span>
@@ -104,7 +101,7 @@ $route = 'inventory.dashboard';
 <div class="d-flex flex-row  justify-content-between mt-3 mb-2 text-primary">
   <h3 style="font-size: 1rem;">{{$msg}}</h3>
   <div class="d-flex align-items-center">
-    <a href="{{route($route)}}" style="height: fit-content; ">
+    <a href="{{route($cleaned.'.dashboard')}}" style="height: fit-content; ">
       <i class="fa-solid fa-house mx-1"></i>
     </a>
     @php

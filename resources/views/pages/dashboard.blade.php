@@ -22,7 +22,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </div>
                         </div>
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
-                            <a class="btn bg-white rounded-3 text-center" style="padding:4px 7px 4px 7px;" href="/profile">
+                            <a class="btn bg-white rounded-3 text-center" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/profile">
                                 <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
                             </a>
                         </div>
@@ -37,7 +37,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     <div class="card-body">
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
                             <div class="rounded-3 d-flex flex-row justify-content-center" style="width: 2rem; height: 2rem; place-items: center; background: #edf5f5;">
-                                <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/notification">
+                                <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/notification">
                                     <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
                                 </a>
                             </div>
@@ -121,7 +121,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     </div>
 
                     <div class="row mb-3">
-                        <a href="/pegawai" class="text-decoration-none">
+                        <a href="/{{$cleaned}}/pegawai" class="text-decoration-none">
                             <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Pegawai">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
