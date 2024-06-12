@@ -12,8 +12,12 @@ $row=$parts[0];
 $blok=$parts[1];
 $tier=$parts[2];
 }
+
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+
 @endphp
-<form action="{{route("transaksi.editpenempatan", $petikemas)}}" method="POST" id="{{$id}}" class="form-edit-penempatan">
+<form action="{{route($cleaned.".transaksi.editpenempatan", $petikemas)}}" method="POST" id="{{$id}}" class="form-edit-penempatan">
     @csrf
     <div class="row" id="section">
         <div class="col-lg-6 mb-3 form-group">

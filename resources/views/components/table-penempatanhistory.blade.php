@@ -1,3 +1,7 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
 <div class="modal fade fade form-modal" tabindex="-1" id="form-delete-penempatanhistory" aria-labelledby="form-delete-penempatanhistory" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -5,7 +9,8 @@
                 <i class="fa-regular fa-circle-xmark text-danger mb-3" style="font-size: 100px;"></i>
                 <h4>Apakah Anda Yakin Ingin Menghapus Data?</h4>
                 <div class="btn-group gap-2">
-                    <form action="/peti-kemas/penempatanhistory/deletelistpenempatan" method="POST" id="delete-form-penempatanhistory">
+
+                    <form action="{{$cleaned}}/peti-kemas/penempatanhistory/deletelistpenempatan" method="POST" id="delete-form-penempatanhistory">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete_penempatanhistory">
                         <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
@@ -20,8 +25,7 @@
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Riwayat Penempatan</h2>
-        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0"
-            style="margin-right: 10px; padding: 9px 11px 9px 11px">
+        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="date" name="" id="date_penempatanhistory">
         </div>
@@ -40,33 +44,33 @@
                 </thead>
                 <tbody>
                     @foreach ($data->penempatanhistories as $penghubung)
-                        <tr>
-                            <td class="text-center m-0 p-0">
-                                {{ $penghubung->tanggal_penempatan }}
-                            </td>
-                            <td class="text-center">
-                                {{ $penghubung->lokasi }}
-                            </td>
-                            <td class="text-center">
-                                {{ $penghubung->operator_alat_berat }}
-                            </td>
-                            <td>
-                                <span
-                                    class="{{ $penghubung->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                    {{ $penghubung->status_ketersediaan }}
-                                </span>
-                            </td>
-                            <td class="text-center d-flex gap-1">
-                                <i class="fa-solid fa-circle-user text-primary my-1 fa-l d-none d-lg-block"></i>
-                                <span>{{ $penghubung->tally }}</span>
-                            </td>
-                            <td class="text-center gap-1">
-                                <button class="btn btn-danger text-white rounded-3" id="button_delete_penempatan"
-                                    value="{{ $penghubung->id }}">
-                                    <i class="fa-solid fa-trash-can fa-lg my-1"></i>
-                                </button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="text-center m-0 p-0">
+                            {{ $penghubung->tanggal_penempatan }}
+                        </td>
+                        <td class="text-center">
+                            {{ $penghubung->lokasi }}
+                        </td>
+                        <td class="text-center">
+                            {{ $penghubung->operator_alat_berat }}
+                        </td>
+                        <td>
+                            <span class="{{ $penghubung->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
+                                {{ $penghubung->status_ketersediaan }}
+                            </span>
+                        </td>
+                        <td class="text-center d-flex gap-1">
+                            <i class="fa-solid fa-circle-user text-primary my-1 fa-l d-none d-lg-block"></i>
+                            <span>{{ $penghubung->tally }}</span>
+                        </td>
+                        @can ('mengelola petikemas')
+                        <td class="text-center gap-1">
+                            <button class="btn btn-danger text-white rounded-3" id="button_delete_penempatan" value="{{ $penghubung->id }}">
+                                <i class="fa-solid fa-trash-can fa-lg my-1"></i>
+                            </button>
+                        </td>
+                        @endcan
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -76,9 +80,10 @@
 
 <script>
     $(document).ready(function() {
+        const role = "{{$cleaned}}";
         $('#date_penempatanhistory').change(function() {
             $.ajax({
-                url: '/peti-kemas/penempatanhistory/filter',
+                url: '/{{$cleaned}}/peti-kemas/penempatanhistory/filter',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -89,6 +94,13 @@
                     $('#text-error-penempatanhistory').hide();
                     $('#table_penempatanhistory tbody').empty();
                     $.each(response.Data, function(index, item) {
+                        let deleteButton = '';
+                        if (role === 'direktur') {
+                            deleteButton = '<button class="btn btn-danger text-white rounded-3" id="button_delete_penempatanhistory" value="' +
+                                item.id + '">' +
+                                '<i class="fa-solid fa-trash-can fa-lg my-1"></i>' +
+                                '</button>';
+                        }
                         $('#table_penempatanhistory tbody').append(
                             '<tr>' +
                             '<td class="text-center m-0 p-0">' + item
@@ -109,10 +121,7 @@
                             '<span>' + item.tally + '</span>' +
                             '</td>' +
                             '<td class="text-center gap-1">' +
-                            '<button class="btn btn-danger text-white rounded-3" id="button_delete_penempatanhistory" value="' +
-                            item.id + '">' +
-                            '<i class="fa-solid fa-trash-can fa-lg my-1"></i>' +
-                            '</button>' +
+                            deleteButton +
                             '</td>' +
                             '</tr>'
                         );

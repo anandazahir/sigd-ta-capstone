@@ -1,6 +1,25 @@
 @php
 $url = request()->path();
 $segments = explode('/', $url);
+
+// List of roles that should be hidden from the breadcrumb
+$roles = ['direktur', 'inventory', 'otherRole'];
+
+// Remove the first segment if it is a role
+if (in_array($segments[0], $roles)) {
+array_shift($segments);
+}
+
+// Remove 'dashboard' segment
+$segments = array_filter($segments, function($segment) {
+return $segment !== 'dashboard';
+});
+$route = '';
+if (auth()->user()->hasRole('direktur')) {
+$route = 'direktur.dashboard';
+} elseif (auth()->user()->hasRole('inventory')) {
+$route = 'inventory.dashboard';
+}
 @endphp
 <style>
   .fa-house:hover {
@@ -64,12 +83,18 @@ $segments = explode('/', $url);
                   <span class="text">Setting</span>
                 </div>
               </a></li>
-            <li><a class="dropdown-item" href="/login">
-                <div class="d-flex flex-row gap-2">
-                  <i class="fa-solid fa-power-off text-danger" style="font-size:27px"></i>
-                  <span class="text">Logout</span>
-                </div>
-              </a></li>
+
+            <li>
+              <form action="{{url('/logout')}}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item" href="/login">
+                  <div class="d-flex flex-row gap-2">
+                    <i class="fa-solid fa-power-off text-danger" style="font-size:27px"></i>
+                    <span class="text">Logout</span>
+                  </div>
+                </button>
+              </form>
+            </li>
           </ul>
         </li>
       </ul>
@@ -79,15 +104,20 @@ $segments = explode('/', $url);
 <div class="d-flex flex-row  justify-content-between mt-3 mb-2 text-primary">
   <h3 style="font-size: 1rem;">{{$msg}}</h3>
   <div class="d-flex align-items-center">
-    <a href="/" style="height: fit-content; ">
+    <a href="{{route($route)}}" style="height: fit-content; ">
       <i class="fa-solid fa-house mx-1"></i>
     </a>
-    @if(count($segments) > 0 && $segments[0] !== '')
+    @php
+    $role = auth()->user()->getRoleNames();
+    $cleaned = str_replace(['[', ']', '"'], '', $role);
+    @endphp
+
+    @if(count($segments) > 0)
     @foreach($segments as $key => $segment)
     @if($key == 0)
     <span class="text-primary">/</span>
     @endif
-    <a class="hovertext" href="{{ url(implode('/', array_slice($segments, 0, $key + 1))) }}">{{ ucfirst(str_replace("-", " ", $segment)) }}</a>
+    <a class="hovertext" href="{{ url($cleaned . '/' . implode('/', array_slice($segments, 0, $key + 1))) }}">{{ ucfirst(str_replace("-", " ", $segment)) }}</a>
     @if($key < count($segments) - 1) <span class="text-primary">/</span>
       @endif
       @endforeach

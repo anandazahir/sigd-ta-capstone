@@ -1,4 +1,8 @@
-<form data-id="{{ $id }}" method="POST" id="edit_form_perbaikan_{{ $data->id }}" action="/transaksi/editperbaikan" enctype="multipart/form-data" novalidate>
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
+<form data-id="{{ $id }}" method="POST" id="edit_form_perbaikan_{{ $data->id }}" action="{{route($cleaned.'.transaksi.editperbaikan')}}" enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
@@ -293,7 +297,7 @@
             var formData = new FormData(this);
             var modalId = $(this).data('id');
             $.ajax({
-                url: "{{ route('transaksi.editperbaikan') }}", // Ganti dengan endpoint Anda
+                url: "{{ route($cleaned.'.transaksi.editperbaikan') }}", // Ganti dengan endpoint Anda
                 type: 'POST',
                 data: formData,
                 processData: false, // Mengatur false, karena kita menggunakan FormData

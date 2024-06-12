@@ -125,7 +125,8 @@
                 </div>
                 <div class="col-md-6 col-lg-6 d-flex justify-content-center align-items-center">
                   <div class="card-body p-4 p-lg-5 text-black">
-                    <form id="loginForm" onsubmit="handleSubmit(event)">
+                    <form id="loginForm" method="POST" action="{{ url('/login')}}">
+                      @csrf
                       <div class="d-flex align-items-center mb-3 pb-1 flex-row gap-3">
                         <svg viewBox="0 0 90 70" fill="none" xmlns="http://www.w3.org/2000/svg" class="d-inline-block align-text-top" style="width:100px;height:100px;">
                           <path d="M25.6822 28.6547L72.6269 29.5504L73.0407 49.4314L25.6013 48.561L25.6822 28.6547ZM25.6822 28.6547L17.8866 22.3725L66.3629 22.8014L72.6269 29.5504" stroke="black" stroke-miterlimit="10" />
@@ -142,14 +143,14 @@
                       <h5 class="fw-normal mb-3 pb-3 text-black">Please Sign In to Your Account </h5>
                       <div class="mb-4">
 
-                        <input type="text" id="username" class="form-control text-white" style="background-color: #2B3674" placeholder="Username">
+                        <input type="text" id="username" class="form-control text-white" style="background-color: gray" placeholder="Username" name="username">
                       </div>
                       <div class="mb-4">
 
-                        <input type="password" id="password" class="form-control text-white" style="background-color: #2B3674" placeholder="Password">
+                        <input type="password" id="password" class="form-control text-white" style="background-color: gray" placeholder="Password" name="password">
                       </div>
                       <div class="mb-4 text-center">
-                        <a href="/" class="btn w-100 text-white bg-primary" style="background-color: #2B3674">Login</a>
+                        <button type="submit" class="btn w-100 text-white bg-primary" style="background-color: #2B3674">Login</button>
                       </div>
                     </form>
                   </div>

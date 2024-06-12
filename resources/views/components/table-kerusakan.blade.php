@@ -1,3 +1,7 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
 <div class="modal fade fade " tabindex="-1" id="{{$id}}" aria-labelledby="show-kerusakan" aria-hidden="true" data-petikemas="{{$petikemas}}">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -57,7 +61,7 @@
                                 </td>
                                 @endif
                                 <td class="text-center">
-                                    <form action="/transaksi/deletekerusakan" method="POST">
+                                    <form action="{{route($cleaned.'.transaksi.deletekerusakan')}} method=" POST">
                                         @csrf
                                         <input type="hidden" name="id_kerusakan" value="{{$item->id}}">
                                         <input type="hidden" name="id_petikemas" value="{{$petikemas}}">
@@ -88,7 +92,7 @@
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: '/transaksi/deletekerusakan',
+                url: "{{route($cleaned.'.transaksi.deletekerusakan')}}",
                 data: {
                     _token: '{{ csrf_token() }}',
                     id_kerusakan: $(this).val(),

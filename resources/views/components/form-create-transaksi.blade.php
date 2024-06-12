@@ -1,4 +1,8 @@
-<form method="POST" action="{{ route('transaksi.transaksistore') }}" id="create-transaksi-form" novalidate>
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
+<form method="POST" action="{{ route($cleaned.'.transaksi.transaksistore') }}" id="create-transaksi-form" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
@@ -153,8 +157,10 @@
             const $select = $row.find('select[name="no_petikemas[]"]');
             const $inputjenis_ukuran = $row.find('input[name="jenis_ukuran"]');
             const $inputpelayaran = $row.find('input[name="pelayaran"]');
+
+
             $.ajax({
-                url: '/peti-kemas/index',
+                url: "{{ route($cleaned.'.petikemas.filter') }}",
                 type: 'GET',
                 data: {
                     id: value,

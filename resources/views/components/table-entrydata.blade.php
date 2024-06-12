@@ -18,7 +18,8 @@ return [
 'pembayaran' => $penghubung->pembayaran,
 ];
 });
-
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 
 
@@ -27,20 +28,24 @@ return [
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Entry Data</h2>
+            @can('mengelola transaksi')
             <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
                     <i class="fa-solid fa-pen-to-square text-primary   my-1" style="font-size:21px"></i>
                     <span class="fw-semibold fs-6 my-1 text-primary">Edit Data</span>
                 </div>
             </button>
+
             <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry" style="width: fit-content;">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data peti kemas">
                     <i class="fa-solid fa-circle-plus text-primary my-2" style="font-size:25px"></i>
                     <span class="fw-semibold fs-6 my-2 text-primary">Tambah Baris Baru</span>
                 </div>
             </button>
+            @endcan
         </div>
-        <form method="POST" action="{{ route('transaksi.editentrydata',  $data->id) }}" id="edit-entrydata-form" novalidate>
+
+        <form method="POST" @can ('mengelola transaksi') action="{{ route($cleaned . '.transaksi.editentrydata', $data->id) }}" @endcan id="edit-entrydata-form" novalidate>
             @csrf
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                 <table class="table-variations-3  text-center" id="table_entrydata">
@@ -80,9 +85,11 @@ return [
                             <td class="text-center">
                                 <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
                             </td>
+                            @can('mengelola transaksi')
                             <td class="text-center">
                                 <button class="btn btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                             </td>
+                            @endcan
                         </tr>
                         @endforeach
 
@@ -91,13 +98,19 @@ return [
                 </table>
 
             </div>
+            @can('mengelola transaksi')
             <div class="mt-3 text-center">
                 <button type="submit" class="btn btn-info text-white rounded-3 mx-auto" id="button-submit"><span class="fw-semibold text-white">Simpan Data</span></button>
             </div>
+            @endcan
         </form>
+
     </div>
 </div>
-<x-modal-form-delete route="/transaksi/deleteentrydata" />
+@can('mengelola transaksi')
+<x-modal-form-delete route="/{{$cleaned}}/transaksi/deleteentrydata" />
+
+
 @push('transaksi-more-script')
 <script>
     $(document).ready(function() {
@@ -105,10 +118,10 @@ return [
         const jenis_kegiatan = "{{$data->jenis_kegiatan}}";
         const $button_submit = $("#button-submit");
         const $button_edit = $("#button-edit");
-        console.log($("#table_entrydata tbody tr").length)
+        console.log($("#table_entrydata tbody tr").length);
+
         $('.tabs').click(function() {
             if ($('#EntryData').hasClass('d-none')) {
-
                 $button_edit.show();
                 $button_submit.hide();
                 $button_tambah_entry.hide();
@@ -119,10 +132,9 @@ return [
                 $("#table_entrydata thead tr th:last-child").show();
                 $("#table_entrydata tbody tr td:nth-child(4)").show();
                 $("#table_entrydata tbody tr td:last-child").show();
-
             }
-
         });
+
         $button_submit.hide();
         $button_tambah_entry.hide();
 
@@ -138,7 +150,7 @@ return [
                 const originalValue = $selectElement.val();
 
                 $.ajax({
-                    url: '/peti-kemas/index',
+                    url: "{{ route($cleaned . '.petikemas.filter') }}",
                     type: 'GET',
                     data: {
                         jenis_transaksi: jenis_kegiatan,
@@ -159,7 +171,7 @@ return [
 
         function fetchPetikemasDetails($row, value) {
             $.ajax({
-                url: '/peti-kemas/index',
+                url: "{{ route($cleaned . '.petikemas.filter') }}",
                 type: 'GET',
                 data: {
                     id: value,
@@ -176,19 +188,17 @@ return [
             });
         }
 
-        // Setiap baris berganti Sudah Cetak ketika ditekan
         $("#table_entrydata tbody tr").each(function(index, row) {
             $(this).find("#cetak_spk").on("click", function(e) {
                 $(this).attr('data-status', 'sudah cetak');
                 console.log($(this).attr("data-id"));
                 $.ajax({
-                    url: "{{route('transaksi.cetakspk', $data->id)}}",
+                    url: "{{ route($cleaned . '.transaksi.cetakspk', $data->id) }}",
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
                         status: $(this).attr("data-status"),
                         id_penghubung: $(this).attr("data-id"),
-
                     },
                     xhrFields: {
                         responseType: 'blob'
@@ -199,7 +209,7 @@ return [
                         showAlert('Data Berhasil Dicetak!');
                     },
                     error: function(xhr, status, error) {
-
+                        console.error(xhr.responseText);
                     }
                 });
             });
@@ -225,7 +235,7 @@ return [
             const newRow = $('<tr>' +
                 '<td class="text-center">' +
                 '<select class="form-select mx-auto" name="no_petikemas[]" required style="width:fit-content">' +
-                '<option selected disabled>Pilih Opsi Ini</option>' + // Add default option here
+                '<option selected disabled>Pilih Opsi Ini</option>' +
                 '</select>' +
                 '<div class="invalid-feedback"></div>' +
                 '</td>' +
@@ -262,12 +272,11 @@ return [
             console.log($(this).val());
         });
 
-        /*   // Handle form submission
         $('#edit-entrydata-form').on('submit', function(e) {
-            e.preventDefault()
+            e.preventDefault();
             handleFormSubmission(this);
         });
-*/
     });
 </script>
 @endpush
+@endcan

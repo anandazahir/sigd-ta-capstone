@@ -5,7 +5,11 @@
                 <i class="fa-regular fa-circle-xmark text-danger mb-3" style="font-size: 100px;"></i>
                 <h4>Apakah Anda Yakin Ingin Menghapus Data?</h4>
                 <div class="btn-group gap-2">
-                    <form action="/peti-kemas/perbaikanhistory/deletelistperbaikan" method="POST" id="delete-form-perbaikanhistory">
+                    @php
+                    $role = auth()->user()->getRoleNames();
+                    $cleaned = str_replace(['[', ']', '"'], '', $role);
+                    @endphp
+                    <form action="/{{$cleaned}}/peti-kemas/perbaikanhistory/deletelistperbaikan" method="POST" id="delete-form-perbaikanhistory">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete_perbaikanhistory">
                         <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
@@ -20,8 +24,7 @@
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Riwayat Perbaikan</h2>
-        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0"
-            style="margin-right: 10px; padding: 9px 11px 9px 11px">
+        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="date" name="" id="date_perbaikanhistory">
         </div>
@@ -40,38 +43,37 @@
                 </thead>
                 <tbody>
                     @foreach ($data->perbaikanhistories as $penghubung)
-                        <tr>
-                            <td class="text-center m-0 p-0">
-                                {{ $penghubung->tanggal_perbaikan }}
-                            </td>
-                            <td class="text-center">
-                                {{ $penghubung->jumlah_perbaikan }}
-                            </td>
-                            <td class="text-center">
-                                <button class="btn bg-primary mx-auto"
-                                    id="button-listkerusakan-perbaikan-{{ $penghubung->id }}"
-                                    value="{{ $penghubung->id }}" data-bs-toggle="modal"
-                                    data-bs-target="#table-kerusakan-perbaikan-{{ $penghubung->id }}">
-                                    <span class="fs-semibold">LIST PERBAIKAN</span>
-                                </button>
-                            </td>
-                            <td>
-                                <span
-                                    class="{{ $penghubung->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                    {{ $penghubung->status_kondisi }}
-                                </span>
-                            </td>
-                            <td class="text-center d-flex gap-1">
+                    <tr>
+                        <td class="text-center m-0 p-0">
+                            {{ $penghubung->tanggal_perbaikan }}
+                        </td>
+                        <td class="text-center">
+                            {{ $penghubung->jumlah_perbaikan }}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn bg-primary mx-auto" id="button-listkerusakan-perbaikan-{{ $penghubung->id }}" value="{{ $penghubung->id }}" data-bs-toggle="modal" data-bs-target="#table-kerusakan-perbaikan-{{ $penghubung->id }}">
+                                <span class="fs-semibold">LIST PERBAIKAN</span>
+                            </button>
+                        </td>
+                        <td>
+                            <span class="{{ $penghubung->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
+                                {{ $penghubung->status_kondisi }}
+                            </span>
+                        </td>
+                        <td class="text-center d-flex gap-1 m-auto">
+                            <div class="d-flex gap-1 mx-auto" style="width: fit-content;">
                                 <i class="fa-solid fa-circle-user text-primary my-1 fa-l d-none d-lg-block"></i>
                                 <span>{{ $penghubung->repair }}</span>
-                            </td>
-                            <td class="text-center gap-1">
-                                <button class="btn btn-danger text-white rounded-3" id="button_delete_perbaikan"
-                                    value="{{ $penghubung->id }}">
-                                    <i class="fa-solid fa-trash-can fa-lg my-1"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                        @can ('mengelola petikemas')
+                        <td class="text-center gap-1">
+                            <button class="btn btn-danger text-white rounded-3" id="button_delete_perbaikan" value="{{ $penghubung->id }}">
+                                <i class="fa-solid fa-trash-can fa-lg my-1"></i>
+                            </button>
+                        </td>
+                        @endcan
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -82,15 +84,15 @@
 
 
 @foreach ($data->perbaikanhistories as $penghubung)
-    <x-table-listperbaikan data="{{ $penghubung->id }}" id="table-kerusakan-perbaikan-{{ $penghubung->id }}"
-        text="List Perbaikan History | {{ $data->no_petikemas }}" />
+<x-table-listperbaikan data="{{ $penghubung->id }}" id="table-kerusakan-perbaikan-{{ $penghubung->id }}" text="List Perbaikan History | {{ $data->no_petikemas }}" />
 @endforeach
 
 <script>
     $(document).ready(function() {
+        const role = "{{$cleaned}}"; // Example role, replace with dynamic role value if needed
         $('#date_perbaikanhistory').change(function() {
             $.ajax({
-                url: '/peti-kemas/perbaikanhistory/filter',
+                url: '/{{$cleaned}}/peti-kemas/perbaikanhistory/filter',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -101,6 +103,12 @@
                     $('#text-error-perbaikanhistory').hide();
                     $('#table_perbaikanhistory tbody').empty();
                     $.each(response.Data, function(index, item) {
+                        let deleteButton = '';
+                        if (role === 'direktur') {
+                            deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_perbaikanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                                    <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
+                                    </button>`;
+                        }
                         $('#table_perbaikanhistory tbody').append(
                             '<tr>' +
                             '<td class="text-center m-0 p-0">' + item
@@ -127,10 +135,7 @@
                             '<span>' + item.repair + '</span>' +
                             '</td>' +
                             '<td class="text-center gap-1">' +
-                            '<button class="btn btn-danger text-white rounded-3" id="button_delete_perbaikanhistory" value="' +
-                            item.id + '">' +
-                            '<i class="fa-solid fa-trash-can fa-lg my-1"></i>' +
-                            '</button>' +
+                            deleteButton +
                             '</td>' +
                             '</tr>'
                         );

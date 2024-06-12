@@ -1,3 +1,7 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
 <div class="modal fade" id="{{ $id }}" tabindex="-1" aria-labelledby="show-kerusakan" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -31,28 +35,30 @@
 </div>
 
 <script>
-$(document).ready(function() {
-    let Id = "button-listkerusakan-pengecekan-{{$data}}";
-    let tableId = "table-kerusakan-pengecekan-{{$data}}";
-    let tableID = $("#" + tableId);
-    let buttonId = $("#" + Id);
-    console.log(tableID);
-    $(buttonId).on('click', function() {
-        var pengecekanhistoryId = $(this).val();
-        console.log(pengecekanhistoryId);
-        $.ajax({
-            url: `/peti-kemas/pengecekanhistory/${pengecekanhistoryId}/kerusakan`,
-            method: 'GET',
-            success: function(response) {
-                var kerusakanTbody = (tableID).find('#table_kerusakan_pengecekan tbody');
-                kerusakanTbody.empty();
-                console.log(kerusakanTbody);
-                if (response.length > 0) {
-                    (tableID).find('#no-data-message').hide();
-                    var baseUrl = '{{ asset('storage') }}';
-                    response.forEach((item, index) => {
-                        var fotoPengecekan = baseUrl + '/' + item.foto_pengecekan;
-                        var row = `
+    $(document).ready(function() {
+        let Id = "button-listkerusakan-pengecekan-{{$data}}";
+        let tableId = "table-kerusakan-pengecekan-{{$data}}";
+        let tableID = $("#" + tableId);
+        let buttonId = $("#" + Id);
+        console.log(tableID);
+        $(buttonId).on('click', function() {
+            var pengecekanhistoryId = $(this).val();
+            console.log(pengecekanhistoryId);
+
+            $.ajax({
+
+                url: `/{{$cleaned}}/peti-kemas/pengecekanhistory/${pengecekanhistoryId}/kerusakan`,
+                method: 'GET',
+                success: function(response) {
+                    var kerusakanTbody = (tableID).find('#table_kerusakan_pengecekan tbody');
+                    kerusakanTbody.empty();
+                    console.log(kerusakanTbody);
+                    if (response.length > 0) {
+                        (tableID).find('#no-data-message').hide();
+                        var baseUrl = "{{ asset('storage') }}";
+                        response.forEach((item, index) => {
+                            var fotoPengecekan = baseUrl + '/' + item.foto_pengecekan;
+                            var row = `
                             <tr>
                                 <td class="text-center">${index + 1}</td>
                                 <td class="text-center">${item.lokasi_kerusakan}</td>
@@ -74,13 +80,13 @@ $(document).ready(function() {
                                 </td>
                             </tr>
                         `;
-                        kerusakanTbody.append(row);
-                    });
-                } else {
-                    (tableID).find('#no-data-message').show();
+                            kerusakanTbody.append(row);
+                        });
+                    } else {
+                        (tableID).find('#no-data-message').show();
+                    }
                 }
-            }
+            });
         });
     });
-});
 </script>

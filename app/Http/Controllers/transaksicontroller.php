@@ -50,7 +50,15 @@ class TransaksiController extends Controller
 
         return view('pages.transaksi', compact('transaksi', 'totaltransaksi', 'totaltransaksiekspor', 'totaltransaksiimpor', 'totalHarga'));
     }
-
+    public function entryData()
+    {
+        return view('pages.inventory.entry-data');
+    }
+    public function entryDataShow($id)
+    {
+        $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
+        return view('pages.inventory.entry-data-more', compact('transaksi'));
+    }
     public function show($id)
     {
         $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);

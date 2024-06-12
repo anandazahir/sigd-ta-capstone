@@ -11,6 +11,8 @@ function formatRupiah($number)
 {
 return 'Rp. ' . number_format($number, 2, ',', '.');
 }
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 <style>
     select.form-select:disabled {
@@ -80,7 +82,7 @@ return 'Rp. ' . number_format($number, 2, ',', '.');
             </button>
 
         </div>
-        <form action="{{route('transaksi.editpembayaran', $data->id)}}" id="edit-form-pembayaran" method="POST">
+        <form action="{{route($cleaned.'.transaksi.editpembayaran', $data->id)}}" id="edit-form-pembayaran" method="POST">
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
                 <table class="table-variations-3 text-center" id="table_pembayaran">
                     <thead>

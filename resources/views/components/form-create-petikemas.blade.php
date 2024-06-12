@@ -1,4 +1,8 @@
-<form method="POST" action="{{ route('petikemas.petikemasstore') }}" id="create-petikemas-form" novalidate>
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
+<form method="POST" action="{{ route($cleaned.'.petikemas.petikemasstore') }}" id="create-petikemas-form" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">

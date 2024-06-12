@@ -8,7 +8,6 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/scss/style.scss",
                 "resources/scss/custom-bootsrap.scss",
-                "resources/js/app.js",
             ],
             refresh: true,
         }),

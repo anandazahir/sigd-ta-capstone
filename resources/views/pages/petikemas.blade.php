@@ -1,3 +1,7 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
 <x-layout>
     <x-slot:title>
         Peti Kemas
@@ -148,7 +152,9 @@
                     <div class="container">
                         <h3 class=" text-white mb-3" id="texttable">DATA PETI KEMAS</h3>
                         <div class="row justify-content-start justify-content-lg-between p-0 m-0" style=" margin-top:20px;">
+                            @can ("membuat laporan harian")
                             <div class="p-0" style="width: fit-content;">
+                                @can ("mengelola petikemas")
                                 <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
                                     <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
@@ -157,7 +163,7 @@
                                         <span class="fs-5 fw-semibold text-primary">Tambah Petikemas</span>
                                     </div>
                                 </button>
-
+                                @endcan
                                 <button id="laporan_harian" class="btn bg-white mb-2  ">
                                     <div class="d-flex gap-1">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
@@ -167,7 +173,7 @@
                                     </div>
                                 </button>
                             </div>
-
+                            @endcan
 
                         </div>
                         <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
@@ -251,11 +257,13 @@
                 </div>
             </div>
         </div>
-
-        <x-modal-form-delete route="/peti-kemas/delete" />
+        @can ('mengelola petikemas')
+        <x-modal-form-delete route="/{{$cleaned}}/peti-kemas/delete" />
         <x-modal-form id="form-create-petikemas" size="" text="Tambah Petikemas">
             <x-form-create-petikemas />
         </x-modal-form>
+
+        @endcan
         <x-toast />
         @push('page-script')
         <script>
@@ -430,7 +438,7 @@
                     const searchQuery = $searchInput.val();
                     const filter = valueselect;
                     $.ajax({
-                        url: '/peti-kemas/index',
+                        url: '/{{$cleaned}}/peti-kemas/index',
                         type: 'GET',
                         data: {
                             search: searchQuery,
@@ -446,23 +454,35 @@
                             $('#table_petikemas').show();
                             $('#text-error').hide();
                             const tbody = $('#table_petikemas tbody').empty();
-
+                            const role = "{{$cleaned}}"; // Example role, replace with dynamic role value if needed
                             $.each(response.Data, function(index, item) {
                                 const statusClass = item.status_kondisi === 'damage' ? 'bg-danger' : item.status_kondisi === 'available' ? 'bg-primary' : '';
                                 const statusClassKetersediaan = item.status_ketersediaan === 'out' ? 'bg-danger' : 'bg-primary';
                                 const Lokasi = item.lokasi === 'out' ? 'bg-danger' : 'bg-primary';
+
+                                let deleteButton = '';
+                                if (role === 'direktur') {
+                                    deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                                    <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
+                                    </button>`;
+                                }
+
                                 const row = `<tr>
-                        <td>${item.no_petikemas}</td>
-                        <td>${item.jenis_ukuran}</td>
-                        <td>${item.pelayaran.toUpperCase()}</td>
-                        <td><div class="${statusClass} fw-semibold fs-5 p-1 rounded-2 text-white">${item.status_kondisi.toUpperCase()}</div></td>
-                        <td><div class="fw-semibold fs-5 ${statusClassKetersediaan} p-1 rounded-2 text-white mx-auto" style="width: 45%;">${item.status_ketersediaan.toUpperCase()}</div></td>
-                        <td><div class="fw-semibold fs-5 ${Lokasi} bg-primary p-1 rounded-2 text-white">${item.lokasi.toUpperCase()}</div></td>
-                        <td><div class="btn-group gap-2">
-                            <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/peti-kemas/${item.id}"><i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                            <button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}"><i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
-                        </div></td>
-                    </tr>`;
+                                    <td>${item.no_petikemas}</td>
+                                    <td>${item.jenis_ukuran}</td>
+                                    <td>${item.pelayaran.toUpperCase()}</td>
+                                    <td><div class="${statusClass} fw-semibold fs-5 p-1 rounded-2 text-white">${item.status_kondisi.toUpperCase()}</div></td>
+                                    <td><div class="fw-semibold fs-5 ${statusClassKetersediaan} p-1 rounded-2 text-white mx-auto" style="width: 45%;">${item.status_ketersediaan.toUpperCase()}</div></td>
+                                    <td><div class="fw-semibold fs-5 ${Lokasi} p-1 rounded-2 text-white">${item.lokasi.toUpperCase()}</div></td>
+                                    <td><div class="btn-group gap-2">
+                                    <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/{{$cleaned}}/peti-kemas/${item.id}">
+                                        <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
+                                    </a>
+                                         ${deleteButton}
+                                    </div></td>
+                                    </tr>`;
+
+                                // Append the row to the table (assume you have a table body with id="table-body")
                                 tbody.append(row);
                             });
 
@@ -517,7 +537,7 @@
                 $laporanharian.on("click", function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "{{ route('petikemas.laporanharian') }}",
+                        url: "{{ route($cleaned.'.petikemas.laporanharian') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
@@ -539,8 +559,6 @@
 
             });
         </script>
-        @stack('form-modal')
-        @stack('form-delete')
         @stack('toast-script')
         @endpush
 

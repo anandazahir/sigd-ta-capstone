@@ -1,3 +1,7 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role)
+@endphp
 <x-layout>
     <x-slot:title>
         Transaksi
@@ -207,7 +211,7 @@
             </div>
         </div>
         <section id="table_transaksi_body"></section>
-        <x-modal-form-delete route="/transaksi/delete" />
+        <x-modal-form-delete route={{url('/delete')}} />
         <x-modal-form id="form-create-transaksi" size="modal-xl" text="Tambah Transaksi">
             <x-form-create-transaksi />
         </x-modal-form>
@@ -352,7 +356,7 @@
 
                 function fetchDataAndUpdateTable() {
                     $.ajax({
-                        url: '/transaksi/index',
+                        url: "{{route($cleaned.'.transaksi.filter')}}",
                         type: 'GET',
                         data: {
                             jenis_kegiatan: valueselect,
@@ -372,7 +376,7 @@
                         <td>${item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1)}</td>
                         <td>${item.jumlah_petikemas}</td>
                         <td><div class="btn-group gap-2">
-                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/transaksi/${item.id}"> 
+                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
                         <button class="btn btn-danger text-white p-0 rounded-3" id="deletetransaksi" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                         <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td></tr>`
@@ -423,7 +427,7 @@
                 $buttonLaporanTransaksi.on("click", function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "{{ route('transaksi.laporantransaksi') }}",
+                        url: "{{ route($cleaned.'.transaksi.laporantransaksi') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
@@ -448,7 +452,7 @@
 
                 function fetchSalesData(month) {
                     return $.ajax({
-                        url: `/transaksi/chart/${month}`,
+                        url: `${window.location.pathname}/chart/${month}`,
                         method: 'GET',
                         dataType: 'json',
                         beforeSend: function() {

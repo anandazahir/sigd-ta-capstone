@@ -1,4 +1,8 @@
-<form method="POST" id="create_form_pengecekan" action="{{ route('transaksi.storepengecekan') }}" enctype="multipart/form-data" novalidate>
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
+<form method="POST" id="create_form_pengecekan" action="{{ route($cleaned.'.transaksi.storepengecekan') }}" enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
@@ -133,7 +137,7 @@
 
             var formData = new FormData(this);
             $.ajax({
-                url: "{{ route('transaksi.storepengecekan') }}", // Ganti dengan endpoint Anda
+                url: "{{ route($cleaned.'.transaksi.storepengecekan') }}", // Ganti dengan endpoint Anda
                 type: 'POST',
                 data: formData,
                 processData: false, // Mengatur false, karena kita menggunakan FormData

@@ -1,7 +1,12 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
 <x-layout>
     <x-slot:title>
         Dashboard
         </x-slot>
+
         <div class="row">
             <div class="col-lg-12 mb-3">
                 <div class="card shadow rounded-4 text-white bg-primary">
@@ -68,7 +73,7 @@
             <div class="col-lg-6">
                 <div class="col">
                     <div class="row mb-3">
-                        <a href="/peti-kemas" class="text-decoration-none">
+                        <a href="/{{$cleaned}}/peti-kemas" class="text-decoration-none">
                             <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Peti Kemas">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
@@ -95,7 +100,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <a href="/transaksi" class="text-decoration-none">
+                        <a href="{{route($cleaned.'.transaksi.index')}}" class="text-decoration-none">
                             <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">

@@ -1,3 +1,7 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
 <div class="modal fade" id="{{ $id }}" tabindex="-1" aria-labelledby="show-kerusakan" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -38,22 +42,21 @@
         let tableID = $("#" + tableId);
         let buttonId = $("#" + Id);
         console.log(tableID);
-        
         $(buttonId).on('click', function() {
             var perbaikanhistoryId = $(this).val();
             console.log(perbaikanhistoryId);
-            
+
             $.ajax({
-                url: `/peti-kemas/perbaikanhistory/${perbaikanhistoryId}/kerusakan`,
+                url: `/{{$cleaned}}/perbaikanhistory/${perbaikanhistoryId}/kerusakan`,
                 method: 'GET',
                 success: function(response) {
                     var kerusakanTbody = (tableID).find('#table_kerusakan_perbaikan tbody');
                     kerusakanTbody.empty();
                     console.log(kerusakanTbody);
-                    
+
                     if (response.length > 0) {
                         (tableID).find('#no-data-message2').hide();
-                        var baseUrl = '{{ asset('storage') }}';
+                        var baseUrl = "{{ asset('storage') }}";
                         response.forEach((item, index) => {
                             var fotoPerbaikan = baseUrl + '/' + item.foto_perbaikan;
                             var row = `
@@ -86,5 +89,5 @@
                 }
             });
         });
-    });    
+    });
 </script>

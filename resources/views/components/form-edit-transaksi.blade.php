@@ -1,4 +1,8 @@
-<form method="POST" action="{{ route('transaksi.update', $data->id) }}" id="edit-transaksi-form" novalidate>
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+@endphp
+<form method="POST" action="{{ route($cleaned.'.transaksi.update', $data->id) }}" id="edit-transaksi-form" novalidate>
     @csrf
     @method('PUT')
     <div class="row">

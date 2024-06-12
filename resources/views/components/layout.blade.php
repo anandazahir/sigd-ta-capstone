@@ -26,7 +26,6 @@
     </script>
     @vite([
     "resources/scss/style.scss",
-    "resources/js/app.js",
     ])
     <style>
         :root {
