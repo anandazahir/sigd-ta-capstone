@@ -105,7 +105,6 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
             return view('pages/dashboard');
         })->name('inventory.dashboard');
         Route::prefix('entry-data')->group(function () {
-
             Route::get('/', [TransaksiController::class, 'entryData'])->name('inventory.transaksi.index');
             Route::get('/index', [TransaksiController::class, 'filter'])->name('inventory.transaksi.filter');
             Route::get('/{id}', [TransaksiController::class, 'entryDataShow'])->name('inventory.transaksi.show');

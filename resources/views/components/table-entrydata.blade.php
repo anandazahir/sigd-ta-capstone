@@ -192,6 +192,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $(this).find("#cetak_spk").on("click", function(e) {
                 $(this).attr('data-status', 'sudah cetak');
                 console.log($(this).attr("data-id"));
+                console.log("{{ route($cleaned . '.transaksi.cetakspk', $data->id) }}")
                 $.ajax({
                     url: "{{ route($cleaned . '.transaksi.cetakspk', $data->id) }}",
                     type: 'POST',
