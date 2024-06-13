@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if (auth()->check()) {
+
         return redirect('/dashboard');
     } else {
         return redirect('/login');
@@ -109,6 +110,7 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
             Route::get('/index', [TransaksiController::class, 'filter'])->name('inventory.transaksi.filter');
             Route::get('/{id}', [TransaksiController::class, 'entryDataShow'])->name('inventory.transaksi.show');
             Route::post('/store', [TransaksiController::class, 'storeEntryData'])->name('inventory.transaksi.transaksistore');
+            Route::post('/cetakspk/{id}', [TransaksiController::class, 'cetakspk'])->name('inventory.transaksi.cetakspk');
         });
         Route::prefix('peti-kemas')->group(function () {
             Route::get('/', [PetikemasController::class, 'index'])->name('inventory.petikemas.index');
