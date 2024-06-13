@@ -96,7 +96,7 @@ class PegawaiController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         $username =  strtolower($request->username);
-        $name = strtolower($request->name);
+        $name = strtolower($request->nama);
         $no_hp = '0' . $request->no_hp;
         $pegawai->update([
             'nip' => $request->nip,

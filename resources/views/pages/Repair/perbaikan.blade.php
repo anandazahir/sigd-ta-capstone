@@ -153,7 +153,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 
                 function fetchDataAndUpdateTable() {
                     $.ajax({
-                        url: "/surveyin/pengecekan/index",
+                        url: "/repair/perbaikan/index",
                         type: 'GET',
                         data: {
                             jenis_kegiatan: valueselect,

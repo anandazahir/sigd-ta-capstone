@@ -163,3 +163,41 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
         });;
     });
 });
+
+Route::middleware(['auth', 'role:repair'])->group(function () {
+    Route::prefix('repair')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('pages/dashboard');
+        })->name('repair.dashboard');
+        Route::prefix('perbaikan')->group(function () {
+            Route::get('/', [TransaksiController::class, 'perbaikan'])->name('perbaikan.index');
+            Route::get('/index', [TransaksiController::class, 'indexperbaikan']);
+            Route::get('/{id}', [TransaksiController::class, 'perbaikanShow']);
+            Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('repair.transaksi.editperbaikan');
+            Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('repair.transaksi.deletekerusakan');
+        });
+        Route::get('/notification', function () {
+            return view('pages/notification');
+        });
+        Route::get('/profile', function () {
+            return view('pages/profile');
+        });
+        Route::get('/pegawai/more', function () {
+            return view('pages/pegawai-more');
+        });
+        Route::get('/pegawai', function () {
+            return view('pages/pegawai');
+        });;
+        Route::prefix('peti-kemas')->group(function () {
+            Route::get('/', [PetikemasController::class, 'index'])->name('repair.petikemas.index');
+            Route::get('/index', [PetikemasController::class, 'filter'])->name('repair.petikemas.filter');
+            Route::get('/{id}', [PetikemasController::class, 'show'])->name('repair.petikemas.show');
+            Route::get('/pengecekanhistory/{id}/kerusakan', [PetikemasController::class, 'listkerusakan'])->name('repair.petikemas.listkerusakanhistory');
+            Route::post('/pengecekanhistory/filter', [PetikemasController::class, 'filterlistkerusakan'])->name('repair.petikemas.filterpengecekanhistory');
+            Route::get('/perbaikanhistory/{id}/kerusakan', [PetikemasController::class, 'listperbaikan'])->name('repair.petikemas.listperbaikanhistory');
+            Route::post('/perbaikanhistory/filter', [PetikemasController::class, 'filterlistperbaikan'])->name('repair.petikemas.filterperbaikanhistory');
+            Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('repair.petikemas.filterpenempatanhistory');
+            Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('repair.petikemas.laporanharian');
+        });
+    });
+});

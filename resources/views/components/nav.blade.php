@@ -3,7 +3,7 @@ $url = request()->path();
 $segments = explode('/', $url);
 
 // List of roles that should be hidden from the breadcrumb
-$roles = ['direktur', 'inventory', 'surveyin'];
+$roles = ['direktur', 'inventory', 'surveyin', 'repair'];
 
 // Remove the first segment if it is a role
 if (in_array($segments[0], $roles)) {
