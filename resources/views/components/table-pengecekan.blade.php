@@ -84,6 +84,7 @@ break;
                             </div>
 
                         </td>
+                        @can('mengelola transaksi')
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
                                 <button class="btn bg-primary text-white mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" id="edit_pengecekan_button">
@@ -91,6 +92,7 @@ break;
                                 </button>
                             </div>
                         </td>
+                        @endcan()
                         @endif
 
                     </tr>
@@ -108,7 +110,9 @@ break;
 
 @foreach ($data->penghubungs as $penghubung)
 <x-table-kerusakan test="false" :data="$penghubung->pengecekan" id="table-kerusakan-{{$penghubung->pengecekan->id}}" text="List Kerusakan | {{$penghubung->petikemas->no_petikemas}}" petikemas="{{$penghubung->petikemas->id}}" />
-<x-modal-form size="modal-xl" id="edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" text="Edit Pengecekan | {{$penghubung->petikemas->no_petikemas}}">
+@can('mengelola transaksi')
+    <x-modal-form size="modal-xl" id="edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" text="Edit Pengecekan | {{$penghubung->petikemas->no_petikemas}}">
     <x-form-edit-pengecekan :data="$penghubung->pengecekan" id="edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" />
 </x-modal-form>
+@endcan()
 @endforeach

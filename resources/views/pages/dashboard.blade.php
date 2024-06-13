@@ -45,7 +45,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <div class="d-flex flex-row mb-3">
                             <h4>NOTIFICATION</h4>
                         </div>
-                        <div class="row container text-center scroll table-responsive" style="height: 21.5rem">
+                        <div class="row container text-center scroll table-responsive" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') ? '12.3rem' : '21.5rem' }}">
                             <table class="table-dashboard ">
                                 <thead>
                                     <tr>
@@ -72,6 +72,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
             <div class="col-lg-6">
                 <div class="col">
+                    @can('melihat petikemas')
                     <div class="row mb-3">
                         <a href="/{{$cleaned}}/peti-kemas" class="text-decoration-none">
                             <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Peti Kemas">
@@ -98,7 +99,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </div>
                         </a>
                     </div>
+                    @endcan()
 
+                    @can('melihat transaksi')
                     <div class="row mb-3">
                         <a href="{{route($cleaned.'.transaksi.index')}}" class="text-decoration-none">
                             <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
@@ -119,6 +122,30 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </div>
                         </a>
                     </div>
+                    @endcan()
+
+                    @can('melihat pengecekan')
+                    <div class="row mb-3">
+                        <a href="{{route('pengecekan.index')}}" class="text-decoration-none">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
+                                <div class="card-body">
+                                    <div class="d-flex flex-row gap-4">
+
+                                        <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">
+                                            <i class="fa-solid fa-briefcase text-primary my-1" style="font-size: 73px;"></i>
+                                        </div>
+
+                                        <div style="width:45%;">
+                                            <h4 class="p-0 mx-0 my-2">Pengecekan</h4>
+                                            <hr class="line p-0 mx-0 my-2" style="height: 2px; background-color:#FFF" />
+                                            <p class="p-0 mx-0 my-2">Halaman Pengecekan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    @endcan()
 
                     <div class="row mb-3">
                         <a href="/{{$cleaned}}/pegawai" class="text-decoration-none">

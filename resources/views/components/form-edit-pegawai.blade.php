@@ -52,7 +52,7 @@
                 <option value="mops" {{ $data->jabatan == 'mops' ? 'selected' : '' }}>Manajer Operasional</option>
                 <option value="inventory" {{ $data->jabatan == 'inventory' ? 'selected' : '' }}>Inventory</option>
                 <option value="kasir" {{ $data->jabatan == 'kasir' ? 'selected' : '' }}>Kasir</option>
-                <option value="survey in" {{ $data->jabatan == 'survey in' ? 'selected' : '' }}>Survey In</option>
+                <option value="surveyin" {{ $data->jabatan == 'surveyin' ? 'selected' : '' }}>Survey In</option>
                 <option value="estimator" {{ $data->jabatan == 'estimator' ? 'selected' : '' }}>Estimator</option>
                 <option value="repair" {{ $data->jabatan == 'repair' ? 'selected' : '' }}>Repair</option>
                 <option value="tally" {{ $data->jabatan == 'tally' ? 'selected' : '' }}>Tally</option>

@@ -211,7 +211,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             </div>
         </div>
         <section id="table_transaksi_body"></section>
-        <x-modal-form-delete route={{url('/delete')}} />
+        <x-modal-form-delete route="/{{$cleaned}}/transaksi/delete" />
         <x-modal-form id="form-create-transaksi" size="modal-xl" text="Tambah Transaksi">
             <x-form-create-transaksi />
         </x-modal-form>
@@ -378,7 +378,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                         <td><div class="btn-group gap-2">
                         <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                        <button class="btn btn-danger text-white p-0 rounded-3" id="deletetransaksi" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                        <button class="btn btn-danger text-white p-0 rounded-3 delete-transaksi" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                         <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td></tr>`
                                 );
                             });
@@ -449,6 +449,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 });
 
                 let chart;
+
+                $(document).on('click', '.delete-transaksi', function(e) {
+                    e.preventDefault();
+                    $("#form-delete-data").modal('show');
+                    $("#input_form_delete").val($(this).val());
+                    console.log($(this).val());
+                });
 
                 function fetchSalesData(month) {
                     return $.ajax({

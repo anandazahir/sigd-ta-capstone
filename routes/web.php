@@ -136,3 +136,30 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
         });;
     });
 });
+
+Route::middleware(['auth', 'role:surveyin'])->group(function () {
+    Route::prefix('surveyin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('pages/dashboard');
+        })->name('surveyin.dashboard');
+        Route::prefix('pengecekan')->group(function () {
+            Route::get('/', [TransaksiController::class, 'pengecekan'])->name('pengecekan.index');
+            Route::get('/index', [TransaksiController::class, 'indexpengecekan']);
+            Route::get('/{id}', [TransaksiController::class, 'pengecekanShow']);
+            Route::post('/store/pengecekan', [TransaksiController::class, 'storepengecekan'])->name('surveyin.transaksi.storepengecekan');
+            Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('surveyin.transaksi.deletekerusakan');
+        });
+        Route::get('/notification', function () {
+            return view('pages/notification');
+        });
+        Route::get('/profile', function () {
+            return view('pages/profile');
+        });
+        Route::get('/pegawai/more', function () {
+            return view('pages/pegawai-more');
+        });
+        Route::get('/pegawai', function () {
+            return view('pages/pegawai');
+        });;
+    });
+});

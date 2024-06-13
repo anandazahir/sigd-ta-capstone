@@ -27,6 +27,7 @@ class PegawaiController extends Controller
             'nip' => 'required|numeric|digits_between:8,13|unique:users,nip',
             'nik' => 'required|numeric|digits_between:8,13|unique:users,nik',
             'nama' => 'required|string|min:5|unique:users,nama',
+            'email' => 'required|email|unique:users,email',
             'username' => 'required|string|unique:users,username',
             'jabatan' => 'required|string',
             'alamat' => 'required|string|unique:users,alamat',
@@ -50,6 +51,7 @@ class PegawaiController extends Controller
         $user = User::create([
             'nip' => $request->nip,
             'nama' => $name,
+            'email' => $request->email,
             'nik' => $request->nik,
             'username' => $username,
             'password' => $password,

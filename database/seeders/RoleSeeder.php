@@ -50,8 +50,14 @@ class RoleSeeder extends Seeder
             ['name' => 'mengelola transaksi'],
             [] // No additional attributes to update
         );
+        
         $petikemas = Permission::updateOrCreate(
             ['name' => 'mengelola petikemas'],
+            [] // No additional attributes to update
+        );
+        
+        $melihat_petikemas = Permission::updateOrCreate(
+            ['name' => 'melihat petikemas'],
             [] // No additional attributes to update
         );
 
@@ -59,10 +65,24 @@ class RoleSeeder extends Seeder
             ['name' => 'membuat laporan harian'],
             [] // No additional attributes to update
         );
+        
+        $fixnotifikasi = Permission::updateOrCreate(
+            ['name' => 'mengatur notifikasi'],
+            [] // No additional attributes to update
+        );
 
+        $melihat_pengecekan = Permission::updateOrCreate(
+            ['name' => 'melihat pengecekan'],
+            [] // No additional attributes to update
+        );
+        $melihat_transaksi = Permission::updateOrCreate(
+            ['name' => 'melihat transaksi'],
+            [] // No additional attributes to update
+        );
 
-        $roledirektur->givePermissionTo($transaksi, $petikemas, $laporanharian);
-        $roleinventory->givePermissionTo($laporanharian);
+        $roledirektur->givePermissionTo($transaksi, $petikemas, $melihat_petikemas, $laporanharian, $melihat_transaksi);
+        $roleinventory->givePermissionTo($laporanharian, $melihat_transaksi, $melihat_petikemas);
+        $rolesurveyin->givePermissionTo($melihat_pengecekan, $fixnotifikasi);
 
         // Assign role to user
         $user = \App\Models\User::where('username', 'direktur')->first();
