@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('jumlah_kerusakan')->nullable();
             $table->dateTime('tanggal_pengecekan')->nullable();
             $table->string('survey_in')->nullable();
+            $table->string('foto_profil')->nullable();
             $table->foreignId('penghubung_id')->nullable()->constrained('penghubungs')->onDelete('cascade');
             $table->foreignId('transaksi_id')->nullable()->constrained('transaksis')->onDelete('cascade');
             $table->timestamps();

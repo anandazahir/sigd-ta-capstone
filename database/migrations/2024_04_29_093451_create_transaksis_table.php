@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('emkl');
             $table->date('tanggal_transaksi')->nullable();
             $table->string('inventory');
+            $table->string('foto_profil')->nullable();
             $table->timestamps();
         });
     }

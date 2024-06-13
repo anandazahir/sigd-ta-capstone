@@ -17,6 +17,7 @@ return new class extends Migration
             $table->dateTime('tanggal_perbaikan')->nullable();
             $table->string('repair')->nullable();
             $table->string('estimator')->nullable();
+            $table->string('foto_profil')->nullable();
             $table->string('status_kondisi')->nullable();
             $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
             $table->bigInteger('id_perbaikan')->nullable();

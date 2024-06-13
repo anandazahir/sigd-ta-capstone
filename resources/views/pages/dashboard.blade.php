@@ -16,9 +16,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <i class="fa-solid fa-circle-user" style="font-size:100px;"></i>
                             </div>
                             <div class="col-md-10 my-auto text-center text-lg-start" style="width: 25rem">
-                                <h4 class="mt-2 p-0">DIREKTUR 1</h4>
+                                <h4 class="mt-2 p-0">{{auth()->user()->nama}}</h4>
                                 <hr class="mb-2 line" style="height: 4px; background-color:#FFF;" />
-                                <p class="mt-1 p-0 ">NIP: 21120120140115 | Direktur</p>
+                                <p class="mt-1 p-0 ">NIP: {{auth()->user()->nip}} | {{auth()->user()->jabatan}}</p>
                             </div>
                         </div>
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">

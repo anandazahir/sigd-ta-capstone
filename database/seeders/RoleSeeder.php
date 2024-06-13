@@ -14,33 +14,55 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $roleAdmin = Role::updateOrCreate(
+        $roledirektur = Role::updateOrCreate(
             ['name' => 'direktur'],
             [] // No additional attributes to update
         );
 
-        $roleUser = Role::updateOrCreate(
+        $roleinventory = Role::updateOrCreate(
             ['name' => 'inventory'],
             [] // No additional attributes to update
         );
+        $roletally = Role::updateOrCreate(
+            ['name' => 'tally'],
+            [] // No additional attributes to update
+        );
 
-        $cantransaksi = Permission::updateOrCreate(
+        $rolesurveyin = Role::updateOrCreate(
+            ['name' => 'surveyin'],
+            [] // No additional attributes to update
+        );
+        $rolerepair = Role::updateOrCreate(
+            ['name' => 'repair'],
+            [] // No additional attributes to update
+        );
+
+        $rolemops = Role::updateOrCreate(
+            ['name' => 'mops'],
+            [] // No additional attributes to update
+        );
+        $rolekasir = Role::updateOrCreate(
+            ['name' => 'kasir'],
+            [] // No additional attributes to update
+        );
+
+        $transaksi = Permission::updateOrCreate(
             ['name' => 'mengelola transaksi'],
             [] // No additional attributes to update
         );
-        $canpetikemas = Permission::updateOrCreate(
+        $petikemas = Permission::updateOrCreate(
             ['name' => 'mengelola petikemas'],
             [] // No additional attributes to update
         );
 
-        $permissionUser = Permission::updateOrCreate(
+        $laporanharian = Permission::updateOrCreate(
             ['name' => 'membuat laporan harian'],
             [] // No additional attributes to update
         );
 
 
-        $roleAdmin->givePermissionTo($cantransaksi, $canpetikemas, $permissionUser);
-        $roleUser->givePermissionTo($permissionUser);
+        $roledirektur->givePermissionTo($transaksi, $petikemas, $laporanharian);
+        $roleinventory->givePermissionTo($laporanharian);
 
         // Assign role to user
         $user = \App\Models\User::where('username', 'direktur')->first();

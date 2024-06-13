@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('jumlah_kerusakan')->nullable();
             $table->dateTime('tanggal_pengecekan')->nullable();
             $table->string('survey_in')->nullable();
+            $table->string('foto_profil')->nullable();
             $table->string('status_kondisi')->nullable();
             $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
             $table->bigInteger('id_pengecekan')->nullable();

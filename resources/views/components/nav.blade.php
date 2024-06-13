@@ -74,12 +74,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                   <span class="text">Profile</span>
                 </div>
               </a></li>
-            <li><a class="dropdown-item" href="/{{$cleaned}}/setting">
-                <div class="d-flex flex-row gap-2">
-                  <i class="fa-solid fa-gear text-primary" style="font-size:27px"></i>
-                  <span class="text">Setting</span>
-                </div>
-              </a></li>
+
 
             <li>
               <form action="{{url('/logout')}}" method="POST">

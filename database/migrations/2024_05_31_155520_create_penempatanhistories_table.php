@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('operator_alat_berat')->nullable();
             $table->string('tally')->nullable();
             $table->string('lokasi')->nullable();
+            $table->string('foto_profil')->nullable();
             $table->string('status_ketersediaan')->nullable();
             $table->foreignId('petikemas_id')->constrained('petikemas')->onDelete('cascade')->nullable();
             $table->bigInteger('id_penempatan')->nullable();

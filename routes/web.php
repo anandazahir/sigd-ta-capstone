@@ -3,6 +3,7 @@
 use App\Http\Controllers\petikemascontroller;
 use App\Http\Controllers\transaksicontroller;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -78,21 +79,20 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
             Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('direktur.petikemas.filterpenempatanhistory');
             Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('direktur.petikemas.laporanharian');
         });
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'index'])->name('direktur.pegawai.index');
+            Route::get('/{id}', [PegawaiController::class, 'show'])->name('pegawai.show');
+            Route::post('/store', [PegawaiController::class, 'store'])->name('pegawai.store');
+            Route::put('/edit/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
+            Route::post('/delete', [PegawaiController::class, 'delete'])->name('pegawai.delete');
+            Route::post('/index', [PegawaiController::class, 'filter'])->name('pegawai.filter');
+        });
 
         Route::get('/notification', function () {
             return view('pages/notification');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
-        });
-        Route::get('/pegawai/more', function () {
-            return view('pages/pegawai-more');
-        });
-        Route::get('/pegawai', function () {
-            return view('pages/pegawai');
-        });
-        Route::get('/setting', function () {
-            return view('pages/setting');
         });
     });
 });
@@ -132,9 +132,6 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
         });
         Route::get('/pegawai', function () {
             return view('pages/pegawai');
-        });
-        Route::get('/setting', function () {
-            return view('pages/setting');
-        });
+        });;
     });
 });

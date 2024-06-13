@@ -8,8 +8,8 @@
             <div class="rounded-circle bg-white p-1 mb-2 onhover" style="z-index: 1; width: 250px; height: 250px;">
                 <i class="fa-solid fa-user text-primary" style=" font-size:190px; margin-left:37px; margin-top:17px"></i>
             </div>
-            <h1 class="fw-semibold text-white" style="z-index: 1;">Direktur 1</h1>
-            <p class="text-white" style="z-index: 1;">Direktur | 21120120140115</p>
+            <h1 class="fw-semibold text-white" style="z-index: 1;">{{$data->nama}}</h1>
+            <p class="text-white" style="z-index: 1;">{{$data->jabatan}} | {{$data->nip}}</p>
         </div>
     </div>
 </div>
@@ -24,7 +24,7 @@
                         <i class="fa-solid fa-location-dot position-absolute top-0 start-0 my-5 text-primary" style="margin-left: 10px ; font-size:65px;"></i>
                         <p style="margin-left:50px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Alamat</p>
                         <h5 class="fw-semibold text-black fs-3 fs-sm-5" style="margin-left:50px;">
-                            Kawasan Industri Cipta Guna, Jl. Arteri Utara, Bandarharjo, Semarang Utara, Semarang
+                            {{$data->alamat}}
                         </h5>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                                 <i class="fa-solid fa-venus-mars position-absolute top-0 start-0 my-4 text-primary" style="margin-left: 10px ; font-size: 47px;"></i>
                                 <p style="margin-left:50px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jenis Kelamin</p>
                                 <h5 class="fw-semibold fs-5 text-black" style="margin-left:50px">
-                                    Pria
+                                    {{$data->JK}}
                                 </h5>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
 
                                 <p style="margin-left:60px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Agama</p>
                                 <h5 class="fw-semibold fs-5 text-black" style="margin-left:60px">
-                                    Islam
+                                    {{$data->agama}}
                                 </h5>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                         <i class="fa-solid fa-phone position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size: 55px"></i>
                         <p style="margin-left:60px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">No. Telepon</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:60px">
-                            088888
+                            {{$data->no_hp}}
                         </h5>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                         <i class="fa-solid fa-calendar-days position-absolute top-0 start-0 my-2 text-primary" style="margin-left: 20px ; font-size:60px"></i>
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Lahir</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            22 Desember 2002
+                            {{$data->tanggal_lahir}}
                         </h5>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                         <i class="fa-solid fa-envelope position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 20px; font-size: 55px;"></i>
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Email</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            direktur@gmail.com
+                            {{$data->email}}
                         </h5>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                         <i class="fa-solid fa-file-lines position-absolute top-0 start-0 my-2 text-primary" style="margin-left: 15px ; font-size:60px"></i>
                         <p style="margin-left:60px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">NIK</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:60px">
-                            31192928393020
+                            {{$data->nik}}
                         </h5>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                         </svg>
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Pernikahan</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            Sudah Menikah
+                            {{$data->status_menikah}}
                         </h5>
                     </div>
                 </div>
@@ -143,13 +143,13 @@
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Pendidikan Terakhir</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            S2
+                            {{$data->pendidikan_terakhir}}
                         </h5>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="btn rounded-3  d-flex mx-auto mt-3 bg-white" data-bs-toggle="modal" data-bs-target="#create-pegawai">
+        <button class="btn rounded-3  d-flex mx-auto mt-3 bg-white" data-bs-toggle="modal" data-bs-target="#edit-pegawai-modal">
             <div data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Biodata">
                 <i class="fa-solid fa-pen-to-square fa-lg my-auto text-primary"></i>
                 <span class="fw-semibold my-auto fs-6 text-primary">EDIT DATA</span>
@@ -157,3 +157,6 @@
         </button>
     </div>
 </div>
+<x-modal-form size="" text="Ubah Data Pegawai" id="edit-pegawai-modal">
+    <x-form-edit-pegawai :data="$data" />
+</x-modal-form>

@@ -15,9 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('email')->unique();
-
             $table->string('password');
-
+            $table->string('nip')->unique();
+            $table->string('nik')->unique();
+            $table->string('nama')->unique();
+            $table->string('no_hp')->unique();
+            $table->string('jabatan');
+            $table->string('alamat')->unique();
+            $table->string('agama');
+            $table->string('foto')->nullable();
+            $table->char('JK');
+            $table->string('pendidikan_terakhir');
+            $table->date('tanggal_lahir');
+            $table->string('status_menikah');
             $table->timestamps();
         });
     }
