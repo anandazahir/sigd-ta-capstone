@@ -21,6 +21,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class petikemascontroller extends Controller
 {
+    
+
     public function index()
     {
         $petikemas = petikemas::all();
@@ -73,6 +75,67 @@ class petikemascontroller extends Controller
             'monthDamage'
         ));
     }
+
+    public function editpenempatan(Request $request, $id)
+    {
+        $rules = [
+            'operator_alat_berat' => 'required',
+            'tally' => 'required',
+            'blok' => 'required',
+            'row' => 'required',
+            'tier' => 'required',
+            'lokasi' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($request->lokasi !== "pending" && $request->lokasi !== "out") {
+            $validator->sometimes('lokasi', 'required|unique:petikemas,lokasi,' . $id, function ($input) {
+                return $input->lokasi !== "pending" && $input->lokasi !== "out";
+            });
+        }
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $penempatan = penempatan::find($request->id_penempatan);
+        $petikemas = petikemas::find($id);
+        $penempatan->update([
+            'tanggal_penempatan' => now(),
+            'operator_alat_berat' => $request->operator_alat_berat,
+            'tally' => $request->tally,
+        ]);
+        if ($request->lokasi == 'out' && $petikemas->status_ketersediaan == 'in') {
+            $petikemas->update([
+                'lokasi' => $request->lokasi,
+                'status_ketersediaan' => 'out',
+                'tanggal_keluar' => now(),
+                'status_order' => 'true',
+            ]);
+        }
+        $petikemas->update([
+            'lokasi' => $request->lokasi,
+        ]);
+        penempatanhistory::create([
+            'tanggal_penempatan' => now(),
+            'operator_alat_berat' => $request->operator_alat_berat,
+            'tally' => $request->tally,
+            'lokasi' => $request->lokasi,
+            'status_ketersediaan' => $petikemas->status_ketersediaan,
+            'petikemas_id' => $petikemas->id,
+            'id_penempatan' => $penempatan->id,
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Penempatan Berhasil Diubah!',
+        ]);
+    }
+
+    public function showpetikemas($id)
+    {
+        $transaksi = Petikemas::with('penghubungs.penempatan')->findOrFail($id);
+        return view('pages.petikemas', compact('transaksi'));
+    }
+    
     public function show($id)
     {
         $petikemas = Petikemas::with([

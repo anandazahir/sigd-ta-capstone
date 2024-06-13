@@ -27,6 +27,7 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->first();
 
+        
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
             // Assuming you have a 'role' field in your users table

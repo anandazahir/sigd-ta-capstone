@@ -90,11 +90,17 @@ class RoleSeeder extends Seeder
             ['name' => 'melihat riwayat penempatan'],
             [] // No additional attributes to update
         );
-
+        $mengelola_penempatan = Permission::updateOrCreate(
+            ['name' => 'mengelola penempatan'],
+            [] // No additional attributes to update
+        );
+        
+        
         $roledirektur->givePermissionTo($transaksi, $petikemas, $melihat_petikemas, $laporanharian, $melihat_transaksi, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan);
         $roleinventory->givePermissionTo($laporanharian, $melihat_transaksi, $melihat_petikemas, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan);
         $rolesurveyin->givePermissionTo($melihat_pengecekan);
         $rolerepair->givePermissionTo($melihat_petikemas, $melihat_perbaikan, $melihat_riwayatperbaikan);
+        $roletally->givePermissionTo($mengelola_penempatan, $melihat_riwayatpenempatan, $melihat_petikemas);
 
         // Assign role to user
         $user = \App\Models\User::where('username', 'direktur')->first();

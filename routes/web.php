@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('peti-kemas/test/{id}', [PetikemasController::class, 'showpetikemas'])->name('direktur.transaksi.index');
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -199,5 +200,37 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
             Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('repair.petikemas.filterpenempatanhistory');
             Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('repair.petikemas.laporanharian');
         });
+    });
+});
+
+Route::middleware(['auth', 'role:tally'])->group(function () {
+    Route::prefix('tally')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('pages/dashboard');
+        })->name('tally.dashboard');
+    
+        Route::prefix('peti-kemas')->group(function () {
+            Route::get('/', [PetikemasController::class, 'index'])->name('tally.petikemas.index');
+            Route::get('/index', [PetikemasController::class, 'filter'])->name('tally.petikemas.filter');
+            Route::get('/{id}', [PetikemasController::class, 'show'])->name('tally.petikemas.show');
+            Route::get('/pengecekanhistory/{id}/kerusakan', [PetikemasController::class, 'listkerusakan'])->name('tally.petikemas.listkerusakanhistory');
+            Route::post('/pengecekanhistory/filter', [PetikemasController::class, 'filterlistkerusakan'])->name('tally.petikemas.filterpengecekanhistory');
+            Route::get('/perbaikanhistory/{id}/kerusakan', [PetikemasController::class, 'listperbaikan'])->name('tally.petikemas.listperbaikanhistory');
+            Route::post('/perbaikanhistory/filter', [PetikemasController::class, 'filterlistperbaikan'])->name('tally.petikemas.filterperbaikanhistory');
+            Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('tally.petikemas.filterpenempatanhistory');
+            Route::post('/editpenempatan/{id}', [TransaksiController::class, 'editpenempatan'])->name('tally.transaksi.editpenempatan');
+        });
+        Route::get('/notification', function () {
+            return view('pages/notification');
+        });
+        Route::get('/profile', function () {
+            return view('pages/profile');
+        });
+        Route::get('/pegawai/more', function () {
+            return view('pages/pegawai-more');
+        });
+        Route::get('/pegawai', function () {
+            return view('pages/pegawai');
+        });;
     });
 });

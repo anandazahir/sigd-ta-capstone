@@ -461,12 +461,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 const Lokasi = item.lokasi === 'out' ? 'bg-danger' : 'bg-primary';
 
                                 let deleteButton = '';
+                                let editButton = '';
+
                                 if (role === 'direktur') {
                                     deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                                 }
-
+                                if (role === 'tally') {
+                                    editButton = `<div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data penempatan">
+                                    <button class="btn bg-primary  rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan"  id="edit-button-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i></button>
+                                </div>`;
+                                }     
                                 const row = `<tr>
                                     <td>${item.no_petikemas}</td>
                                     <td>${item.jenis_ukuran}</td>
@@ -479,6 +485,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
                                     </a>
                                          ${deleteButton}
+                                         ${editButton}
                                     </div></td>
                                     </tr>`;
 
@@ -537,7 +544,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 $laporanharian.on("click", function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "{{ route($cleaned.'.petikemas.laporanharian') }}",
+                        url: "/{{$cleaned}}/peti-kemas/laporanharian",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
