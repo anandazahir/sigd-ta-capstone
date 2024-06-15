@@ -4,7 +4,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 @endphp
 <x-layout>
     <x-slot:title>
-        Entry Data
+        Pembayaran
         </x-slot>
         <div class="row">
             <div class="col-lg-6">
@@ -34,29 +34,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             <div class="container">
 
                 <h3 class=" text-white mb-3 text-table">DATA TRANSAKSI</h3>
-
-
-                <div class="row justify-content-start justify-content-lg-between p-0 m-0">
-                    <div class="p-0" style="width: fit-content;">
-
-                        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
-                            <div class="d-flex gap-1">
-                                <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                    <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
-                                </div>
-                                <span class="fs-5 fw-semibold text-primary">Tambah Transaksi</span>
-                            </div>
-                        </button>
-                    </div>
-
-
-                </div>
                 <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
                     <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
                         <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
                         <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                     </form>
-
                     <div class="dropdown">
                         <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex gap-1 position-relative">
@@ -68,8 +50,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                             <li data-value="" class="dropdown-item" style="cursor:pointer;">Semua</li>
                             <li data-value="impor" class="dropdown-item" style="cursor:pointer;">Impor</li>
                             <li data-value="ekspor" class="dropdown-item" style="cursor:pointer;">Ekspor</li>
-                            <li data-value="transaksi-selesai" class="dropdown-item" style="cursor:pointer;">Transaksi Selesai</li>
-                            <li data-value="transaksi-belum-selesai" class="dropdown-item" style="cursor:pointer;">Transaksi Belum Selesai</li>
                         </ul>
                     </div>
 
@@ -118,10 +98,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             </div>
         </div>
 
-        <x-modal-form id="form-create-transaksi" size="modal-xl" text="Tambah Transaksi">
-            <x-form-create-transaksi />
-        </x-modal-form>
-        <x-toast />
+
         @push('page-script')
 
 
@@ -132,14 +109,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 let valueselect = '';
                 const $filterDropdown = $('#filter .dropdown-item');
                 const $textTable = $('.text-table');
-                const $monthPicker = $('#monthpicker');
+
                 const $searchForm = $('#searchForm');
                 const $searchInput = $('#searchInput');
                 const $pagination = $("#pagination").find('.pagination');
                 const $tableTransaksi = $('#table_transaksi');
                 const $loadingTable = $('#loading-table');
                 const $onScroll = $('.onscroll');
-
 
                 const $buttonLaporanTransaksi = $("#button-laporan-transaksi");
                 const $responseMessage = $('#response-message');
@@ -161,9 +137,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     fetchDataAndUpdateTable();
                 });
 
-                $monthPicker.change(function() {
-                    fetchDataAndUpdateTable();
-                });
 
 
                 function updatePaginationLinks(totalPages) {
@@ -204,8 +177,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                         url: "{{route($cleaned.'.transaksi.filter')}}",
                         type: 'GET',
                         data: {
-                            jenis_kegiatan: valueselect,
-                            bulan_transaksi: $monthPicker.val(),
+                            filter: valueselect,
                             search: $searchInput.val(),
                             page: currentPage
                         },
@@ -265,14 +237,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 
                     fetchDataAndUpdateTable();
                 });
-
                 fetchDataAndUpdateTable();
-
-
-
             });
         </script>
-        @stack('form-modal')
-        @stack('toast-script')
         @endpush
 </x-layout>

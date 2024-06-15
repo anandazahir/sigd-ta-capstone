@@ -211,7 +211,8 @@
             });
         </script>
         @stack('form-modal')
-        @stack('transaksi-more-script')
+        @stack('table-entrydata')
+        @stack('form-edit-perbaikan')
         @stack('toast-script')
         @stack('form-delete')
         @endpush

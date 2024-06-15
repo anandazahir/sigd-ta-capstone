@@ -1,0 +1,29 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\petikemas;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class PetikemasSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        for ($i = 1; $i < 10; $i++) {
+            petikemas::updateOrCreate(
+                ['no_petikemas' => $i . '' . $i . '' . $i . '' . $i], // Attributes to search for
+                ['jenis_ukuran' => "20'FT", 'pelayaran' => 'benline', 'tanggal_masuk' => now(), 'harga' => 255000, 'status_order' => 'true', 'lokasi' => 'pending', 'status_kondisi' => 'available', 'status_ketersediaan' => 'in']
+            );
+        }
+        for ($i = 10; $i < 20; $i++) {
+            petikemas::updateOrCreate(
+                ['no_petikemas' => $i . '' . $i . '' . $i . '' . $i], // Attributes to search for
+                ['jenis_ukuran' => "20'FT", 'pelayaran' => 'benline', 'tanggal_masuk' => now(), 'harga' => 255000, 'status_order' => 'true', 'lokasi' => 'out', 'status_kondisi' => 'available', 'status_ketersediaan' => 'out']
+            );
+        }
+    }
+}

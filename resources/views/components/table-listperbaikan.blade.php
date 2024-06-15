@@ -10,6 +10,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-grow text-primary mx-auto my-auto" style="width: 2rem; height: 2rem;" role="status" id="loading-table-listperbaikan">
+                    </div>
+                </div>
+                <h1 class="mx-auto text-center" id="no-data-message2">Data Perbaikan History Tidak Ada</h1>
                 <div class="p-1 rounded-4 table-responsive">
                     <table class="table-variations-3 text-center" id="table_kerusakan_perbaikan">
                         <thead>
@@ -28,7 +33,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         </tbody>
                     </table>
                 </div>
-                <h1 class="mx-auto text-center" id="no-data-message2">Data Perbaikan History Tidak Ada</h1>
+
             </div>
         </div>
     </div>
@@ -41,6 +46,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         let tableId = "table-kerusakan-perbaikan-{{$data}}";
         let tableID = $("#" + tableId);
         let buttonId = $("#" + Id);
+        const $loadingTable2 = $('#loading-table-listperbaikan');
+
+        function showLoadingSpinner() {
+            $loadingTable2.show();
+            $('#no-data-message2').hide()
+            tableID.hide();
+        }
+
+        function hideLoadingSpinner() {
+            $loadingTable2.hide();
+            tableID.hide();
+        }
         console.log(tableID);
         $(buttonId).on('click', function() {
             var perbaikanhistoryId = $(this).val();
@@ -49,11 +66,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $.ajax({
                 url: `/{{$cleaned}}/perbaikanhistory/${perbaikanhistoryId}/kerusakan`,
                 method: 'GET',
+                beforeSend: showLoadingSpinner(),
                 success: function(response) {
                     var kerusakanTbody = (tableID).find('#table_kerusakan_perbaikan tbody');
                     kerusakanTbody.empty();
                     console.log(kerusakanTbody);
-
+                    hideLoadingSpinner();
                     if (response.length > 0) {
                         (tableID).find('#no-data-message2').hide();
                         var baseUrl = "{{ asset('storage') }}";

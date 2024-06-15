@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('peti-kemas/test/{id}', [PetikemasController::class, 'showpetikemas'])->name('direktur.transaksi.index');
 
 Route::get('/', function () {
@@ -138,6 +139,7 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
     });
 });
 
+//Route Survey In
 Route::middleware(['auth', 'role:surveyin'])->group(function () {
     Route::prefix('surveyin')->group(function () {
         Route::get('/dashboard', function () {
@@ -165,6 +167,7 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
     });
 });
 
+//Route Repair
 Route::middleware(['auth', 'role:repair'])->group(function () {
     Route::prefix('repair')->group(function () {
         Route::get('/dashboard', function () {
@@ -203,12 +206,13 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
     });
 });
 
+//Route Tally
 Route::middleware(['auth', 'role:tally'])->group(function () {
     Route::prefix('tally')->group(function () {
         Route::get('/dashboard', function () {
             return view('pages/dashboard');
         })->name('tally.dashboard');
-    
+
         Route::prefix('peti-kemas')->group(function () {
             Route::get('/', [PetikemasController::class, 'index'])->name('tally.petikemas.index');
             Route::get('/index', [PetikemasController::class, 'filter'])->name('tally.petikemas.filter');
@@ -218,8 +222,37 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
             Route::get('/perbaikanhistory/{id}/kerusakan', [PetikemasController::class, 'listperbaikan'])->name('tally.petikemas.listperbaikanhistory');
             Route::post('/perbaikanhistory/filter', [PetikemasController::class, 'filterlistperbaikan'])->name('tally.petikemas.filterperbaikanhistory');
             Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('tally.petikemas.filterpenempatanhistory');
-            Route::post('/editpenempatan/{id}', [TransaksiController::class, 'editpenempatan'])->name('tally.transaksi.editpenempatan');
+            Route::post('/editpenempatan', [PetikemasController::class, 'editpenempatan'])->name('tally.petikemas.editpenempatan');
+            Route::get('/{id}/get-petikemas', [PetikemasController::class, 'getLatestPenempatan']);
         });
+        Route::get('/notification', function () {
+            return view('pages/notification');
+        });
+        Route::get('/profile', function () {
+            return view('pages/profile');
+        });
+        Route::get('/pegawai/more', function () {
+            return view('pages/pegawai-more');
+        });
+        Route::get('/pegawai', function () {
+            return view('pages/pegawai');
+        });;
+    });
+});
+
+//Route Kasir
+Route::middleware(['auth', 'role:kasir'])->group(function () {
+    Route::prefix('kasir')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('pages/dashboard');
+        })->name('kasir.dashboard');
+        Route::prefix('pembayaran')->group(function () {
+            Route::get('/', [TransaksiController::class, 'indexKasir'])->name('kasir.transaksi.index');
+            Route::get('/index', [TransaksiController::class, 'filterKasir'])->name('kasir.transaksi.filter');
+            Route::get('/{id}', [TransaksiController::class, 'kasirShow'])->name('kasir.transaksi.show');
+            Route::post('/edit/pembayaran/{id}', [TransaksiController::class, 'editpembayaran'])->name('kasir.transaksi.editpembayaran');
+        });
+
         Route::get('/notification', function () {
             return view('pages/notification');
         });

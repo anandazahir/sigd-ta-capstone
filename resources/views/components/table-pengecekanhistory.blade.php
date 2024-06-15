@@ -1,3 +1,14 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+$semuaBelumCetak = true;
+foreach($data->pengecekanhistories as $penghubung) {
+if($penghubung->tanggal_pengecekan) {
+$semuaBelumCetak = false;
+break;
+}
+}
+@endphp
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold">Riwayat Pengecekan</h2>
@@ -6,20 +17,30 @@
             <input type="date" name="" id="date_pengecekanhistory">
         </div>
         <div class="bg-white mt-4 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
-            <h1 class="text-center mt-3 text-black" id="text-error"></h1>
+            @if( $semuaBelumCetak)
+            <div class="h-100 align-content-center">
+                <h3 class="text-center">Data Peti Kemas Belum Lunas / Cetak SPK</h3>
+            </div>
+            @endif
             <table class="table-variations-3  text-center" id="table_pengecekanhistory">
                 <thead>
                     <tr>
+                        @foreach ($data->pengecekanhistories as $penghubung)
+                        @if ($penghubung->tanggal_pengecekan)
                         <th scope="col" class="fw-semibold">Tanggal Pengecekan</th>
                         <th scope="col" class="fw-semibold">Jumlah Kerusakan</th>
                         <th scope="col" class="fw-semibold">List Kerusakan</th>
                         <th scope="col" class="fw-semibold">Kondisi</th>
                         <th scope="col" class="fw-semibold">Survey In</th>
                         <th scope="col" class="fw-semibold"></th>
+                        @endif
+                        @break
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data->pengecekanhistories as $penghubung)
+                    @if ($penghubung->tanggal_pengecekan)
                     <tr>
                         <td class="text-center m-0 p-0">
                             {{ $penghubung->tanggal_pengecekan }}
@@ -50,6 +71,7 @@
                                 <i class="fa-solid fa-trash-can fa-lg my-1"></i>
                             </button>
                         </td>
+                        @endif
                         @endcan
                     </tr>
                     @endforeach
@@ -82,7 +104,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 success: function(response) {
 
                     let deleteButton = '';
-                    if (role === 'direktur') {
+                    if (role === 'direktur' || role === 'mops') {
                         deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_pengecekanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;

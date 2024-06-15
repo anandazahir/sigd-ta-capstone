@@ -1,6 +1,13 @@
 @php
 $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
+$semuaBelumCetak = true;
+foreach($data->penempatanhistories as $penghubung) {
+if($penghubung->tanggal_penempatan) {
+$semuaBelumCetak = false;
+break;
+}
+}
 @endphp
 <div class="modal fade fade form-modal" tabindex="-1" id="form-delete-penempatanhistory" aria-labelledby="form-delete-penempatanhistory" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
@@ -30,20 +37,30 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <input type="date" name="" id="date_penempatanhistory">
         </div>
         <div class="bg-white mt-4 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
-            <h1 class="text-center mt-3 text-black" id="text-error-penempatanhistory"></h1>
+            @if( $semuaBelumCetak)
+            <div class="h-100 align-content-center">
+                <h3 class="text-center">Data Peti Kemas Belum Lunas / Cetak SPK</h3>
+            </div>
+            @endif
             <table class="table-variations-3  text-center" id="table_penempatanhistory">
                 <thead>
                     <tr>
+                        @foreach ($data->penempatanhistories as $penghubung)
+                        @if ($penghubung->tanggal_penempatan)
                         <th scope="col" class="fw-semibold">Tanggal Penempatan</th>
                         <th scope="col" class="fw-semibold">Lokasi</th>
                         <th scope="col" class="fw-semibold">Operator Berat</th>
                         <th scope="col" class="fw-semibold">Status Ketersediaan</th>
                         <th scope="col" class="fw-semibold">Tally</th>
                         <th scope="col" class="fw-semibold"></th>
+                        @endif
+                        @break
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data->penempatanhistories as $penghubung)
+                    @if ($penghubung->tanggal_penempatan)
                     <tr>
                         <td class="text-center m-0 p-0">
                             {{ $penghubung->tanggal_penempatan }}
@@ -71,6 +88,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         </td>
                         @endcan
                     </tr>
+                    @endif
+
                     @endforeach
                 </tbody>
             </table>
@@ -95,7 +114,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $('#table_penempatanhistory tbody').empty();
                     $.each(response.Data, function(index, item) {
                         let deleteButton = '';
-                        if (role === 'direktur') {
+                        if (role === 'direktur' || role === 'mops') {
                             deleteButton = '<button class="btn btn-danger text-white rounded-3" id="button_delete_penempatanhistory" value="' +
                                 item.id + '">' +
                                 '<i class="fa-solid fa-trash-can fa-lg my-1"></i>' +

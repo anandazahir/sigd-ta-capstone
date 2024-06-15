@@ -46,7 +46,7 @@ setlocale(LC_TIME, 'id_ID');
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Pelayaran</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                            {{$data -> pelayaran}}
+                            {{ strtoupper($data->pelayaran)}}
                         </h5>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ setlocale(LC_TIME, 'id_ID');
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Kondisi</p>
                         <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-                            {{$data->status_kondisi}}
+                            {{ strtoupper($data->status_kondisi)}}
                         </h5>
                     </div>
                 </div>
@@ -114,11 +114,11 @@ setlocale(LC_TIME, 'id_ID');
                             </svg>
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Ketersediaan</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="{{ $data->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-                                {{ $data->status_ketersediaan }}
-                            </h5>
+
+                        <h5 class="{{ $data->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5  rounded-2 text-white" style="margin-left:70px; width:fit-content; padding: 2px 15px 2px 15px">
+                            {{ strtoupper($data->status_ketersediaan) }}
                         </h5>
+
                     </div>
                 </div>
             </div>
@@ -136,11 +136,11 @@ setlocale(LC_TIME, 'id_ID');
                             </svg>
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Lokasi</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            <h5 class="{{ $data->lokasi == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
-                                {{$data -> lokasi}}
-                            </h5>
+
+                        <h5 class="{{ $data->lokasi == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                            {{ strtoupper($data->lokasi)}}
                         </h5>
+
                     </div>
                 </div>
             </div>

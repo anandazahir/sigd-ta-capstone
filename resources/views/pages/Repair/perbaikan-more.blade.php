@@ -6,5 +6,5 @@
         <x-table-perbaikan :data="$transaksi" />
         <x-toast />
         @stack('toast-script')
-        @stack('transaksi-more-script')
+        @stack('form-edit-perbaikan')
 </x-layout>

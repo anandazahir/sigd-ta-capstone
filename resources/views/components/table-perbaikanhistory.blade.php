@@ -1,3 +1,14 @@
+@php
+$role = auth()->user()->getRoleNames();
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+$semuaBelumCetak = true;
+foreach($data->perbaikanhistories as $penghubung) {
+if($penghubung->tanggal_perbaikan) {
+$semuaBelumCetak = false;
+break;
+}
+}
+@endphp
 <div class="modal fade fade form-modal" tabindex="-1" id="form-delete-perbaikanhistory" aria-labelledby="form-delete-perbaikanhistory" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -5,10 +16,7 @@
                 <i class="fa-regular fa-circle-xmark text-danger mb-3" style="font-size: 100px;"></i>
                 <h4>Apakah Anda Yakin Ingin Menghapus Data?</h4>
                 <div class="btn-group gap-2">
-                    @php
-                    $role = auth()->user()->getRoleNames();
-                    $cleaned = str_replace(['[', ']', '"'], '', $role);
-                    @endphp
+
                     <form action="/{{$cleaned}}/peti-kemas/perbaikanhistory/deletelistperbaikan" method="POST" id="delete-form-perbaikanhistory">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete_perbaikanhistory">
@@ -29,20 +37,30 @@
             <input type="date" name="" id="date_perbaikanhistory">
         </div>
         <div class="bg-white mt-4 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
-            <h1 class="text-center mt-3 text-black" id="text-error-perbaikanhistory"></h1>
+            @if( $semuaBelumCetak)
+            <div class="h-100 align-content-center">
+                <h3 class="text-center">Data Peti Kemas Belum Lunas / Cetak SPK</h3>
+            </div>
+            @endif
             <table class="table-variations-3  text-center" id="table_perbaikanhistory">
                 <thead>
                     <tr>
+                        @foreach ($data->perbaikanhistories as $penghubung)
+                        @if ($penghubung->tanggal_perbaikan)
                         <th scope="col" class="fw-semibold">Tanggal Perbaikan</th>
                         <th scope="col" class="fw-semibold">Jumlah Perbaikan</th>
                         <th scope="col" class="fw-semibold">List Perbaikan</th>
                         <th scope="col" class="fw-semibold">Kondisi</th>
                         <th scope="col" class="fw-semibold">Repair</th>
                         <th scope="col" class="fw-semibold"></th>
+                        @endif
+                        @break
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data->perbaikanhistories as $penghubung)
+                    @if ($penghubung->tanggal_perbaikan)
                     <tr>
                         <td class="text-center m-0 p-0">
                             {{ $penghubung->tanggal_perbaikan }}
@@ -74,6 +92,7 @@
                         </td>
                         @endcan
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>
@@ -104,7 +123,7 @@
                     $('#table_perbaikanhistory tbody').empty();
                     $.each(response.Data, function(index, item) {
                         let deleteButton = '';
-                        if (role === 'direktur') {
+                        if (role === 'direktur' || role === 'mops') {
                             deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_perbaikanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;

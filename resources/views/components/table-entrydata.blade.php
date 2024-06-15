@@ -109,90 +109,155 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 </div>
 @can('mengelola transaksi')
 <x-modal-form-delete route="/{{$cleaned}}/transaksi/deleteentrydata" />
+<x-toast />
+@endcan
 
-
-@push('transaksi-more-script')
+@push('table-entrydata')
 <script>
     $(document).ready(function() {
-        const $button_tambah_entry = $("#button-tambah-entry");
-        const jenis_kegiatan = "{{$data->jenis_kegiatan}}";
-        const $button_submit = $("#button-submit");
-        const $button_edit = $("#button-edit");
-        console.log($("#table_entrydata tbody tr").length);
+        const role = "{{$cleaned}}";
+        if (role == 'direktur' || role == 'mops') {
+            const $button_tambah_entry = $("#button-tambah-entry");
+            const jenis_kegiatan = "{{$data->jenis_kegiatan}}";
+            const $button_submit = $("#button-submit");
+            const $button_edit = $("#button-edit");
+            console.log($("#table_entrydata tbody tr").length);
 
-        $('.tabs').click(function() {
-            if ($('#EntryData').hasClass('d-none')) {
-                $button_edit.show();
-                $button_submit.hide();
-                $button_tambah_entry.hide();
-                $('select[name="no_petikemas[]"]').prop("disabled", true);
-                $('input[name="pelayaran"]').prop("disabled", true);
-                $('input[name="jenis_ukuran"]').prop("disabled", true);
-                $("#table_entrydata thead tr th:nth-child(4)").show();
-                $("#table_entrydata thead tr th:last-child").show();
-                $("#table_entrydata tbody tr td:nth-child(4)").show();
-                $("#table_entrydata tbody tr td:last-child").show();
+            $('.tabs').click(function() {
+                if ($('#EntryData').hasClass('d-none')) {
+                    $button_edit.show();
+                    $button_submit.hide();
+                    $button_tambah_entry.hide();
+                    $('select[name="no_petikemas[]"]').prop("disabled", true);
+                    $('input[name="pelayaran"]').prop("disabled", true);
+                    $('input[name="jenis_ukuran"]').prop("disabled", true);
+                    $("#table_entrydata thead tr th:nth-child(4)").show();
+                    $("#table_entrydata thead tr th:last-child").show();
+                    $("#table_entrydata tbody tr td:nth-child(4)").show();
+                    $("#table_entrydata tbody tr td:last-child").show();
+                }
+            });
+
+            $button_submit.hide();
+            $button_tambah_entry.hide();
+
+            function fetchPetikemasOptions($select = null) {
+                const selectedValues = $('select[name="no_petikemas[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+
+                const selects = $select ? $select : $('select[name="no_petikemas[]"]');
+
+                selects.each(function() {
+                    const $selectElement = $(this);
+                    const originalValue = $selectElement.val();
+
+                    $.ajax({
+                        url: "{{ route($cleaned . '.petikemas.filter') }}",
+                        type: 'GET',
+                        data: {
+                            jenis_transaksi: jenis_kegiatan,
+                        },
+                        success: function(response) {
+                            response.AllData.forEach(item => {
+                                if (!selectedValues.includes(item.id) || item.id == originalValue) {
+                                    $selectElement.append(`<option value="${item.id}" ${item.id == originalValue ? 'selected' : ''}>${item.no_petikemas}</option>`);
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
             }
-        });
 
-        $button_submit.hide();
-        $button_tambah_entry.hide();
-
-        function fetchPetikemasOptions($select = null) {
-            const selectedValues = $('select[name="no_petikemas[]"]').map(function() {
-                return $(this).val();
-            }).get();
-
-            const selects = $select ? $select : $('select[name="no_petikemas[]"]');
-
-            selects.each(function() {
-                const $selectElement = $(this);
-                const originalValue = $selectElement.val();
-
+            function fetchPetikemasDetails($row, value) {
                 $.ajax({
                     url: "{{ route($cleaned . '.petikemas.filter') }}",
                     type: 'GET',
                     data: {
+                        id: value,
                         jenis_transaksi: jenis_kegiatan,
                     },
                     success: function(response) {
-                        response.AllData.forEach(item => {
-                            if (!selectedValues.includes(item.id) || item.id == originalValue) {
-                                $selectElement.append(`<option value="${item.id}" ${item.id == originalValue ? 'selected' : ''}>${item.no_petikemas}</option>`);
-                            }
-                        });
+                        const petikemas = response.DataPetikemas[0];
+                        $row.find('input[name="jenis_ukuran"]').val(petikemas.jenis_ukuran);
+                        $row.find('input[name="pelayaran"]').val(petikemas.pelayaran);
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
                     }
                 });
+            }
+            console.log("hai");
+            $button_edit.on("click", function(e) {
+                e.preventDefault();
+                $('select[name="no_petikemas[]"]').prop("disabled", false);
+                $('input[name="pelayaran"]').prop("disabled", false);
+                $('input[name="jenis_ukuran"]').prop("disabled", false);
+                $button_edit.hide();
+                $button_tambah_entry.show();
+                $button_submit.show();
+                $("#table_entrydata thead tr th:nth-child(4)").hide();
+                $("#table_entrydata thead tr th:last-child").hide();
+                $("#table_entrydata tbody tr td:nth-child(4)").hide();
+                $("#table_entrydata tbody tr td:last-child").hide();
+                fetchPetikemasOptions();
+            });
+
+            $button_tambah_entry.on("click", function(e) {
+                e.preventDefault();
+                const newRow = $('<tr>' +
+                    '<td class="text-center">' +
+                    '<select class="form-select mx-auto" name="no_petikemas[]" required style="width:fit-content">' +
+                    '<option selected disabled>Pilih Opsi Ini</option>' +
+                    '</select>' +
+                    '<div class="invalid-feedback"></div>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
+                    '<div class="invalid-feedback"></div>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<input type="text" name="pelayaran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
+                    '<div class="invalid-feedback"></div>' +
+                    '</td></tr>');
+
+                $("#table_entrydata tbody").append(newRow);
+                const $select = newRow.find('select[name="no_petikemas[]"]');
+                fetchPetikemasOptions($select);
+
+                $select.on('change', function(e) {
+                    const value = $(this).val();
+                    const $row = $(this).closest('tr');
+                    fetchPetikemasDetails($row, value);
+                });
+            });
+
+            $('select[name="no_petikemas[]"]').on('change', function() {
+                const value = $(this).val();
+                const $row = $(this).closest('tr');
+                fetchPetikemasDetails($row, value);
+            });
+
+            $(document).on('click', '#deleteentrydata', function(e) {
+                e.preventDefault();
+                $("#form-delete-data").modal('show');
+                $("#input_form_delete").val($(this).val());
+                console.log($(this).val());
+            });
+
+            $('#edit-entrydata-form').on('submit', function(e) {
+                e.preventDefault();
+                handleFormSubmission(this);
             });
         }
-
-        function fetchPetikemasDetails($row, value) {
-            $.ajax({
-                url: "{{ route($cleaned . '.petikemas.filter') }}",
-                type: 'GET',
-                data: {
-                    id: value,
-                    jenis_transaksi: jenis_kegiatan,
-                },
-                success: function(response) {
-                    const petikemas = response.DataPetikemas[0];
-                    $row.find('input[name="jenis_ukuran"]').val(petikemas.jenis_ukuran);
-                    $row.find('input[name="pelayaran"]').val(petikemas.pelayaran);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-
         $("#table_entrydata tbody tr").each(function(index, row) {
             $(this).find("#cetak_spk").on("click", function(e) {
                 $(this).attr('data-status', 'sudah cetak');
                 console.log($(this).attr("data-id"));
-                console.log("{{ route($cleaned . '.transaksi.cetakspk', $data->id) }}")
+
                 $.ajax({
                     url: "{{ route($cleaned . '.transaksi.cetakspk', $data->id) }}",
                     type: 'POST',
@@ -215,69 +280,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 });
             });
         });
-
-        $button_edit.on("click", function(e) {
-            e.preventDefault();
-            $('select[name="no_petikemas[]"]').prop("disabled", false);
-            $('input[name="pelayaran"]').prop("disabled", false);
-            $('input[name="jenis_ukuran"]').prop("disabled", false);
-            $button_edit.hide();
-            $button_tambah_entry.show();
-            $button_submit.show();
-            $("#table_entrydata thead tr th:nth-child(4)").hide();
-            $("#table_entrydata thead tr th:last-child").hide();
-            $("#table_entrydata tbody tr td:nth-child(4)").hide();
-            $("#table_entrydata tbody tr td:last-child").hide();
-            fetchPetikemasOptions();
-        });
-
-        $button_tambah_entry.on("click", function(e) {
-            e.preventDefault();
-            const newRow = $('<tr>' +
-                '<td class="text-center">' +
-                '<select class="form-select mx-auto" name="no_petikemas[]" required style="width:fit-content">' +
-                '<option selected disabled>Pilih Opsi Ini</option>' +
-                '</select>' +
-                '<div class="invalid-feedback"></div>' +
-                '</td>' +
-                '<td class="text-center">' +
-                '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
-                '<div class="invalid-feedback"></div>' +
-                '</td>' +
-                '<td class="text-center">' +
-                '<input type="text" name="pelayaran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
-                '<div class="invalid-feedback"></div>' +
-                '</td></tr>');
-
-            $("#table_entrydata tbody").append(newRow);
-            const $select = newRow.find('select[name="no_petikemas[]"]');
-            fetchPetikemasOptions($select);
-
-            $select.on('change', function(e) {
-                const value = $(this).val();
-                const $row = $(this).closest('tr');
-                fetchPetikemasDetails($row, value);
-            });
-        });
-
-        $('select[name="no_petikemas[]"]').on('change', function() {
-            const value = $(this).val();
-            const $row = $(this).closest('tr');
-            fetchPetikemasDetails($row, value);
-        });
-
-        $(document).on('click', '#deleteentrydata', function(e) {
-            e.preventDefault();
-            $("#form-delete-data").modal('show');
-            $("#input_form_delete").val($(this).val());
-            console.log($(this).val());
-        });
-
-        $('#edit-entrydata-form').on('submit', function(e) {
-            e.preventDefault();
-            handleFormSubmission(this);
-        });
     });
 </script>
+
 @endpush
-@endcan

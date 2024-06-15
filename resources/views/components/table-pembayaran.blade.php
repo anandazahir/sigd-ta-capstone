@@ -21,6 +21,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         border-color: transparent;
         text-align: center;
         padding: 0;
+        font-size: 20px;
     }
 
     input.form-control:disabled {
@@ -29,6 +30,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         border-color: transparent;
         text-align: center;
         padding: 0;
+        font-size: 20px;
     }
 
     input[type="checkbox"] {
@@ -110,7 +112,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         @endphp
                         <tr>
                             <td class="text-center">
-                                <input class="form-check-input" type="checkbox" value="{{ $pembayaran->penghubung_id }}" id="pembayaran_checkbox" name="id_penghubung[]">
+                                <input class="form-check-input" type="checkbox" value="{{ $pembayaran->penghubung_id }}" id="pembayaran_checkbox" name="id_penghubung[]" {{ (auth()->user()->hasRole('kasir') && $pembayaran->metode !== null) ? 'disabled' : '' }}>
                             </td>
                             <td class="text-center">
                                 <input type="text" name="no_petikemas" required readonly value="{{ $petikemas->no_petikemas }}" class="form-control mx-auto" style="width:fit-content" disabled>
@@ -193,6 +195,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $("#table_pembayaran tbody tr td:last-child").hide();
             $("#table_pembayaran tbody tr td:first-child").show();
             $("#table_pembayaran thead tr th:first-child").show();
+            $("#table_pembayaran tbody tr").each(function(index, row) {
+                const $row = $(this);
+                const $checkbox = $row.find('input[name="id_penghubung[]"]');
+                if ($checkbox.prop("disabled")) {
+                    $checkbox.hide();
+                    $row.find('input[type="text"]').prop('disabled', true);
+                    $row.find('select').prop('disabled', true);
+                }
+            });
         });
 
 

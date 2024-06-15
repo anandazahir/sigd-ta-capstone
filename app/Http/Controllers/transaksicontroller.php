@@ -105,6 +105,73 @@ class TransaksiController extends Controller
             ],
         ]);
     }
+    public function indexKasir()
+    {
+        return view('pages.kasir.pembayaran');
+    }
+    public function kasirShow($id)
+    {
+        $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
+        return view('pages.kasir.pembayaran-more', compact('transaksi'));
+    }
+    public function filterKasir(Request $request)
+    {
+        $transaksiCollection = collect(); // Inisialisasi koleksi kosong
+        $searchTerm = $request->input('search');
+        $filtervalue = $request->input('filter');
+        // Ambil semua transaksi dengan jenis_kegiatan 'impor'
+        $transaksi = Transaksi::all();
+
+        foreach ($transaksi as $transaksis) {
+            // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+            $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) {
+                $query->where('status_pembayaran', 'belum lunas');
+            })->whereHas('petikemas', function ($query) {
+                $query->where('status_order', 'false'); // Ganti 'false' dengan nilai yang sesuai
+            })->get();
+
+            // Jika ada penghubung yang memenuhi syarat, tambahkan transaksi ke koleksi
+            if ($lunasPenghubungs->isNotEmpty()) {
+                $transaksiCollection->push($transaksis);
+            }
+        }
+
+        if ($searchTerm) {
+            $transaksiCollection = $transaksiCollection->filter(function ($item) use ($searchTerm) {
+                return strpos($item->no_transaksi, $searchTerm) !== false ||
+                    strpos($item->jenis_kegiatan, $searchTerm) !== false ||
+                    strpos($item->no_do, $searchTerm) !== false ||
+                    strpos($item->perusahaan, $searchTerm) !== false ||
+                    strpos($item->jumlah_petikemas, $searchTerm) !== false ||
+                    strpos($item->kapal, $searchTerm) !== false ||
+                    strpos($item->emkl, $searchTerm) !== false;
+            });
+        }
+
+        if ($filtervalue) {
+            $transaksiCollection = $transaksiCollection->filter(function ($item) use ($filtervalue) {
+                return strpos($item->jenis_kegiatan, $filtervalue) !== false;
+            });
+        }
+        $perPage = 3;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $transaksiCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $filteredData = new LengthAwarePaginator($currentPageItems, $transaksiCollection->count(), $perPage, $currentPage);
+
+        if ($filteredData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return response()->json([
+            'Data' => $filteredData->items(),
+            'Count' => $filteredData->total(),
+            'meta' => [
+                'current_page' => $filteredData->currentPage(),
+                'last_page' => $filteredData->lastPage(),
+                'per_page' => $filteredData->perPage(),
+            ],
+        ]);
+    }
 
     public function pengecekanShow($id)
     {
@@ -116,7 +183,7 @@ class TransaksiController extends Controller
     {
         return view('pages.survey in.pengecekan');
     }
-    
+
     public function indexperbaikan(Request $request)
     {
         $transaksiCollection = collect(); // Inisialisasi koleksi kosong

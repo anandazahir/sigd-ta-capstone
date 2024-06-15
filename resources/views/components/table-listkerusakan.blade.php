@@ -10,6 +10,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-grow text-primary mx-auto my-auto" style="width: 2rem; height: 2rem;" role="status" id="loading-table">
+                    </div>
+                </div>
+                <h1 class="mx-auto text-center" id="no-data-message">Data Kerusakan History Tidak Ada</h1>
                 <div class="p-1 rounded-4 table-responsive">
                     <table class="table-variations-3 text-center" id="table_kerusakan_pengecekan">
                         <thead>
@@ -28,7 +33,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         </tbody>
                     </table>
                 </div>
-                <h1 class="mx-auto text-center" id="no-data-message">Data Kerusakan History Tidak Ada</h1>
+
             </div>
         </div>
     </div>
@@ -40,6 +45,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         let tableId = "table-kerusakan-pengecekan-{{$data}}";
         let tableID = $("#" + tableId);
         let buttonId = $("#" + Id);
+        const $loadingTable = $('#loading-table');
+
+        function showLoadingSpinner() {
+            $loadingTable.show();
+            $('#no-data-message').hide()
+            tableID.hide();
+        }
+
+        function hideLoadingSpinner() {
+            $loadingTable.hide();
+            tableID.hide();
+        }
         console.log(tableID);
         $(buttonId).on('click', function() {
             var pengecekanhistoryId = $(this).val();
@@ -49,7 +66,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                 url: `/{{$cleaned}}/peti-kemas/pengecekanhistory/${pengecekanhistoryId}/kerusakan`,
                 method: 'GET',
+                beforeSend: showLoadingSpinner(),
                 success: function(response) {
+                    hideLoadingSpinner();
                     var kerusakanTbody = (tableID).find('#table_kerusakan_pengecekan tbody');
                     kerusakanTbody.empty();
                     console.log(kerusakanTbody);

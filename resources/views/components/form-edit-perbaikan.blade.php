@@ -115,7 +115,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     </div>
     <button type="submit" class="btn bg-primary text-white">Submit</button>
 </form>
-@push('transaksi-more-script')
+@push('form-edit-perbaikan')
 <script>
     $(document).ready(function() {
         let formId = "edit_form_perbaikan_{{$data->id}}";

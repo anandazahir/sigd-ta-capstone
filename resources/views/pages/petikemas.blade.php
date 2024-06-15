@@ -23,6 +23,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 border-right: 1px solid #b3b3b3;
             }
         </style>
+        @can('mengelola petikemas')
         <div class="row">
             <!-- Status Ketersediaan Petikemas -->
             <div class="col-lg-6 mb-3">
@@ -147,6 +148,61 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                 </div>
             </div>
+            @endcan()
+            @can('mengelola perbaikan')
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+                            <div class="d-flex gap-1">
+                                <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
+                                <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas Available</p>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                            </div>
+                            <h2 class="text-white" style="font-size: 40px;" id="total-available">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+                            <div class="d-flex gap-1">
+                                <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
+                                <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas Damage</p>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                            </div>
+                            <h2 class="text-white" style="font-size: 40px;" id="total-damage">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @endcan()
+            @can('mengelola penempatan')
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 contain">
+                        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+                            <div class="d-flex gap-1">
+                                <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
+                                <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas IN</p>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                            </div>
+                            <h2 class="text-white" style="font-size: 40px;" id="total-in">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+                            <div class="d-flex gap-1">
+                                <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
+                                <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas OUT</p>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                            </div>
+                            <h2 class="text-white" style="font-size: 40px;" id="total-out">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @endcan()
             <div class="container">
                 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3 ">
                     <div class="container">
@@ -191,7 +247,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <span class="text-white fw-semibold fs-4">-</span>
                                     <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
                                         <option value="">Row</option>
-                                        <option value="11">Row</option>
+                                        <option value="11">11</option>
                                     </select>
                                     <span class="text-white fw-semibold fs-4">-</span>
                                     <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
@@ -209,11 +265,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </button>
                                     <ul class="dropdown-menu my-2" id="filter">
                                         <li data-value="" class="dropdown-item" style="cursor:pointer;">Semua</li>
+                                        @can('melihat riwayat perbaikan')
                                         <li data-value="available" class="dropdown-item" style="cursor:pointer;">AVAILABLE</li>
                                         <li data-value="damage" class="dropdown-item" style="cursor:pointer;">DAMAGE</li>
+                                        @endcan()
+                                        @can('melihat riwayat penempatan')
                                         <li data-value="out" class="dropdown-item" style="cursor:pointer;">OUT</li>
                                         <li data-value="in" class="dropdown-item" style="cursor:pointer;">IN</li>
                                         <li data-value="pending" class="dropdown-item" style="cursor:pointer;">PENDING</li>
+                                        @endcan()
+
                                         <li data-value="petikemas-dipesan" class="dropdown-item" style="cursor:pointer;">Petikemas Dipesan</li>
                                         <li data-value="petikemas-tidak-dipesan" class="dropdown-item" style="cursor:pointer;">Petikemas Tidak Dipesan</li>
                                     </ul>
@@ -264,6 +325,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </x-modal-form>
 
         @endcan
+        @can('mengelola penempatan')
+        @foreach ($petikemas as $item)
+        <x-modal-form size="modal-xl" text="Form Edit Penempatan" id="edit-penempatan-{{$item->id}}">
+            <x-form-edit-penempatan-tally id="form-edit-penempatan-{{$item->id}}" value="{{$item->id}}" />
+        </x-modal-form>
+        @endforeach
+        @endcan
         <x-toast />
         @push('page-script')
         <script>
@@ -303,6 +371,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 let monthAvailable = parseInt("{{ $monthAvailable }}");
                 let monthDamage = parseInt("{{ $monthDamage }}");
                 const $laporanharian = $("#laporan_harian");
+                const role = "{{$cleaned}}";
 
                 function initCountUp(id, endVal) {
                     let demo = new CountUp(id, 0, endVal, 0, 3);
@@ -314,55 +383,61 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 }
 
 
-
-                // Function to hide loading spinner
-                initCountUp('today-in', todayIn);
-                initCountUp('week-in', weekIn);
-                initCountUp('month-in', monthIn);
-                initCountUp('total-in', totalIn);
-                initCountUp('today-available', todayAvailable);
-                initCountUp('week-available', weekAvailable);
-                initCountUp('month-available', monthAvailable);
-                initCountUp('total-available', totalAvailable)
-
-
-                // Tab switching logic
-                $('#in_button').on('click', function() {
-                    $("#in-tab-pane").show();
-                    $("#out-tab-pane").addClass('d-none');
+                if (role == 'direktur') {
                     initCountUp('today-in', todayIn);
                     initCountUp('week-in', weekIn);
                     initCountUp('month-in', monthIn);
                     initCountUp('total-in', totalIn);
-                });
-
-                $('#out_button').on('click', function() {
-                    $("#in-tab-pane").hide();
-                    $("#out-tab-pane").removeClass('d-none');
-                    initCountUp('today-out', todayOut);
-                    initCountUp('week-out', weekOut);
-                    initCountUp('month-out', monthOut);
-                    initCountUp('total-out', totalOut);
-                });
-
-                $('#available_button').on('click', function() {
-                    $("#available-tab-pane").show();
-                    $("#damage-tab-pane").addClass('d-none');
                     initCountUp('today-available', todayAvailable);
                     initCountUp('week-available', weekAvailable);
                     initCountUp('month-available', monthAvailable);
+                    initCountUp('total-available', totalAvailable)
+
+
+                    // Tab switching logic
+                    $('#in_button').on('click', function() {
+                        $("#in-tab-pane").show();
+                        $("#out-tab-pane").addClass('d-none');
+                        initCountUp('today-in', todayIn);
+                        initCountUp('week-in', weekIn);
+                        initCountUp('month-in', monthIn);
+                        initCountUp('total-in', totalIn);
+                    });
+
+                    $('#out_button').on('click', function() {
+                        $("#in-tab-pane").hide();
+                        $("#out-tab-pane").removeClass('d-none');
+                        initCountUp('today-out', todayOut);
+                        initCountUp('week-out', weekOut);
+                        initCountUp('month-out', monthOut);
+                        initCountUp('total-out', totalOut);
+                    });
+
+                    $('#available_button').on('click', function() {
+                        $("#available-tab-pane").show();
+                        $("#damage-tab-pane").addClass('d-none');
+                        initCountUp('today-available', todayAvailable);
+                        initCountUp('week-available', weekAvailable);
+                        initCountUp('month-available', monthAvailable);
+                        initCountUp('total-available', totalAvailable);
+                    });
+
+                    $('#damage_button').on('click', function() {
+                        $("#available-tab-pane").hide();
+                        $("#damage-tab-pane").removeClass('d-none');
+                        initCountUp('today-damage', todayDamage);
+                        initCountUp('week-damage', weekDamage);
+                        initCountUp('month-damage', monthDamage);
+                        initCountUp('total-damage', totalDamage);
+                    });
+                } else if (role == 'repair') {
                     initCountUp('total-available', totalAvailable);
-                });
-
-                $('#damage_button').on('click', function() {
-                    $("#available-tab-pane").hide();
-                    $("#damage-tab-pane").removeClass('d-none');
-                    initCountUp('today-damage', todayDamage);
-                    initCountUp('week-damage', weekDamage);
-                    initCountUp('month-damage', monthDamage);
                     initCountUp('total-damage', totalDamage);
-                });
-
+                } else if (role == 'tally') {
+                    initCountUp('total-in', totalAvailable);
+                    initCountUp('total-out', totalDamage);
+                }
+                // Function to hide loading spinner
 
                 // Search form submission
                 $searchForm.on('submit', function(event) {
@@ -463,16 +538,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 let deleteButton = '';
                                 let editButton = '';
 
-                                if (role === 'direktur') {
+                                if (role === 'direktur' || role === 'mops') {
                                     deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                                 }
                                 if (role === 'tally') {
                                     editButton = `<div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data penempatan">
-                                    <button class="btn bg-primary  rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan"  id="edit-button-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i></button>
+                                    <button class="btn bg-primary  p-0 rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-${item.id}"  id="edit-button-penempatan"  style="width: 2.5rem; height: 2.2rem;"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white" style="font-size: 20px;"></i></button>
                                 </div>`;
-                                }     
+                                }
                                 const row = `<tr>
                                     <td>${item.no_petikemas}</td>
                                     <td>${item.jenis_ukuran}</td>
