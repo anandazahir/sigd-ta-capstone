@@ -20,7 +20,12 @@ break;
                     <form action="{{$cleaned}}/peti-kemas/penempatanhistory/deletelistpenempatan" method="POST" id="delete-form-penempatanhistory">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete_penempatanhistory">
-                        <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
+                        <button type="submit" class="btn btn-danger text-white rounded-3">
+                            <div class="d-flex gap-2">
+                                <span class="spinner-grow spinner-grow-sm text-white" aria-hidden="true" id="loading-button"></span>
+                                <span>Ya</span>
+                            </div>
+                        </button>
                     </form>
                     <button class="btn bg-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
                 </div>
@@ -32,14 +37,14 @@ break;
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Riwayat Penempatan</h2>
-        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px">
+        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tanggal">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="date" name="" id="date_penempatanhistory">
         </div>
         <div class="bg-white mt-4 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
             @if( $semuaBelumCetak)
             <div class="h-100 align-content-center">
-                <h3 class="text-center">Data Peti Kemas Belum Lunas / Cetak SPK</h3>
+                <h3 class="text-center">No Data Found</h3>
             </div>
             @endif
             <table class="table-variations-3  text-center" id="table_penempatanhistory">
@@ -66,13 +71,15 @@ break;
                             {{ $penghubung->tanggal_penempatan }}
                         </td>
                         <td class="text-center">
-                            {{ $penghubung->lokasi }}
+                            <span class="{{ $penghubung->lokasi == 'out' ? 'bg-danger' : 'bg-primary' }} rounded-2 text-white" style="padding: 3px 10px 3px 10px">
+                                {{ $penghubung->lokasi }}
+                            </span>
                         </td>
                         <td class="text-center">
                             {{ $penghubung->operator_alat_berat }}
                         </td>
                         <td>
-                            <span class="{{ $penghubung->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
+                            <span class="{{ $penghubung->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} rounded-2 text-white" style="padding: 3px 10px 3px 10px">
                                 {{ $penghubung->status_ketersediaan }}
                             </span>
                         </td>
@@ -82,7 +89,7 @@ break;
                         </td>
                         @can ('mengelola petikemas')
                         <td class="text-center gap-1">
-                            <button class="btn btn-danger text-white rounded-3" id="button_delete_penempatan" value="{{ $penghubung->id }}">
+                            <button class="btn btn-danger text-white rounded-3" id="button_delete_penempatan" value="{{ $penghubung->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
                                 <i class="fa-solid fa-trash-can fa-lg my-1"></i>
                             </button>
                         </td>
@@ -97,6 +104,7 @@ break;
     </div>
 </div>
 
+@push('table-penempatanhistory-script')
 <script>
     $(document).ready(function() {
         const role = "{{$cleaned}}";
@@ -124,16 +132,20 @@ break;
                             '<tr>' +
                             '<td class="text-center m-0 p-0">' + item
                             .tanggal_penempatan + '</td>' +
-                            '<td class="text-center">' + item.lokasi +
+                            '<td class="text-center">' + '<span class="' + (item.lokasi ==
+                                'out' ? 'bg-danger' : 'bg-primary') +
+                            '  rounded-2 text-white" style="padding: 3px 10px 3px 10px">' +
+                            item.lokasi +
+                            ' </span>' +
                             '</td>' +
                             '<td class="text-center">' + item.operator_alat_berat +
                             '</td>' +
                             '<td>' +
                             '<span class="' + (item.status_ketersediaan ==
                                 'in' ? 'bg-primary' : 'bg-danger') +
-                            ' p-1 rounded-2 text-white">' +
+                            '  rounded-2 text-white" style="padding: 3px 10px 3px 10px">' +
                             item.status_ketersediaan +
-                            '</span>' +
+                            ' </span>' +
                             '</td>' +
                             '<td class="text-center d-flex gap-1">' +
                             '<i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>' +
@@ -174,6 +186,15 @@ break;
             $("#input_form_delete_penempatanhistory").val($(this).val());
             console.log($(this).val());
         });
+        $('#loading-button').hide();
+
+        function showLoadingButton() {
+            $('#loading-button').show();
+        }
+
+        function hideLoadingButton() {
+            $('#loading-button').hide();
+        }
 
         $('#delete-form-penempatanhistory').submit(function(event) {
             event.preventDefault();
@@ -184,15 +205,18 @@ break;
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: formData,
+                beforeSend: showLoadingButton(),
                 success: function(response) {
+                    hideLoadingButton();
                     $("#form-delete-penempatanhistory").modal('hide');
                     showAlert(response.message);
                     console.log($('#delete-form-penempatanhistory').attr('action'));
                 },
                 error: function(xhr, status, error) {
-
+                    hideLoadingButton();
                 }
             });
         });
     });
 </script>
+@endpush

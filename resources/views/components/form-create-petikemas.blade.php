@@ -13,7 +13,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <div class="col-lg-6 mb-3 form-group">
             <label for="pelataran" class="form-label">Pelayaran</label>
             <select class="form-select" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();" name="pelayaran" id="pelayaran">
-                <option>Plih Opsi Ini</option>
+                <option selected disabled>Plih Opsi Ini</option>
                 <option value="benline">BENLINE</option>
                 <option value="wanhai">WANHAI</option>
                 <option value="one">ONE</option>
@@ -24,7 +24,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <div class="col-lg-12 mb-3 form-group">
             <label for="jenis dan ukuran" class="form-label">Jenis & Ukuran </label>
             <select class="form-select" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();" name="jenis_ukuran" id="jenis_ukuran">
-                <option>Plih Opsi Ini</option>
+                <option selected disabled>Plih Opsi Ini</option>
                 <option value="20'GP">20'GP</option>
                 <option value="20'RF">20'RF</option>
                 <option value="20'FT">20'FT</option>
@@ -43,10 +43,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <div class="invalid-feedback"></div>
         </div>
     </div>
-    <button type="submit" class="btn bg-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">
+        <div class="d-flex gap-2">
+            <span class="spinner-grow spinner-grow-sm text-white my-1" aria-hidden="true" id="loading-button-create-petikemas"></span>
+            <span>Submit</span>
+        </div>
+    </button>
 </form>
 <script>
     $(document).ready(function() {
+        $('#loading-button-create-petikemas').hide();
         $('#create-petikemas-form').submit(function(event) {
             handleFormSubmission(this);
         });

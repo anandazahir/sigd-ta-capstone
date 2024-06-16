@@ -194,6 +194,9 @@ class petikemascontroller extends Controller
     public function listkerusakan($id)
     {
         $kerusakanhistories = kerusakanhistory::where('id_pengecekanhistory', $id)->get();
+        if ($kerusakanhistories->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
         return response()->json($kerusakanhistories);
     }
 
@@ -239,6 +242,10 @@ class petikemascontroller extends Controller
     public function listperbaikan($id)
     {
         $perbaikanhistories = kerusakanhistory::where('id_perbaikanhistory', $id)->get();
+
+        if ($perbaikanhistories->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
         return response()->json($perbaikanhistories);
     }
 
@@ -324,6 +331,7 @@ class petikemascontroller extends Controller
             'no_petikemas' => 'required|unique:petikemas',
             'jenis_ukuran' => 'required',
             'pelayaran' => 'required',
+
 
         ]);
         if ($Validator->fails()) {

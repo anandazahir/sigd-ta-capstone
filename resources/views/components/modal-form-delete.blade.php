@@ -8,7 +8,13 @@
                     <form action="{{ $route }}" method="POST" id="delete-form">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete">
-                        <button type="submit" class="btn btn-danger text-white rounded-3">Ya</button>
+
+                        <button type="submit" class="btn btn-danger text-white rounded-3">
+                            <div class="d-flex gap-2">
+                                <span class="spinner-grow spinner-grow-sm text-white my-1" aria-hidden="true" id="loading-button-delete"></span>
+                                <span>Ya</span>
+                            </div>
+                        </button>
                     </form>
                     <button class="btn bg-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
                 </div>
@@ -20,6 +26,15 @@
 
 <script>
     $(document).ready(function() {
+        $('#loading-button-delete').hide();
+
+        function showLoadingButton() {
+            $('#loading-button-delete').show();
+        }
+
+        function hideLoadingButton() {
+            $('#loading-button-delete').hide();
+        }
         $('#delete-form').submit(function(event) {
             event.preventDefault();
             let form = $(this);
@@ -29,13 +44,15 @@
                 type: form.attr('method'),
                 url: form.attr('action'),
                 data: formData,
+                beforeSend: showLoadingButton(),
                 success: function(response) {
+                    hideLoadingButton();
                     $("#form-delete-data").modal('hide');
                     showAlert(response.message);
                     console.log($('#delete-form').attr('action'));
                 },
                 error: function(xhr, status, error) {
-
+                    hideLoadingButton();
                 }
             });
         });

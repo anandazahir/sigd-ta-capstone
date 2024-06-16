@@ -66,7 +66,7 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Kondisi</p>
-                        <h5 class="fw-semibold fs-5  bg-primary p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                        <h5 class="{{ $data->status_ketersediaan == 'available' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
                             {{ strtoupper($data->status_kondisi)}}
                         </h5>
                     </div>
@@ -81,7 +81,7 @@ setlocale(LC_TIME, 'id_ID');
                         <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Keluar</p>
                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{strftime('%e %B %Y', strtotime($data->tanggal_keluar))}}
+                            {{ $data->tanggal_keluar ? strftime('%e %B %Y', strtotime($data->tanggal_keluar)) : '' }}
                         </h5>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Lokasi</p>
 
-                        <h5 class="{{ $data->lokasi == 'in' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                        <h5 class="{{ $data->lokasi == 'out' ? 'bg-danger' :  'bg-primary'}} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
                             {{ strtoupper($data->lokasi)}}
                         </h5>
 

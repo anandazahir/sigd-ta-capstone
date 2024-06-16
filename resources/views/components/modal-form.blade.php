@@ -18,16 +18,24 @@
         let form = $(formElement);
         const formData = form.serialize();
         const modalId = "#" + form.closest('.form-modal').attr('id');
+        const loadingButton = form.find('.spinner-grow');
+
         $.ajax({
             type: form.attr('method'),
             url: form.attr('action'),
             data: formData,
+            beforeSend: function() {
+                loadingButton.show();
+            },
             success: function(response) {
+                loadingButton.hide();
                 $(modalId).modal('hide');
                 console.log(response.message);
                 showAlert(response.message);
             },
+
             error: function(xhr, status, error) {
+                loadingButton.hide();
                 const errors = xhr.responseJSON.errors;
                 if (xhr.status === 500) {
                     alert("Kolom Unik Tidak Boleh Sama!")

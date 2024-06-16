@@ -60,7 +60,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <td class=" text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Bulan Ini</span></td>
-                                <td class="text-center"><span class=" fw-semibold" style="color:#b3b3b3">Total</span></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <span class=" fw-semibold" style="color:#b3b3b3">Total</span>
+                                        <i class="fa-regular fa-circle-question my-2" style="color:#b3b3b3; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas IN"></i>
+                                    </div>
+
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-center"><span id="today-in" class="text-black fw-bold" style="font-size: 20px;">0</span></td>
@@ -74,7 +80,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <td class="text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Bulan Ini</span></td>
-                                <td class="text-center"><span class=" fw-semibold" style="color:#b3b3b3">Total</span></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-1 mx-auto justify-content-center">
+                                        <span class=" fw-semibold" style="color:#b3b3b3">Total</span>
+                                        <i class="fa-regular fa-circle-question my-2" style="color:#b3b3b3; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas OUT"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-center"><span id="today-out" class="text-black fw-bold" style="font-size: 20px;">0</span></td>
@@ -101,6 +112,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </g>
                         </svg>
                         <h5 class="mb-3 text-white fw-semibold">Status Kondisi Petikemas</h5>
+
                     </div>
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -121,7 +133,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <td class=" text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Bulan Ini</span></td>
-                                <td class="text-center"><span class=" fw-semibold" style="color:#b3b3b3">Total</span></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-1 mx-auto justify-content-center">
+                                        <span class=" fw-semibold" style="color:#b3b3b3">Total</span>
+                                        <i class="fa-regular fa-circle-question my-2" style="color:#b3b3b3; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas Available"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-center"><span id="today-available" class="text-black fw-bold" style="font-size: 20px;">0</span></td>
@@ -135,7 +152,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <td class="text-center"><span class="fw-semibold" style="color:#b3b3b3">Hari Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Minggu Ini</span></td>
                                 <td class="text-center"><span class=" fw-semibold " style="color:#b3b3b3">Bulan Ini</span></td>
-                                <td class="text-center"><span class=" fw-semibold" style="color:#b3b3b3">Total</span></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <span class=" fw-semibold" style="color:#b3b3b3">Total</span>
+                                        <i class="fa-regular fa-circle-question my-2" style="color:#b3b3b3; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas Damage"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-center"><span id="today-damage" class="text-black fw-bold" style="font-size: 20px;">0</span></td>
@@ -157,7 +179,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="d-flex gap-1">
                                 <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
                                 <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas Available</p>
-                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas Available"></i>
                             </div>
                             <h2 class="text-white" style="font-size: 40px;" id="total-available">0</h2>
                         </div>
@@ -167,7 +189,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="d-flex gap-1">
                                 <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
                                 <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas Damage</p>
-                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas Damage"></i>
                             </div>
                             <h2 class="text-white" style="font-size: 40px;" id="total-damage">0</h2>
                         </div>
@@ -184,7 +206,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="d-flex gap-1">
                                 <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
                                 <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas IN</p>
-                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas IN"></i>
                             </div>
                             <h2 class="text-white" style="font-size: 40px;" id="total-in">0</h2>
                         </div>
@@ -194,7 +216,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="d-flex gap-1">
                                 <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
                                 <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Petikemas OUT</p>
-                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                                <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Peti Kemas OUT"></i>
                             </div>
                             <h2 class="text-white" style="font-size: 40px;" id="total-out">0</h2>
                         </div>
@@ -212,7 +234,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="p-0" style="width: fit-content;">
                                 @can ("mengelola petikemas")
                                 <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
-                                    <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
+                                    <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Petikemas">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                             <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
                                         </div>
@@ -220,10 +242,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </div>
                                 </button>
                                 @endcan
-                                <button id="laporan_harian" class="btn bg-white mb-2  ">
+                                <button id="laporan_harian" class="btn bg-white mb-2 " data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Harian Petikemas">
                                     <div class="d-flex gap-1">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                            <i class="fa-solid fa-download text-white" style="font-size:17px;"></i>
+                                            <span class="spinner-grow spinner-grow-sm text-white" aria-hidden="true" id="loading-button"></span>
+                                            <i class="fa-solid fa-download text-white" style="font-size:17px;" id="icon"></i>
                                         </div>
                                         <span class="fs-5 fw-semibold text-primary">Laporan Harian </span>
                                     </div>
@@ -240,23 +263,23 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="d-flex">
                                 <label for="" class="form-label text-white fw-semibold position-absolute d-none d-lg-block" style="font-size: 12px; top:-1.5rem; right:10rem;">Filter Berdasarkan Lokasi Petikemas</label>
                                 <div class="d-flex gap-1">
-                                    <select name="" id="blok" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
+                                    <select name="" id="blok" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Blok">
                                         <option value="">Blok</option>
                                         <option value="A1">A1</option>
                                     </select>
                                     <span class="text-white fw-semibold fs-4">-</span>
-                                    <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
+                                    <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Row">
                                         <option value="">Row</option>
                                         <option value="11">11</option>
                                     </select>
                                     <span class="text-white fw-semibold fs-4">-</span>
-                                    <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;">
+                                    <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tier">
                                         <option value="">Tier</option>
                                         <option value="11">11</option>
                                     </select>
                                 </div>
 
-                                <div class="dropdown">
+                                <div class="dropdown" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter">
                                     <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
                                         <div class="d-flex gap-1 position-relative">
                                             <i class="fa-solid fa-sliders my-1 text-black"></i>
@@ -539,12 +562,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 let editButton = '';
 
                                 if (role === 'direktur' || role === 'mops') {
-                                    deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                                    deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                                 }
                                 if (role === 'tally') {
-                                    editButton = `<div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data penempatan">
+                                    editButton = `<div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah Data Penempatan">
                                     <button class="btn bg-primary  p-0 rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-${item.id}"  id="edit-button-penempatan"  style="width: 2.5rem; height: 2.2rem;"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white" style="font-size: 20px;"></i></button>
                                 </div>`;
                                 }
@@ -556,8 +579,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <td><div class="fw-semibold fs-5 ${statusClassKetersediaan} p-1 rounded-2 text-white mx-auto" style="width: 45%;">${item.status_ketersediaan.toUpperCase()}</div></td>
                                     <td><div class="fw-semibold fs-5 ${Lokasi} p-1 rounded-2 text-white">${item.lokasi.toUpperCase()}</div></td>
                                     <td><div class="btn-group gap-2">
-                                    <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/{{$cleaned}}/peti-kemas/${item.id}">
-                                        <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
+                                    <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/{{$cleaned}}/peti-kemas/${item.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="More">
+                                        <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;" ></i>
                                     </a>
                                          ${deleteButton}
                                          ${editButton}
@@ -616,6 +639,17 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 });
 
                 fetchDataAndUpdateTable();
+                $('#loading-button').hide();
+
+                function showLoadingButton() {
+                    $('#loading-button').show();
+                    $('#icon').hide();
+                }
+
+                function hideLoadingButton() {
+                    $('#loading-button').hide();
+                    $('#icon').show();
+                }
                 $laporanharian.on("click", function(e) {
                     e.preventDefault();
                     $.ajax({
@@ -628,12 +662,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         xhrFields: {
                             responseType: 'blob'
                         },
+                        beforeSend: showLoadingButton(),
                         success: function(blob) {
                             var url = window.URL.createObjectURL(blob);
                             window.open(url, '_blank');
+                            hideLoadingButton();
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
+                            hideLoadingButton();
 
                         }
                     });
@@ -642,6 +679,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             });
         </script>
         @stack('toast-script')
+        @stack('form-modal')
+        @stack('form-delete')
         @endpush
 
 </x-layout>

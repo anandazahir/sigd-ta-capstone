@@ -14,7 +14,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     <div class="spinner-grow text-primary mx-auto my-auto" style="width: 2rem; height: 2rem;" role="status" id="loading-table-listperbaikan">
                     </div>
                 </div>
-                <h1 class="mx-auto text-center" id="no-data-message2">Data Perbaikan History Tidak Ada</h1>
+                <h1 class="mx-auto text-center" id="no-data-message2"> </h1>
                 <div class="p-1 rounded-4 table-responsive">
                     <table class="table-variations-3 text-center" id="table_kerusakan_perbaikan">
                         <thead>
@@ -39,6 +39,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     </div>
 </div>
 
+@push('table-perbaikanhistory-script')
 <script>
     $(document).ready(function() {
         // ID harus sesuai antara elemen HTML dan event handler
@@ -46,17 +47,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         let tableId = "table-kerusakan-perbaikan-{{$data}}";
         let tableID = $("#" + tableId);
         let buttonId = $("#" + Id);
-        const $loadingTable2 = $('#loading-table-listperbaikan');
+        const $loadingTable2 = tableID.find('#loading-table-listperbaikan');
+        $loadingTable2.hide();
 
         function showLoadingSpinner() {
             $loadingTable2.show();
             $('#no-data-message2').hide()
-            tableID.hide();
+            tableID.find('#table_kerusakan_perbaikan').hide();
         }
 
         function hideLoadingSpinner() {
             $loadingTable2.hide();
-            tableID.hide();
+            tableID.find('#table_kerusakan_perbaikan').show();
         }
         console.log(tableID);
         $(buttonId).on('click', function() {
@@ -64,20 +66,19 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             console.log(perbaikanhistoryId);
 
             $.ajax({
-                url: `/{{$cleaned}}/perbaikanhistory/${perbaikanhistoryId}/kerusakan`,
+                url: `/{{$cleaned}}/peti-kemas/perbaikanhistory/${perbaikanhistoryId}/kerusakan`,
                 method: 'GET',
                 beforeSend: showLoadingSpinner(),
                 success: function(response) {
+                    hideLoadingSpinner();
                     var kerusakanTbody = (tableID).find('#table_kerusakan_perbaikan tbody');
                     kerusakanTbody.empty();
                     console.log(kerusakanTbody);
-                    hideLoadingSpinner();
-                    if (response.length > 0) {
-                        (tableID).find('#no-data-message2').hide();
-                        var baseUrl = "{{ asset('storage') }}";
-                        response.forEach((item, index) => {
-                            var fotoPerbaikan = baseUrl + '/' + item.foto_perbaikan;
-                            var row = `
+
+                    var baseUrl = "{{ asset('storage') }}";
+                    response.forEach((item, index) => {
+                        var fotoPerbaikan = baseUrl + '/' + item.foto_perbaikan;
+                        var row = `
                                 <tr>
                                     <td class="text-center">${index + 1}</td>
                                     <td class="text-center">${item.lokasi_kerusakan}</td>
@@ -85,7 +86,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <td class="text-center">${item.metode}</td>
                                     <td class="text-center">
                                         <div class="p-1 rounded-2 text-white my-1 ${item.status === 'damage' ? 'bg-danger' : 'bg-primary'}">
-                                            <span>${item.status === 'damage' ? 'Damage' : 'Available'}</span>
+                                            <span>${item.status === 'damage' ? 'Damage' : 'Fixed'}</span>
                                         </div>
                                     </td>
                                     <td class="text-center">
@@ -99,13 +100,20 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </td>
                                 </tr>
                             `;
-                            kerusakanTbody.append(row);
-                        });
-                    } else {
-                        (tableID).find('#no-data-message2').show();
-                    }
+                        kerusakanTbody.append(row);
+
+                        if (response.message) {
+                            var table = (tableID).find('#table_kerusakan_pengecekan');
+                            kerusakanTbody.show();
+                            table.hide();
+                            $('#no-data-message2').show();
+                            $('#no-data-message2').text(response.message);
+                        }
+                    });
+
                 }
             });
         });
     });
 </script>
+@endpush

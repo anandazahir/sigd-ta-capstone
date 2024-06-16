@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('peti-kemas/test/{id}', [PetikemasController::class, 'showpetikemas'])->name('direktur.transaksi.index');
+
 
 Route::get('/', function () {
     if (auth()->check()) {
