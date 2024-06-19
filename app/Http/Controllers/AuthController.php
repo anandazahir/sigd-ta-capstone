@@ -12,9 +12,17 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
+            $user = Auth::user(); // Get the authenticated user
+            $roles = $user->getRoleNames(); // This returns a collection of role names
 
-            return redirect('/direktur/dashboard');
+
+            // If user has roles, get the first one
+            $roleString = $roles->isNotEmpty() ? $roles->first() : 'default';
+
+            // Redirect to the appropriate dashboard
+            return redirect('/' . $roleString . '/dashboard');
         }
+
         return view('pages.login');
     }
 
@@ -27,7 +35,7 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->first();
 
-        
+
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
             // Assuming you have a 'role' field in your users table

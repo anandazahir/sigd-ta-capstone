@@ -22,8 +22,20 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if (auth()->check()) {
+        // Get the authenticated user
+        $user = auth()->user();
 
-        return redirect('/dashboard');
+        // Assuming you are using a package like Spatie's Laravel-Permission
+        $roles = $user->getRoleNames(); // This returns a collection of role names
+
+        // Convert the roles to a string
+        $roleString = $roles->implode(','); // Convert collection to comma-separated string if necessary
+
+        // Remove any unwanted characters if necessary
+        $cleaned = str_replace(['[', ']', '"'], '', $roleString);
+
+        // Redirect to the appropriate dashboard
+        return redirect('/' . $cleaned . '/dashboard');
     } else {
         return redirect('/login');
     }
