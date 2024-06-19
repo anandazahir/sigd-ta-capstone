@@ -18,21 +18,22 @@
                         <table class="table-variations-2  text-center" rules="groups">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="fw-semibold">Message</th>
-                                    <th scope="col" class="fw-semibold">Date</th>
-                                    <th scope="col" class="fw-semibold">Time</th>
-                                    <th scope="col" class="fw-semibold">From</th>
-                                    <th scope="col"></th>
+                                    <th scope="col" class="fw-semibold">Pesan</th>
+                                    <th scope="col" class="fw-semibold">Tanggal</th>
+                                    <th scope="col" class="fw-semibold">Waktu</th>
+                                    <th scope="col" class="fw-semibold">Pengirim</th>
+                                    <th scope="col" class="fw-semibold">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (auth()->user()->notifikasi as $item)                                   
                                 <tr>
-                                    <td>Pengajuan Cuti</td>
-                                    <td>22 Desember 2023</td>
-                                    <td>09.45</td>
+                                    <td>{{$item->message}}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_kirim)->translatedFormat('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('H:i') }}</td>
                                     <td class="text-center">
                                         <i class="fa-solid fa-circle-user text-primary d-inline my-1" style="font-size: 25px;"></i>
-                                        <span class="m-0 p-0 d-inline mx-1">RIZAL FIRDAUS</span>
+                                        <span class="m-0 p-0 d-inline mx-1">{{ $item->sender }}</span>
                                     </td>
                                     <td>
                                         <div class="btn-group gap-2">
@@ -44,6 +45,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

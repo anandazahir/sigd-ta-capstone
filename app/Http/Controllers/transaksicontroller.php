@@ -12,6 +12,7 @@ use App\Models\Pengecekan;
 use App\Models\pengecekanhistory;
 use App\Models\Penghubung;
 use App\Models\Perbaikan;
+use App\Models\notifikasi;
 use App\Models\perbaikanhistory;
 use App\Models\petikemas;
 use App\Models\User;
@@ -481,6 +482,50 @@ class TransaksiController extends Controller
             $this->createRelatedRecords($penghubung->id, $transaksi->id, $petikemas);
         }
 
+        $user = User::all();
+        
+        if (auth()->user()->hasRole('direktur')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('kasir') || $item->hasRole('mops')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
+
+        else if (auth()->user()->hasRole('inventory')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('kasir') || $item->hasRole('mops') || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        } 
+        
+        else if (auth()->user()->hasRole('mops')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('kasir')  || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Ditambahkan!',
@@ -541,7 +586,7 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($request->id);
         foreach ($transaksi->penghubungs as $item) {
             $petikemas = petikemas::where('id', $item->petikemas->id)->first();
-            $petikemas->update(['status_order' => 'false']);
+            $petikemas->update(['status_order' => 'true']);
         }
         $transaksi->delete();
 
@@ -979,8 +1024,47 @@ class TransaksiController extends Controller
             }
         }
 
+        if (auth()->user()->hasRole('direktur')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('repair') || $item->hasRole('mops')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
 
-
+        else if (auth()->user()->hasRole('surveyin')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('repair') || $item->hasRole('mops') || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        } 
+        
+        else if (auth()->user()->hasRole('mops')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('repair')  || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
 
         return response()->json([
             'success' => true,
@@ -1549,11 +1633,54 @@ class TransaksiController extends Controller
         $perbaikan->update(['jumlah_perbaikan' => $request->jumlah_perbaikan]);
         $pengecekan->update(['jumlah_kerusakan' => $perbaikan->jumlah_perbaikan]);
 
+        if (auth()->user()->hasRole('direktur')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('tally') || $item->hasRole('mops')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
+
+        else if (auth()->user()->hasRole('repair')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('tally') || $item->hasRole('mops') || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        } 
+        
+        else if (auth()->user()->hasRole('mops')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('tally')  || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Data Perbaikan Berhasil Diubah!',
         ]);
     }
+    
     public function editpenempatan(Request $request, $id)
     {
         $rules = [
@@ -1602,6 +1729,49 @@ class TransaksiController extends Controller
             'petikemas_id' => $petikemas->id,
             'id_penempatan' => $penempatan->id,
         ]);
+
+        if (auth()->user()->hasRole('direktur')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('mops')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
+
+        else if (auth()->user()->hasRole('tally')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('mops') || $item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        } 
+        
+        else if (auth()->user()->hasRole('mops')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('direktur')) {
+                    notifikasi::create([
+                        'message' => 'test',
+                        'tanggal_kirim' => now(),
+                        'sender' =>auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                    ]);
+                }
+            }
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Data Penempatan Berhasil Diubah!',

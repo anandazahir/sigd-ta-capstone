@@ -154,9 +154,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
         });
 
-        $('#create-transaksi-form').submit(function(event) {
+        /*$('#create-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
-        });
+        });*/
 
         function fetchPetikemasOptions($row, value, value2) {
             const $select = $row.find('select[name="no_petikemas[]"]');
