@@ -2,7 +2,7 @@
     <x-slot:title>
         Transaksi | {{$transaksi->no_transaksi}}
         </x-slot>
-        <x-data-transaksi :data="$transaksi" />
+        <x-data-transaksi :data="$transaksi" :user="$user" />
         <div class="dropdown d-block d-md-none mb-3">
 
             <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">

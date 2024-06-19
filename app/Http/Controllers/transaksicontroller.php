@@ -496,10 +496,8 @@ class TransaksiController extends Controller
             'tanggal_DO_exp' => 'required|date',
             'kapal' => 'required|max:255',
             'emkl' => 'required',
-            'jumlah_petikemas' => 'required|numeric',
-
             'inventory' => 'required',
-            'tanggal_transaksi' => 'required',
+            'tanggal_transaksi'
         ];
 
         if ($request->has('no_do')) {
@@ -514,8 +512,24 @@ class TransaksiController extends Controller
 
         $transaksi = Transaksi::findOrFail($id);
 
-        $transaksi->update($request->all());
+        if ($transaksi->jenis_kegiatan !== $request->jenis_kegiatan && $transaksi->tanggal_transaksi) {
 
+            $transaksi->update(
+                [
+                    'jenis_kegiatan' => $transaksi->jenis_kegiatan,
+                    'perusahaan' => $request->perusahaan,
+                    'no_do' => $request->no_do,
+                    'tanggal_DO_rilis' => $request->tanggal_DO_rilis,
+                    'tanggal_DO_exp' => $request->tanggal_DO_exp,
+                    'kapal' => $request->kapal,
+                    'emkl' => $request->emkl,
+                    'inventory' => $request->inventory,
+                    'tanggal_transaksi' => $request->tanggal_transaksi,
+                ]
+            );
+        } else {
+            $transaksi->update($request->all());
+        }
         return response()->json([
             'success' => true,
             'message' => 'Data Transaksi Berhasil Diubah!',
@@ -524,7 +538,11 @@ class TransaksiController extends Controller
 
     public function delete(Request $request)
     {
-        $transaksi = Transaksi::findOrFail($request->id);
+        $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($request->id);
+        foreach ($transaksi->penghubungs as $item) {
+            $petikemas = petikemas::where('id', $item->petikemas->id)->first();
+            $petikemas->update(['status_order' => 'false']);
+        }
         $transaksi->delete();
 
         return response()->json([
@@ -844,14 +862,15 @@ class TransaksiController extends Controller
                 $petikemas->save();
             }
         }
-
-        if ($transaksi->tanggal_transaksi == null) {
-            $transaksi->tanggal_transaksi = now();
-            $transaksi->save();
-        }
-
         $relatedPenghubung = $transaksi->penghubungs;
-
+        foreach ($relatedPenghubung as $item) {
+            if ($i == $item->pembayaran->count() &&  $transaksi->tanggal_transaksi == null) {
+                // If condition is met, update the transaction date and save
+                $transaksi->tanggal_transaksi = now();
+                $transaksi->save();
+                break; // Assuming you want to update the date and save only once if any penghubung meets the condition
+            }
+        }
         $pdf = PDF::loadView('pdf.kwitansi', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,

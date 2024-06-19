@@ -216,17 +216,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 fetchPetikemasOptions();
             });
             $('#loading-button-entrydata').hide();
-            $('#loading-button-spk').hide()
 
-            function showLoadingButton() {
-                $('#loading-button-spk').show();
-
-            }
-
-            function hideLoadingButton() {
-                $('#loading-button-spk').hide();
-
-            }
 
             $button_tambah_entry.on("click", function(e) {
                 e.preventDefault();
@@ -276,6 +266,17 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             });
         }
         $("#table_entrydata tbody tr").each(function(index, row) {
+            $(this).find('#loading-button-spk').hide()
+
+            function showLoadingButton() {
+                $(this).find('#loading-button-spk').show();
+
+            }
+
+            function hideLoadingButton() {
+                $(this).find('#loading-button-spk').hide();
+
+            }
             $(this).find("#cetak_spk").on("click", function(e) {
                 $(this).attr('data-status', 'sudah cetak');
                 console.log($(this).attr("data-id"));

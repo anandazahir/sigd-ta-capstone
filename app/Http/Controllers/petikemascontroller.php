@@ -371,7 +371,11 @@ class petikemascontroller extends Controller
     public function delete(Request $request)
     {
 
-        $petikemas = petikemas::findOrFail($request->id);
+        $petikemas = petikemas::with('penghubungs.transaksi')->findOrFail($request->id);
+        foreach ($petikemas->penghubungs as $item) {
+            $transaksi = transaksi::where('id', $item->transaksi->id)->first();
+            $transaksi->decrement('jumlah_petikemas');
+        }
         $petikemas->delete();
 
         return response()->json([

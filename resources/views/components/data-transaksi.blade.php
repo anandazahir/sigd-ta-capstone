@@ -150,6 +150,6 @@ setlocale(LC_TIME, 'id_ID');
 </div>
 @can('mengelola transaksi')
 <x-modal-form id="form-edit-transaksi" size="" text="Edit Transaksi | {{$data->no_transaksi}}">
-    <x-form-edit-transaksi :data="$data" />
+    <x-form-edit-transaksi :data="$data" :user="$user" />
 </x-modal-form>
 @endcan

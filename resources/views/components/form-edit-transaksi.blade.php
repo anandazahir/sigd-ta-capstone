@@ -8,7 +8,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="jenis_kegiatan" class="form-label">Jenis Transaksi</label>
-            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required disabled style="">
+            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required disabled>
                 <option selected disabled>Pilih Opsi Ini</option>
                 <option value="impor" {{ $data->jenis_kegiatan == 'impor' ? 'selected' : '' }}>Impor</option>
                 <option value="ekspor" {{ $data->jenis_kegiatan == 'ekspor' ? 'selected' : '' }}>Ekspor</option>
@@ -72,7 +72,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
             <label for="jumlah_petikemas" class="form-label">Jumlah Peti Kemas</label>
-            <input type="number" min="0" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" required value="{{ old('jumlah_petikemas', $data->jumlah_petikemas) }}" readonly>
+            <input type="number" min="0" class="form-control" id="jumlah_petikemas" placeholder="Jumlah Peti Kemas" name="jumlah_petikemas" required value="{{ old('jumlah_petikemas', $data->jumlah_petikemas) }}" disabled>
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -82,9 +82,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <label for="Inventory" class="form-label">Inventory</label>
             <select class="form-select" id="inventory" name="inventory" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="nanda" {{ $data->inventory == 'nanda' ? 'selected' : '' }}>nanda</option>
-                <option value="rizal" {{ $data->inventory == 'rizal' ? 'selected' : '' }}>rizal</option>
-                <option value="yoga" {{ $data->inventory == 'yoga' ? 'selected' : '' }}>yoga</option>
+                @foreach ($user as $item)
+                @if ($item->hasRole('inventory'))
+                <option value="{{$item->username}}" {{ $data->inventory == $item->username ? 'selected' : '' }}>{{($item->username)}}</option>
+                @endif
+                @endforeach
+
             </select>
             <div class="invalid-feedback"></div>
         </div>
