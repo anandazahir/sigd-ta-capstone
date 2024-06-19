@@ -22,7 +22,7 @@ break;
                         <input type="hidden" name="id" id="input_form_delete_penempatanhistory">
                         <button type="submit" class="btn btn-danger text-white rounded-3">
                             <div class="d-flex gap-2">
-                                <span class="spinner-grow spinner-grow-sm text-white" aria-hidden="true" id="loading-button"></span>
+                                <span class="spinner-border spinner-border-sm text-white" aria-hidden="true" id="loading-button"></span>
                                 <span>Ya</span>
                             </div>
                         </button>

@@ -1,6 +1,6 @@
 <style>
-    select.form-select:disabled,
-    input.form-control:disabled {
+    select.disabled:disabled,
+    input.disabled:disabled {
         background: transparent;
         color: black;
         border-color: transparent;
@@ -68,22 +68,28 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         @endphp
                         <tr>
                             <td class="text-center">
-                                <select class="form-select mx-auto" name="no_petikemas[]" required style="width: fit-content" disabled>
+                                <select class="form-select mx-auto disabled" name="no_petikemas[]" required style="width: fit-content" disabled>
                                     <option disabled>Pilih Opsi Ini</option>
                                     <option selected value="{{$petikemas->id}}">{{$petikemas->no_petikemas}}</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <input type="text" name="jenis_ukuran" required readonly value="{{$petikemas->jenis_ukuran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                                <input type="text" name="jenis_ukuran" required readonly value="{{$petikemas->jenis_ukuran}}" class="form-control mx-auto disabled" style="width:fit-content" disabled>
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center" style="width:fit-content">
-                                <input type="text" name="pelayaran" required readonly value="{{$petikemas->pelayaran}}" class="form-control mx-auto" style="width:fit-content" disabled>
+                                <input type="text" name="pelayaran" required readonly value="{{$petikemas->pelayaran}}" class="form-control mx-auto disabled" style="width:fit-content" disabled>
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}"> {{ $pembayaran->status_cetak_spk }} </a>
+                                <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}">
+                                    <div class="d-flex gap-2">
+                                        <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-spk"></span>
+                                        <span>{{ $pembayaran->status_cetak_spk }}</span>
+
+                                    </div>
+                                </a>
                             </td>
                             @can('mengelola transaksi')
                             <td class="text-center">
@@ -100,7 +106,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </div>
             @can('mengelola transaksi')
             <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-info text-white rounded-3 mx-auto" id="button-submit"><span class="fw-semibold text-white">Simpan Data</span></button>
+                <button type="submit" class="btn btn-info text-white rounded-3 mx-auto" id="button-submit">
+                    <div class="d-flex gap-2">
+                        <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-entrydata"></span>
+                        <span class="fw-semibold text-white">Simpan Data</span>
+                    </div>
+                </button>
             </div>
             @endcan
         </form>
@@ -109,7 +120,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 </div>
 @can('mengelola transaksi')
 <x-modal-form-delete route="/{{$cleaned}}/transaksi/deleteentrydata" />
-<x-toast />
 @endcan
 
 @push('table-entrydata')
@@ -205,6 +215,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 $("#table_entrydata tbody tr td:last-child").hide();
                 fetchPetikemasOptions();
             });
+            $('#loading-button-entrydata').hide();
+            $('#loading-button-spk').hide()
+
+            function showLoadingButton() {
+                $('#loading-button-spk').show();
+
+            }
+
+            function hideLoadingButton() {
+                $('#loading-button-spk').hide();
+
+            }
 
             $button_tambah_entry.on("click", function(e) {
                 e.preventDefault();
@@ -266,10 +288,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         status: $(this).attr("data-status"),
                         id_penghubung: $(this).attr("data-id"),
                     },
+                    beforeSend: showLoadingButton(),
                     xhrFields: {
                         responseType: 'blob'
                     },
                     success: function(blob) {
+                        hideLoadingButton();
                         var url = window.URL.createObjectURL(blob);
                         window.open(url, '_blank');
                         showAlert('Data Berhasil Dicetak!');

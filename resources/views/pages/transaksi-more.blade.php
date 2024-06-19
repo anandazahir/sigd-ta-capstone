@@ -122,16 +122,16 @@
         </div>
 
         <div id="Pengecekan" class="tab-pane fade in d-none">
-            <x-table-pengecekan :data="$transaksi" />
+            <x-table-pengecekan :data="$transaksi" :user="$user" />
 
         </div>
 
         <div id="Perbaikan" class="tab-pane fade in d-none">
-            <x-table-perbaikan :data="$transaksi" />
+            <x-table-perbaikan :data="$transaksi" :user="$user" />
         </div>
 
         <div id="Penempatan" class="tab-pane fade in d-none">
-            <x-table-penempatan :data="$transaksi" />
+            <x-table-penempatan :data="$transaksi" :user="$user" />
         </div>
         <x-toast />
         @push('page-script')
@@ -210,11 +210,15 @@
 
             });
         </script>
-        @stack('form-modal')
-        @stack('table-entrydata')
-        @stack('form-edit-perbaikan')
         @stack('toast-script')
         @stack('form-delete')
+        @stack('form-modal')
+        @stack('table-entrydata')
+        @stack('form-edit-pengecekan')
+        @stack('form-edit-perbaikan')
+        @stack('form-edit-penempatan')
+        @stack('table-pembayaran')
+        @stack('form-edit-transaksi')
         @endpush
 
 </x-layout>

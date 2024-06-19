@@ -10,22 +10,27 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span>Survey In</span>
                 {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
             </label>
-            <select name="survey_in2" class="form-select" aria-label="Default select example" required>
+            <select name="survey_in" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="survey in 1" {{ $data->survey_in == 'survey in 1' ? 'selected' : '' }}>survey in 1</option>
-                <option value="survey in 2" {{ $data->survey_in == 'survey in 2' ? 'selected' : '' }}>survey in 2</option>
-                <option value="survey in 3" {{ $data->survey_in == 'survey in 3' ? 'selected' : '' }}>survey in 3</option>
-                <option value="rizal" {{ $data->survey_in == 'rizal' ? 'selected' : '' }}>Rizal</option>
+                @foreach ($user as $item )
+                @if ($item->hasRole('surveyin'))
+                <option value="{{$item->username}}" {{ $data->survey_in == $item->username ? 'selected' : '' }}>{{($item->username)}}</option>
+                @endif
+                @endforeach
             </select>
+            <div class="invalid-feedback"></div>
         </div>
+
     </div>
     <div class="row">
         <div class="col-lg-12 mb-3">
             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-            <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan3" required value="{{$data->jumlah_kerusakan}}">
+            <input type="number" min="0" class="form-control" id="jumlah_kerusakan" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan" required value="{{$data->jumlah_kerusakan}}">
+            <div class="invalid-feedback"></div>
             <input type="hidden" name="id_pengecekan" id="id_pengecekan2" value="{{$data->id}}">
             <input type="hidden" name="id_penghubung" id="id_penghubung2" value="{{$data->penghubung_id}}">
         </div>
+
     </div>
     <h5 id="text-kerusakan-edit">List Kerusakan</h5>
     <div class="table-responsive">
@@ -82,9 +87,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
         </table>
     </div>
-    <button type="submit" class="btn bg-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">
+        <div class="d-flex gap-2">
+            <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-editpengecekan"></span>
+            <span>Submit</span>
+        </div>
+    </button>
 </form>
 
+@push('form-edit-pengecekan')
 <script>
     $(document).ready(function() {
         let formId = "edit_form_pengecekan_{{$data->id}}";
@@ -96,6 +107,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $("#" + formId).find("#table_edit_pengecekan").hide();
             $("#" + formId).find("#text-kerusakan-edit").hide();
         }
+        $form.find('#loading-button-editpengecekan').hide();
+
         $("#" + formId).find("#jumlah_kerusakan").on("change", function() {
             console.log("hai")
             var rowCount = parseInt($(this).val());
@@ -197,15 +210,21 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 type: 'POST',
                 data: formData,
                 processData: false, // Mengatur false, karena kita menggunakan FormData
-                contentType: false, // Mengatur false, karena kita menggunakan FormData
+                contentType: false,
+                beforeSend: function() {
+                    $form.find('#loading-button-editpengecekan').show();
+                },
                 success: function(response) {
+                    $form.find('#loading-button-editpengecekan').hide();
+
                     // Handle response sukses
                     $('#' + modalId).modal('hide');
                     showAlert(response.message);
-                    console.log('Success:', response);
                 },
 
                 error: function(xhr, status, error) {
+                    $form.find('#loading-button-editpengecekan').hide();
+
                     const errors = xhr.responseJSON.errors;
                     if (xhr.status === 500) {
                         alert("Kolom Unik Tidak Boleh Sama!")
@@ -247,3 +266,4 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
     });
 </script>
+@endpush()

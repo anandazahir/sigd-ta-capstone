@@ -61,7 +61,7 @@ break;
                         </td>
                         <td>
                             <span class="{{ $penghubung->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{ $penghubung->status_kondisi }}
+                                {{ strtoupper($penghubung->status_kondisi) }}
                             </span>
                         </td>
                         <td class="text-center ">
@@ -153,7 +153,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<span class="' + (item.status_kondisi ==
                                 'available' ? 'bg-primary' : 'bg-danger') +
                             ' p-1 rounded-2 text-white">' +
-                            item.status_kondisi +
+                            item.status_kondisi.toUpperCase() +
                             '</span>' +
                             '</td>' +
                             '<td class="text-center d-flex gap-1">' +

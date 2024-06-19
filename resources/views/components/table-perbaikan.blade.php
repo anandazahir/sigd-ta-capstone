@@ -7,7 +7,7 @@ if($penghubung->perbaikan->jumlah_perbaikan > 0) {
 $semuaBelumCetak = false;
 break;
 }
-if($penghubung->perbaikan->repair && $penghubung->perbaikan->estimator) {
+if($penghubung->perbaikan->repair ) {
 $value = false;
 break;
 }
@@ -44,7 +44,6 @@ break;
                         @foreach ($data->penghubungs as $penghubung)
                         @if ($penghubung->perbaikan->repair && $penghubung->perbaikan->jumlah_perbaikan > 0)
                         <th scope="col" class="fw-semibold">Repair</th>
-                        <th scope="col" class="fw-semibold">Estimator</th>
                         @break
                         @endif
                         @endforeach
@@ -82,7 +81,7 @@ break;
                         </td>
                         <td>
                             <span class="{{ $penghubung->petikemas->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{$penghubung->petikemas->status_kondisi}}
+                                {{strtoupper($penghubung->petikemas->status_kondisi)}}
                             </span>
                         </td>
                         @if ($penghubung->perbaikan->repair)
@@ -90,12 +89,6 @@ break;
                             <div class="mx-auto d-flex gap-1">
                                 <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
                                 <span>{{$penghubung->perbaikan->repair}}</span>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="mx-auto d-flex gap-1" style="width:fit-content">
-                                <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>
-                                <span>{{$penghubung->perbaikan->estimator}}</span>
                             </div>
                         </td>
                         @endif
@@ -122,6 +115,6 @@ break;
 @foreach ($data->penghubungs as $penghubung)
 <x-table-kerusakan test="true" :data="$penghubung->pengecekan" id="table-perbaikan-{{$penghubung->pengecekan->id}}" text="List Perbaikan | {{$penghubung->petikemas->no_petikemas}}" petikemas="{{$penghubung->petikemas->id}}" />
 <x-modal-form size="modal-xl" id="edit-perbaikan-modal-{{$penghubung->perbaikan->id}}" text="Edit perbaikan | {{$penghubung->petikemas->no_petikemas}}">
-    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}" :perbaikan="$penghubung->perbaikan" />
+    <x-form-edit-perbaikan :data="$penghubung->pengecekan" id="edit-perbaikan-modal-{{$penghubung->pengecekan->id}}" :perbaikan="$penghubung->perbaikan" :user="$user" />
 </x-modal-form>
 @endforeach

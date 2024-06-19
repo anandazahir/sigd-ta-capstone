@@ -16,9 +16,9 @@ break;
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
 
             @if( $semuaBelumCetak)
-                <div class="h-100 align-content-center">
-                    <h3 class="text-center">Data Penempatan Belum Lunas / Cetak SPK</h3>
-                </div>
+            <div class="h-100 align-content-center">
+                <h3 class="text-center">Data Penempatan Belum Lunas / Cetak SPK</h3>
+            </div>
             @endif
 
             <table class="table-variations-3  text-center">
@@ -63,12 +63,12 @@ break;
                         </td>
                         <td class="text-center">
                             <span class="{{ $penghubung->petikemas->lokasi == 'pending' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{$penghubung->petikemas->lokasi}}
+                                {{ strtoupper($penghubung->petikemas->lokasi)}}
                             </span>
                         </td>
                         <td>
                             <span class="{{ $penghubung->petikemas->status_ketersediaan == 'in' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{$penghubung->petikemas->status_ketersediaan}}
+                                {{ strtoupper($penghubung->petikemas->status_ketersediaan)}}
                             </span>
                         </td>
                         @if ($penghubung->penempatan->tally)
@@ -106,6 +106,6 @@ break;
 </div>
 @foreach ($data->penghubungs as $item)
 <x-modal-form size="modal-xl" text="Form Edit Penempatan" id="edit-penempatan-{{$item->penempatan->id}}">
-    <x-form-edit-penempatan :data="$item" jenis="{{$data->jenis_kegiatan}}" id="form-edit-penempatan-{{$item->penempatan->id}}" value="{{$item->penempatan->id}}" lokasi="{{$item->petikemas->lokasi}}" tally="{{$item->penempatan->tally}}" operator="{{$item->penempatan->operator_alat_berat}} " petikemas="{{$item->petikemas->id}}" />
+    <x-form-edit-penempatan :data="$item" jenis="{{$data->jenis_kegiatan}}" id="form-edit-penempatan-{{$item->penempatan->id}}" value="{{$item->penempatan->id}}" lokasi="{{$item->petikemas->lokasi}}" tally="{{$item->penempatan->tally}}" operator="{{$item->penempatan->operator_alat_berat}} " petikemas="{{$item->petikemas->id}}" :user="$user" />
 </x-modal-form>
 @endforeach

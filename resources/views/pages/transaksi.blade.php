@@ -116,7 +116,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     <div class="p-0" style="width: fit-content;">
 
                         <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Tambah Transaksi">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
                                 </div>
@@ -129,9 +129,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 
 
                         <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
-                            <div class="d-flex gap-1">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Bulanan">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                    <i class="fa-solid fa-download text-white" style="font-size:17px;"></i>
+                                    <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
+                                    <i class="fa-solid fa-download text-white" style="font-size:17px;" id="icon"></i>
                                 </div>
                                 <span class="fs-5 fw-semibold text-primary">Laporan Bulanan Transaksi</span>
                             </div>
@@ -145,12 +146,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                         <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
                         <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                     </form>
-                    <div class="d-flex ms-lg-0 ms-lg-auto">
+                    <div class="d-flex ms-lg-0 ms-lg-auto ">
                         <label for="" class="form-label text-white fw-semibold position-absolute d-none d-lg-block" style="font-size: 12px; top:-1.5rem; right:4.5rem;">Filter Berdasarkan Bulan Transaksi</label>
-                        <input type="month" class="form-control" id="monthpicker" style="width: fit-content; height: fit-content;">
+                        <input type="month" class="form-control" id="monthpicker" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Bulan">
 
                     </div>
-                    <div class="dropdown">
+                    <div class="dropdown" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter">
                         <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex gap-1 position-relative">
                                 <i class="fa-solid fa-sliders my-1 text-black"></i>
@@ -353,6 +354,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     $onScroll.show();
                     $pagination.show();
                 }
+                $('#loading-button').hide();
+
+                function showLoadingButton() {
+                    $('#loading-button').show();
+                    $('#icon').hide();
+                    $('#text-error').hide();
+                }
+
+                function hideLoadingButton() {
+                    $('#loading-button').hide();
+                    $('#icon').show();
+                }
 
                 function fetchDataAndUpdateTable() {
                     $.ajax({
@@ -434,14 +447,17 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                             jenis_kegiatan: valueselect,
                             bulan_transaksi: $monthPicker.val()
                         },
+                        beforeSend: showLoadingButton(),
                         xhrFields: {
                             responseType: 'blob'
                         },
                         success: function(blob) {
+                            hideLoadingButton();
                             var url = window.URL.createObjectURL(blob);
                             window.open(url, '_blank');
                         },
                         error: function(xhr) {
+                            hideLoadingButton();
                             console.log(xhr.responseText);
                             $responseMessage.text('Error generating report.');
                         }

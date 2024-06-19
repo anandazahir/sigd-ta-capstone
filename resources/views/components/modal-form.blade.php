@@ -18,7 +18,7 @@
         let form = $(formElement);
         const formData = form.serialize();
         const modalId = "#" + form.closest('.form-modal').attr('id');
-        const loadingButton = form.find('.spinner-grow');
+        const loadingButton = form.find('.spinner-border');
 
         $.ajax({
             type: form.attr('method'),

@@ -37,12 +37,19 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="operator alat berat" class="form-label">Operator alat berat </label>
-            <input type="text" class="form-control" id="operatoralatberat" placeholder="Operator Alat Berat" name="operator_alat_berat" required value="{{$operator}}" />
+            <input type="text" class="form-control" id="operatoralatberat" placeholder="Operator Alat Berat" name="operator_alat_berat" value="{{$operator}}" aria-placeholder />
             <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="operator alat berat" class="form-label">Tally </label>
-            <input type="text" class="form-control" id="operatoralatberat" placeholder="Tally" name="tally" required value="{{$tally}}" />
+            <select name="tally" class="form-select" aria-label="Default select example" required>
+                <option selected disabled>Pilih Opsi Ini</option>
+                @foreach ($user as $item)
+                @if ($item->hasRole('tally'))
+                <option value="{{$item->username}}" {{ $tally == $item->username ? 'selected' : '' }}>{{($item->username)}}</option>
+                @endif
+                @endforeach
+            </select>
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -82,12 +89,19 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
 
     </div>
-    <button type="submit" class="btn bg-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">
+        <div class="d-flex gap-2">
+            <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-editpenempatan"></span>
+            <span>Submit</span>
+        </div>
+        </script>
+    </button>
 </form>
 <script>
     $(document).ready(function() {
         $('.form-edit-penempatan').each(function() {
             var form = $(this);
+            form.find('#loading-button-editpenempatan').hide();
             var id = form.attr('id');
             var blok = form.find('[id^="blok-"]');
             var row = form.find('[id^="row-"]');

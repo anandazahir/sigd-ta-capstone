@@ -7,7 +7,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="no peti kemas" class="form-label">No Peti Kemas</label>
-            <select name="id_penghubung" class="form-select" id="id_penghubung" aria-label="Default select example" required>
+            <select name="no_petikemas" class="form-select" id="id_penghubung" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
                 @foreach ($data->penghubungs as $penghubung)
                 @if (
@@ -31,7 +31,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-12 mb-3">
             <label for="jumlah kerusakan" class="form-label">Jumlah Kerusakan</label>
-            <input type="number" min="0" class="form-control" id="jumlahkerusakan2" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan2" required value="0">
+            <input type="number" min="0" class="form-control" id="jumlahkerusakan2" placeholder="Jumlah Kerusakan" name="jumlah_kerusakan" required value="0">
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -52,7 +52,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
         </table>
     </div>
-    <button type="submit" class="btn bg-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">
+        <div class="d-flex gap-2">
+            <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-createpengecekan"></span>
+            <span>Submit</span>
+
+        </div>
+    </button>
 </form>
 
 
@@ -61,6 +67,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
         $("#table_create_pengecekan").hide();
         $("#text-between").hide();
+        $('#loading-button-createpengecekan').hide();
+        const loadingButton = $('#loading-button-createpengecekan');
         $("#jumlahkerusakan2").on("change", function() {
             var rowCount = parseInt($(this).val());
             if (rowCount > 0) {
@@ -141,7 +149,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 type: 'POST',
                 data: formData,
                 processData: false, // Mengatur false, karena kita menggunakan FormData
-                contentType: false, // Mengatur false, karena kita menggunakan FormData
+                contentType: false,
+                beforeSend: function() {
+                    loadingButton.show();
+                },
                 success: function(response) {
                     // Handle response sukses
                     $('#create-pengecekan-modal').modal('hide');
@@ -150,6 +161,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 },
 
                 error: function(xhr, status, error) {
+                    loadingButton.hide();
                     const errors = xhr.responseJSON.errors;
                     if (xhr.status === 500) {
                         alert("Kolom Unik Tidak Boleh Sama!")

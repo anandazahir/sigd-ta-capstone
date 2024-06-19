@@ -28,7 +28,7 @@
         </div>
         <div class="col-lg-4 mb-3 form-group">
             <label for="operator alat berat" class="form-label">Operator alat berat </label>
-            <input type="text" class="form-control" id="operatoralatberat" placeholder="Operator Alat Berat" name="operator alat berat" required />
+            <input type="text" class="form-control" id="operatoralatberat" placeholder="Operator Alat Berat" name="operator alat berat" required placeholder="ex: Nanda" />
         </div>
     </div>
     <div class="row">

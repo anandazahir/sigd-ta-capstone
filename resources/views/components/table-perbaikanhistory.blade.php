@@ -22,7 +22,7 @@ break;
                         <input type="hidden" name="id" id="input_form_delete_perbaikanhistory">
                         <button type="submit" class="btn btn-danger text-white rounded-3">
                             <div class="d-flex gap-2">
-                                <span class="spinner-grow spinner-grow-sm text-white my-1" aria-hidden="true" id="loading-button-perbaikanhistory"></span>
+                                <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-perbaikanhistory"></span>
                                 <span>Ya</span>
                             </div>
                         </button>
@@ -86,7 +86,7 @@ break;
                         </td>
                         <td>
                             <span class="{{ $penghubung->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} p-1 rounded-2 text-white">
-                                {{ $penghubung->status_kondisi }}
+                                {{ strtoupper($penghubung->status_kondisi) }}
                             </span>
                         </td>
                         <td class="text-center d-flex gap-1 m-auto">
@@ -163,7 +163,7 @@ break;
                             '</button>' +
                             '</td>' +
                             '<td>' +
-                            '<span class="' + (item.status_kondisi == 'available' ? 'bg-primary' : 'bg-danger') + ' p-1 rounded-2 text-white">' + item.status_kondisi + '</span>' +
+                            '<span class="' + (item.status_kondisi == 'available' ? 'bg-primary' : 'bg-danger') + ' p-1 rounded-2 text-white">' + item.status_kondisi.toUpperCase() + '</span>' +
                             '</td>' +
                             '<td class="text-center d-flex gap-1">' +
                             '<i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>' +

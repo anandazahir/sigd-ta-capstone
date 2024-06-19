@@ -58,6 +58,7 @@
     </div>
     <button type="submit" class="btn bg-primary text-white">Submit</button>
 </form>
+@push('form-edit-penempatan')
 <script>
     $(document).ready(function() {
         $('.form-edit-penempatan').each(function() {
@@ -184,3 +185,4 @@
 
     });
 </script>
+@endpush

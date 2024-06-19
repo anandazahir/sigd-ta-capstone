@@ -11,9 +11,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </label>
             <select name="repair" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
-                <option value="repair 1" {{ $perbaikan->repair == 'repair 1' ? 'selected' : '' }}>Repair 1</option>
-                <option value="repair 2" {{ $perbaikan->repair == 'repair 2' ? 'selected' : '' }}>Repair 2</option>
-                <option value="repair 3" {{ $perbaikan->repair == 'repair 3' ? 'selected' : '' }}>Repair 3</option>
+                @foreach ($user as $item)
+                @if ($item->hasRole('repair'))
+                <option value="{{$item->username}}" {{ $perbaikan->repair == $item->username ? 'selected' : '' }}>{{($item->username)}}</option>
+                @endif
+                @endforeach
             </select>
             <div class="invalid-feedback"></div>
         </div>
@@ -113,13 +115,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn bg-primary text-white">Submit</button>
+    <button type="submit" class="btn bg-primary text-white">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="loading-button-editperbaikan"></span>
+        <span>Submit</span>
+
+    </button>
 </form>
 @push('form-edit-perbaikan')
 <script>
     $(document).ready(function() {
         let formId = "edit_form_perbaikan_{{$data->id}}";
         let $form = $("#" + formId);
+        const loadingButton = $('#loading-button-editperbaikan');
         console.log($form);
         if ($form.find("#jumlah_kerusakan").val() > 0) {
             $form.find("#table_edit_perbaikan").show();
@@ -291,25 +298,31 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             });
 
         });
+        loadingButton.hide();
 
-        $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+        $form.submit(function(event) {
             event.preventDefault();
             var formData = new FormData(this);
             var modalId = $(this).data('id');
             $.ajax({
-                url: "{{ route($cleaned.'.transaksi.editperbaikan') }}", // Ganti dengan endpoint Anda
+                url: "{{ route($cleaned.'.transaksi.editperbaikan') }}",
                 type: 'POST',
                 data: formData,
-                processData: false, // Mengatur false, karena kita menggunakan FormData
-                contentType: false, // Mengatur false, karena kita menggunakan FormData
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    loadingButton.show();
+                },
                 success: function(response) {
-                    // Handle response sukses
+
                     $('#' + modalId).modal('hide');
+                    loadingButton.hide();
                     showAlert(response.message);
                     console.log('Success:', response);
                 },
 
                 error: function(xhr, status, error) {
+                    loadingButton.hide();
                     const errors = xhr.responseJSON.errors;
                     if (xhr.status === 500) {
                         alert("Kolom Unik Tidak Boleh Sama!")
@@ -347,6 +360,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                 }
             });
+
         });
 
     });

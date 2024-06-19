@@ -83,7 +83,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
     </div>
 </div>
-<x-toast />
+
 
 <script>
     $(document).ready(function() {

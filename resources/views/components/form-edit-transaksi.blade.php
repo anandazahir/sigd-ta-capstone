@@ -8,7 +8,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="jenis_kegiatan" class="form-label">Jenis Transaksi</label>
-            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required @if($data->tanggal_transaksi) readonly @endif>
+            <select class="form-select" id="jenis_kegiatan" name="jenis_kegiatan" required disabled style="">
                 <option selected disabled>Pilih Opsi Ini</option>
                 <option value="impor" {{ $data->jenis_kegiatan == 'impor' ? 'selected' : '' }}>Impor</option>
                 <option value="ekspor" {{ $data->jenis_kegiatan == 'ekspor' ? 'selected' : '' }}>Ekspor</option>
@@ -78,7 +78,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     </div>
 
     <div class="row">
-        <div class="col-lg-6 mb-3 form-group">
+        <div class="col-lg-12 mb-3 form-group">
             <label for="Inventory" class="form-label">Inventory</label>
             <select class="form-select" id="inventory" name="inventory" required>
                 <option selected disabled>Pilih Opsi Ini</option>
@@ -88,22 +88,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </select>
             <div class="invalid-feedback"></div>
         </div>
-        <div class="col-lg-6 mb-3 form-group">
-            <label for="kasir" class="form-label">Kasir</label>
-            <select class="form-select" id="kasir" name="kasir" required>
-                <option selected disabled>Pilih Opsi Ini</option>
-                <option value="nanda" {{ $data->kasir == 'nanda' ? 'selected' : '' }}>nanda</option>
-                <option value="rizal" {{ $data->kasir == 'rizal' ? 'selected' : '' }}>rizal</option>
-                <option value="yoga" {{ $data->kasir == 'yoga' ? 'selected' : '' }}>yoga</option>
-            </select>
-            <div class="invalid-feedback"></div>
-        </div>
     </div>
-    <button type="submit" class="btn bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">Submit</button>
+    <button type="submit" class="btn bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">
+        <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-edit-transaksi"></span>
+        <span>Submit</span>
+    </button>
 </form>
-@push('transaksi-more-script')
+@push('form-edit-transaksi')
 <script>
     $(document).ready(function() {
+        $('#loading-button-edit-transaksi').hide();
         $('#edit-transaksi-form').submit(function(event) {
             handleFormSubmission(this);
         });

@@ -11,7 +11,7 @@
 
                         <button type="submit" class="btn btn-danger text-white rounded-3">
                             <div class="d-flex gap-2">
-                                <span class="spinner-grow spinner-grow-sm text-white my-1" aria-hidden="true" id="loading-button-delete"></span>
+                                <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-delete"></span>
                                 <span>Ya</span>
                             </div>
                         </button>

@@ -80,7 +80,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">Submit</button>
+    <button type="submit" class="btn bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">
+        <div class="d-flex gap-2">
+            <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-create-petikemas"></span>
+            <span>Submit</span>
+        </div>
+    </button>
 </form>
 
 <script>
@@ -88,7 +93,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         // Declare the value3 variable at a broader scope so it's accessible
         let value3 = $("#jenis_kegiatan3").val();
         $("#table_create_transaksi").hide();
-
+        $('#loading-button-create-petikemas').hide();
         $("#jenis_kegiatan3").on("change", function(e) {
             e.preventDefault();
             value3 = $(this).val();

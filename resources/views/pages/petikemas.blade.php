@@ -245,7 +245,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <button id="laporan_harian" class="btn bg-white mb-2 " data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Harian Petikemas">
                                     <div class="d-flex gap-1">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                            <span class="spinner-grow spinner-grow-sm text-white" aria-hidden="true" id="loading-button"></span>
+                                            <span class="spinner-border spinner-border-sm text-white" aria-hidden="true" id="loading-button"></span>
                                             <i class="fa-solid fa-download text-white" style="font-size:17px;" id="icon"></i>
                                         </div>
                                         <span class="fs-5 fw-semibold text-primary">Laporan Harian </span>
