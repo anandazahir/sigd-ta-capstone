@@ -244,7 +244,8 @@ class TransaksiController extends Controller
     public function perbaikanShow($id)
     {
         $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
-        return view('pages.repair.perbaikan-more', compact('transaksi'));
+        $user = user::all();
+        return view('pages.repair.perbaikan-more', compact('transaksi', 'user'));
     }
 
     public function perbaikan()
@@ -882,55 +883,111 @@ class TransaksiController extends Controller
         ])->findOrFail($id);
         $user = User::all();
         $transaksiId = $transaksi->id;
-        if (auth()->user()->hasRole('direktur')) {
-            foreach ($user as $item) {
-                if ($item->hasRole('surveyin') || $item->hasRole('mops')) {
-                    $link = $item->hasRole(['direktur', 'mops'])
-                        ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                        : '/surveyin/pengecekan/' . $transaksiId;
-                    notifikasi::create([
-                        'message' => 'test',
-                        'tanggal_kirim' => now(),
-                        'sender' => auth()->user()->username,
-                        'foto_profil' => auth()->user()->foto,
-                        'user_id' => $item->id,
-                        'link' => $link,
-                    ]);
+
+        if ($transaksi->jenis_kegiatan == 'impor') {
+            if (auth()->user()->hasRole('direktur')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('surveyin') || $item->hasRole('mops')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/surveyin/pengecekan/' . $transaksiId;
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link,
+                        ]);
+                    }
                 }
-            }
-        } else if (auth()->user()->hasRole('inventory')) {
-            foreach ($user as $item) {
-                if ($item->hasRole('surveyin') || $item->hasRole('mops') || $item->hasRole('direktur')) {
-                    $link = $item->hasRole(['direktur', 'mops'])
-                        ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                        : '/surveyin/pengecekan/' . $transaksiId;
-                    notifikasi::create([
-                        'message' => 'test',
-                        'tanggal_kirim' => now(),
-                        'sender' => auth()->user()->username,
-                        'foto_profil' => auth()->user()->foto,
-                        'user_id' => $item->id,
-                        'link' => $link,
-                    ]);
+            } else if (auth()->user()->hasRole('inventory')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('surveyin') || $item->hasRole('mops') || $item->hasRole('direktur')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/surveyin/pengecekan/' . $transaksiId;
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link,
+                        ]);
+                    }
                 }
-            }
-        } else if (auth()->user()->hasRole('mops')) {
-            foreach ($user as $item) {
-                if ($item->hasRole('surveyin')  || $item->hasRole('direktur')) {
-                    $link = $item->hasRole(['direktur', 'mops'])
-                        ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                        : '/surveyin/pengecekan/' . $transaksiId;
-                    notifikasi::create([
-                        'message' => 'test',
-                        'tanggal_kirim' => now(),
-                        'sender' => auth()->user()->username,
-                        'foto_profil' => auth()->user()->foto,
-                        'user_id' => $item->id,
-                        'link' => $link,
-                    ]);
+            } else if (auth()->user()->hasRole('mops')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('surveyin')  || $item->hasRole('direktur')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/surveyin/pengecekan/' . $transaksiId;
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link,
+                        ]);
+                    }
                 }
             }
         }
+        else {
+            if (auth()->user()->hasRole('direktur')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('tally') || $item->hasRole('mops')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/tally/peti-kemas/';
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link,
+                        ]);
+                    }
+                }
+            } else if (auth()->user()->hasRole('inventory')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('tally') || $item->hasRole('mops') || $item->hasRole('direktur')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/tally/peti-kemas/';
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link,
+                        ]);
+                    }
+                }
+            } else if (auth()->user()->hasRole('mops')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('tally')  || $item->hasRole('direktur')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/tally/peti-kemas/';
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link,
+                        ]);
+                    }
+                }
+            }
+        }
+
+
         $relatedPenghubung = $transaksi->penghubungs->first();
 
         $relatedPenghubung->pembayaran->update(['status_cetak_spk' => $statusCetakSpk]);
@@ -1303,7 +1360,7 @@ class TransaksiController extends Controller
 
 
 
-            $validator->sometimes('metodes', 'required|array', function ($input) {
+            $validator->sometimes('metode', 'required|array', function ($input) {
                 return $input->jumlah_kerusakan > 0;
             });
 
@@ -1651,7 +1708,6 @@ class TransaksiController extends Controller
                     $i = 0;
                     foreach ($kerusakan as $index => $item) {
                         // Check if there is a new image uploaded
-
                         if ($request->hasFile("foto_perbaikan.$i")) {
                             // Store new image
                             $newImagePath = $request->file("foto_perbaikan.$i")->store('uploads', 'public');
@@ -1661,72 +1717,25 @@ class TransaksiController extends Controller
                             $newImageName = $item->foto_perbaikan_name;
                             $newImagePath = $item->foto_perbaikan;
                         }
+                    
+                        // Capture old status before updating
+                        $oldStatus = $item->status;
+                        $newStatus = $request->status[$i];
+                    
                         // Update other data
                         $item->update([
-                            'lokasi_kerusakan' => $request->lokasi_kerusakan[($i)],
-                            'komponen' => $request->komponen[($i)],
-                            'status' => $request->status[($i)],
-                            'metode' => $request->metode[($i)],
+                            'lokasi_kerusakan' => $request->lokasi_kerusakan[$i],
+                            'komponen' => $request->komponen[$i],
+                            'status' => $newStatus,
+                            'metode' => $request->metode[$i],
                             'foto_perbaikan_name' => $newImageName,
                             'foto_perbaikan' => $newImagePath,
                         ]);
-
+                                           
                         $i++;
-                        $user = User::all();
-                        if ($request->status[($i)] == 'fix') {
-                            if (auth()->user()->hasRole('direktur')) {
-                                foreach ($user as $item) {
-                                    if ($item->hasRole('tally') || $item->hasRole('mops')) {
-                                        $link = $item->hasRole(['direktur', 'mops'])
-                                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                                            : '/tally/peti-kemas/';
-
-                                        notifikasi::create([
-                                            'message' => 'test',
-                                            'tanggal_kirim' => now(),
-                                            'sender' => auth()->user()->username,
-                                            'foto_profil' => auth()->user()->foto,
-                                            'user_id' => $item->id,
-                                            'link' => $link
-                                        ]);
-                                    }
-                                }
-                            } else if (auth()->user()->hasRole('repair')) {
-                                foreach ($user as $item) {
-                                    if ($item->hasRole('tally') || $item->hasRole('mops') || $item->hasRole('direktur')) {
-                                        $link = $item->hasRole(['direktur', 'mops'])
-                                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                                            : '/tally/peti-kemas/';
-
-                                        notifikasi::create([
-                                            'message' => 'test',
-                                            'tanggal_kirim' => now(),
-                                            'sender' => auth()->user()->username,
-                                            'foto_profil' => auth()->user()->foto,
-                                            'user_id' => $item->id,
-                                            'link' => $link
-                                        ]);
-                                    }
-                                }
-                            } else if (auth()->user()->hasRole('mops')) {
-                                foreach ($user as $item) {
-                                    if ($item->hasRole('tally')  || $item->hasRole('direktur')) {
-                                        $link = $item->hasRole(['direktur', 'mops'])
-                                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                                            : '/tally/peti-kemas/';
-                                        notifikasi::create([
-                                            'message' => 'test',
-                                            'tanggal_kirim' => now(),
-                                            'sender' => auth()->user()->username,
-                                            'foto_profil' => auth()->user()->foto,
-                                            'user_id' => $item->id,
-                                            'link' => $link
-                                        ]);
-                                    }
-                                }
-                            }
-                        }
+                        
                     }
+                    
 
                     foreach ($pengecekan->kerusakan as $item) {
                         kerusakanhistory::create([
@@ -1776,7 +1785,7 @@ class TransaksiController extends Controller
                     }
                 }
             } elseif (count($request->status) < $datadamage) {
-
+                
                 $extraKerusakan = $kerusakan->splice(count($request->status) - $datadamage);
                 foreach ($extraKerusakan as $extra) {
                     $extra->delete();
@@ -1796,6 +1805,7 @@ class TransaksiController extends Controller
                             $newImageName = $item->foto_perbaikan_name;
                             $newImagePath = $item->foto_perbaikan;
                         }
+
                         $item->update([
                             'lokasi_kerusakan' => $request->lokasi_kerusakan[$i],
                             'komponen' => $request->komponen[$i],
@@ -1804,62 +1814,9 @@ class TransaksiController extends Controller
                             'foto_perbaikan_name' => $newImageName,
                             'foto_perbaikan' => $newImagePath,
                         ]);
-                        $i++;
+                        
                         $kerusakanall--;
-                        $user = User::all();
-                        if ($request->status[($i)] == 'fix') {
-                            if (auth()->user()->hasRole('direktur')) {
-                                foreach ($user as $item) {
-                                    if ($item->hasRole('tally') || $item->hasRole('mops')) {
-                                        $link = $item->hasRole(['direktur', 'mops'])
-                                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                                            : '/tally/peti-kemas/';
-
-                                        notifikasi::create([
-                                            'message' => 'test',
-                                            'tanggal_kirim' => now(),
-                                            'sender' => auth()->user()->username,
-                                            'foto_profil' => auth()->user()->foto,
-                                            'user_id' => $item->id,
-                                            'link' => $link
-                                        ]);
-                                    }
-                                }
-                            } else if (auth()->user()->hasRole('repair')) {
-                                foreach ($user as $item) {
-                                    if ($item->hasRole('tally') || $item->hasRole('mops') || $item->hasRole('direktur')) {
-                                        $link = $item->hasRole(['direktur', 'mops'])
-                                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                                            : '/tally/peti-kemas/';
-
-                                        notifikasi::create([
-                                            'message' => 'test',
-                                            'tanggal_kirim' => now(),
-                                            'sender' => auth()->user()->username,
-                                            'foto_profil' => auth()->user()->foto,
-                                            'user_id' => $item->id,
-                                            'link' => $link
-                                        ]);
-                                    }
-                                }
-                            } else if (auth()->user()->hasRole('mops')) {
-                                foreach ($user as $item) {
-                                    if ($item->hasRole('tally')  || $item->hasRole('direktur')) {
-                                        $link = $item->hasRole(['direktur', 'mops'])
-                                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
-                                            : '/tally/peti-kemas/';
-                                        notifikasi::create([
-                                            'message' => 'test',
-                                            'tanggal_kirim' => now(),
-                                            'sender' => auth()->user()->username,
-                                            'foto_profil' => auth()->user()->foto,
-                                            'user_id' => $item->id,
-                                            'link' => $link
-                                        ]);
-                                    }
-                                }
-                            }
-                        }
+                        $i++;                        
                     }
 
                     foreach ($pengecekan->kerusakan as $item) {
@@ -1956,6 +1913,59 @@ class TransaksiController extends Controller
             $perbaikan->repair = null;
             $perbaikan->tanggal_perbaikan = null;
             $perbaikanhistory->update(['status_kondisi' => 'available']);
+
+            $user = User::all();
+            if (auth()->user()->hasRole('direktur')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('tally') || $item->hasRole('mops')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/tally/peti-kemas/';
+    
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link
+                        ]);
+                    }
+                }
+            } else if (auth()->user()->hasRole('repair')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('tally') || $item->hasRole('mops') || $item->hasRole('direktur')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                        ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                        : '/tally/peti-kemas/';
+    
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link
+                        ]);
+                    }
+                }
+            } else if (auth()->user()->hasRole('mops')) {
+                foreach ($user as $item) {
+                    if ($item->hasRole('tally') || $item->hasRole('direktur')) {
+                        $link = $item->hasRole(['direktur', 'mops'])
+                            ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
+                            : '/tally/peti-kemas/';
+                        notifikasi::create([
+                            'message' => 'test',
+                            'tanggal_kirim' => now(),
+                            'sender' => auth()->user()->username,
+                            'foto_profil' => auth()->user()->foto,
+                            'user_id' => $item->id,
+                            'link' => $link
+                        ]);
+                    }
+                }
+            }
         }
 
         $perbaikan->update(['jumlah_perbaikan' => $request->jumlah_perbaikan]);

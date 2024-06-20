@@ -4,6 +4,7 @@ use App\Http\Controllers\petikemascontroller;
 use App\Http\Controllers\transaksicontroller;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\notificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,9 +104,12 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
             Route::post('/index', [PegawaiController::class, 'filter'])->name('pegawai.filter');
         });
 
-        Route::get('/notification', function () {
-            return view('pages/notification');
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('direktur.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('direktur.notifikasi.filter');
+            Route::delete('/delete', [NotificationController::class, 'delete'])->name('direktur.notifikasi.delete');
         });
+
         Route::get('/profile', function () {
             return view('pages/profile');
         });
@@ -136,8 +140,10 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
             Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('inventory.petikemas.filterpenempatanhistory');
             Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('inventory.petikemas.laporanharian');
         });
-        Route::get('/notification', function () {
-            return view('pages/notification');
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('inventory.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('inventory.notifikasi.filter');
+            Route::delete('/delete', [NotificationController::class, 'delete'])->name('inventory.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -164,8 +170,10 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
             Route::post('/store/pengecekan', [TransaksiController::class, 'storepengecekan'])->name('surveyin.transaksi.storepengecekan');
             Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('surveyin.transaksi.deletekerusakan');
         });
-        Route::get('/notification', function () {
-            return view('pages/notification');
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('surveyin.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('surveyin.notifikasi.filter');
+            Route::delete('/delete', [NotificationController::class, 'delete'])->name('surveyin.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -192,8 +200,10 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
             Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('repair.transaksi.editperbaikan');
             Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('repair.transaksi.deletekerusakan');
         });
-        Route::get('/notification', function () {
-            return view('pages/notification');
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('repair.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('repair.notifikasi.filter');
+            Route::delete('/delete', [NotificationController::class, 'delete'])->name('repair.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -237,8 +247,10 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
             Route::post('/editpenempatan', [PetikemasController::class, 'editpenempatan'])->name('tally.petikemas.editpenempatan');
             Route::get('/{id}/get-petikemas', [PetikemasController::class, 'getLatestPenempatan']);
         });
-        Route::get('/notification', function () {
-            return view('pages/notification');
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('tally.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('tally.notifikasi.filter');
+            Route::delete('/delete', [NotificationController::class, 'delete'])->name('tally.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -265,8 +277,10 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
             Route::post('/edit/pembayaran/{id}', [TransaksiController::class, 'editpembayaran'])->name('kasir.transaksi.editpembayaran');
         });
 
-        Route::get('/notification', function () {
-            return view('pages/notification');
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('kasir.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('kasir.notifikasi.filter');
+            Route::delete('/delete', [NotificationController::class, 'delete'])->name('kasir.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');

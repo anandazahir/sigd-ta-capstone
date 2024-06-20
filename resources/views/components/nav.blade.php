@@ -57,7 +57,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a href="/{{$cleaned}}/notification">
+          <a href="/{{$cleaned}}/notifikasi">
 
             <i class="fa-solid fa-bell text-primary img-notif my-2 mx-3"></i>
           </a>
