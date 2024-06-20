@@ -17,6 +17,7 @@ return new class extends Migration
             $table->dateTime('tanggal_kirim');
             $table->string('sender');
             $table->string('foto_profil')->nullable();
+            $table->string('link');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

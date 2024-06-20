@@ -26,7 +26,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (auth()->user()->notifikasi as $item)                                   
+                                @foreach (auth()->user()->notifikasi as $item)
                                 <tr>
                                     <td>{{$item->message}}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal_kirim)->translatedFormat('d F Y') }}</td>
@@ -37,7 +37,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-group gap-2">
-                                            <a class="btn bg-white text-white rounded-3 text-center" style="height: 2.2rem">
+                                            <a class="btn bg-white text-white rounded-3 text-center" style="height: 2.2rem" href="{{$item->link}}">
                                                 <i class="fa-solid fa-arrow-up-right-from-square text-primary " style="font-size: 20px;"></i>
                                                 <span class="text-primary mx-1 fw-semibold d-none d-lg-inline-block">OPEN</span>
                                             </a>

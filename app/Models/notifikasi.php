@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class notifikasi extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'message',
         'tanggal_kirim',
         'sender',
         'foto_profil',
         'user_id',
+        'link',
     ];
 
     public function user()

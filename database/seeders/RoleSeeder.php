@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
 
 class RoleSeeder extends Seeder
 {
@@ -110,9 +111,19 @@ class RoleSeeder extends Seeder
         $roletally->givePermissionTo($mengelola_penempatan, $melihat_riwayatpenempatan, $melihat_petikemas);
         $rolekasir->givePermissionTo($melihat_pembayaran);
         // Assign role to user
-        $user = \App\Models\User::where('username', 'direktur')->first();
-        $user->assignRole('direktur');
-        $user2 = \App\Models\User::where('username', 'inventory')->first();
-        $user2->assignRole('inventory');
+        $direktur = User::where('username', 'direktur')->first();
+        $direktur->assignRole('direktur');
+        $inventory = User::where('username', 'inventory')->first();
+        $inventory->assignRole('inventory');
+        $repair = User::where('username', 'repair')->first();
+        $repair->assignRole('repair');
+        $kasir = User::where('username', 'kasir')->first();
+        $kasir->assignRole('kasir');
+        $manajer_ops = User::where('username', 'manajer_ops')->first();
+        $manajer_ops->assignRole('mops');
+        $survey_in = User::where('username', 'survey_in')->first();
+        $survey_in->assignRole('surveyin');
+        $tally = User::where('username', 'tally')->first();
+        $tally->assignRole('tally');
     }
 }
