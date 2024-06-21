@@ -107,7 +107,7 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('direktur.notifikasi.index');
             Route::get('/filter', [NotificationController::class, 'filter'])->name('direktur.notifikasi.filter');
-            Route::delete('/delete', [NotificationController::class, 'delete'])->name('direktur.notifikasi.delete');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('direktur.notifikasi.delete');
         });
 
         Route::get('/profile', function () {
@@ -143,7 +143,7 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('inventory.notifikasi.index');
             Route::get('/filter', [NotificationController::class, 'filter'])->name('inventory.notifikasi.filter');
-            Route::delete('/delete', [NotificationController::class, 'delete'])->name('inventory.notifikasi.delete');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('inventory.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -173,7 +173,7 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('surveyin.notifikasi.index');
             Route::get('/filter', [NotificationController::class, 'filter'])->name('surveyin.notifikasi.filter');
-            Route::delete('/delete', [NotificationController::class, 'delete'])->name('surveyin.notifikasi.delete');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('surveyin.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -203,7 +203,7 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('repair.notifikasi.index');
             Route::get('/filter', [NotificationController::class, 'filter'])->name('repair.notifikasi.filter');
-            Route::delete('/delete', [NotificationController::class, 'delete'])->name('repair.notifikasi.delete');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('repair.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -250,7 +250,7 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('tally.notifikasi.index');
             Route::get('/filter', [NotificationController::class, 'filter'])->name('tally.notifikasi.filter');
-            Route::delete('/delete', [NotificationController::class, 'delete'])->name('tally.notifikasi.delete');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('tally.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');
@@ -280,7 +280,7 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('kasir.notifikasi.index');
             Route::get('/filter', [NotificationController::class, 'filter'])->name('kasir.notifikasi.filter');
-            Route::delete('/delete', [NotificationController::class, 'delete'])->name('kasir.notifikasi.delete');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('kasir.notifikasi.delete');
         });
         Route::get('/profile', function () {
             return view('pages/profile');

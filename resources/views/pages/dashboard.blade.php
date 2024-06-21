@@ -33,41 +33,46 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
         <div class="row">
             <div class="col-lg-6 mb-3">
-                <div class="card shadow rounded-4 text-white bg-primary">
-                    <div class="card-body">
-                        <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
-                            <div class="rounded-3 d-flex flex-row justify-content-center" style="width: 2rem; height: 2rem; place-items: center; background: #edf5f5;">
-                                <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/notification">
-                                    <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row mb-3">
-                            <h4>NOTIFICATION</h4>
-                        </div>
-                        <div class="row container text-center scroll table-responsive" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') || auth()->user()->hasRole('tally')  ? '12.3rem' : '21.5rem' }}">
-                            <table class="table-dashboard ">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">MESSAGE</th>
-                                        <th scope="col">DATE</th>
-                                        <th scope="col">FROM</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Pengajuan Cuti</td>
-                                        <td>19 Jul 2021</td>
-                                        <td class="text-center">
-                                            <i class="fa-solid fa-circle-user text-white d-inline" style="font-size: 20px;"></i>
-                                            <span class="m-0 p-0 d-inline mx-1">RIZAL FIRDAUS</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                <div class="rounded-4 p-4 text-white bg-primary shadow position-relative" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') || auth()->user()->hasRole('tally')  ? '12.3rem' : '27rem' }}">
+                    <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
+                        <div class="rounded-3 d-flex flex-row justify-content-center" style="width: 2rem; height: 2rem; place-items: center; background: #edf5f5;">
+                            <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/notifikasi">
+                                <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
+                            </a>
                         </div>
                     </div>
+                    <div class="d-flex flex-row mb-3">
+                        <h4>NOTIFICATION</h4>
+                    </div>
+                    <div class="text-center onscroll table-responsive">
+                        <table class="table-dashboard">
+                            <thead>
+                                <tr>
+                                    <th scope="col">PESAN</th>
+                                    <th scope="col">TANGGAL</th>
+                                    <th scope="col">PENGIRIM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (auth()->user()->notifikasi as $item)
+                                <tr style="height: fit-content;">
+                                    <td style="height: fit-content;">{{$item->message}}</td>
+                                    <td style="height: fit-content;"> {{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('d M Y') }}</td>
+                                    <td class="text-center" style="height: fit-content;">
+                                        <i class="fa-solid fa-circle-user text-white d-inline" style="font-size: 20px;"></i>
+                                        <span class="m-0 p-0 d-inline mx-1">{{strtoupper($item->sender)}}</span>
+                                    </td>
+                                </tr>
+                                @endforeach
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
 
             <div class="col-lg-6">

@@ -100,6 +100,8 @@ $btn-focus-box-shadow: none;
         border-bottom: hidden;
         background-color: var(--bs-primary);
         color: white;
+        /* Ensure the table cells adjust to the content */
+        /* Optional: Adjust padding as needed */
     }
 }
 .table-container {

@@ -56,10 +56,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     </a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+        <li class="nav-item position-relative p-0">
           <a href="/{{$cleaned}}/notifikasi">
-
-            <i class="fa-solid fa-bell text-primary img-notif my-2 mx-3"></i>
+            <i class="fa-solid fa-bell text-primary img-notif my-2 mx-3">
+            </i>
+            <span class=" badge rounded-pill text-bg-danger text-white" style="position:absolute; bottom:2.1rem; left:2.5rem;" id="text-notif">{{auth()->user()->notifikasi->count()}}</span>
           </a>
         </li>
         <li class="nav-item dropdown">
@@ -117,3 +118,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
   </div>
 
 </div>
+{{--
+@push('page-script')
+<script>
+  const textnotif = $('#text-notif').text();
+  let numtextnotif = parseInt(textnotif);
+  $(document).on('click', '.button-url', function(e) {
+    e.preventDefault();
+    if (numtextnotif) {
+      numtextnotif--;
+      $('#text-notif').text(numtextnotif);
+    }
+  });
+</script>
+@endpush()
+--}}
