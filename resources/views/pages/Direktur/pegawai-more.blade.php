@@ -6,7 +6,6 @@
         <x-table-absensi />
         <x-table-pengajuan :data="$pegawai" />
         <x-form-table-absensi />
-        <x-form-create-table-pengajuan />
 
         <x-toast />
         @stack('toast-script')

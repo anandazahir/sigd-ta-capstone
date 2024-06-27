@@ -11,22 +11,26 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <option value="pengajuan cuti">Pengajuan Cuti</option>
             <option value="kenaikan gaji">Kenaikan Gaji</option>
         </select>
+        <div class="invalid-feedback"></div>
     </div>
     <div data-form="pengajuancuti" style="display: none;">
         <div class="row">
             <div class="col-lg-12 form-group mb-3">
                 <label for="Alamat" class="form-label">Alamat ketika cuti</label>
                 <textarea class="form-control" rows="3" name="alamat_cuti"></textarea>
+                <div class="invalid-feedback"></div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6 form-group mb-3">
                 <label for="mulaicuti" class="form-label">Mulai Cuti</label>
                 <input type="date" class="form-control" name="mulai_cuti" required>
+                <div class="invalid-feedback"></div>
             </div>
             <div class="col-lg-6 form-group mb-3">
                 <label for="selesaicuti" class="form-label">Selesai Cuti</label>
                 <input type="date" class="form-control" name="selesai_cuti" required>
+                <div class="invalid-feedback"></div>
             </div>
         </div>
         <div class="row">
@@ -39,10 +43,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     <option value="cuti sakit">Cuti Sakit</option>
                     <option value="lainnya">Lainnya</option>
                 </select>
+                <div class="invalid-feedback"></div>
             </div>
             <div class="col-lg-12 form-group mb-3 lainnyatextarea" style="display: none;">
                 <label for="alasan" class="form-label">Tulis Alasan Cuti</label>
                 <textarea class="form-control" rows="3" name="alasan_cuti"></textarea>
+                <div class="invalid-feedback"></div>
             </div>
         </div>
     </div>
@@ -54,6 +60,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span class="input-group-text">Rp</span>
                 <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="gaji_sekarang">
                 <span class="input-group-text">,00</span>
+                <div class="invalid-feedback"></div>
             </div>
         </div>
         <div class="row mb-3 form-group">
@@ -62,6 +69,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span class="input-group-text">Rp</span>
                 <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="gaji_diajukan">
                 <span class="input-group-text">,00</span>
+                <div class="invalid-feedback"></div>
             </div>
         </div>
         <div class="row mb-3 form-group">
@@ -80,9 +88,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 <script>
     $(document).ready(function() {
         $('#loading-button-create-pengajuan').hide();
-        /*$('#create-pengajuan-form').submit(function(event) {
+        $('#create-pengajuan-form').submit(function(event) {
             handleFormSubmission(this);
-        });*/
+        });
         $('#jenispengajuan').change(function() {
             var selectedOption = $(this).val().replace(/\s+/g, '').toLowerCase();
             $('[data-form]').hide();

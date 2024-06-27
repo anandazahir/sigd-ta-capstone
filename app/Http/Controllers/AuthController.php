@@ -34,7 +34,8 @@ class AuthController extends Controller
             // Assuming you have a 'role' field in your users table
             $role = $user->getRoleNames();
             $rolecleaned =  str_replace(['[', ']', '"'], '', $role);
-            return redirect(url('/' . $rolecleaned . '/dashboard'));
+            // Redirect dengan pesan sukses
+            return redirect(url('/' . $rolecleaned . '/dashboard'))->with('success', 'Selamat Datang, '.ucwords(auth()->user()->nama));
         }
 
         return back()->withErrors([

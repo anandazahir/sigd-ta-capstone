@@ -3,6 +3,17 @@ $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 <x-layout>
+    @if(session('success'))
+    <div class="alert alert-success d-flex align-items-center position-fixed top-0 start-50 translate-middle-x" role="alert" style="width: fit-content; padding:0px 10px 0px 0px; margin:10px;" id="alertLogin">
+        <div class="d-flex gap-2 align-content-center text-center">
+            <div class="bg-white rounded-3 rounded-end-0 p-2" style="width: fit-content; height: fit-content;">
+                <i class="fa-solid fa-check text-success" style="font-size: 30px;"></i>
+            </div>
+            <h5 class="text-black fw-bold my-2 text-center">{{ session('success') }}</h5>
+        </div>
+    </div>
+    @endif
+
     <x-slot:title>
         Dashboard
         </x-slot>
@@ -220,4 +231,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 </div>
             </div>
         </div>
-</x-layout>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('#alertLogin').slideUp(1000, function() {
+                $(this).addClass('d-none');
+            });            
+        }, 3000);
+    });
+</script>
+    </x-layout>

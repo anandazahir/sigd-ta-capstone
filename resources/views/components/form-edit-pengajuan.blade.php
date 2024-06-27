@@ -55,7 +55,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $(this).siblings('.file-name').text(fileName);
         });
 
-        /* 
+        
         $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
             event.preventDefault();
             var formData = new FormData(this);
@@ -108,6 +108,5 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     }
                 });
         });
-*/
     });
 </script>
