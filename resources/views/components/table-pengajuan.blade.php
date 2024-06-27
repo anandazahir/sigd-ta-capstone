@@ -1,8 +1,7 @@
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
     <div class="container position-relative">
         <h1 class="text-white fw-semibold">Pengajuan</h1>
-        {{--tambah transaksi belom--}}
-        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan">
+        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan-modal">
             <div class="d-flex gap-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Pengajuan">
                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                     <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
@@ -55,28 +54,67 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (auth()->user()->hasRole('direktur'))
+                    @foreach ($data->pengajuan as $user)
                     <tr>
                         <td class="text-center">
-                            Kenaikan Gaji
+                            {{$user->jenis_pengajuan}}
                         </td>
                         <td class="text-center">
-                            01 Desember 2022
+                            {{$user->tanggal_dibuat}}
                         </td>
                         <td class="text-center">
-                            <button class="btn bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;">
+                            <a class="btn bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;" href="{{  $user['url_file']}}">
                                 <i class="fa-solid fa-file-pdf position-absolute my-2 my-lg-0" style="font-size:20px;"></i>
-                                <span class="fw-normal text-white mx-lg-4 mx-2 " style="font-size: 1.4vh;">SURAT PENGAJUAN CUTI....</span>
-                            </button>
+                                <span class="fw-normal text-white mx-lg-4 mx-2 " style="font-size: 1.4vh;">{{$user->file_name}}</span>
+                            </a>
                         </td>
                         <td class="text-center">
-                            16.00
+                            {{$user->status}}
                         </td>
                         <td class="text-center">
-                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai"></i></button>
+                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan-modal-{{$user->id}}"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai" value="{{$user->id}}"></i></button>
                         </td>
                     </tr>
+                    @endforeach
+
+                    @else
+                    @foreach (auth()->user()->pengajuan as $user)
+                    <tr>
+                        <td class="text-center">
+                            {{$user->jenis_pengajuan}}
+                        </td>
+                        <td class="text-center">
+                            {{$user->tanggal_dibuat}}
+                        </td>
+                        <td class="text-center">
+                            <a class="btn bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;" href="{{ asset('storage') . '/' . $user['url_file']}}">
+                                <i class="fa-solid fa-file-pdf position-absolute my-2 my-lg-0" style="font-size:20px;"></i>
+                                <span class="fw-normal text-white mx-lg-4 mx-2 " style="font-size: 1.4vh;">{{$user->file_name}}</span>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            {{$user->status}}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan-modal-{{$user->id}}"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai" value="{{$user->id}}"></i></button>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<x-modal-form size="" id="create-pengajuan-modal" text="Buat Pengecekan ">
+    <x-form-create-pengajuan />
+</x-modal-form>
+@if (auth()->user()->hasRole('direktur'))
+@foreach ($data->pengajuan as $pengajuan)
+<x-modal-form size="" id="edit-pengajuan-modal-{{$pengajuan->id}}" text="Edit Pengajuan | {{$data->username}}">
+    <x-form-edit-pengajuan :pengajuan="$pengajuan" id="edit-pengajuan-modal-{{$pengajuan->id}}" />
+</x-modal-form>
+@endforeach
+@endif

@@ -4,7 +4,7 @@
         </x-slot>
         <x-biodata :data="$pegawai" />
         <x-table-absensi />
-        <x-table-pengajuan />
+        <x-table-pengajuan :data="$pegawai" />
         <x-form-table-absensi />
         <x-form-create-table-pengajuan />
 

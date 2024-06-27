@@ -5,6 +5,7 @@ use App\Http\Controllers\transaksicontroller;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\notificationController;
+use App\Http\Controllers\PengajuanController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -102,6 +103,8 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
             Route::put('/edit/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
             Route::post('/delete', [PegawaiController::class, 'delete'])->name('pegawai.delete');
             Route::post('/index', [PegawaiController::class, 'filter'])->name('pegawai.filter');
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('direktur.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('direktur.pegawai.resetpassword');
         });
 
         Route::prefix('notifikasi')->group(function () {
@@ -113,8 +116,75 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
+
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('direktur.pengajuan.store');
+            Route::post('/edit', [PengajuanController::class, 'edit'])->name('direktur.pengajuan.edit');
+        });
     });
 });
+
+// Routes M.Operasional
+Route::middleware(['auth', 'role:mops'])->group(function () {
+    Route::prefix('mops')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('pages/dashboard');
+        })->name('mops.dashboard');
+
+        Route::prefix('transaksi')->group(function () {
+            Route::get('/chart/{month}', [TransaksiController::class, 'getSalesData'])->name('mops.transaksi.chart');
+            Route::get('/', [TransaksiController::class, 'index'])->name('mops.transaksi.index');
+            Route::get('/index', [TransaksiController::class, 'filter'])->name('mops.transaksi.filter');
+            Route::get('/{id}', [TransaksiController::class, 'show'])->name('mops.transaksi.show');
+            Route::post('/store', [TransaksiController::class, 'storeEntryData'])->name('mops.transaksi.transaksistore');
+            Route::put('/edit/{id}', [TransaksiController::class, 'update'])->name('mops.transaksi.update');
+            Route::post('/delete', [TransaksiController::class, 'delete'])->name('mops.transaksi.delete');
+            Route::post('/edit/entrydata/{id}', [TransaksiController::class, 'editentrydata'])->name('mops.transaksi.editentrydata');
+            Route::post('/deleteentrydata', [TransaksiController::class, 'deleteentrydata'])->name('mops.transaksi.deleteentrydata');
+            Route::post('/cetakspk/{id}', [TransaksiController::class, 'cetakspk'])->name('mops.transaksi.cetakspk');
+            Route::post('/edit/pembayaran/{id}', [TransaksiController::class, 'editpembayaran'])->name('mops.transaksi.editpembayaran');
+            Route::post('/laporantransaksi', [TransaksiController::class, 'laporanbulanantransaksi'])->name('mops.transaksi.laporantransaksi');
+            Route::post('/store/pengecekan', [TransaksiController::class, 'storepengecekan'])->name('mops.transaksi.storepengecekan');
+            Route::post('/indexkerusakan', [TransaksiController::class, 'indexkerusakan'])->name('mops.transaksi.indexkerusakan');
+            Route::post('/editpengecekan', [TransaksiController::class, 'editpengecekan'])->name('mops.transaksi.editpengecekan');
+            Route::post('/deletekerusakan', [TransaksiController::class, 'deletekerusakan'])->name('mops.transaksi.deletekerusakan');
+            Route::post('/editperbaikan', [TransaksiController::class, 'editperbaikan'])->name('mops.transaksi.editperbaikan');
+            Route::post('/editpenempatan/{id}', [TransaksiController::class, 'editpenempatan'])->name('mops.transaksi.editpenempatan');
+        });
+
+        Route::prefix('peti-kemas')->group(function () {
+            Route::get('/', [PetikemasController::class, 'index'])->name('mops.petikemas.index');
+            Route::get('/index', [PetikemasController::class, 'filter'])->name('mops.petikemas.filter');
+            Route::get('/{id}', [PetikemasController::class, 'show'])->name('mops.petikemas.show');
+            Route::post('/store', [PetikemasController::class, 'storePetiKemas'])->name('mops.petikemas.petikemasstore');
+            Route::post('/delete', [PetikemasController::class, 'delete'])->name('mops.petikemas.delete');
+            Route::get('/pengecekanhistory/{id}/kerusakan', [PetikemasController::class, 'listkerusakan'])->name('mops.petikemas.listkerusakanhistory');
+            Route::post('/pengecekanhistory/deletelistkerusakan', [PetikemasController::class, 'deletelistkerusakan'])->name('mops.petikemas.deletepengecekanhistory');
+            Route::post('/pengecekanhistory/filter', [PetikemasController::class, 'filterlistkerusakan'])->name('mops.petikemas.filterpengecekanhistory');
+            Route::get('/perbaikanhistory/{id}/kerusakan', [PetikemasController::class, 'listperbaikan'])->name('mops.petikemas.listperbaikanhistory');
+            Route::post('/perbaikanhistory/deletelistperbaikan', [PetikemasController::class, 'deletelistperbaikan'])->name(',mopspetikemas.deleteperbaikanhistory');
+            Route::post('/perbaikanhistory/filter', [PetikemasController::class, 'filterlistperbaikan'])->name('mops.petikemas.filterperbaikanhistory');
+            Route::post('/penempatanhistory/deletelistpenempatan', [PetikemasController::class, 'deletelistpenempatan'])->name('mops.petikemas.deletepenempatanhistory');
+            Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('mops.petikemas.filterpenempatanhistory');
+            Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('mops.petikemas.laporanharian');
+        });
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'indexpegawai']);
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('mops.pegawai.changeprofilpicture');
+        });
+
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('mops.notifikasi.index');
+            Route::get('/filter', [NotificationController::class, 'filter'])->name('mops.notifikasi.filter');
+            Route::post('/delete', [NotificationController::class, 'delete'])->name('mops.notifikasi.delete');
+        });
+
+        Route::get('/profile', function () {
+            return view('pages/profile');
+        });
+    });
+});
+
 
 //Route Inventory
 Route::middleware(['auth', 'role:inventory'])->group(function () {
@@ -148,12 +218,11 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-        Route::get('/pegawai/more', function () {
-            return view('pages/pegawai-more');
+
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'indexpegawai']);
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('inventory.pegawai.changeprofilpicture');
         });
-        Route::get('/pegawai', function () {
-            return view('pages/pegawai');
-        });;
     });
 });
 
@@ -178,12 +247,11 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-        Route::get('/pegawai/more', function () {
-            return view('pages/pegawai-more');
+
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'indexpegawai']);
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('surveyin.pegawai.changeprofilpicture');
         });
-        Route::get('/pegawai', function () {
-            return view('pages/pegawai');
-        });;
     });
 });
 
@@ -208,12 +276,11 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-        Route::get('/pegawai/more', function () {
-            return view('pages/pegawai-more');
+
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'indexpegawai']);
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('repair.pegawai.changeprofilpicture');
         });
-        Route::get('/pegawai', function () {
-            return view('pages/pegawai');
-        });;
         Route::prefix('peti-kemas')->group(function () {
             Route::get('/', [PetikemasController::class, 'index'])->name('repair.petikemas.index');
             Route::get('/index', [PetikemasController::class, 'filter'])->name('repair.petikemas.filter');
@@ -255,12 +322,10 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-        Route::get('/pegawai/more', function () {
-            return view('pages/pegawai-more');
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'indexpegawai']);
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('tally.pegawai.changeprofilpicture');
         });
-        Route::get('/pegawai', function () {
-            return view('pages/pegawai');
-        });;
     });
 });
 
@@ -285,11 +350,9 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-        Route::get('/pegawai/more', function () {
-            return view('pages/pegawai-more');
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'indexpegawai']);
+            Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('kasir.pegawai.changeprofilpicture');
         });
-        Route::get('/pegawai', function () {
-            return view('pages/pegawai');
-        });;
     });
 });

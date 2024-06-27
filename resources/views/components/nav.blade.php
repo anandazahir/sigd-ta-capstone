@@ -3,7 +3,7 @@ $url = request()->path();
 $segments = explode('/', $url);
 
 // List of roles that should be hidden from the breadcrumb
-$roles = ['direktur', 'inventory', 'surveyin', 'repair', 'tally', 'kasir'];
+$roles = ['direktur', 'inventory', 'surveyin', 'repair', 'tally', 'kasir', 'mops'];
 
 // Remove the first segment if it is a role
 if (in_array($segments[0], $roles)) {
@@ -65,13 +65,21 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-circle-user text-primary img-profil"></i>
+            @if (auth()->user()->foto)
+            <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="41" height="41">
+            @else
+            <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="41" height="41">
+            @endif
           </a>
           <ul class="dropdown-menu">
 
             <li><a class="dropdown-item" href="/{{$cleaned}}/profile">
                 <div class="d-flex flex-row gap-2">
-                  <i class="fa-solid fa-circle-user text-primary " style="font-size: 27px;"></i>
+                  @if (auth()->user()->foto)
+                  <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="27" height="27">
+                  @else
+                  <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="27" height="27">
+                  @endif
                   <span class="text">Profile</span>
                 </div>
               </a></li>

@@ -6,21 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function showLoginForm()
     {
         if (Auth::check()) {
-            $user = Auth::user(); // Get the authenticated user
-            $roles = $user->getRoleNames(); // This returns a collection of role names
-
-
-            // If user has roles, get the first one
-            $roleString = $roles->isNotEmpty() ? $roles->first() : 'default';
-
-            // Redirect to the appropriate dashboard
-            return redirect('/' . $roleString . '/dashboard');
+            return redirect('/');
         }
 
         return view('pages.login');
@@ -53,5 +46,32 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect('/login');
+    }
+    public function updatePassword(Request $request)
+    {
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Update the user's password
+        $userId = auth()->id();
+        $user = User::findOrFail($userId);
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Log out the user and invalidate the session
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Redirect to the login page with a success message
+        return redirect()->route('login')->with('status', 'Password updated successfully! Please log in with your new password.');
     }
 }

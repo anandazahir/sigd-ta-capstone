@@ -9,12 +9,17 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller
 {
     public function index()
     {
         return view('pages.direktur.pegawai');
+    }
+    public function indexpegawai()
+    {
+        return view('pages.pegawai');
     }
     public function show($id)
     {
@@ -160,6 +165,41 @@ class PegawaiController extends Controller
                 'per_page' => $filteredData->perPage(),
             ],
 
+        ]);
+    }
+    public function changeprofilpicture(Request $request)
+    {
+        $userId = auth()->id();
+        $user = User::findOrFail($userId);
+        $validator = Validator::make($request->all(), [
+            'foto' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if ($user->foto && $request->type == 'delete') {
+            if (Storage::disk('public')->exists($user->foto)) {
+                Storage::disk('public')->delete($user->foto);
+            }
+            $user->foto = null;
+            $user->save();
+        }
+        if ($request->type == 'changed') {
+            if ($user->foto) {
+                if (Storage::disk('public')->exists($user->foto)) {
+                    Storage::disk('public')->delete($user->foto);
+                }
+            }
+
+            $newImagePath = $request->file("foto")->store('uploads', 'public');
+            $user->foto = $newImagePath;
+            $user->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Foto Profil Berhasil Diubah!',
         ]);
     }
 }

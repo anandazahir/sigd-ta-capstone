@@ -13,7 +13,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     <div class="card-body">
                         <div class="row justify-content-center justify-content-lg-start">
                             <div class="col-md-2" style="width: auto;">
-                                <i class="fa-solid fa-circle-user" style="font-size:100px;"></i>
+                                @if (auth()->user()->foto)
+                                <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="100" height="100">
+                                @else
+                                <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="100" height="100">
+                                @endif
                             </div>
                             <div class="col-md-10 my-auto text-center text-lg-start" style="width: 25rem">
                                 <h4 class="mt-2 p-0">{{auth()->user()->nama}}</h4>
@@ -65,8 +69,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </td>
                                 </tr>
                                 @endforeach
-
-
 
                             </tbody>
                         </table>

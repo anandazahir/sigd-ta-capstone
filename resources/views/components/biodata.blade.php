@@ -5,9 +5,11 @@
 
 
         <div class="d-flex flex-column my-5" style="place-items: center;">
-            <div class="rounded-circle bg-white p-1 mb-2 onhover" style="z-index: 1; width: 250px; height: 250px;">
-                <i class="fa-solid fa-user text-primary" style=" font-size:190px; margin-left:37px; margin-top:17px"></i>
-            </div>
+            @if ($data->foto)
+            <img src="{{URL::asset('storage/'.$data->foto)}}" alt="" class="rounded-circle mb-2" width="250" height="250" id="foto_profil">
+            @else
+            <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle mb-2" width="250" height="250" id="foto_profil">
+            @endif
             <h1 class="fw-semibold text-white" style="z-index: 1;">{{$data->nama}}</h1>
             <p class="text-white" style="z-index: 1;">{{$data->jabatan}} | {{$data->nip}}</p>
         </div>

@@ -145,9 +145,9 @@
 
                         <input type="text" id="username" class="form-control text-white" style="background-color: gray" placeholder="Username" name="username">
                       </div>
-                      <div class="mb-4">
-
+                      <div class="mb-4 d-flex position-relative">
                         <input type="password" id="password" class="form-control text-white" style="background-color: gray" placeholder="Password" name="password">
+                        <i class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-2  text-white" id="togglePassword" style="font-size: 20px; cursor: pointer;"></i>
                       </div>
                       <div class="mb-4 text-center">
                         <button type="submit" class="btn w-100 text-white bg-primary" style="background-color: #2B3674">Login</button>
@@ -168,6 +168,23 @@
 <script>
   $(window).on('load', function() {
     $("#loading").fadeOut(2000);
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('#togglePassword').on('click', function() {
+      const passwordField = $('#password');
+      const passwordFieldType = passwordField.attr('type');
+      const icon = $(this);
+
+      if (passwordFieldType === 'password') {
+        passwordField.attr('type', 'text');
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+      } else {
+        passwordField.attr('type', 'password');
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+      }
+    });
   });
 </script>
 

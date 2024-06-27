@@ -36,7 +36,7 @@
                     <div class="card-body tabs" data-tab="pengajuan">
 
                         <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
-                            <i class="fa-solid fa-dollar-sign  text-primary " style="font-size:3.3rem; margin: 10px 20px 10px 20px"></i>
+                            <i class="fa-solid fa-user-tie text-primary " style="font-size:3.3rem; margin: 10px 15px 10px 15px"></i>
                         </div>
                         <h4 class="my-2" style="margin-left:85px;">PENGAJUAN</h4>
                         <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
