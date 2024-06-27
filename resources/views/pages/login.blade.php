@@ -100,6 +100,18 @@
 </head>
 
 <body class="bg-primary">
+
+  @if($errors->has('error'))
+    <div class="alert alert-danger d-flex align-items-center position-fixed top-0 start-50 translate-middle-x" role="alert" style="width: fit-content; padding:0px 10px 0px 0px; margin:10px;" id="alertLogin">
+        <div class="d-flex gap-2 align-content-center text-center">
+            <div class="bg-white rounded-3 rounded-end-0 p-2" style="width: fit-content; height: fit-content;">
+                <i class="fa-solid fa-xmark text-danger" style="font-size: 30px;"></i>
+            </div>
+            <h5 class="text-black fw-bold my-2 text-center">{{ $errors->first('error') }}</h5>
+        </div>
+    </div>
+    @endif
+
   <div id="loading" class="bg-primary ">
 
     <svg style="fill: white" class=" loading-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
@@ -143,10 +155,10 @@
                       <h5 class="fw-normal mb-3 pb-3 text-black">Please Sign In to Your Account </h5>
                       <div class="mb-4">
 
-                        <input type="text" id="username" class="form-control text-white" style="background-color: gray" placeholder="Username" name="username">
+                        <input type="text" id="username" class="form-control text-white" style="background-color: gray" placeholder="Username" name="username" value="{{ old('username') }}">
                       </div>
                       <div class="mb-4 d-flex position-relative">
-                        <input type="password" id="password" class="form-control text-white" style="background-color: gray" placeholder="Password" name="password">
+                        <input type="password" id="password" class="form-control text-white" style="background-color: gray" placeholder="Password" name="password" value="{{ old('password') }}">
                         <i class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-2  text-white" id="togglePassword" style="font-size: 20px; cursor: pointer;"></i>
                       </div>
                       <div class="mb-4 text-center">
@@ -185,6 +197,12 @@
         icon.removeClass('fa-eye').addClass('fa-eye-slash');
       }
     });
+
+    setTimeout(function() {
+      $('#alertLogin').slideUp(1000, function() {
+          $(this).addClass('d-none');
+      });            
+  }, 3000);
   });
 </script>
 
