@@ -132,15 +132,17 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             $.each(response.Data, function(index, item) {
                                 $tableNotifikasi.find('tbody').append(
                                     `<tr>
-            <td>${item.message}</td>
-            <td>${new Date(item.tanggal_kirim).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
-            <td>${new Date(item.tanggal_kirim).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</td>
+            <td style="width: 40vh">${item.message}</td>
+            <td><div class="my-5">${new Date(item.tanggal_kirim).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</div></td>
+            <td><div class="my-5">${new Date(item.tanggal_kirim).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</div></td>
             <td class="text-center">
+                <div class="my-5">
                 <i class="fa-solid fa-circle-user text-primary d-inline my-1" style="font-size: 25px;"></i>
                 <span class="m-0 p-0 d-inline mx-1">${item.sender.toUpperCase()}</span>
+                </div>
             </td>
             <td>
-                <div class="btn-group gap-2">
+                <div class="btn-group gap-2 my-5">
                     <a class="btn bg-primary text-white rounded-3 text-center button-open" style="height: 2.2rem" href="${item.link}">
                         <i class="fa-solid fa-arrow-up-right-from-square text-white" style="font-size: 20px;"></i>
                         <span class="text-white mx-1 fw-semibold d-none d-lg-inline-block">OPEN</span>

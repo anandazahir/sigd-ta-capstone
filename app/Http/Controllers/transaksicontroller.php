@@ -496,7 +496,7 @@ class TransaksiController extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                         : '/kasir/pembayaran/' . $transaksiId;
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Transaksi baru dengan No. '.$transaksi->no_transaksi. ' telah dibuat, segera lakukan pembayaran.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -512,7 +512,7 @@ class TransaksiController extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                         : '/kasir/pembayaran/' . $transaksiId;
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Transaksi baru dengan No. '.$transaksi->no_transaksi. ' telah dibuat, segera lakukan pembayaran.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -528,7 +528,7 @@ class TransaksiController extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                         : '/kasir/pembayaran/' . $transaksiId;
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Transaksi baru dengan No. '.$transaksi->no_transaksi. ' telah dibuat, segera lakukan pembayaran.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
