@@ -68,7 +68,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             @if (auth()->user()->foto)
             <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="41" height="41">
             @else
-            <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="41" height="41">
+            <img src="{{ URL::asset('user-solid-white.svg') }}" alt="" class="rounded-circle" width="41" height="41">
             @endif
           </a>
           <ul class="dropdown-menu">
@@ -78,7 +78,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                   @if (auth()->user()->foto)
                   <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="27" height="27">
                   @else
-                  <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="27" height="27">
+                  <img src="{{ URL::asset('user-solid-white.svg') }}" alt="" class="rounded-circle" width="27" height="27">
                   @endif
                   <span class="text">Profile</span>
                 </div>

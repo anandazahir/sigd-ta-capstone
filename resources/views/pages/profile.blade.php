@@ -3,6 +3,16 @@ $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 <x-layout>
+    <style>
+        .selected {
+            border: solid 2px black;
+        }
+        
+        .form-control.is-invalid{
+            background-image: none;
+        }
+        
+    </style>
     @if (session('success'))
     <div class="alert alert-success d-flex align-items-center position-fixed top-0 start-50 translate-middle-x" role="alert" style="width: fit-content; padding:0px 10px 0px 0px; margin:10px;" id="alertContainer">
         <div class="d-flex gap-2 align-content-center text-center">
@@ -37,29 +47,29 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
 
                     <div class="d-flex gap-2 " style="width:fit-content">
-                        <button class="btn-info btn btn-sm" id="uploadButton">Ubah Gambar</button>
-                        <button class="btn-danger btn text-white btn-sm" id="deleteButton">Hapus Gambar </button>
+                        <button class="btn-info btn btn-sm" id="uploadButton"><span class="fw-semibold">Ubah Gambar</span></button>
+                        <button class="btn-danger btn text-white btn-sm" id="deleteButton"><span class="fw-semibold">Hapus Gambar</span> </button>
                     </div>
                     <div class="d-flex gap-2" style="width:fit-content">
                         <button class="btn-info btn btn-sm" id="simpanupload">
                             <div class="d-flex gap-2">
                                 <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
-                                <span>Simpan Gambar</span>
+                                <span class="fw-semibold">Simpan Gambar</span>
                             </div>
                         </button>
-                        <button class="btn-danger btn text-white btn-sm" id="batalupload">Batal</button>
+                        <button class="btn-danger btn text-white btn-sm" id="batalupload"><span class="fw-semibold">Batal</span></button>
                     </div>
                     <div class="d-flex gap-2 " style="width:fit-content" id="handledelete">
-                        <button class="btn-info btn btn-sm" id="simpanhapus">
+                        <button class="btn-danger btn btn-sm" id="simpanhapus">
                             <div class="d-flex gap-2">
                                 <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-hapus"></span>
-                                <span>Hapus Gambar</span>
+                                <span class="fw-semibold">Hapus Gambar</span>
                             </div>
                         </button>
-                        <button class="btn-danger btn text-white btn-sm" id="batalhapus">Batal</button>
+                        <button class="btn-info btn text-white btn-sm" id="batalhapus"><span class="fw-semibold">Batal</span></button>
                     </div>
-                    <h1 class="fw-semibold text-white" style="z-index: 1;">{{ auth()->user()->nama }}</h1>
-                    <p class="text-white" style="z-index: 1;">{{ auth()->user()->jabatan }} | {{ auth()->user()->nip }}</p>
+                    <h1 class="fw-semibold text-white" style="z-index: 1;">{{ ucwords(auth()->user()->nama) }}</h1>
+                    <p class="text-white" style="z-index: 1;">{{ ucwords(auth()->user()->jabatan) }} | {{ auth()->user()->nip }}</p>
                 </div>
             </div>
         </div>
@@ -81,10 +91,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#F48FB1" value="244, 143, 177" data-test="#F48FB"></button>
                             </div>
                             <div class="bg-white  rounded-3" style="padding:5px;">
-                                <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#CE93D8"></button>
+                                <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#CE93D8" value="206, 147, 216" data-test="#CE93D8"></button>
                             </div>
                             <div class="bg-white  rounded-3" style="padding:5px;">
-                                <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#4DB6AC"></button>
+                                <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#4DB6AC" value="77, 182, 172" data-test="#4DB6AC"></button>
                             </div>
                         </div>
 
@@ -105,31 +115,40 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <hr class="line m-0" style="height: 4px; background-color:#FFF;width:200px;">
                         <form method="POST" action="{{ route($cleaned.'.pegawai.resetpassword') }}">
                             @csrf
-
+                            @php
+                                $errorIndex = 0;
+                                $pesanSatu = '';
+                                $pesanDua = '';
+                                foreach($errors->all() as $error) {
+                                    if (strpos($error, 'password') !== false) {
+                                        $errorIndex++;
+                                    }
+                                    if($errorIndex == 1) {
+                                        $pesanSatu = $error;
+                                    }
+                                    elseif($errorIndex == 2) {
+                                        $pesanDua = $error;
+                                    }
+                                }
+                            @endphp
                             <h5 class="m-0 fw-semibold mt-3">New Password</h5>
                             <div class="d-flex position-relative">
-                                <input type="password" class="form-control mb-3 @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password" required autocomplete="new-password">
+                                <input type="password" class="form-control form-password mb-3 @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password" required autocomplete="new-password" value="{{ old('password') }}">
 
-                                <i class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-1" style="font-size: 25px; color: #9FA6B2"></i>
+                                <i id="togglePassword" class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-1" style="font-size: 25px; color: #9FA6B2"></i>
                             </div>
-
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-
+                            @if ($pesanSatu)
+                            <p class="text-danger">{{ $pesanSatu }}</p>
+                            @endif
                             <h5 class="m-0 fw-semibold">Retype Password</h5>
                             <div class="d-flex position-relative">
-                                <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="password-confirm" placeholder="Password" required autocomplete="new-password">
-                                <i class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-1" style="font-size: 25px; color: #9FA6B2"></i>
+                                <input type="password" class="form-control form-password @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="password_confirmation" placeholder="Password" required autocomplete="new-password" value="{{ old('password_confirmation') }}">
+                                <i id="togglePasswordConfirmation" class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-1" style="font-size: 25px; color: #9FA6B2"></i>
                             </div>
-                            @error('password_confirmation')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-
+                            @if ($pesanDua)
+                            <p class="text-danger">{{ $pesanDua }}</p>
+                            @endif
+                            
                             <hr class="line mb-0 mt-3" style="height: 1px; background-color:#FFF;">
                             <button class="btn bg-white mt-3 text-primary" id="change-color">
                                 <span class="fw-semibold">Submit</span>
@@ -152,7 +171,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <i class="fa-solid fa-location-dot position-absolute top-0 start-0 my-5 text-primary" style="margin-left: 10px ; font-size:65px;"></i>
                                 <p style="margin-left:50px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Alamat</p>
                                 <h5 class="fw-semibold text-black fs-3 fs-sm-5" style="margin-left:50px;">
-                                    {{ auth()->user()->alamat }}
+                                    {{ ucfirst(auth()->user()->alamat) }}
                                 </h5>
                             </div>
                         </div>
@@ -165,7 +184,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                         <i class="fa-solid fa-venus-mars position-absolute top-0 start-0 my-4 text-primary" style="margin-left: 10px ; font-size: 47px;"></i>
                                         <p style="margin-left:50px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Jenis Kelamin</p>
                                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:50px">
-                                            {{ auth()->user()->JK }}
+                                            {{ ucwords(auth()->user()->JK) }}
                                         </h5>
                                     </div>
                                 </div>
@@ -176,7 +195,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                         <i class="fa-solid fa-hands-praying position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size: 55px;"></i>
                                         <p style="margin-left:60px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Agama</p>
                                         <h5 class="fw-semibold fs-5 text-black" style="margin-left:60px">
-                                            {{ auth()->user()->agama }}
+                                            {{ ucwords(auth()->user()->agama) }}
                                         </h5>
                                     </div>
                                 </div>
@@ -202,7 +221,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <i class="fa-solid fa-calendar-days position-absolute top-0 start-0 my-2 text-primary" style="margin-left: 20px ; font-size:60px"></i>
                                 <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Lahir</p>
                                 <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                                    {{ auth()->user()->tanggal_lahir }}
+                                    {{ \Carbon\Carbon::parse(auth()->user()->tanggal_lahir)->format('d F Y') }}
                                 </h5>
                             </div>
                         </div>
@@ -257,7 +276,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 </svg>
                                 <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Pernikahan</p>
                                 <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                                    {{ auth()->user()->status_menikah }}
+                                    {{ ucwords(auth()->user()->status_menikah) }}
                                 </h5>
                             </div>
                         </div>
@@ -268,7 +287,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <i class="fa-solid fa-graduation-cap position-absolute top-0 start-0 my-2 text-primary" style="margin-left: 10px ; font-size:55px"></i>
                                 <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Pendidikan Terakhir</p>
                                 <h5 class="fw-semibold fs-5 text-black" style="margin-left:70px">
-                                    {{ auth()->user()->pendidikan_terakhir }}
+                                    {{ strtoupper(auth()->user()->pendidikan_terakhir) }}
                                 </h5>
                             </div>
                         </div>
@@ -370,7 +389,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                 $('#deleteButton').click(function() {
                     $('#uploadButton').hide();
-                    $('#foto_profil').attr('src', imgdefault);
                     $('#deleteButton').hide();
                     $('#simpanhapus').show();
                     $('#simpanhapus').click(function() {
@@ -419,11 +437,40 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     if (selectedColor) {
                         $(':root').css('--bs-primary', selectedRGBColor);
                         $(':root').css('--bs-primary-rgb', selectedColor);
+                        showAlert('Berhasil Mengubah Tema');
                         // Save the selected color to localStorage
                         localStorage.setItem('primaryColor', selectedColor);
                         localStorage.setItem('primaryRGBColor', selectedRGBColor);
                     }
                 });
+
+                $('#togglePassword').on('click', function() {
+                    const passwordField = $('#password');
+                    const passwordFieldType = passwordField.attr('type');
+                    const icon = $(this);
+              
+                    if (passwordFieldType === 'password') {
+                      passwordField.attr('type', 'text');
+                      icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    } else {
+                      passwordField.attr('type', 'password');
+                      icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    }
+                  });
+
+                  $('#togglePasswordConfirmation').on('click', function() {
+                    const passwordField = $('#password_confirmation');
+                    const passwordFieldType = passwordField.attr('type');
+                    const icon = $(this);
+              
+                    if (passwordFieldType === 'password') {
+                      passwordField.attr('type', 'text');
+                      icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    } else {
+                      passwordField.attr('type', 'password');
+                      icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    }
+                  });
             });
         </script>
         @endpush

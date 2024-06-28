@@ -171,6 +171,7 @@ Route::middleware(['auth', 'role:mops'])->group(function () {
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('mops.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('mops.pegawai.resetpassword');
         });
 
         Route::prefix('notifikasi')->group(function () {
@@ -222,6 +223,7 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('inventory.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('inventory.pegawai.resetpassword');
         });
     });
 });
@@ -251,6 +253,7 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('surveyin.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('surveyin.pegawai.resetpassword');
         });
     });
 });
@@ -280,6 +283,7 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('repair.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('repair.pegawai.resetpassword');
         });
         Route::prefix('peti-kemas')->group(function () {
             Route::get('/', [PetikemasController::class, 'index'])->name('repair.petikemas.index');
@@ -325,6 +329,7 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('tally.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('tally.pegawai.resetpassword');
         });
     });
 });
@@ -353,6 +358,7 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('kasir.pegawai.changeprofilpicture');
+            Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('kasir.pegawai.resetpassword');
         });
     });
 });

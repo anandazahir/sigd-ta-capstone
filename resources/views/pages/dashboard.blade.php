@@ -31,9 +31,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 @endif
                             </div>
                             <div class="col-md-10 my-auto text-center text-lg-start" style="width: 25rem">
-                                <h4 class="mt-2 p-0">{{auth()->user()->nama}}</h4>
+                                <h4 class="mt-2 p-0">{{ucwords(auth()->user()->nama)}}</h4>
                                 <hr class="mb-2 line" style="height: 4px; background-color:#FFF;" />
-                                <p class="mt-1 p-0 ">NIP: {{auth()->user()->nip}} | {{auth()->user()->jabatan}}</p>
+                                <p class="mt-1 p-0 ">NIP: {{auth()->user()->nip}} | {{ucwords(auth()->user()->jabatan)}}</p>
                             </div>
                         </div>
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
@@ -49,7 +49,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <div class="row">
             <div class="col-lg-6 mb-3">
 
-                <div class="rounded-4 p-4 text-white bg-primary shadow position-relative" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') || auth()->user()->hasRole('tally')  ? '12.3rem' : '27rem' }}">
+                <div class="rounded-4 p-4 text-white bg-primary shadow position-relative" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') || auth()->user()->hasRole('tally')  ? '17.8rem' : '27rem' }}">
                     <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
                         <div class="rounded-3 d-flex flex-row justify-content-center" style="width: 2rem; height: 2rem; place-items: center; background: #edf5f5;">
                             <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/notifikasi">
@@ -60,7 +60,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     <div class="d-flex flex-row mb-3">
                         <h4>NOTIFICATION</h4>
                     </div>
-                    <div class="text-center onscroll table-responsive">
+                    <div class="text-center onscroll table-responsive" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') || auth()->user()->hasRole('tally')  ? '12.3rem' : '20rem' }}">
                         <table class="table-dashboard">
                             <thead>
                                 <tr>
@@ -75,7 +75,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <td style="height: fit-content;">{{$item->message}}</td>
                                     <td style="height: fit-content;"> {{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('d M Y') }}</td>
                                     <td class="text-center" style="height: fit-content;">
-                                        <i class="fa-solid fa-circle-user text-white d-inline" style="font-size: 20px;"></i>
+                                        @if (auth()->user()->foto)
+                                        <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="20" height="20">
+                                        @else
+                                        <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="20" height="20">
+                                        @endif           
                                         <span class="m-0 p-0 d-inline mx-1">{{strtoupper($item->sender)}}</span>
                                     </td>
                                 </tr>
@@ -145,12 +149,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     @can('melihat pengecekan')
                     <div class="row mb-3">
                         <a href="{{route('pengecekan.index')}}" class="text-decoration-none">
-                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Pengecekan">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
 
                                         <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">
-                                            <i class="fa-solid fa-briefcase text-primary my-1" style="font-size: 73px;"></i>
+                                            <i class="fa-solid fa-clipboard-list text-primary my-1" style="font-size: 73px;"></i>
                                         </div>
 
                                         <div style="width:45%;">
@@ -168,12 +172,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     @can('melihat perbaikan')
                     <div class="row mb-3">
                         <a href="{{route('perbaikan.index')}}" class="text-decoration-none">
-                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Perbaikan">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
 
                                         <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">
-                                            <i class="fa-solid fa-briefcase text-primary my-1" style="font-size: 73px;"></i>
+                                            <i class="fa-solid fa-screwdriver-wrench text-primary my-1" style="font-size: 73px;"></i>
                                         </div>
 
                                         <div style="width:45%;">
@@ -190,12 +194,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     @can('melihat pembayaran')
                     <div class="row mb-3">
                         <a href="{{route('kasir.transaksi.index')}}" class="text-decoration-none">
-                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Transaksi">
+                            <div class="card shadow rounded-4 bg-primary text-white onhover" data-bs-toggle="tooltip" data-bs-placement="top" title="Halaman Pembayaran">
                                 <div class="card-body">
                                     <div class="d-flex flex-row gap-4">
 
                                         <div class="rounded-circle bg-white p-2 text-center" style="width: 100px; height: 100px;">
-                                            <i class="fa-solid fa-briefcase text-primary my-1" style="font-size: 73px;"></i>
+                                            <i class="fa-solid fa-dollar-sign text-primary my-1" style="font-size: 73px;"></i>
                                         </div>
 
                                         <div style="width:45%;">
