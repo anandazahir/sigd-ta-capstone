@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
                 'nik' => '987654321',
                 'nama' => 'Ananda Zahir',
                 'no_hp' => '081234567891',
-                'jabatan' => 'Direktur',
+                'jabatan' => 'direktur',
                 'alamat' => 'Jl. Direktur Utama No. 456',
                 'agama' => 'Kristen',
                 'foto' => null, // or 'path/to/photo.jpg' if available

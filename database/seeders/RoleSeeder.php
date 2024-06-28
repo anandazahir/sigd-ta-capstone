@@ -104,13 +104,19 @@ class RoleSeeder extends Seeder
             ['name' => 'melihat pembayaran'],
             [] // No additional attributes to update
         );
-        $roledirektur->givePermissionTo($transaksi, $petikemas, $melihat_petikemas, $laporanharian, $melihat_transaksi, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan);
-        $rolemops->givePermissionTo($transaksi, $petikemas, $melihat_petikemas, $laporanharian, $melihat_transaksi, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan);
-        $roleinventory->givePermissionTo($laporanharian, $melihat_transaksi, $melihat_petikemas, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan);
-        $rolesurveyin->givePermissionTo($melihat_pengecekan);
-        $rolerepair->givePermissionTo($melihat_petikemas, $melihat_perbaikan, $melihat_riwayatperbaikan, $mengelola_perbaikan);
-        $roletally->givePermissionTo($mengelola_penempatan, $melihat_riwayatpenempatan, $melihat_petikemas);
-        $rolekasir->givePermissionTo($melihat_pembayaran);
+        
+        $membuat_pengajuan = Permission::updateOrCreate(
+            ['name' => 'membuat pengajuan'],
+            [] // No additional attributes to update
+        );
+
+        $roledirektur->givePermissionTo($transaksi, $petikemas, $melihat_petikemas, $laporanharian, $melihat_transaksi, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan, $membuat_pengajuan);
+        $rolemops->givePermissionTo($transaksi, $petikemas, $melihat_petikemas, $laporanharian, $melihat_transaksi, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan, $membuat_pengajuan);
+        $roleinventory->givePermissionTo($laporanharian, $melihat_transaksi, $melihat_petikemas, $melihat_riwayatperbaikan, $melihat_riwayatpenempatan, $membuat_pengajuan);
+        $rolesurveyin->givePermissionTo($melihat_pengecekan, $membuat_pengajuan);
+        $rolerepair->givePermissionTo($melihat_petikemas, $melihat_perbaikan, $melihat_riwayatperbaikan, $mengelola_perbaikan, $membuat_pengajuan);
+        $roletally->givePermissionTo($mengelola_penempatan, $melihat_riwayatpenempatan, $melihat_petikemas, $membuat_pengajuan);
+        $rolekasir->givePermissionTo($melihat_pembayaran, $membuat_pengajuan);
         // Assign role to user
         $direktur = User::where('username', 'direktur')->first();
         $direktur->assignRole('direktur');

@@ -3,8 +3,10 @@
         Pegawai-More
         </x-slot>
         <x-biodata :data="$pegawai" />
+        @if($pegawai->jabatan !== 'direktur')
         <x-table-absensi />
         <x-table-pengajuan :data="$pegawai" />
+        @endif
         <x-form-table-absensi />
 
         <x-toast />

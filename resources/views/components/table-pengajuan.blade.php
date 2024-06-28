@@ -108,9 +108,11 @@
         </div>
     </div>
 </div>
+@can('membuat pengajuan')
 <x-modal-form size="" id="create-pengajuan-modal" text="Buat Pengecekan ">
     <x-form-create-pengajuan />
 </x-modal-form>
+@endcan
 @if (auth()->user()->hasRole('direktur'))
 @foreach ($data->pengajuan as $pengajuan)
 <x-modal-form size="" id="edit-pengajuan-modal-{{$pengajuan->id}}" text="Edit Pengajuan | {{$data->username}}">
