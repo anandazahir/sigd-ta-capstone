@@ -75,6 +75,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         // Redirect to the login page with a success message
-        return redirect()->route('login')->with('status', 'Password updated successfully! Please log in with your new password.');
+        return redirect()->route('login')->with('status', 'Password berhasil diganti! Silakan login dengan password yang baru.');
     }
 }
