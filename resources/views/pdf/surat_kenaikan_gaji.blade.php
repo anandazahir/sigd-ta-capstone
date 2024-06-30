@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>spk_{{$transaksi->no_transaksi}}</title>
+    <title></title>
     <style>
         /* Define A4 page size */
         @page {

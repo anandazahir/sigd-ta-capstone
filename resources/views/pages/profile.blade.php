@@ -7,11 +7,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         .selected {
             border: solid 2px black;
         }
-        
-        .form-control.is-invalid{
+
+        .form-control.is-invalid {
             background-image: none;
         }
-        
     </style>
     @if (session('success'))
     <div class="alert alert-success d-flex align-items-center position-fixed top-0 start-50 translate-middle-x" role="alert" style="width: fit-content; padding:0px 10px 0px 0px; margin:10px;" id="alertContainer">
@@ -36,7 +35,17 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     @if (auth()->user()->foto)
                     <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle mb-2" width="250" height="250" id="foto_profil">
                     @else
-                    <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle mb-2" width="250" height="250" id="foto_profil">
+                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="250" height="250" class="rounded-circle mb-2" id="svg-profil">
+                        <title>user-solid-svg</title>
+                        <style>
+                            .s0 {
+                                fill: rgb(var(--bs-primary-rgb))
+                            }
+                        </style>
+                        <rect width="590" height="590" id="Lapisan 1" style="fill: #ffffff" />
+                        <path id="Layer" class="s0" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+                    </svg>
+                    <img src="" alt="" class="rounded-circle mb-2" width="250" height="250" id="foto_profil" style="display:none">
                     @endif
 
 
@@ -116,20 +125,20 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <form method="POST" action="{{ route($cleaned.'.pegawai.resetpassword') }}">
                             @csrf
                             @php
-                                $errorIndex = 0;
-                                $pesanSatu = '';
-                                $pesanDua = '';
-                                foreach($errors->all() as $error) {
-                                    if (strpos($error, 'password') !== false) {
-                                        $errorIndex++;
-                                    }
-                                    if($errorIndex == 1) {
-                                        $pesanSatu = $error;
-                                    }
-                                    elseif($errorIndex == 2) {
-                                        $pesanDua = $error;
-                                    }
-                                }
+                            $errorIndex = 0;
+                            $pesanSatu = '';
+                            $pesanDua = '';
+                            foreach($errors->all() as $error) {
+                            if (strpos($error, 'password') !== false) {
+                            $errorIndex++;
+                            }
+                            if($errorIndex == 1) {
+                            $pesanSatu = $error;
+                            }
+                            elseif($errorIndex == 2) {
+                            $pesanDua = $error;
+                            }
+                            }
                             @endphp
                             <h5 class="m-0 fw-semibold mt-3">New Password</h5>
                             <div class="d-flex position-relative">
@@ -148,7 +157,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             @if ($pesanDua)
                             <p class="text-danger">{{ $pesanDua }}</p>
                             @endif
-                            
+
                             <hr class="line mb-0 mt-3" style="height: 1px; background-color:#FFF;">
                             <button class="btn bg-white mt-3 text-primary" id="change-color">
                                 <span class="fw-semibold">Submit</span>
@@ -367,7 +376,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         var reader = new FileReader();
 
                         reader.onload = function(e) {
+                            $('#foto_profil').show();
                             $('#foto_profil').attr('src', e.target.result);
+                            $('#svg-profil').hide();
                         };
                         reader.readAsDataURL(input.files[0]);
 
@@ -399,7 +410,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $('#batalhapus').show();
                 });
                 $('#batalhapus').click(function() {
-                    $('#foto_profil').attr('src', srcimg);
+                    if ($('#svg-profil')) {
+                        $('#svg-profil').show();
+                    } else {
+                        $('#foto_profil').attr('src', srcimg);
+                    }
                     $('#uploadButton').show();
                     $('#deleteButton').show();
                     $('#simpanhapus').hide();
@@ -410,7 +425,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $('#deleteButton').show();
                     $('#simpanupload').hide();
                     $('#batalupload').hide();
-                    $('#foto_profil').attr('src', srcimg);
+                    if ($('#svg-profil')) {
+                        $('#svg-profil').show();
+                    } else {
+                        $('#foto_profil').attr('src', srcimg);
+                    }
 
                 });
                 // Set the initial selected color based on the CSS variable
@@ -448,29 +467,29 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     const passwordField = $('#password');
                     const passwordFieldType = passwordField.attr('type');
                     const icon = $(this);
-              
-                    if (passwordFieldType === 'password') {
-                      passwordField.attr('type', 'text');
-                      icon.removeClass('fa-eye-slash').addClass('fa-eye');
-                    } else {
-                      passwordField.attr('type', 'password');
-                      icon.removeClass('fa-eye').addClass('fa-eye-slash');
-                    }
-                  });
 
-                  $('#togglePasswordConfirmation').on('click', function() {
+                    if (passwordFieldType === 'password') {
+                        passwordField.attr('type', 'text');
+                        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    } else {
+                        passwordField.attr('type', 'password');
+                        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    }
+                });
+
+                $('#togglePasswordConfirmation').on('click', function() {
                     const passwordField = $('#password_confirmation');
                     const passwordFieldType = passwordField.attr('type');
                     const icon = $(this);
-              
+
                     if (passwordFieldType === 'password') {
-                      passwordField.attr('type', 'text');
-                      icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                        passwordField.attr('type', 'text');
+                        icon.removeClass('fa-eye-slash').addClass('fa-eye');
                     } else {
-                      passwordField.attr('type', 'password');
-                      icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                        passwordField.attr('type', 'password');
+                        icon.removeClass('fa-eye').addClass('fa-eye-slash');
                     }
-                  });
+                });
             });
         </script>
         @endpush

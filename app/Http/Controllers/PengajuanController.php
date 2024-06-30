@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Pengajuan;
+use App\Models\Notifikasi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -42,7 +43,7 @@ class PengajuanController extends Controller
         } elseif ($request->jenis_pengajuan === 'kenaikan gaji') {
             $validator = Validator::make($request->all(), [
                 'gaji_sekarang' => 'required|numeric',
-                'gaji_diajukan' => 'required|numeric',
+                'gaji_diajukan' => 'required|numeric|gt:gaji_sekarang',
                 'alasan_kenaikan_gaji' => 'required|string',
             ]);
         }
@@ -68,7 +69,7 @@ class PengajuanController extends Controller
             $pdfContent = PDF::loadView('pdf.surat_izin', $data)->output();
             $fileName = 'surat_izin_' . $user->username . '.pdf';
         } elseif ($request->jenis_pengajuan === 'kenaikan gaji') {
-            $pdfContent = PDF::loadView('pdf.surat_kenaikangaji', $data)->output();
+            $pdfContent = PDF::loadView('pdf.surat_kenaikan_gaji', $data)->output();
             $fileName = 'surat_kenaikangaji_' . $user->username . '.pdf';
         }
 
@@ -81,7 +82,14 @@ class PengajuanController extends Controller
 
         // Save the pengajuan record
         $pengajuan->save();
-
+        notifikasi::create([
+            'message' => auth()->user()->username . 'telah membuat pengajuan' . $request->jenis_pengajuan,
+            'tanggal_kirim' => now(),
+            'sender' => auth()->user()->username,
+            'foto_profil' => auth()->user()->foto,
+            'user_id' => $userId,
+            'link' => '/direktur/pegawai/' . $userId
+        ]);
         return response()->json([
             'success' => true,
             'message' => 'Data Pengajuan Dbuat!',
@@ -111,11 +119,9 @@ class PengajuanController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Update the status
-        $pengajuan->status = $request->status;
-
         // Check if a new file is uploaded
         if ($request->hasFile('myfile')) {
+            $pengajuan->status = $request->status;
             // Delete the old file from storage
             if (Storage::exists('public/uploads/' . $pengajuan->file_name)) {
                 Storage::delete('public/uploads/' . $pengajuan->file_name);
@@ -129,11 +135,30 @@ class PengajuanController extends Controller
             // Update the file information in the pengajuan record
             $pengajuan->file_name = $fileName;
             $pengajuan->url_file = Storage::url($filePath);
-        }
+        } else if ($request->status !== $pengajuan->status && !$request->file('myfile')) {
 
+            $pengajuan->status = $request->status;
+
+            if (Storage::exists('public/uploads/' . $pengajuan->file_name)) {
+                $newfileName =  'public/uploads/' . $request->status . '_' . $pengajuan->file_name;
+                $oldfilename = 'public/uploads/' . $pengajuan->file_name;
+                Storage::move($oldfilename, $newfileName);
+                $fileName =  $request->status . '_' . $pengajuan->file_name;
+                // Update the file name in the database
+                $pengajuan->file_name = $fileName;
+                $pengajuan->url_file = Storage::url($newfileName);
+            }
+        }
         // Save the changes to the database
         $pengajuan->save();
-
+        notifikasi::create([
+            'message' => auth()->user()->username . 'telah membuat pengajuan' . $request->jenis_pengajuan,
+            'tanggal_kirim' => now(),
+            'sender' => auth()->user()->username,
+            'foto_profil' => auth()->user()->foto,
+            'user_id' => $pengajuan->user_id,
+            'link' => '/direktur/pegawai/' . $userId
+        ]);
         return response()->json([
             'success' => true,
             'message' => 'Data Pengajuan Diubah!',

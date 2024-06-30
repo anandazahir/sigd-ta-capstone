@@ -68,7 +68,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             @if (auth()->user()->foto)
             <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="41" height="41">
             @else
-            <img src="{{ URL::asset('user-solid-white.svg') }}" alt="" class="rounded-circle" width="41" height="41">
+            <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="41" height="41" class="rounded-circle">
+              <title>user-solid-svg</title>
+              <style>
+                .s1 {
+                  fill: #ffffff
+                }
+              </style>
+              <rect width="590" height="590" id="Lapisan_1" style="fill: var(--bs-primary)" />
+              <path id="Layer" class="s1" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+            </svg>
             @endif
           </a>
           <ul class="dropdown-menu">
@@ -78,7 +87,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                   @if (auth()->user()->foto)
                   <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="27" height="27">
                   @else
-                  <img src="{{ URL::asset('user-solid-white.svg') }}" alt="" class="rounded-circle" width="27" height="27">
+                  <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="27" height="27" class="rounded-circle">
+                    <title>user-solid-svg</title>
+                    <style>
+                      .s1 {
+                        fill: #ffffff
+                      }
+                    </style>
+                    <rect width="590" height="590" id="Lapisan_1" style="fill: var(--bs-primary)" />
+                    <path id="Layer" class="s1" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+                  </svg>
                   @endif
                   <span class="text">Profile</span>
                 </div>

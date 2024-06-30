@@ -27,7 +27,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 @if (auth()->user()->foto)
                                 <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="100" height="100">
                                 @else
-                                <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="100" height="100">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="100" height="100" class="rounded-circle">
+                                    <title>user-solid-svg</title>
+                                    <style>
+                                        .s0 {
+                                            fill: rgb(var(--bs-primary-rgb))
+                                        }
+                                    </style>
+                                    <rect width="590" height="590" id="Lapisan_1" style="fill: white" />
+                                    <path id="Layer" class="s0" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+                                </svg>
                                 @endif
                             </div>
                             <div class="col-md-10 my-auto text-center text-lg-start" style="width: 25rem">
@@ -66,22 +75,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <tr>
                                     <th scope="col">PESAN</th>
                                     <th scope="col">TANGGAL</th>
-                                    <th scope="col">PENGIRIM</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (auth()->user()->notifikasi as $item)
                                 <tr style="height: fit-content;">
-                                    <td style="height: fit-content;">{{$item->message}}</td>
+                                    <td style="height: fit-content; width: 50vh">{{$item->message}}</td>
                                     <td style="height: fit-content;"> {{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('d M Y') }}</td>
-                                    <td class="text-center" style="height: fit-content;">
-                                        @if (auth()->user()->foto)
-                                        <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" width="20" height="20">
-                                        @else
-                                        <img src="{{ URL::asset('user-solid-orange.svg') }}" alt="" class="rounded-circle" width="20" height="20">
-                                        @endif           
-                                        <span class="m-0 p-0 d-inline mx-1">{{strtoupper($item->sender)}}</span>
-                                    </td>
+
                                 </tr>
                                 @endforeach
 
@@ -235,13 +237,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 </div>
             </div>
         </div>
-<script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('#alertLogin').slideUp(1000, function() {
-                $(this).addClass('d-none');
-            });            
-        }, 3000);
-    });
-</script>
-    </x-layout>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('#alertLogin').slideUp(1000, function() {
+                        $(this).addClass('d-none');
+                    });
+                }, 3000);
+            });
+        </script>
+</x-layout>

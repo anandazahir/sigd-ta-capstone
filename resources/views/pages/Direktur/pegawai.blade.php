@@ -46,6 +46,7 @@
                                 <th scope="col" class="fw-semibold">Jabatan</th>
                                 <th scope="col" class="fw-semibold">No. Telepon</th>
                                 <th scope="col" class="fw-semibold">Email</th>
+                                <th scope="col" class="fw-semibold">Username</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -118,6 +119,12 @@
                     });
                 }
 
+                function ucwords(str) {
+                    return str.replace(/\b\w/g, function(char) {
+                        return char.toUpperCase();
+                    });
+                }
+
                 // Fetch data and update table
                 function fetchDataAndUpdateTable() {
                     $.ajax({
@@ -140,18 +147,21 @@
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                                 const row = `<tr>
-                                    <td>${item.nama}</td>
-                                    <td>${item.nip}</td>
-                                    <td>${item.jabatan}</td>
-                                    <td>${item.no_hp}</td>
-                                    <td>${item.email}</td>
-                                    <td><div class="btn-group gap-2">
-                                    <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/direktur/pegawai/${item.id}">
-                                        <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
-                                    </a>
-                                         ${deleteButton}
-                                    </div></td>
-                                    </tr>`;
+    <td>${ucwords(item.nama)}</td>
+    <td>${item.nip}</td>
+    <td>${ucwords(item.jabatan)}</td>
+    <td>${item.no_hp}</td>
+    <td>${item.email}</td>
+    <td>${ucwords(item.username)}</td>
+    <td>
+        <div class="btn-group gap-2">
+            <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/direktur/pegawai/${item.id}">
+                <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
+            </a>
+            ${deleteButton}
+        </div>
+    </td>
+</tr>`;
 
                                 // Append the row to the table (assume you have a table body with id="table-body")
                                 tbody.append(row);

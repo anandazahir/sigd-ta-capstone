@@ -60,8 +60,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span class="input-group-text">Rp</span>
                 <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="gaji_sekarang">
                 <span class="input-group-text">,00</span>
+
                 <div class="invalid-feedback"></div>
             </div>
+            <label class="form-label text-muted">cth: 50000</label>
         </div>
         <div class="row mb-3 form-group">
             <label for="Alamat" class="form-label">Gaji Pokok Diajukan</label>
@@ -69,8 +71,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span class="input-group-text">Rp</span>
                 <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="gaji_diajukan">
                 <span class="input-group-text">,00</span>
+
                 <div class="invalid-feedback"></div>
             </div>
+            <label class="form-label text-muted">cth: 50000</label>
         </div>
         <div class="row mb-3 form-group">
             <label for="Alasan" class="form-label">Alasan Kenaikan Gaji</label>

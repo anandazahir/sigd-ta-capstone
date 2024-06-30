@@ -60,10 +60,10 @@
                         elementtier.next('.invalid-feedback').text(value[0]);
                     }
                     element.addClass('is-invalid');
-                    element.next('.invalid-feedback').text(value[0]);
+                    element.nextAll('.invalid-feedback').text(value[0]);
                     const elementArray = form.find('[name="' + key + '[]"]');
                     elementArray.addClass('is-invalid');
-                    elementArray.next('.invalid-feedback').text(value[0]);
+                    elementArray.nextAll('.invalid-feedback').text(value[0]);
                 });
 
             }

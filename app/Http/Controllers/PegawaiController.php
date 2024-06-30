@@ -19,18 +19,24 @@ class PegawaiController extends Controller
     }
     public function indexpegawai()
     {
-        return view('pages.pegawai');
+        $pegawai = Auth::user();
+        $cuti = $pegawai->pengajuan->where('jenis_pengajuan', 'pengajuan cuti')->count();
+        $kenaikangaji = $pegawai->pengajuan->where('jenis_pengajuan', 'kenaikan gaji')->count();
+        return view('pages.pegawai', compact('pegawai', 'cuti', 'kenaikangaji'));
     }
     public function show($id)
     {
         $pegawai = User::findOrFail($id);
-        return view('pages.direktur.pegawai-more', compact('pegawai'));
+        $cuti = $pegawai->pengajuan->where('jenis_pengajuan', 'pengajuan cuti')->count();
+        $kenaikangaji = $pegawai->pengajuan->where('jenis_pengajuan', 'kenaikan gaji')->count();
+        return view('pages.direktur.pegawai-more', compact('pegawai', 'kenaikangaji', 'cuti'));
     }
     public function store(Request $request)
     {
+        $tiga_tahun_yang_lalu = date('Y-m-d', strtotime('2020-01-01'));
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|numeric|digits_between:8,13|unique:users,nip',
-            'nik' => 'required|numeric|digits_between:8,13|unique:users,nik',
+            'nip' => 'required|numeric|digits:18|unique:users,nip',
+            'nik' => 'required|numeric|digits:16|unique:users,nik',
             'nama' => 'required|string|min:5|unique:users,nama',
             'email' => 'required|email|unique:users,email',
             'username' => 'required|string|unique:users,username',
@@ -39,7 +45,7 @@ class PegawaiController extends Controller
             'agama' => 'required|string',
             'JK' => 'required|string',
             'pendidikan_terakhir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'required|date|before:' . $tiga_tahun_yang_lalu,
             'status_menikah' => 'required|string',
             'no_hp' => 'required|numeric|digits_between:10,13|unique:users,no_hp',
         ]);
@@ -81,9 +87,10 @@ class PegawaiController extends Controller
     public function update(Request $request, $id)
     {
         $pegawai = user::findOrFail($id);
+        $tiga_tahun_yang_lalu = date('Y-m-d', strtotime('2020-01-01'));
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|numeric|min:8|unique:users,nip,' . $id,
-            'nik' => 'required|numeric|min:8|unique:users,nik,' . $id,
+            'nip' => 'required|numeric|digits:18|unique:users,nip,' . $id,
+            'nik' => 'required|numeric|digits:16|unique:users,nik,' . $id,
             'nama' => 'required|string|min:5|unique:users,nama,' . $id,
             'username' => 'required|string|unique:users,username,' . $id,
             'jabatan' => 'required|string|unique:users,jabatan,' . $id,
@@ -91,9 +98,9 @@ class PegawaiController extends Controller
             'agama' => 'required|string',
             'JK' => 'required|string',
             'pendidikan_terakhir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'required|date|before:' . $tiga_tahun_yang_lalu,
             'status_menikah' => 'required|string',
-            'no_hp' => 'required|numeric|min:10|unique:users,no_hp,' . $id,
+            'no_hp' => 'required|numeric|digits_between:10,13|unique:users,no_hp,' . $id,
         ]);
 
 

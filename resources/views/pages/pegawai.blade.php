@@ -53,7 +53,7 @@
         </div>
 
         <div id="pengajuan" class="tab-pane fade in d-none">
-            <x-table-pengajuan />
+            <x-table-pengajuan :kenaikangaji="$kenaikangaji" :cuti="$cuti" />
         </div>
 
         <x-toast />
@@ -93,9 +93,8 @@
                         var icon = $(this).find("i").clone();
                         var label = $(this).find("h4").text();
 
-
                         var listItem = $("<li>", {
-                            class: "dropdown-item",
+                            class: "dropdown-item dropdown-pegawai",
                             "data-dropdown": tab,
                             html: icon.removeClass("text-primary").css("font-size", "", "margin", "").addClass("d-inline m-0 text-black").prop('outerHTML') + "<p class='m-0 d-inline mx-1'>" + label + "</p>"
                         });
@@ -118,7 +117,7 @@
 
                     updateDropdownAndTab(tabId);
                 });
-                $('.dropdown-item').click(function() {
+                $('.dropdown-pegawai').click(function() {
                     let tabId = $(this).data('dropdown');
 
                     if ($('#' + tabId).hasClass('d-none')) {

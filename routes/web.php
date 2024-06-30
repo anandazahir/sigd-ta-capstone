@@ -183,6 +183,9 @@ Route::middleware(['auth', 'role:mops'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('mops.pengajuan.store');
+        });
     });
 });
 
@@ -219,7 +222,9 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('inventory.pengajuan.store');
+        });
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('inventory.pegawai.changeprofilpicture');
@@ -249,7 +254,9 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('surveyin.pengajuan.store');
+        });
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('surveyin.pegawai.changeprofilpicture');
@@ -279,7 +286,9 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
-
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('repair.pengajuan.store');
+        });
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('repair.pegawai.changeprofilpicture');
@@ -326,6 +335,9 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
         Route::get('/profile', function () {
             return view('pages/profile');
         });
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('tally.pengajuan.store');
+        });
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('tally.pegawai.changeprofilpicture');
@@ -354,6 +366,9 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         });
         Route::get('/profile', function () {
             return view('pages/profile');
+        });
+        Route::prefix('pengajuan')->group(function () {
+            Route::post('/create', [PengajuanController::class, 'store'])->name('kasir.pengajuan.store');
         });
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
