@@ -66,7 +66,7 @@ setlocale(LC_TIME, 'id_ID');
                         </div>
 
                         <p style="margin-left:70px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Status Kondisi</p>
-                        <h5 class="{{ $data->status_ketersediaan == 'available' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
+                        <h5 class="{{ $data->status_kondisi == 'available' ? 'bg-primary' : 'bg-danger' }} fw-semibold fs-5 p-1 rounded-2 text-white" style="margin-left:70px; width:fit-content">
                             {{ strtoupper($data->status_kondisi)}}
                         </h5>
                     </div>
@@ -74,31 +74,7 @@ setlocale(LC_TIME, 'id_ID');
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Keluar</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{ $data->tanggal_keluar ? strftime('%e %B %Y', strtotime($data->tanggal_keluar)) : '' }}
-                        </h5>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow rounded-4 bg-white">
-                    <div class="card-body">
-                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
-                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Masuk</p>
-                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
-                            {{strftime('%e %B %Y', strtotime($data->tanggal_masuk))}}
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-lg-6 mb-3">
@@ -144,6 +120,46 @@ setlocale(LC_TIME, 'id_ID');
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                @if ($data->tanggal_keluar)
+                <div class="card shadow rounded-4 bg-white">
+                    <div class="card-body">
+                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Keluar</p>
+                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
+                            {{ $data->tanggal_keluar ? strftime('%e %B %Y', strtotime($data->tanggal_keluar)) : '' }}
+                        </h5>
+                    </div>
+                </div>
+                @else
+                <div class="card shadow rounded-4 bg-white">
+                    <div class="card-body">
+                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Masuk</p>
+                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
+                            {{strftime('%e %B %Y', strtotime($data->tanggal_masuk))}}
+                        </h5>
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                @if ($data->tanggal_keluar)
+                <div class="card shadow rounded-4 bg-white">
+                    <div class="card-body">
+                        <i class="fa-regular fa-calendar-days position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
+                        <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Tanggal Masuk</p>
+                        <h5 class="fw-semibold fs-5 text-black" style="margin-left:65px">
+                            {{strftime('%e %B %Y', strtotime($data->tanggal_masuk))}}
+                        </h5>
+                    </div>
+                </div>
+                @endif
+            </div>
+
         </div>
     </div>
 </div>

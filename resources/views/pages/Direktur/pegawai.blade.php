@@ -28,7 +28,7 @@
                     <div class="p-0" style="width: fit-content;">
                         <form class="d-flex m-0 p-0" role="search" style="width: 21rem;" id="searchForm">
                             <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
-                            <button class="btn btn-secondary shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
+                            <button class="btn btn-info shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                         </form>
                     </div>
                 </div>

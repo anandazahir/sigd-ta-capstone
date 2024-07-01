@@ -66,7 +66,20 @@ break;
                         </td>
                         <td class="text-center ">
                             <div class="d-flex gap-1 mx-auto" style="width: fit-content;">
-                                <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block text-center"></i>
+                                @if ($penghubung->foto_profil)
+                                <img src="{{URL::asset('storage/'.$penghubung->foto_profil)}}" alt="" class="rounded-circle" width="27" height="27">
+                                @else
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="25" height="25" class="rounded-circle">
+                                    <title>user-solid-svg</title>
+                                    <style>
+                                        .s1 {
+                                            fill: #ffffff
+                                        }
+                                    </style>
+                                    <rect width="590" height="590" id="Lapisan_1" style="fill: var(--bs-primary)" />
+                                    <path id="Layer" class="s1" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+                                </svg>
+                                @endif
                                 <span class="mx-auto">{{ $penghubung->survey_in }}</span>
                             </div>
 
@@ -129,12 +142,27 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $('#table_pengecekanhistory').show();
 
                     $('#table_pengecekanhistory tbody').empty();
+                    const baseUrl = "{{ asset('storage') }}";
                     $.each(response.Data, function(index, item) {
                         if (role === 'direktur' || role === 'mops') {
                             deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_pengecekanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                         }
+
+                        const fotoprofilurl = baseUrl + '/' + item.foto_profil;
+                        const profileContent = item.foto_profil == null ?
+                            ` <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="25" height="25" class="rounded-circle">
+              <title>user-solid-svg</title>
+              <style>
+                .s1 {
+                  fill: #ffffff
+                }
+              </style>
+              <rect width="590" height="590" id="Lapisan_1" style="fill: var(--bs-primary)" />
+              <path id="Layer" class="s1" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+            </svg>` :
+                            `<img src="${fotoprofilurl}" alt="" class="rounded-circle" width="25" height="25">`;
                         $('#table_pengecekanhistory tbody').append(
                             '<tr>' +
                             '<td class="text-center m-0 p-0">' + item
@@ -157,7 +185,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '</span>' +
                             '</td>' +
                             '<td class="text-center d-flex gap-1">' +
-                            '<i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>' +
+                            (profileContent) +
                             '<span>' + item.survey_in + '</span>' +
                             '</td>' +
                             '<td class="text-center gap-1">' +
