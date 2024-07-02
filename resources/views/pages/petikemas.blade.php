@@ -457,8 +457,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     initCountUp('total-available', totalAvailable);
                     initCountUp('total-damage', totalDamage);
                 } else if (role == 'tally') {
-                    initCountUp('total-in', totalAvailable);
-                    initCountUp('total-out', totalDamage);
+                    initCountUp('total-in', totalIn);
+                    initCountUp('total-out', totalOut);
                 }
                 // Function to hide loading spinner
 
@@ -681,6 +681,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         @stack('toast-script')
         @stack('form-modal')
         @stack('form-delete')
+        @stack('form-edit-penempatan')
         @endpush
 
 </x-layout>

@@ -95,12 +95,12 @@ class petikemascontroller extends Controller
             'row' => $petikemas->lokasi == 'out' || $petikemas->lokasi == 'pending' ?   $petikemas->lokasi : explode('-', $petikemas->lokasi)[0],
             'blok' => $petikemas->lokasi == 'out' || $petikemas->lokasi == 'pending' ?    $petikemas->lokasi : explode('-', $petikemas->lokasi)[1],
             'tier' => $petikemas->lokasi == 'out' || $petikemas->lokasi == 'pending' ?    $petikemas->lokasi : explode('-', $petikemas->lokasi)[2],
-            'lokasi' => $petikemas->lokasi
+            'lokasi' => $petikemas->lokasi,
         ]);
     }
 
 
-    public function editpenempatan(Request $request)
+    public function editPenempatan(Request $request)
     {
         $rules = [
             'operator_alat_berat' => 'required',
@@ -120,38 +120,46 @@ class petikemascontroller extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $petikemas = petikemas::find($request->id);
-        $latestPenempatan = Petikemas::where('id', $request->id)
-            ->with(['penghubungs.penempatan' => function ($query) {
-                $query->latest();
-            }])
-            ->get()
-            ->pluck('penghubungs')
-            ->flatten()
-            ->pluck('penempatan')
-            ->filter()
-            ->sortByDesc('created_at')
-            ->first();
-        $username = Auth::user()->username;
-        $latestPenempatan->update([
-            'tanggal_penempatan' => now(),
-            'operator_alat_berat' => $request->operator_alat_berat,
-            'tally' => $username,
-        ]);
 
-        if ($request->lokasi == 'out' && $petikemas->status_ketersediaan == 'in') {
-            $petikemas->update([
-                'lokasi' => $request->lokasi,
-                'status_ketersediaan' => 'out',
-                'tanggal_keluar' => now(),
-                'status_order' => 'true',
-            ]);
-        } else {
-            $petikemas->update([
-                'lokasi' => $request->lokasi,
-                'status_ketersediaan' => 'in',
-            ]);
+        $transaksi = transaksi::with(['penghubungs' => function ($query) use ($request) {
+            $query->where('petikemas_id', $request->id);
+        }])
+            ->whereHas('penghubungs', function ($query) use ($request) {
+                $query->where('petikemas_id', $request->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $petikemas = Petikemas::with(['penghubungs.penempatan' => function ($query) {
+            $query->latest()->first();
+        }])->findOrFail($request->id);
+
+        $username = Auth::user()->username;
+        $foto = Auth::user()->foto;
+        $id_penempatan = '';
+        foreach ($transaksi->penghubungs as $key => $value) {
+            $id_penempatan = $value->penempatan->id;
+            $value->penempatan->tanggal_penempatan = now();
+            $value->penempatan->operator_alat_berat = $request->operator_alat_berat;
+            $value->penempatan->tally = $username;
+            $value->penempatan->foto_profil = $foto;
+            $value->penempatan->save();
+            if ($request->lokasi == 'out' && $petikemas->status_ketersediaan == 'in') {
+                $petikemas->update([
+                    'lokasi' => $request->lokasi,
+                    'status_ketersediaan' => 'out',
+                    'tanggal_keluar' => now(),
+                    'status_order' => 'true',
+                ]);
+            } else {
+                $petikemas->update([
+                    'lokasi' => $request->lokasi,
+                    'status_ketersediaan' => 'in',
+                ]);
+            }
         }
+
+
 
         penempatanhistory::create([
             'tanggal_penempatan' => now(),
@@ -159,9 +167,12 @@ class petikemascontroller extends Controller
             'tally' => $username,
             'lokasi' => $request->lokasi,
             'status_ketersediaan' => $petikemas->status_ketersediaan,
-            'petikemas_id' => $petikemas->id,
-            'id_penempatan' => $latestPenempatan->id,
+            'petikemas_id' => $request->id,
+            'id_penempatan' => $id_penempatan,
+            'foto_profil' => $foto,
         ]);
+
+        // Return the response after updating the petikemas and creating penempatanhistory
         return response()->json([
             'success' => true,
             'message' => 'Data Penempatan Berhasil Diubah!',
