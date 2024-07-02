@@ -117,7 +117,20 @@ setlocale(LC_TIME, 'id_ID');
                     <div class="card-body">
                         <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
-                        <i class="fa-solid fa-circle-user text-primary fa-xl d-inline" style="margin-left:65px"></i>
+                        @if (auth()->user()->foto)
+                            <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" style="margin-left: 65px" width="22" height="22">
+                        @else
+                            <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="22" height="22" class="rounded-circle" style="margin-left: 65px">
+                            <title>user-solid-svg</title>
+                        <style>
+                            .s1 {
+                            fill: #ffffff
+                            }
+                        </style>
+                            <rect width="590" height="590" id="Lapisan_1" style="fill: var(--bs-primary)" />
+                            <path id="Layer" class="s1" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
+                        </svg>
+                        @endif
                         <h5 class="fw-semibold fs-6 text-black d-inline ">
                             {{ucfirst($data->inventory)}}
                         </h5>

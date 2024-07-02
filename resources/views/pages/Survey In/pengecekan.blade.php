@@ -11,10 +11,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
                     <div class="d-flex gap-1">
                         <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
-                        <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Pendapatan</p>
-                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                        <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Transaksi Lunas</p>
+                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Transaksi yang Sudah Lunas"></i>
                     </div>
-                    <h2 class="text-white" style="font-size: 40px;" id="totalpendapatan">4</h2>
+                    <h2 class="text-white" style="font-size: 40px;" id="totaltransaksilunas">4</h2>
                 </div>
             </div>
         </div>
@@ -97,6 +97,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 const $buttonLaporanTransaksi = $("#button-laporan-transaksi");
                 const $responseMessage = $('#response-message');
                 const $monthSelect = $("#monthselect");
+                
+                let totaltransaksilunas = "{{$totaltransaksilunas}}";
+
+                function initCountUp(id, endVal) {
+                    let demo = new CountUp(id, 0, endVal, 0, 3);
+                    if (!demo.error) {
+                        demo.start();
+                    } else {
+                        console.error(demo.error);
+                    }
+                }
+                initCountUp('totaltransaksilunas', parseInt(totaltransaksilunas));
 
                 $filterDropdown.click(function() {
                     valueselect = $(this).data('value');

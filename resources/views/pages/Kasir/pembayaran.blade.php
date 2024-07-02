@@ -12,9 +12,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     <div class="d-flex gap-1">
                         <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
                         <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Pendapatan</p>
-                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Transaksi Impor"></i>
                     </div>
-                    <h2 class="text-white" style="font-size: 40px;" id="totalpendapatan">4</h2>
+                    <h2 class="text-white" style="font-size: 40px;" id="totaltransaksiimpor"></h2>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -22,9 +22,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     <div class="d-flex gap-1">
                         <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
                         <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Pendapatan</p>
-                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
+                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Transaksi Ekspor"></i>
                     </div>
-                    <h2 class="text-white" style="font-size: 40px;" id="totalpendapatan">4</h2>
+                    <h2 class="text-white" style="font-size: 40px;" id="totaltransaksiekspor"></h2>
                 </div>
             </div>
         </div>
@@ -120,6 +120,20 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 const $buttonLaporanTransaksi = $("#button-laporan-transaksi");
                 const $responseMessage = $('#response-message');
                 const $monthSelect = $("#monthselect");
+
+                let totaltransaksiimpor = "{{$totaltransaksiimpor}}";
+                let totaltransaksiekspor = "{{$totaltransaksiekspor}}";
+
+                function initCountUp(id, endVal) {
+                    let demo = new CountUp(id, 0, endVal, 0, 3);
+                    if (!demo.error) {
+                        demo.start();
+                    } else {
+                        console.error(demo.error);
+                    }
+                }
+                initCountUp('totaltransaksiimpor', parseInt(totaltransaksiimpor));
+                initCountUp('totaltransaksiekspor', parseInt(totaltransaksiekspor));
 
                 $filterDropdown.click(function() {
                     valueselect = $(this).data('value');

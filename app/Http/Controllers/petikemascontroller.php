@@ -13,6 +13,8 @@ use App\Models\pengecekanhistory;
 use App\Models\perbaikan;
 use App\Models\perbaikanhistory;
 use App\Models\transaksi;
+use App\Models\notifikasi;
+use App\Models\user;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Carbon;
@@ -159,7 +161,24 @@ class petikemascontroller extends Controller
             }
         }
 
-
+        $user = User::all();
+        if (auth()->user()->hasRole('tally')) {
+            foreach ($user as $item) {
+                if ($item->hasRole('mops') || $item->hasRole('direktur')) {
+                    $link = $item->hasRole(['direktur', 'mops'])
+                        ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksi->id
+                        : '/kasir/pembayaran/' . $transaksi->id;
+                    notifikasi::create([
+                        'message' => 'Lokasi peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbarui.',
+                        'tanggal_kirim' => now(),
+                        'sender' => auth()->user()->username,
+                        'foto_profil' => auth()->user()->foto,
+                        'user_id' => $item->id,
+                        'link' => $link
+                    ]);
+                }
+            }
+        }
 
         penempatanhistory::create([
             'tanggal_penempatan' => now(),

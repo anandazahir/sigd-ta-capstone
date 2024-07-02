@@ -107,9 +107,14 @@ class TransaksiController extends Controller
             ],
         ]);
     }
+    
     public function indexKasir()
     {
-        return view('pages.kasir.pembayaran');
+        $transaksi = transaksi::all();
+        $totaltransaksiimpor = count($transaksi->where('jenis_kegiatan', 'impor'));
+        $totaltransaksiekspor = count($transaksi->where('jenis_kegiatan', 'ekspor'));
+
+        return view('pages.kasir.pembayaran', compact('totaltransaksiimpor', 'totaltransaksiekspor'));
     }
     public function kasirShow($id)
     {
@@ -184,7 +189,25 @@ class TransaksiController extends Controller
 
     public function pengecekan()
     {
-        return view('pages.survey in.pengecekan');
+        $transaksiCollection = collect(); // Inisialisasi koleksi kosong
+        $transaksi = transaksi::where('jenis_kegiatan', 'impor')->get();
+
+        foreach ($transaksi as $transaksis) {
+            // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+            $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) {
+                $query->where('status_pembayaran', 'belum lunas');
+            })->whereHas('petikemas', function ($query) {
+                $query->where('status_order', 'false'); // Ganti 'false' dengan nilai yang sesuai
+            })->get();
+
+            // Jika ada penghubung yang memenuhi syarat, tambahkan transaksi ke koleksi
+            if ($lunasPenghubungs->isNotEmpty()) {
+                $transaksiCollection->push($transaksis);
+            }
+        }
+        $totaltransaksilunas = $transaksiCollection->count();
+
+        return view('pages.survey in.pengecekan', compact('totaltransaksilunas'));
     }
 
     public function indexperbaikan(Request $request)
@@ -250,11 +273,33 @@ class TransaksiController extends Controller
 
     public function perbaikan()
     {
-        return view('pages.repair.perbaikan');
+        $transaksiCollection = collect(); // Inisialisasi koleksi kosong
+        $transaksi = transaksi::where('jenis_kegiatan', 'impor')->get();
+
+        foreach ($transaksi as $transaksis) {
+            // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
+            $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) {
+                $query->where('status_cetak_spk', 'sudah cetak');
+            })->whereHas('petikemas', function ($query) {
+                $query->where('status_order', 'false')->where('status_kondisi', 'damage'); // Ganti 'false' dengan nilai yang sesuai
+            })->get();
+
+            // Jika ada penghubung yang memenuhi syarat, tambahkan transaksi ke koleksi
+            if ($lunasPenghubungs->isNotEmpty()) {
+                $transaksiCollection->push($transaksis);
+            }
+        }
+        $totalperbaikanpetikemas = $transaksiCollection->count();
+
+        return view('pages.repair.perbaikan', compact('totalperbaikanpetikemas'));
     }
     public function entryData()
     {
-        return view('pages.inventory.entry-data');
+        $transaksi = transaksi::all();
+        $totaltransaksiimpor = count($transaksi->where('jenis_kegiatan', 'impor'));
+        $totaltransaksiekspor = count($transaksi->where('jenis_kegiatan', 'ekspor'));
+
+        return view('pages.inventory.entry-data', compact('totaltransaksiimpor', 'totaltransaksiekspor'));
     }
     public function entryDataShow($id)
     {
@@ -468,7 +513,8 @@ class TransaksiController extends Controller
             'kapal' => $request->kapal,
             'emkl' => $request->emkl,
             'jumlah_petikemas' => $request->jumlah_petikemas,
-            'inventory' => 'rizal',
+            'inventory' => auth()->user()->username,
+            'foto_profil' => auth()->user()->foto,
             'no_transaksi' => $no_transaksi,
         ]);
 
@@ -883,6 +929,11 @@ class TransaksiController extends Controller
         ])->findOrFail($id);
         $user = User::all();
         $transaksiId = $transaksi->id;
+        $petikemas_id = '';
+        foreach ($transaksi->penghubungs as $value) {
+            $petikemas_id = $value->petikemas_id;
+        }
+        $petikemas = petikemas::where('id', $petikemas_id)->first();
 
         if ($transaksi->jenis_kegiatan == 'impor') {
             if (auth()->user()->hasRole('direktur')) {
@@ -892,7 +943,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/surveyin/pengecekan/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dicetak SPK dengan peti kemas No. ' .$petikemas->no_petikemas. '. Mohon segera diperiksa.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -908,7 +959,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/surveyin/pengecekan/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dicetak SPK dengan peti kemas No. ' .$petikemas->no_petikemas. '. Mohon pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -924,7 +975,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/surveyin/pengecekan/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dicetak SPK dengan peti kemas No. ' .$petikemas->no_petikemas. '. Mohon segera diperiksa.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -943,7 +994,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dicetak SPK dengan peti kemas No. ' .$petikemas->no_petikemas. '. Mohon pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -959,7 +1010,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dicetak SPK dengan peti kemas No. ' .$petikemas->no_petikemas. '. Mohon pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -975,7 +1026,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dicetak SPK dengan peti kemas No. ' .$petikemas->no_petikemas. '. Mohon pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -999,6 +1050,7 @@ class TransaksiController extends Controller
 
         return $pdf->download('spk_' . $transaksi->no_transaksi . '.pdf');
     }
+
     public function editpembayaran(Request $request, $id_transaksi)
     {
         $id_penghubung = $request->input('id_penghubung');
@@ -1034,7 +1086,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/inventory/entry-data/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dilunasi peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera mencetak SPK.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1050,7 +1102,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/inventory/entry-data/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dilunasi peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera mencetak SPK.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1066,7 +1118,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/inventory/entry-data/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Telah dilunasi peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera mencetak SPK.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1203,7 +1255,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/repair/perbaikan/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Terdapat kerusakan pada peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera diperbaiki.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1219,7 +1271,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/repair/perbaikan/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Terdapat kerusakan pada peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera diperbaiki.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1235,7 +1287,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/repair/perbaikan/' . $transaksiId;
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Terdapat kerusakan pada peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera diperbaiki.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1255,7 +1307,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Tidak ada kerusakan pada peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1271,7 +1323,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Tidak ada kerusakan pada peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1287,7 +1339,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Tidak ada kerusakan pada peti kemas dengan No. ' .$petikemas->no_petikemas. '. Mohon segera pindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1523,7 +1575,7 @@ class TransaksiController extends Controller
                             ? '/surveyin/pengecekan/' . $transaksiId
                             : '/repair/perbaikan/' . $transaksiId);
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Data pengecekan pada peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbarui. Mohon segera diperiksa.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -1541,7 +1593,7 @@ class TransaksiController extends Controller
                             ? '/surveyin/pengecekan/' . $transaksiId
                             : '/repair/perbaikan/' . $transaksiId);
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Data pengecekan pada peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbarui. Mohon segera diperiksa.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -1923,7 +1975,7 @@ class TransaksiController extends Controller
                             : '/tally/peti-kemas/';
     
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbaiki. Mohon segera dipindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1940,7 +1992,7 @@ class TransaksiController extends Controller
                         : '/tally/peti-kemas/';
     
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbaiki. Mohon segera dipindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -1956,7 +2008,7 @@ class TransaksiController extends Controller
                             ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                             : '/tally/peti-kemas/';
                         notifikasi::create([
-                            'message' => 'test',
+                            'message' => 'Peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbaiki. Mohon segera dipindahkan ke lokasi yang baru.',
                             'tanggal_kirim' => now(),
                             'sender' => auth()->user()->username,
                             'foto_profil' => auth()->user()->foto,
@@ -2029,36 +2081,32 @@ class TransaksiController extends Controller
         if (auth()->user()->hasRole('direktur')) {
             foreach ($user as $item) {
                 if ($item->hasRole('mops')) {
+                    $link = $item->hasRole(['direktur', 'mops'])
+                        ? '/' . $item->roles->first()->name . '/transaksi/' . $penempatan->transaksi_id
+                        : '/kasir/pembayaran/' . $penempatan->transaksi_id;
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Lokasi peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbarui.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
                         'user_id' => $item->id,
-                    ]);
-                }
-            }
-        } else if (auth()->user()->hasRole('tally')) {
-            foreach ($user as $item) {
-                if ($item->hasRole('mops') || $item->hasRole('direktur')) {
-                    notifikasi::create([
-                        'message' => 'test',
-                        'tanggal_kirim' => now(),
-                        'sender' => auth()->user()->username,
-                        'foto_profil' => auth()->user()->foto,
-                        'user_id' => $item->id,
+                        'link' => $link
                     ]);
                 }
             }
         } else if (auth()->user()->hasRole('mops')) {
             foreach ($user as $item) {
                 if ($item->hasRole('direktur')) {
+                    $link = $item->hasRole(['direktur', 'mops'])
+                        ? '/' . $item->roles->first()->name . '/transaksi/' . $penempatan->transaksi_id
+                        : '/kasir/pembayaran/' . $penempatan->transaksi_id;
                     notifikasi::create([
-                        'message' => 'test',
+                        'message' => 'Lokasi peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbarui.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
                         'user_id' => $item->id,
+                        'link' => $link
                     ]);
                 }
             }

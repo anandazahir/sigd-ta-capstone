@@ -83,7 +83,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}">
+                                <a class="btn bg-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}">
                                     <div class="d-flex gap-2">
                                         <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-spk"></span>
                                         <span>{{ $pembayaran->status_cetak_spk }}</span>
