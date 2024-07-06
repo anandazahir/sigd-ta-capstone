@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class pengecekan extends Model
 {
-    protected $fillable = ['tanggal_pengecekan', 'jumlah_kerusakan', 'survey_in', 'kondisi_peti_kemas', 'penghubung_id', 'transaksi_id'];
+    protected $fillable = ['tanggal_pengecekan', 'jumlah_kerusakan', 'survey_in', 'kondisi_peti_kemas', 'penghubung_id', 'transaksi_id', 'foto_profil'];
 
     public function transaksi()
     {
