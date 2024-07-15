@@ -17,12 +17,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="perusahaan" class="form-label">Perusahaan</label>
-            <select class="form-select" id="perusahaan" name="perusahaan" required>
-                <option selected disabled>Pilih Opsi Ini</option>
-                <option value="PT Anugrah Mulia" {{ $data->perusahaan == 'PT Anugrah Mulia' ? 'selected' : '' }}>PT Anugrah Mulia</option>
-                <option value="PT B" {{ $data->perusahaan == 'PT B' ? 'selected' : '' }}>PT B</option>
-                <option value="PT C" {{ $data->perusahaan == 'PT C' ? 'selected' : '' }}>PT C</option>
-            </select>
+            <input type="text" name="perusahaan" class="form-select" value="{{$data->perusahaan}}" id="">
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -56,11 +51,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="emkl" class="form-label">EMKL</label>
-            <select class="form-select" id="emkl" name="emkl" required>
-                <option selected disabled>Pilih Opsi Ini</option>
-                <option value="EMKL A" {{ $data->emkl == 'EMKL A' ? 'selected' : '' }}>EMKL A</option>
-                <option value="EMKL B" {{ $data->emkl == 'EMKL B' ? 'selected' : '' }}>EMKL B</option>
-            </select>
+            <input type="text" name="emkl" class="form-select" value="{{$data->emkl}}" id="">
             <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-6 mb-3 form-group">
