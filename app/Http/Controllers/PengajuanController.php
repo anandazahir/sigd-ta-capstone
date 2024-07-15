@@ -101,7 +101,7 @@ class PengajuanController extends Controller
     {
         // Find the pengajuan record
         $pengajuan = Pengajuan::find($request->id);
-
+        $userId = auth()->id();
         if (!$pengajuan) {
             return response()->json([
                 'errors' => ['Pengajuan not found.'],
@@ -152,12 +152,12 @@ class PengajuanController extends Controller
         // Save the changes to the database
         $pengajuan->save();
         notifikasi::create([
-            'message' => auth()->user()->username . 'telah membuat pengajuan' . $request->jenis_pengajuan,
+            'message' => auth()->user()->username . 'telah mengubah status pengajuan anda menjadi' . $request->status,
             'tanggal_kirim' => now(),
             'sender' => auth()->user()->username,
             'foto_profil' => auth()->user()->foto,
             'user_id' => $pengajuan->user_id,
-            'link' => '/direktur/pegawai/' . $userId
+            'link' => '/pegawai'
         ]);
         return response()->json([
             'success' => true,

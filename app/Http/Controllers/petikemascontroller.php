@@ -85,15 +85,24 @@ class petikemascontroller extends Controller
             $query->latest()->first();
         }])->findOrFail($id);
 
-        $latestPenempatan = $petikemas->penghubungs->flatMap(function ($penghubung) {
-            return $penghubung->penempatan;
-        })->sortByDesc('created_at')->first();
+        $transaksi = transaksi::with(['penghubungs' => function ($query) use ($petikemas) {
+            $query->where('petikemas_id', $petikemas->id);
+        }])
+            ->whereHas('penghubungs', function ($query) use ($petikemas) {
+                $query->where('petikemas_id', $petikemas->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->first();
+        $operator_alat_berat = '';
 
+        foreach ($transaksi->penghubungs as $key => $value) {
+            $operator_alat_berat = $value->penempatan->operator_alat_berat;
+        }
         return response()->json([
             'id' => $petikemas->id ?? '',
             'no_petikemas' => $petikemas->no_petikemas,
             'jenis_ukuran' => $petikemas->jenis_ukuran,
-            'operator_alat_berat' => $latestPenempatan->operator_alat_berat ?? '',
+            'operator_alat_berat' => $operator_alat_berat,
             'row' => $petikemas->lokasi == 'out' || $petikemas->lokasi == 'pending' ?   $petikemas->lokasi : explode('-', $petikemas->lokasi)[0],
             'blok' => $petikemas->lokasi == 'out' || $petikemas->lokasi == 'pending' ?    $petikemas->lokasi : explode('-', $petikemas->lokasi)[1],
             'tier' => $petikemas->lokasi == 'out' || $petikemas->lokasi == 'pending' ?    $petikemas->lokasi : explode('-', $petikemas->lokasi)[2],
@@ -169,7 +178,7 @@ class petikemascontroller extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksi->id
                         : '/kasir/pembayaran/' . $transaksi->id;
                     notifikasi::create([
-                        'message' => 'Lokasi peti kemas dengan No. ' .$petikemas->no_petikemas. ' telah diperbarui.',
+                        'message' => 'Lokasi peti kemas dengan No. ' . $petikemas->no_petikemas . ' telah diperbarui.',
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,

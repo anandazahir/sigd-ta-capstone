@@ -16,12 +16,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="perusahaan" class="form-label">Perusahaan</label>
-            <select class="form-select" id="perusahaan" name="perusahaan" required>
-                <option selected disabled>Pilih Opsi Ini</option>
-                <option value="PT Anugrah Mulia">PT Anugrah Mulia</option>
-                <option value="PT B">PT B</option>
-                <option value="PT C">PT C</option>
-            </select>
+            <input type="text" class="form-control" id="perusahaan" placeholder="perusahaan" name="perusahaan" required>
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -52,11 +47,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
             <label for="emkl" class="form-label">EMKL</label>
-            <select class="form-select" id="emkl" name="emkl" required>
-                <option selected disabled>Pilih Opsi Ini</option>
-                <option value="EMKL A">EMKL A</option>
-                <option value="EMKL B">EMKL B</option>
-            </select>
+            <input type="text" class="form-control" id="emkl" placeholder="EMKL" name="emkl" required>
+
             <div class="invalid-feedback"></div>
         </div>
     </div>

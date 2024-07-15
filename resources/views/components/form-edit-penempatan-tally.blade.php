@@ -179,10 +179,10 @@
                 form.find('input[name="lokasi"]').val($(this).val());
             }
         });
-
-
-
-
+        form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
+            event.preventDefault();
+            handleFormSubmission(this);
+        });
     });
 </script>
 @endpush

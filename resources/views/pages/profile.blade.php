@@ -72,7 +72,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <button class="btn-danger btn btn-sm" id="simpanhapus">
                             <div class="d-flex gap-2">
                                 <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-hapus"></span>
-                                <span class="fw-semibold">Hapus Gambar</span>
+                                <span class="fw-semibold text-white">Hapus Gambar</span>
                             </div>
                         </button>
                         <button class="btn-info btn text-white btn-sm" id="batalhapus"><span class="fw-semibold">Batal</span></button>
@@ -141,13 +141,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             }
                             @endphp
                             <h5 class="m-0 fw-semibold mt-3">New Password</h5>
-                            <div class="d-flex position-relative">
+                            <div class="d-flex position-relative m-0">
                                 <input type="password" class="form-control form-password mb-3 @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password" required autocomplete="new-password" value="{{ old('password') }}">
 
                                 <i id="togglePassword" class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-1" style="font-size: 25px; color: #9FA6B2"></i>
                             </div>
                             @if ($pesanSatu)
-                            <p class="text-danger">{{ $pesanSatu }}</p>
+                            <p style="color: #DC4C64">{{ $pesanSatu }}</p>
                             @endif
                             <h5 class="m-0 fw-semibold">Retype Password</h5>
                             <div class="d-flex position-relative">
@@ -155,7 +155,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <i id="togglePasswordConfirmation" class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-1" style="font-size: 25px; color: #9FA6B2"></i>
                             </div>
                             @if ($pesanDua)
-                            <p class="text-danger">{{ $pesanDua }}</p>
+                            <p style="color: #DC4C64">{{ $pesanDua }}</p>
                             @endif
 
                             <hr class="line mb-0 mt-3" style="height: 1px; background-color:#FFF;">
@@ -318,6 +318,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 $('#simpanhapus').hide();
                 $('#batalhapus').hide();
                 const srcimg = $('#foto_profil').attr('src');
+                console.log(srcimg);
                 const imgdefault = '{{ URL::asset("user-solid-orange.svg") }}';
                 let selectedFile;
                 let loadingButton = $('#loading-button')
@@ -410,7 +411,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $('#batalhapus').show();
                 });
                 $('#batalhapus').click(function() {
-                    if ($('#svg-profil')) {
+                    if ($('#svg-profil').is(':hidden')) {
                         $('#svg-profil').show();
                     } else {
                         $('#foto_profil').attr('src', srcimg);
@@ -425,9 +426,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $('#deleteButton').show();
                     $('#simpanupload').hide();
                     $('#batalupload').hide();
-                    if ($('#svg-profil')) {
+                    if ($('#svg-profil').is(':hidden')) {
                         $('#svg-profil').show();
+                        $('#foto_profil').hide();
                     } else {
+                        $('#foto_profil').show();
                         $('#foto_profil').attr('src', srcimg);
                     }
 

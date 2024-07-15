@@ -47,6 +47,11 @@ break;
                 <h3 class="text-center">No Data Found</h3>
             </div>
             @endif
+            <div class="text-center">
+                <div class="spinner-grow text-primary mx-auto my-auto" style="width: 3rem; height: 3rem;" role="status" id="loading-table-penempatan">
+                </div>
+            </div>
+            <h1 class="text-center mt-3 text-black" id="text-error-penempatan"></h1>
             <table class="table-variations-3  text-center" id="table_penempatanhistory">
                 <thead>
                     <tr>
@@ -121,6 +126,18 @@ break;
 <script>
     $(document).ready(function() {
         const role = "{{$cleaned}}";
+        $('#loading-table-penempatan').hide();
+
+        function showLoadingSpinner() {
+            $('#loading-table-penempatan').show();
+            $('#table_penempatanhistory').hide()
+            $('#text-error-penempatan').hide()
+        }
+
+        function hideLoadingSpinner() {
+            $('#loading-table-penempatan').hide();
+
+        }
         $('#date_penempatanhistory').change(function() {
             $.ajax({
                 url: '/{{$cleaned}}/peti-kemas/penempatanhistory/filter',
@@ -129,9 +146,10 @@ break;
                     _token: '{{ csrf_token() }}',
                     tanggal_penempatanhistory: $(this).val(),
                 },
+                beforeSend: showLoadingSpinner(),
                 success: function(response) {
+                    hideLoadingSpinner();
                     $('#table_penempatanhistory').show();
-                    $('#text-error-penempatanhistory').hide();
                     $('#table_penempatanhistory tbody').empty();
                     const baseUrl = "{{ asset('storage') }}";
                     $.each(response.Data, function(index, item) {
@@ -183,8 +201,14 @@ break;
                             '</td>' +
                             '</tr>'
                         );
-                    });
 
+
+                    });
+                    if (response.message) {
+                        $('#table_penempatanhistory').hide();
+                        $('#text-error-penempatan').show();
+                        $('#text-error-penempatan').text(response.message);
+                    }
                     // Event handler untuk tombol delete
                     $(document).on('click', '#button_delete_penempatanhistory', function(e) {
                         e.preventDefault();
@@ -193,12 +217,6 @@ break;
                         console.log($(this).val());
                     });
 
-                    if (response.message) {
-                        $('#table_penempatanhistory').hide();
-                        $('#text-error-penempatanhistory').show();
-                        $('#text-error-penempatanhistory').text(response.message);
-
-                    }
 
                 },
                 error: function(xhr, status, error) {

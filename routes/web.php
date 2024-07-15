@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\petikemascontroller;
 use App\Http\Controllers\transaksicontroller;
 use App\Http\Controllers\AuthController;
@@ -120,6 +121,9 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
         Route::prefix('pengajuan')->group(function () {
             Route::post('/create', [PengajuanController::class, 'store'])->name('direktur.pengajuan.store');
             Route::post('/edit', [PengajuanController::class, 'edit'])->name('direktur.pengajuan.edit');
+        });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
         });
     });
 });

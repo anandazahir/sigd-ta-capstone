@@ -27,7 +27,7 @@ break;
                 <div class="spinner-grow text-primary mx-auto my-auto" style="width: 3rem; height: 3rem;" role="status" id="loading-table-pengecekan">
                 </div>
             </div>
-            <h1 class="text-center mt-3 text-black" id="text-error"></h1>
+            <h1 class="text-center mt-3 text-black" id="text-error-pengecekan"></h1>
             <table class="table-variations-3  text-center" id="table_pengecekanhistory">
                 <thead>
                     <tr>
@@ -118,7 +118,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         function showLoadingSpinner() {
             $('#loading-table-pengecekan').show();
             $('#table_pengecekanhistory').hide()
-            $('#text-error').hide()
+            $('#text-error-pengecekan').hide()
         }
 
         function hideLoadingSpinner() {
@@ -282,8 +282,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                     if (response.message) {
                         $('#table_pengecekanhistory').hide();
-                        $('#text-error').show();
-                        $('#text-error').text(response.message);
+                        $('#text-error-pengecekan').show();
+                        $('#text-error-pengecekan').text(response.message);
                     }
 
                 },

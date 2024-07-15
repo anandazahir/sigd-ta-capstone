@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Charts\JumlahTransaksiPie;
 use App\Models\Kerusakan;
 use App\Models\Kerusakanhistory;
 use App\Models\Pembayaran;
@@ -1042,10 +1041,16 @@ class TransaksiController extends Controller
         $relatedPenghubung = $transaksi->penghubungs->first();
 
         $relatedPenghubung->pembayaran->update(['status_cetak_spk' => $statusCetakSpk]);
-
+        $no = 0;
+        $no++;
+        $date = Carbon::now();
+        $formattedDate = $date->format('dmy');
+        $no_spk = 'SPK-' . ($transaksi->jenis_transaksi == 'impor'  ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($no, 4, '0', STR_PAD_LEFT);
         $pdf = PDF::loadView('pdf.spk', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,
+            'no_spk' => $no_spk,
+
         ]);
 
         return $pdf->download('spk_' . $transaksi->no_transaksi . '.pdf');
@@ -1056,6 +1061,7 @@ class TransaksiController extends Controller
         $id_penghubung = $request->input('id_penghubung');
         $metode = $request->input('metode');
         $i = 0;
+        $no = 0;
         $transaksi = Transaksi::with([
             'penghubungs' => function ($query) use ($id_penghubung) {
                 $query->whereIn('id', $id_penghubung);
@@ -1139,12 +1145,18 @@ class TransaksiController extends Controller
                 break; // Assuming you want to update the date and save only once if any penghubung meets the condition
             }
         }
+        $no++;
+        $date = new DateTime();
+        $formattedDate = $date->format('dmy');
+        $no_kwitansi = 'KW-' . ($transaksi->jenis_transaksi == 'impor'  ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($no, 4, '0', STR_PAD_LEFT);
+
         $pdf = PDF::loadView('pdf.kwitansi', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,
+            'no_kwitansi' => $no_kwitansi
         ]);
 
-        return $pdf->download('kwitansi_' . $transaksi->no_transaksi . '.pdf');
+        return $pdf->download('test.pdf');
     }
 
     public function storepengecekan(Request $request)
@@ -1635,8 +1647,8 @@ class TransaksiController extends Controller
             'tanggal_pengecekan' => now(),
             'survey_in' => $pengecekan->survey_in,
             'petikemas_id' => $petikemas->id,
-            'status_kondisi' => $petikemas->status_kondisi
-            'foto_profil'=>$pengecekan->foto_profil,
+            'status_kondisi' => $petikemas->status_kondisi,
+            'foto_profil' => $pengecekan->foto_profil,
         ]);
         // foreach ($kerusakans as $item) {
         foreach ($pengecekan->kerusakan as $item) {
@@ -1742,19 +1754,19 @@ class TransaksiController extends Controller
         $petikemas = Petikemas::findOrFail($penghubung->petikemas_id);
         $datadamage = $pengecekan->kerusakan->where('status', 'damage')->count();
         $kerusakanall = $pengecekan->kerusakan->count();
-        $user= user::where('username',$request->username)->first()
+        $user = user::where('username', $request->username)->first();
         // Updating perbaikan
         $perbaikan->update([
             'repair' => $request->repair,
             'jumlah_perbaikan' => $request->jumlah_perbaikan,
             'tanggal_perbaikan' => now(),
-            'foto_profil'=>$user->foto
+            'foto_profil' => $user->foto
         ]);
 
         // Updating perbaikan history
         $perbaikanhistory = perbaikanhistory::create([
             'id_perbaikan' => $perbaikan->id,
-            'foto_profil'=>$user->foto,
+            'foto_profil' => $user->foto,
             'tanggal_perbaikan' => now(),
             'repair' => $perbaikan->repair,
             'estimator' => $perbaikan->estimator,
@@ -2063,7 +2075,7 @@ class TransaksiController extends Controller
             'tanggal_penempatan' => now(),
             'operator_alat_berat' => $request->operator_alat_berat,
             'tally' => $request->tally,
-            'foto_profil'=> $user->foto
+            'foto_profil' => $user->foto
         ]);
         if ($request->lokasi == 'out' && $petikemas->status_ketersediaan == 'in') {
             $petikemas->update([
@@ -2071,7 +2083,7 @@ class TransaksiController extends Controller
                 'status_ketersediaan' => 'out',
                 'tanggal_keluar' => now(),
                 'status_order' => 'true',
-                
+
             ]);
         }
         $petikemas->update([
@@ -2082,7 +2094,7 @@ class TransaksiController extends Controller
             'operator_alat_berat' => $request->operator_alat_berat,
             'tally' => $request->tally,
             'lokasi' => $request->lokasi,
-            'foto_profil'=> $user->foto,
+            'foto_profil' => $user->foto,
             'status_ketersediaan' => $petikemas->status_ketersediaan,
             'petikemas_id' => $petikemas->id,
             'id_penempatan' => $penempatan->id,

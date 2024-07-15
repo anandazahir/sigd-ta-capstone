@@ -1,71 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>spk_{{$transaksi->no_transaksi}}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kwitansi</title>
     <style>
-        /* Define A4 page size */
-        @page {
-            size: A4;
-            margin: 1cm;
-            /* Set margin to 1cm */
-        }
-
-        /* Set font styles */
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
-            /* Adjust font size as needed */
         }
 
-        /* Adjust table styles */
-        table {
+        .receipt {
+            margin: 0 auto;
+
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .details,
+        .items,
+        .total {
+            margin-bottom: 10px;
+        }
+
+        .items table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #000;
-            /* Add border to tables */
         }
 
-        th,
-        td {
+        .items table,
+        .items th,
+        .items td {
             border: 1px solid #000;
-            /* Add border to table cells */
-            padding: 8px;
-            /* Add padding to table cells */
+        }
+
+        .items th,
+        .items td {
+            padding: 5px;
             text-align: left;
-            /* Align text to the left */
         }
 
-        /* Center table headings */
-        th {
-            text-align: center;
+        .total {
+            text-align: right;
         }
     </style>
 </head>
 
 <body>
-    <h2>SPK</h2>
-    <h3>NO Transaksi: {{$transaksi->no_transaksi}}</h3>
-    <h3>NO DO: {{$transaksi->no_do}}</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>No Peti Kemas</th>
-                <th>Jenis & Ukuran</th>
-                <th>Pelayaran</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="receipt">
+        <div class="header">
+            <h2>PT GARBANTARA DEPO</h2>
+            <p>
+                Jl. Tirto Agung No.50,<br />
+                Pedalangan, Kec. Banyumanik,<br />
+                Kota Semarang Jawa Tengah 50268
+            </p>
+        </div>
+        <hr style="border: dashed 1px; margin: 1.2px" />
+        <hr style="border: dashed 1px; margin: 1.2px;" />
+        <div class="details">
+            <p>No SPK: {{$no_spk}} </p>
+            <p>Waktu: {{now()->format('d M y H:i')}}</p>
+            <p>No.Do: {{$transaksi->no_do}}</p>
+            <p>Inventory: {{auth()->user()->username}}</p>
+            <p>Jenis Transaksi: {{$transaksi->jenis_kegiatan}}</p>
+        </div>
+        <hr style="border: dashed 1px; margin: 1.2px" />
+        <hr style="border: dashed 1px; margin: 1.2px;" />
+        <div class="items" style="margin-top: 10px">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Peti Kemas</th>
+                        <th>Pelayaran</th>
+                        <th>Jenis & Ukuran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($penghubung as $item)
+                    <tr>
+                        <td>{{$item->petikemas->no_petikemas}}</td>
+                        <td>{{$item->petikemas->pelayaran}}</td>
+                        <td>{{$item->petikemas->jenis_ukuran}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-            <tr>
-                <td>{{ $penghubung->petikemas->no_petikemas }}</td>
-                <td>{{ $penghubung->petikemas->jenis_ukuran }}</td>
-                <td>{{ $penghubung->petikemas->pelayaran }}</td>
-            </tr>
-
-
-        </tbody>
-    </table>
+    </div>
 </body>
 
 </html>

@@ -1,75 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>kwitansi_{{$transaksi->no_transaksi}}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kwitansi</title>
     <style>
-        /* Define A4 page size */
-        @page {
-            size: A4;
-            margin: 1cm;
-            /* Set margin to 1cm */
-        }
-
-        /* Set font styles */
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
-            /* Adjust font size as needed */
         }
 
-        /* Adjust table styles */
-        table {
+        .receipt {
+            margin: 0 auto;
+
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .details,
+        .items,
+        .total {
+            margin-bottom: 10px;
+        }
+
+        .items table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #000;
-            /* Add border to tables */
         }
 
-        th,
-        td {
+        .items table,
+        .items th,
+        .items td {
             border: 1px solid #000;
-            /* Add border to table cells */
-            padding: 8px;
-            /* Add padding to table cells */
+        }
+
+        .items th,
+        .items td {
+            padding: 5px;
             text-align: left;
-            /* Align text to the left */
         }
 
-        /* Center table headings */
-        th {
-            text-align: center;
+        .total {
+            text-align: right;
         }
     </style>
 </head>
 
 <body>
-    <h2>Kwitansi</h2>
-    <h3>NO Transaksi: {{$transaksi->no_transaksi}}</h3>
-    <h3>NO DO: {{$transaksi->no_do}}</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>No Peti Kemas</th>
-                <th>Jenis & Ukuran</th>
-                <th>Pelayaran</th>
-                <th>Metode Pembayaran</th>
-                <th>Tanggal Pembayaran</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="receipt">
+        <div class="header">
+            <h2>PT GARBANTARA DEPO</h2>
+            <p>
+                Jl. Tirto Agung No.50,<br />
+                Pedalangan, Kec. Banyumanik,<br />
+                Kota Semarang Jawa Tengah 50268
+            </p>
+        </div>
+        <hr style="border: dashed 1px; margin: 1.2px" />
+        <hr style="border: dashed 1px; margin: 1.2px;" />
+        <div class="details">
+            <p>No Kwitansi: {{$no_kwitansi}} </p>
+            <p>Waktu: {{now()->format('d M y H:i')}}</p>
+            <p>No.Do: {{$transaksi->no_do}}</p>
+            <p>Kasir: {{auth()->user()->username}}</p>
+            <p>Jenis Transaksi: {{$transaksi->jenis_kegiatan}}</p>
+        </div>
+        <hr style="border: dashed 1px; margin: 1.2px" />
+        <hr style="border: dashed 1px; margin: 1.2px;" />
+        <div class="items" style="margin-top: 10px">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Peti Kemas</th>
+                        <th>Pelayaran</th>
+                        <th>Jenis & Ukuran</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($penghubung as $item)
+                    <tr>
+                        <td>{{$item->petikemas->no_petikemas}}</td>
+                        <td>{{$item->petikemas->pelayaran}}</td>
+                        <td>{{$item->petikemas->jenis_ukuran}}</td>
+                        <td>{{$item->petikemas->harga}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <hr style="border: dashed 1px; margin: 1.2px" />
+        <hr style="border: dashed 1px; margin: 1.2px;" />
+        <div class="total">
+            @php
+            $total = 0;
+            if (count($penghubung) > 1) {
+            foreach ($penghubung as $item) {
+            $total += $item->petikemas->harga;
+            }
+            } else {
+            $item = $penghubung[0];
+            $total = $item->petikemas->harga;
+            }
+            @endphp
+            <p>Subtotal {{count($penghubung)}} Peti kemas: {{$total}}</p>
+            <p>Total Tagihan: {{$total}}</p>
             @foreach ($penghubung as $item)
-            <tr>
-                <td>{{ $item->petikemas->no_petikemas }}</td>
-                <td>{{ $item->petikemas->jenis_ukuran }}</td>
-                <td>{{ $item->petikemas-> harga}}</td>
-                <td>{{ $item->pembayaran-> metode}}</td>
-                <td>{{ $item->petikemas->tanggal_pembayaran }}</td>
-            </tr>
+            <p>Metode Pembayaran: {{$item->pembayaran-> metode}}</p>
+            @break
             @endforeach
-
-        </tbody>
-    </table>
+        </div>
+        <div class="footer">
+            <p style="text-align : center">
+                Terbayar<br />
+                {{now()->format('d M y H:i')}}
+            </p>
+        </div>
+    </div>
 </body>
 
 </html>
