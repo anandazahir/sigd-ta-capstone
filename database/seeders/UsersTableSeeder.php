@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Rats\Zkteco\Lib\ZKTeco;
 
 class UsersTableSeeder extends Seeder
 {
@@ -158,5 +159,14 @@ class UsersTableSeeder extends Seeder
                 'status_menikah' => 'Single'
             ]
         );
+        $user = user::all();
+        $zk = new ZKTeco('192.168.1.201');
+        $zk->connect();
+        $user = user::all();
+        $zk->disableDevice();
+        foreach ($user as $u) {
+            $zk->setUser(($u->id + 1), ($u->id + 1), $u->username, null, 0);
+        }
+        $zk->enableDevice();
     }
 }
