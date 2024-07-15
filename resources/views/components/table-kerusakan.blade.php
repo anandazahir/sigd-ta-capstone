@@ -16,8 +16,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No</th>
-                                <th scope="col" class="fw-semibold">Lokasi</th>
-                                <th scope="col" class="fw-semibold">Component</th>
+                                <th scope="col">Lokasi Kerusakan</th>
+                                <th scope="col">Jenis Kerusakan</th>
                                 <th scope="col" class="fw-semibold">Metode</th>
                                 <th scope="col" class="fw-semibold">Status</th>
                                 @if ($test == "false")

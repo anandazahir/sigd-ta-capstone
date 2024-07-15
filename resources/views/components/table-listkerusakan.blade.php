@@ -20,8 +20,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No</th>
-                                <th scope="col" class="fw-semibold">Lokasi</th>
-                                <th scope="col" class="fw-semibold">Komponen</th>
+                                <th scope="col">Lokasi Kerusakan</th>
+                                <th scope="col">Jenis Kerusakan</th>
                                 <th scope="col" class="fw-semibold">Metode</th>
                                 <th scope="col" class="fw-semibold">Status</th>
                                 <th scope="col" class="fw-semibold">Foto Pengecekan</th>

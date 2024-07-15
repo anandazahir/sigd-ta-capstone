@@ -36,7 +36,7 @@
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
-            <select class="form-select" id="pendidikan_terakhir" name="pendidikan_terakhir">
+            <select class="form-select" id="pendidikan_terakhir" name="pendidikan_terakhir" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option value="" disabled>Pilih Opsi Ini</option>
                 @foreach(['SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3'] as $pendidikan)
                 <option value="{{ $pendidikan }}" {{ $data->pendidikan_terakhir == $pendidikan ? 'selected' : '' }}>{{ $pendidikan }}</option>

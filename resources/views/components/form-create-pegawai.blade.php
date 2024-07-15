@@ -37,7 +37,7 @@
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
-            <select class="form-select" id="pendidikan_terakhir" placeholder="Pendidikan Terakhir" name="pendidikan_terakhir">
+            <select class="form-select" id="pendidikan_terakhir" placeholder="Pendidikan Terakhir" name="pendidikan_terakhir" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Pilih Opsi Ini</option>
                 <option value="SMA">SMA</option>
                 <option value="D1">D1</option>
@@ -63,7 +63,7 @@
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="jabatan" class="form-label">Jabatan</label>
-            <select class="form-select" id="jabatan" name="jabatan">
+            <select class="form-select" id="jabatan" name="jabatan" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Pilih Opsi Ini</option>
                 <option value="mops">Manajer Operasional</option>
                 <option value="inventory">Inventory</option>

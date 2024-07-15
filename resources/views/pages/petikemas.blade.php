@@ -263,19 +263,35 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="d-flex">
                                 <label for="" class="form-label text-white fw-semibold position-absolute d-none d-lg-block" style="font-size: 12px; top:-1.5rem; right:10rem;">Filter Berdasarkan Lokasi Petikemas</label>
                                 <div class="d-flex gap-1">
-                                    <select name="" id="blok" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Blok">
+                                    <select name="" id="blok" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Blok" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                                         <option value="">Blok</option>
-                                        <option value="A1">A1</option>
+                                        @php
+                                        $letters = range('A', 'D');
+                                        $numbers = range(1, 9);
+                                        @endphp
+
+                                        @foreach($letters as $letter)
+                                        @foreach($numbers as $number)
+                                        @php
+                                        $value = $letter . $number;
+                                        @endphp
+                                        <option value="{{ $value }}">{{ $value }}</option>
+                                        @endforeach
+                                        @endforeach
+
                                     </select>
                                     <span class="text-white fw-semibold fs-4">-</span>
-                                    <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Row">
+                                    <select name="" id="row" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Row" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                                         <option value="">Row</option>
-                                        <option value="11">11</option>
+                                        @for($i = 1; $i <= 99; $i++) @php $value=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $value }}">{{ $value }}</option>
+                                            @endfor
+
                                     </select>
                                     <span class="text-white fw-semibold fs-4">-</span>
-                                    <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tier">
+                                    <select name="" id="tier" class="form-select ms-auto-lg ms-0 me-2" style="width: fit-content; height: fit-content;" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tier" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                                         <option value="">Tier</option>
-                                        <option value="11">11</option>
+                                        @for($i = 1; $i <= 99; $i++) @php $value=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $value }}">{{ $value }}</option>
+                                            @endfor
                                     </select>
                                 </div>
 

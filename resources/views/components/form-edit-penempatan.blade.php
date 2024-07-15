@@ -59,31 +59,53 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <label for="nomor" class="form-label">Lokasi Peti Kemas</label>
         <div class="col-lg-4 mb-3 form-group">
             <label for="nomor" class="form-label">Row</label>
-            <select class="form-select" name="row" id="row-{{$value}}" required>
+            <select class="form-select" name="row" id="row-{{$value}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Plih Opsi Ini</option>
-                <option value="A1" {{ $row == 'A1' ? 'selected' : '' }}>A1</option>
+                @php
+                $letters = range('A', 'D');
+                $numbers = range(1, 9);
+                @endphp
+
+                @foreach($letters as $letter)
+                @foreach($numbers as $number)
+                @php
+                $value = $letter . $number;
+                @endphp
+                <option value="{{ $value }}" {{ $row == $value ? 'selected' : '' }}>{{ $value }}</option>
+                @endforeach
+                @endforeach
                 <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
+                @if ($jenis == "ekspor")
                 <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                @endif
+
             </select>
             <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-4 mb-3 form-group">
             <label for="blok" class="form-label">Blok</label>
-            <select class="form-select" name="blok" id="blok-{{$value}}" required>
+            <select class="form-select" name="blok" id="blok-{{$value}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Plih Opsi Ini</option>
-                <option value="11" {{ $blok == '11' ? 'selected' : '' }}>11</option>
-                <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                @for($i = 1; $i <= 99; $i++) @php $value=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $value }}" {{ $blok == $value ? 'selected' : '' }}>{{ $value }}</option>
+                    @endfor
+
+                    <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
+                    @if ($jenis == "ekspor")
+                    <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                    @endif
             </select>
             <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-4 mb-3 form-group">
             <label for="nomor" class="form-label">Tier</label>
-            <select class="form-select" name="tier" id="tier-{{$value}}" required>
+            <select class="form-select" name="tier" id="tier-{{$value}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Plih Opsi Ini</option>
-                <option value="11" {{ $tier == '11' ? 'selected' : '' }}>11</option>
-                <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                @for($i = 1; $i <= 99; $i++) @php $value=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $value }}" {{ $tier == $value ? 'selected' : '' }}>{{ $value }}</option>
+                    @endfor
+                    <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
+                    @if ($jenis == "ekspor")
+                    <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                    @endif
             </select>
             <div class="invalid-feedback"></div>
         </div>

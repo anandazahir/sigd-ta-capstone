@@ -117,7 +117,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             for (let i = ($("#table_create_transaksi tbody tr").length); i < rowCount; i++) {
                 const newRow = $('<tr>' +
                     '<td class="text-center">' +
-                    '<select class="form-select" name="no_petikemas[]" required>' +
+                    '<select class="form-select" name="no_petikemas[]" required onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
                     '<option selected disabled>Pilih Opsi Ini</option>' + // Add default option here
                     '</select>' +
                     '<div class="invalid-feedback"></div>' +

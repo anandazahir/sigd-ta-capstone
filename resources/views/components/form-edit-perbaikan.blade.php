@@ -9,7 +9,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <label for="Repair" class="form-label">
                 <span>Repair</span>
             </label>
-            <select name="repair" class="form-select" aria-label="Default select example" required>
+            @if (auth()->user()->username == 'direktur' || auth()->user()->username == 'mops')
+            <select name="repair" class="form-select" aria-label="Default select example" required onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">
                 <option selected disabled>Pilih Opsi Ini</option>
                 @foreach ($user as $item)
                 @if ($item->hasRole('repair'))
@@ -17,6 +18,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 @endif
                 @endforeach
             </select>
+            @endif
+            <input type="hidden" name="repair" value="{{auth()->user()->username}}" id="">
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -35,8 +38,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <table class="table text-center" id="table_edit_perbaikan">
             <thead>
                 <tr>
-                    <th scope="col">Lokasi</th>
-                    <th scope="col">Component</th>
+                    <th scope="col">Lokasi Kerusakan</th>
+                    <th scope="col">Jenis Kerusakan</th>
                     <th scope="col">Metode</th>
                     <th scope="col">Status</th>
                     <th scope="col" id="last-kolom-header">Foto Perbaikan</th>

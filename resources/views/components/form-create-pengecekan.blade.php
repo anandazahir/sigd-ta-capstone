@@ -7,7 +7,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="no peti kemas" class="form-label">No Peti Kemas</label>
-            <select name="no_petikemas" class="form-select" id="id_penghubung" aria-label="Default select example" required>
+            <select name="no_petikemas" class="form-select" id="id_penghubung" aria-label="Default select example" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Pilih Opsi Ini</option>
                 @foreach ($data->penghubungs as $penghubung)
                 @if (
@@ -88,7 +88,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         '</td>' +
                         '<td class="text-center">' +
                         '<input type="hidden" name="metode_value[]"/>' +
-                        '<select class="form-select"  name="metodes[]">' +
+                        '<select class="form-select"  name="metodes[]" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
                         '<option selected disabled>Open this select menu</option>' +
                         '<option value="1">One</option>' +
                         '<option value="2">Two</option>' +

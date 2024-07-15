@@ -68,7 +68,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         @endphp
                         <tr>
                             <td class="text-center">
-                                <select class="form-select mx-auto disabled" name="no_petikemas[]" required style="width: fit-content" disabled>
+                                <select class="form-select mx-auto disabled" name="no_petikemas[]" required style="width: fit-content" disabled onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">
                                     <option disabled>Pilih Opsi Ini</option>
                                     <option selected value="{{$petikemas->id}}">{{$petikemas->no_petikemas}}</option>
                                 </select>
@@ -222,7 +222,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 e.preventDefault();
                 const newRow = $('<tr>' +
                     '<td class="text-center">' +
-                    '<select class="form-select mx-auto" name="no_petikemas[]" required style="width:fit-content">' +
+                    '<select class="form-select mx-auto" name="no_petikemas[]" required style="width:fit-content" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
                     '<option selected disabled>Pilih Opsi Ini</option>' +
                     '</select>' +
                     '<div class="invalid-feedback"></div>' +
