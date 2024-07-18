@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('waktu_masuk');
-            $table->dateTime('waktu_pulang');
+            $table->dateTime('waktu_masuk')->nullable();
+            $table->string('status_masuk')->nullable();
+            $table->dateTime('waktu_pulang')->nullable();
+            $table->string('status_pulang')->nullable();
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         });

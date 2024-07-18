@@ -159,8 +159,9 @@ class UsersTableSeeder extends Seeder
                 'status_menikah' => 'Single'
             ]
         );
+
         $user = user::all();
-        $zk = new ZKTeco('192.168.1.201');
+        $zk = new ZKTeco('192.168.0.201');
         $zk->connect();
         $user = user::all();
         $zk->disableDevice();
