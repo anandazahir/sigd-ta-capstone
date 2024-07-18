@@ -163,14 +163,24 @@
                         <div class="vr"></div>
                         <span class="h1 fw-bold mb-0 text-primary">SIMGD</span>
                       </div>
-                      <h5 class="fw-normal mb-3 pb-3 text-black">Please Sign In to Your Account </h5>
+                      <h5 class="fw-semibold m-0  text-black text-center">Silahkan Masuk </h5>
+                      <hr class="mt-2" />
                       <div class="mb-4">
 
-                        <input type="text" id="username" class="form-control text-white" style="background-color: gray" placeholder="Username" name="username" value="{{ old('username') }}">
+                        <input type="text" id="username" class="form-control text-white form-invalid @error('username') is-invalid @enderror" style="background-color: gray" placeholder="Username" name="username" value="{{ old('username') }}">
+                        @error('username')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
                       </div>
-                      <div class="mb-4 d-flex position-relative">
-                        <input type="password" id="password" class="form-control text-white" style="background-color: gray" placeholder="Password" name="password" value="{{ old('password') }}">
-                        <i class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-2  text-white" id="togglePassword" style="font-size: 20px; cursor: pointer;"></i>
+                      <div class="mb-4 ">
+                        <div class="position-relative">
+                          <input type="password" id="password" class="form-control text-white @error('password') is-invalid @enderror" style="background-color: gray" placeholder="Password" name="password" value="{{ old('password') }}">
+                          <i class="fa-regular fa-eye-slash  position-absolute top-0 end-0 mx-1 my-2  text-white @error('password') d-none @enderror" id="togglePassword" style="font-size: 20px; cursor: pointer;"></i>
+                          @error('password')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
+                       
                       </div>
                       <div class="mb-4 text-center">
                         <button type="submit" class="btn w-100 text-white bg-primary" style="background-color: #2B3674">Login</button>

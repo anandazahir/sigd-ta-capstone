@@ -28,6 +28,7 @@
     "resources/scss/style.scss",
     ])
     <style>
+        /*sistem ke restrat (warna utama)*/ 
         :root {
             --bs-primary: #f09259;
             --bs-primary-rgb: 240, 146, 89;

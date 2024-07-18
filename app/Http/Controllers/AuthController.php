@@ -21,13 +21,18 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'username' => 'required',
             'password' => 'required',
         ]);
 
         $user = User::where('username', $request->username)->first();
-
+        if ($validator->fails()) {
+            // dd($validator->errors());
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
@@ -42,6 +47,7 @@ class AuthController extends Controller
             'error' => 'Username atau password salah.',
         ])
         ->withInput();
+        
     }
 
     public function logout()

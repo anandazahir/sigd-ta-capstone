@@ -94,7 +94,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <h5 class="mt-4 fw-semibold">Pilih Warnna:</h5>
                         <div class="d-flex mt-3 gap-2" id="color-pick">
                             <div class="bg-white  rounded-3" style="padding:5px;">
-                                <button class=" btn color-button" style="width: 40px; height: 40px; background-color:#f09259" value="240, 146, 89" data-test="#f09259"></button>
+                                <button class=" btn color-button" style="width: 40px; height: 40px; background-color:white" value="240, 255, 255" data-test="white"></button>
                             </div>
                             <div class="bg-white  rounded-3" style="padding:5px;">
                                 <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#F48FB1" value="244, 143, 177" data-test="#F48FB"></button>
