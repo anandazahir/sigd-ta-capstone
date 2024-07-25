@@ -106,6 +106,7 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
             Route::post('/index', [PegawaiController::class, 'filter'])->name('pegawai.filter');
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('direktur.pegawai.changeprofilpicture');
             Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('direktur.pegawai.resetpassword');
+            Route::post('/reset-password-pegawai', [PegawaiController::class, 'resetpass'])->name('direktur.pegawai.resetpasswordpegawai');
         });
 
         Route::prefix('notifikasi')->group(function () {

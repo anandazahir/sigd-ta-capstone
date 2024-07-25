@@ -15,14 +15,7 @@
                                 <span class="fs-5 fw-semibold text-primary">Tambah Pegawai</span>
                             </div>
                         </button>
-                        <a href="" class="btn bg-white mb-2  ">
-                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Pegawai">
-                                <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                                    <i class="fa-solid fa-download text-white" style="font-size:17px;"></i>
-                                </div>
-                                <span class="fs-5 fw-semibold text-primary">Laporan Pegawai</span>
-                            </div>
-                        </a>
+
                     </div>
 
                     <div class="p-0" style="width: fit-content;">
@@ -66,6 +59,7 @@
             <x-form-create-pegawai />
         </x-modal-form>
         <x-modal-form-delete route="/direktur/pegawai/delete" />
+        <x-modal-form-reset-password />
         <x-toast />
         @push('page-script')
         <script>
@@ -158,6 +152,9 @@
             <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/direktur/pegawai/${item.id}">
                 <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
             </a>
+            <button class="btn btn-primary text-white p-0 rounded-3 reset-password" style="width: 2.5rem; height: 2.2rem;" value="${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Reset Password">
+                                    <i class=" fa-solid fa-key text-white" style="font-size: 20px;"></i>
+                                    </button>
             ${deleteButton}
         </div>
     </td>
@@ -211,6 +208,13 @@
                     e.preventDefault();
                     $("#form-delete-data").modal('show');
                     $("#input_form_delete").val($(this).val());
+                    console.log($(this).val());
+                });
+
+                $(document).on('click', '.reset-password', function(e) {
+                    e.preventDefault();
+                    $("#form-reset-password-modal").modal('show');
+                    $("#input-form-reset-password").val($(this).val());
                     console.log($(this).val());
                 });
 

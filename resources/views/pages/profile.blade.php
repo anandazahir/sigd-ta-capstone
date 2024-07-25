@@ -91,7 +91,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     </div>
                     <hr class="line m-0" style="height: 4px; background-color:#FFF;width:200px;">
                     <div class="h-100 w-100 mt-3">
-                        <h5 class="mt-4 fw-semibold">Pilih Warnna:</h5>
+                        <h5 class="mt-4 fw-semibold">Pilih Warna:</h5>
                         <div class="d-flex mt-3 gap-2" id="color-pick">
                             <div class="bg-white  rounded-3" style="padding:5px;">
                                 <button class=" btn color-button" style="width: 40px; height: 40px; background-color:#f09259" value="240, 146, 89" data-test="#f09259"></button>
@@ -302,9 +302,23 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         </div>
                     </div>
                 </div>
-
+                @if (auth()->user()->hasRole('direktur'))
+                <button class="btn rounded-3  d-flex mx-auto mt-3 bg-white" data-bs-toggle="modal" data-bs-target="#edit-pegawai-modal">
+                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Biodata">
+                        <i class="fa-solid fa-pen-to-square fa-lg my-auto text-primary"></i>
+                        <span class="fw-semibold my-auto fs-6 text-primary">EDIT DATA</span>
+                    </div>
+                </button>
+                @endif
             </div>
+
         </div>
+        @if (auth()->user()->hasRole('direktur'))
+        <x-modal-form size="" text="Ubah Data Pegawai" id="edit-pegawai-modal">
+            <x-form-edit-pegawai :data="auth()->user()" />
+        </x-modal-form>
+        @endif
+
         <x-toast />
         @push('page-script')
         @stack('toast-script')

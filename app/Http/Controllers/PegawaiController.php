@@ -160,6 +160,7 @@ class PegawaiController extends Controller
                 ->orWhere('jabatan', 'like', '%' . $searchTerm . '%')
                 ->orWhere('no_hp', 'like', '%' . $searchTerm . '%');
         });
+        $query->where('jabatan', '<>', 'Direktur');
         $perPage = 5;
         $filteredData = $query->paginate($perPage);
 
@@ -211,6 +212,19 @@ class PegawaiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Foto Profil Berhasil Diubah!',
+        ]);
+    }
+    public function resetpass(Request $request)
+    {
+        $user = user::findOrFail($request->id);
+        $password = Hash::make($user->nip);
+        $user->update([
+            'password' => $password
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Pegawai Berhasil Diubah Password!',
         ]);
     }
 }
