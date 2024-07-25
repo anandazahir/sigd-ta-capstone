@@ -2,8 +2,25 @@
 $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
+
 <form method="POST" id="create_form_pengecekan" action="{{ route($cleaned.'.transaksi.storepengecekan') }}" enctype="multipart/form-data" novalidate>
     @csrf
+    @foreach ($data->penghubungs as $penghubung)
+    @if (
+    $penghubung->pembayaran->status_pembayaran === 'sudah lunas' &&
+    $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' )
+    <div class="alert alert-warning rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
+        <div class="bg-warning rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
+
+            <i class="fa-solid fa-triangle-exclamation text-white mx-auto my-auto" style="font-size: 25px;"></i>
+        </div>
+        <p class="my-3" style="margin-left:80px;"><strong>PERINGATAN!</strong> Mohon Untuk Melunasi / Mencetak SPK Data Peti kemas</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    @break
+    @endforeach
+
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
             <label for="no peti kemas" class="form-label">No Peti Kemas</label>
@@ -24,7 +41,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="size & type" class="form-label">Size & Type:</label>
-            <input type="text" class="form-control" id="jenis_ukuran_pengecekan" placeholder="Size & Type" name="jenis_ukuran_pengecekan" required readonly>
+            <input type="text" class="form-control" id="jenis_ukuran_pengecekan" placeholder="Size & Type" name="jenis_ukuran_pengecekan" required disabled>
             <div class="invalid-feedback"></div>
         </div>
     </div>

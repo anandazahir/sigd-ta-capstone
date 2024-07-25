@@ -15,7 +15,7 @@ $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 <style>
-    select.disabled:disabled {
+    select.pembayaran:disabled {
         background: transparent;
         color: black;
         border-color: transparent;
@@ -24,7 +24,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         font-size: 20px;
     }
 
-    input.disabled:disabled {
+    input.pembayaran:disabled {
         background: transparent;
         color: black;
         border-color: transparent;
@@ -115,15 +115,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <input class="form-check-input" type="checkbox" value="{{ $pembayaran->penghubung_id }}" id="pembayaran_checkbox" name="id_penghubung[]" {{ (auth()->user()->hasRole('kasir') && $pembayaran->metode !== null) ? 'disabled' : '' }}>
                             </td>
                             <td class="text-center">
-                                <input type="text" name="no_petikemas" required readonly value="{{ $petikemas->no_petikemas }}" class="form-control mx-auto disabled" style="width:fit-content" disabled>
+                                <input type="text" name="no_petikemas" required disabled value="{{ $petikemas->no_petikemas }}" class="form-control mx-auto pembayaran" style="width:fit-content">
 
                             </td>
                             <td class="text-center">
-                                <input type="text" name="jenis_ukuranpembayaran" required readonly value="{{ $petikemas->jenis_ukuran }}" class="form-control mx-auto disabled" style="width:fit-content" disabled>
+                                <input type="text" name="jenis_ukuranpembayaran" required disabled value="{{ $petikemas->jenis_ukuran }}" class="form-control mx-auto pembayaran" style="width:fit-content">
 
                             </td>
                             <td class="text-center">
-                                <select class="form-select mx-auto disabled" name="metode[]" style="width: fit-content;" disabled required>
+                                <select class="form-select mx-auto pembayaran" name="metode[]" style="width: fit-content;" required disabled>
                                     <option selected disabled></option>
                                     <option value="BCA" {{ $pembayaran->metode == 'BCA' ? 'selected' : '' }}>Transfer BCA
                                     </option>
@@ -135,7 +135,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </td>
                             <td class="text-center">
 
-                                <input type="text" name="harga" required readonly value="{{ formatRupiah($petikemas->harga) }}" class="form-control mx-auto disabled" style="width:fit-content" disabled>
+                                <input type="text" name="harga" disabled readonly value="{{ formatRupiah($petikemas->harga) }}" class="form-control mx-auto pembayaran" style="width:fit-content">
                             </td>
                             @if ($data->tanggal_transaksi)
                             <td class="text-center" id="tanggal_pembayaran">
@@ -173,9 +173,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         $("#table_pembayaran thead tr th:first-child").hide();
         $('.tabs').click(function() {
             if ($('#Pembayaran').hasClass('d-none')) {
-                $('input[name="no_petikemas"]').prop("disabled", true);
-                $('input[name="jenis_ukuranpembayaran"]').prop("disabled", true);
-                $('input[name="harga"]').prop("disabled", true);
+                $('input[name="no_petikemas"]').addClass("pembayaran");
+                $('input[name="jenis_ukuranpembayaran"]').addClass("pembayaran");
+                $('input[name="harga"]').addClass("pembayaran");
+                $('select[name="metode[]"]').addClass("pembayaran");
+                $('select[name="metode[]"]').prop("disabled", "true");
+                $('input[name="id_penghubung[]"]').prop('checked', false);
                 $("#button-edit2").show();
                 $("#button-submit2").hide();
                 $("#table_pembayaran thead tr th:nth-child(6)").show();
@@ -189,9 +192,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         });
         $button_edit.on("click", function(e) {
             e.preventDefault();
-            $('input[name="no_petikemas"]').prop("disabled", false);
-            $('input[name="jenis_ukuranpembayaran"]').prop("disabled", false);
-            $('input[name="harga"]').prop("disabled", false);
+            $('input[name="no_petikemas"]').removeClass("pembayaran");
+            $('input[name="jenis_ukuranpembayaran"]').removeClass("pembayaran");
+            $('input[name="harga"]').removeClass("pembayaran");
+            $('select[name="metode[]"]').removeClass("pembayaran");
             $button_edit.hide();
             $button_submit.show();
             $button_submit.prop("disabled", true);
@@ -206,8 +210,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 const $checkbox = $row.find('input[name="id_penghubung[]"]');
                 if ($checkbox.prop("disabled")) {
                     $checkbox.hide();
-                    $row.find('input[type="text"]').prop('disabled', true);
-                    $row.find('select').prop('disabled', true);
+                    $row.find('input[type="text"]').addClass("pembayaran");
+                    $row.find('select').addClass("pembayaran");
                 }
             });
         });

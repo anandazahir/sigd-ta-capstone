@@ -10,7 +10,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span>Survey In</span>
                 {{-- <i class="fa-solid fa-circle-user text-primary my-2 d-none d-lg-block"></i>  --}}
             </label>
-            <select name="survey_in" class="form-select" aria-label="Default select example" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
+            <select name="survey_in" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
                 @foreach ($user as $item )
                 @if ($item->hasRole('surveyin'))
@@ -56,8 +56,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <div class="invalid-feedback"></div>
                     </td>
                     <td class="text-center">
-                        <input type="hidden" name="metode_value[]" value="{{ $item->metode }}">
-                        <select class="form-select" aria-label="Default select example" name="metode[]" id="metode" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
+                        <input type="hidden" name="metode_pengecekan_value[]" value="{{ $item->metode }}">
+                        <select class="form-select" aria-label="Default select example" name="metode_pengecekan[]" id="metode" onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                             <option selected disabled>Open this select menu</option>
                             <option value="1" {{ $item->metode == '1' ? 'selected' : '' }}>One</option>
                             <option value="2" {{ $item->metode == '2' ? 'selected' : '' }}>Two</option>
@@ -127,8 +127,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<div class="invalid-feedback"></div>' +
                             '</td>' +
                             '<td class="text-center">' +
-                            '<input type="hidden" name="metode_value[]"/>' +
-                            '<select class="form-select" aria-label="Default select example" name="metode[]" id="metode" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
+                            '<input type="hidden" name="metode_pengecekan_value[]"/>' +
+                            '<select class="form-select" aria-label="Default select example" name="metode_pengecekan[]" id="metode" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
                             '<option selected disabled>Open this select menu</option>' +
                             '<option value="1">One</option>' +
                             '<option value="2">Two</option>' +
@@ -147,7 +147,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                     }
                     $("#" + formId).find("#table_edit_pengecekan tbody tr").each(function(index) {
-                        let $metodeId = $(this).find('select[name="metode[]"]');
+                        let $metodeId = $(this).find('select[name="metode_pengecekan[]"]');
                         let $fotoPengecekanId = $(this).find('input[name="foto_pengecekan[]"]');
                         $fotoPengecekanId.on('change', function() {
                             // Get the selected file name
@@ -193,7 +193,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $(this).siblings('input[type="hidden"]').val(fileName);
             $(this).siblings('.file-name').text(fileName);
         });
-        $("#" + formId).find('select[name="metode[]"]').on('change', function() {
+        $("#" + formId).find('select[name="metode_pengecekan[]"]').on('change', function() {
             // Get the selected file name
             var selectedOptionval = $(this).find('option:selected').val();
             console.log(selectedOptionval);

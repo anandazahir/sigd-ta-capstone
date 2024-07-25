@@ -10,7 +10,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <span>Repair</span>
             </label>
             @if (auth()->user()->username == 'direktur' || auth()->user()->username == 'mops')
-            <select name="repair" class="form-select" aria-label="Default select example" required onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">
+            <select name="repair" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Pilih Opsi Ini</option>
                 @foreach ($user as $item)
                 @if ($item->hasRole('repair'))
@@ -18,8 +18,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 @endif
                 @endforeach
             </select>
-            @endif
+            @else
             <input type="hidden" name="repair" value="{{auth()->user()->username}}" id="">
+            @endif
+
             <div class="invalid-feedback"></div>
         </div>
     </div>
@@ -34,6 +36,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     </div>
 
     <h5 id="text-perbaikan-edit">List Perbaikan</h5>
+
     <div class="table-responsive">
         <table class="table text-center" id="table_edit_perbaikan">
             <thead>
@@ -58,8 +61,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <div class="invalid-feedback"></div>
                     </td>
                     <td class="text-center">
-                        <input type="hidden" name="metode_value[]" value="{{ $item->metode }}">
-                        <select class="form-select" aria-label="Default select example" name="metode[]" id="metode">
+                        <input type="hidden" name="metode_perbaikan_value[]" value="{{ $item->metode }}">
+                        <select class="form-select" aria-label="Default select example" name="metode_perbaikan[]" id="metode">
                             <option selected disabled>Pilih Metode</option>
                             <option value="1" {{ $item->metode == '1' ? 'selected' : '' }}>One</option>
                             <option value="2" {{ $item->metode == '2' ? 'selected' : '' }}>Two</option>
@@ -103,6 +106,14 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </tbody>
         </table>
     </div>
+    <div class="alert alert-warning rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show d-none" style="height:3.5rem" id="alert-kerusakan">
+        <div class="bg-warning rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
+
+            <i class="fa-solid fa-triangle-exclamation text-white mx-auto my-auto" style="font-size: 25px;"></i>
+        </div>
+        <p class="my-3" style="margin-left:80px;"><strong>PERINGATAN!</strong> Mohon Untuk Melunasi / Mencetak SPK Data Peti kemas</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <h5 id="text-perbaikan-tambahan-edit">Data Perbaikan Tambahan</h5>
     <div class="table-responsive">
         <table class="table text-center" id="table_perbaikan_tambahan">
@@ -141,6 +152,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         $form.find("#table_perbaikan_tambahan").hide();
         $form.find("#text-perbaikan-tambahan-edit").hide();
 
+
         $form.find("#jumlah_kerusakan").on("change", function() {
             console.log("hai")
             var rowCount = parseInt($(this).val());
@@ -152,6 +164,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             if (rowCount > 0) {
                 if (rowCount > damageCount) {
                     $form.find("#table_perbaikan_tambahan").show();
+                    $form.find("#alert-kerusakan").removeClass("d-none");
                     $form.find("#text-perbaikan-tambahan-edit").show();
                     $form.find("#table_perbaikan_tambahan tbody").empty();
                     for (var i = 0; i < (rowCount - damageCount); i++) {
@@ -165,8 +178,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<div class="invalid-feedback"></div>' +
                             '</td>' +
                             '<td class="text-center">' +
-                            '<input type="hidden" name="metode_value[]"/>' +
-                            '<select class="form-select" aria-label="Default select example" name="metode[]" id="metode">' +
+                            '<input type="hidden" name="metode_perbaikan_value[]"/>' +
+                            '<select class="form-select" aria-label="Default select example" name="metode_perbaikan[]" id="metode">' +
                             '<option selected disabled>Pilih Metode</option>' +
                             '<option value="1">One</option>' +
                             '<option value="2">Two</option>' +
@@ -184,7 +197,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         $form.find("#table_perbaikan_tambahan tbody").append(rowObject); // Append new rows
                     }
                     $form.find("#table_perbaikan_tambahan tbody tr").each(function(index) {
-                        let $metodeId = $(this).find('select[name="metode[]"]');
+                        let $metodeId = $(this).find('select[name="metode_perbaikan[]"]');
                         let $fotoPerbaikanId = $(this).find('input[name="foto_pengecekan[]"]');
 
                         $fotoPerbaikanId.on('change', function() {
@@ -222,6 +235,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     if (lengthTableTambahan == 1) {
                         $form.find("#table_perbaikan_tambahan").hide();
                         $form.find("#text-perbaikan-tambahan-edit").hide();
+                        $form.find("#alert-kerusakan").addClass("d-none");
 
                     }
 
@@ -229,12 +243,14 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 if (lengthTable > 0) {
                     $form.find("#table_edit_perbaikan").show();
                     $form.find("#text-perbaikan-edit").show();
+
                 }
 
             } else {
                 $form.find("#table_edit_perbaikan").hide();
                 $form.find("#table_edit_perbaikan tbody").empty();
                 $form.find("#text-perbaikan-edit").hide();
+                $form.find("#alert-kerusakan").addClass("d-none");
                 $form.find("#table_perbaikan_tambahan").hide();
                 $form.find("#text-perbaikan-tambahan-edit").hide();
             }
@@ -248,7 +264,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $(this).siblings('input[type="hidden"]').val(fileName);
             $(this).siblings('.file-name').text(fileName);
         });
-        $form.find('select[name="metode[]"]').on('change', function() {
+        $form.find('select[name="metode_perbaikan[]"]').on('change', function() {
             var selectedOptionval = $(this).find('option:selected').val();
             console.log(selectedOptionval);
             $(this).siblings('input[type="hidden"]').val(selectedOptionval);
@@ -303,7 +319,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         });
         loadingButton.hide();
 
-        $form.submit(function(event) {
+        /*$form.submit(function(event) {
             event.preventDefault();
             var formData = new FormData(this);
             var modalId = $(this).data('id');
@@ -364,7 +380,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 }
             });
 
-        });
+        });*/
 
     });
 </script>

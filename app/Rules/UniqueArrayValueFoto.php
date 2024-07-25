@@ -44,6 +44,6 @@ class UniqueArrayValueFoto implements Rule
      */
     public function message()
     {
-        return 'The values in :attribute must be unique.';
+        return 'Nilai pada :attribute harus unik.';
     }
 }

@@ -16,16 +16,19 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <thead>
                             <tr>
                                 <th scope="col" class="fw-semibold">No</th>
-                                <th scope="col">Lokasi Kerusakan</th>
-                                <th scope="col">Jenis Kerusakan</th>
+                                <th scope="col" class="fw-semibold">Lokasi Kerusakan</th>
+                                <th scope="col" class="fw-semibold">Jenis Kerusakan</th>
                                 <th scope="col" class="fw-semibold">Metode</th>
                                 <th scope="col" class="fw-semibold">Status</th>
                                 @if ($test == "false")
                                 <th scope="col" class="fw-semibold">Foto Pengecekan</th>
                                 @endif
-                                @if ($test == "true")
+                                @foreach($data->kerusakan as $index => $item)
+                                @if ($test == "true" && $item->foto_perbaikan)
                                 <th scope="col" class="fw-semibold">Foto Perbaikan</th>
                                 @endif
+                                @break
+                                @endforeach
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -53,7 +56,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </div>
                                 </td>
                                 @endif
-                                @if ($test == "true")
+                                @if ($test == "true" && $item['foto_perbaikan'])
                                 <td class="text-center">
                                     <div class="my-2" style="height: fit-content">
                                         <a href="{{ $foto_perbaikan }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto">Foto</a>

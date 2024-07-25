@@ -25,12 +25,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             @if (( $jenis == "ekspor" && $data->pembayaran->status_cetak_spk === 'sudah cetak'))
             <input type="text" name="no_petikemas_penempatan" class="form-control" id="no_petikemas_penempatan" required readonly value="  {{ $data->petikemas->no_petikemas }}">
             @elseif (( $jenis == "impor" && $data->petikemas->status_kondisi == "available"))
-            <input type="text" name="no_petikemas_penempatan" class="form-control" id="no_petikemas_penempatan" required readonly value="  {{ $data->petikemas->no_petikemas }}">
+            <input type="text" name="no_petikemas_penempatan" class="form-control" id="no_petikemas_penempatan" required readonly value="  {{ $data->petikemas->no_petikemas }}" disabled>
             @endif
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="size & type" class="form-label">Size & Type:</label>
-            <input type="text" class="form-control" id="size_type" placeholder="Size & Type" name="jenis_ukuran_penempatan" required readonly value="{{$data->petikemas->jenis_ukuran}}">
+            <input type="text" class="form-control" id="size_type" placeholder="Size & Type" name="jenis_ukuran_penempatan" disabled readonly value="{{$data->petikemas->jenis_ukuran}}">
         </div>
 
     </div>

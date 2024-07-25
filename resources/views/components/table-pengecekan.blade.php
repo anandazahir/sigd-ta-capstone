@@ -1,7 +1,7 @@
 @php
 $semuaBelumCetak = true;
 foreach($data->penghubungs as $penghubung) {
-if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor') {
+if($penghubung->pengecekan->survey_in && $data->jenis_kegiatan === 'impor') {
 $semuaBelumCetak = false;
 break;
 }
@@ -12,7 +12,7 @@ break;
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pengecekan</h2>
-            <button class="btn bg-white  col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-pengecekan-modal" style="width: fit-content; height: fit-content" {{ $semuaBelumCetak ? 'disabled' : '' }}>
+            <button class="btn bg-white  col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-pengecekan-modal" style="width: fit-content; height: fit-content">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data pengecekan">
                     <i class="fa-solid fa-circle-plus text-primary fa-xl mx-1" style="margin:10px;"></i>
                     <span class="fw-semibold fs-6 text-primary">Tambah Pengecekan</span>
@@ -30,7 +30,7 @@ break;
                 <thead>
                     <tr>
                         @foreach ($data->penghubungs as $penghubung)
-                        @if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor')
+                        @if($penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor' && $penghubung->pengecekan->survey_in)
                         <th scope="col" class="fw-semibold">No Peti Kemas</th>
                         <th scope="col" class="fw-semibold">Size & Type</th>
                         <th scope="col" class="fw-semibold">List Kerusakan</th>
@@ -51,7 +51,7 @@ break;
                 </thead>
                 <tbody>
                     @foreach($data->penghubungs as $penghubung)
-                    @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor')
+                    @if($penghubung->pembayaran->status_pembayaran === 'sudah lunas' && $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' && $data->jenis_kegiatan === 'impor' && $penghubung->pengecekan->survey_in)
                     <tr>
                         <td class="text-center">
                             {{$penghubung->petikemas->no_petikemas}}
@@ -80,15 +80,15 @@ break;
                         <td class="text-center d-flex gap-1">
                             <div class="mx-auto d-flex gap-1">
                                 @if (auth()->user()->foto)
-                                    <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle my-1" width="22" height="22">
+                                <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle my-1" width="22" height="22">
                                 @else
-                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="22" height="22" class="rounded-circle my-1">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="22" height="22" class="rounded-circle my-1">
                                     <title>user-solid-svg</title>
-                                <style>
-                                    .s1 {
-                                    fill: #ffffff
-                                    }
-                                </style>
+                                    <style>
+                                        .s1 {
+                                            fill: #ffffff
+                                        }
+                                    </style>
                                     <rect width="590" height="590" id="Lapisan_1" style="fill: var(--bs-primary)" />
                                     <path id="Layer" class="s1" d="m295 295c26.5 0 51.9-10.5 70.7-29.3 18.7-18.7 29.3-44.1 29.3-70.7 0-26.5-10.6-51.9-29.3-70.6-18.8-18.8-44.2-29.3-70.7-29.3-26.5 0-51.9 10.5-70.7 29.3-18.7 18.7-29.3 44.1-29.3 70.6 0 26.6 10.6 52 29.3 70.7 18.8 18.8 44.2 29.3 70.7 29.3zm-35.7 37.5c-76.9 0-139.2 62.3-139.2 139.2 0 12.8 10.4 23.2 23.2 23.2h303.4c12.8 0 23.2-10.4 23.2-23.2 0-76.9-62.3-139.2-139.2-139.2z" />
                                 </svg>

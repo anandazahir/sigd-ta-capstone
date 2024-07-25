@@ -47,6 +47,6 @@ class RequiredArrayValuesFoto implements Rule
 
     public function message()
     {
-        return 'The :attribute must have non-empty values.';
+        return ':attributetidak boleh memiliki nilai yang kosong.';
     }
 }

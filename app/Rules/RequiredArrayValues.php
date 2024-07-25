@@ -26,6 +26,6 @@ class RequiredArrayValues implements Rule
 
     public function message()
     {
-        return 'The :attribute must have non-empty values.';
+        return ':attribute tidak boleh memiliki nilai yang kosong.';
     }
 }

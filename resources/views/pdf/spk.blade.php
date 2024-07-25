@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kwitansi</title>
+    <title>SPK</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,13 +81,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($penghubung as $item)
+
                     <tr>
-                        <td>{{$item->petikemas->no_petikemas}}</td>
-                        <td>{{$item->petikemas->pelayaran}}</td>
-                        <td>{{$item->petikemas->jenis_ukuran}}</td>
+                        <td>{{$penghubung->petikemas->no_petikemas}}</td>
+                        <td>{{$penghubung->petikemas->pelayaran}}</td>
+                        <td>{{$penghubung->petikemas->jenis_ukuran}}</td>
                     </tr>
-                    @endforeach
+
                 </tbody>
             </table>
         </div>

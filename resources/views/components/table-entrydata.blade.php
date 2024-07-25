@@ -45,6 +45,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             @endcan
         </div>
 
+
+        <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
+            <div class="bg-info rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
+                <i class="fa-solid fa-circle-info text-white mx-auto my-auto" style="font-size: 25px;"></i>
+
+            </div>
+            <p class="my-3" style="margin-left:80px;"><strong>INFO!</strong> Terdapat <b>3 Peti kemas</b> yang belum cetak SPK</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <form method="POST" @can ('mengelola transaksi') action="{{ route($cleaned . '.transaksi.editentrydata', $data->id) }}" @endcan id="edit-entrydata-form" novalidate>
             @csrf
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
@@ -68,7 +78,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         @endphp
                         <tr>
                             <td class="text-center">
-                                <select class="form-select mx-auto disabled" name="no_petikemas[]" required style="width: fit-content" disabled onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">
+                                <select class="form-select mx-auto disabled" name="no_petikemas[]" required style="width: fit-content" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();" disabled>
                                     <option disabled>Pilih Opsi Ini</option>
                                     <option selected value="{{$petikemas->id}}">{{$petikemas->no_petikemas}}</option>
                                 </select>
@@ -138,9 +148,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $button_edit.show();
                     $button_submit.hide();
                     $button_tambah_entry.hide();
+
+                    $('select[name="no_petikemas[]"]').addClass("disabled");
+                    $('input[name="pelayaran"]').addClass("disabled");
                     $('select[name="no_petikemas[]"]').prop("disabled", true);
-                    $('input[name="pelayaran"]').prop("disabled", true);
-                    $('input[name="jenis_ukuran"]').prop("disabled", true);
+                    $('input[name="jenis_ukuran"]').addClass("disabled");
                     $("#table_entrydata thead tr th:nth-child(4)").show();
                     $("#table_entrydata thead tr th:last-child").show();
                     $("#table_entrydata tbody tr td:nth-child(4)").show();
@@ -204,8 +216,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $button_edit.on("click", function(e) {
                 e.preventDefault();
                 $('select[name="no_petikemas[]"]').prop("disabled", false);
-                $('input[name="pelayaran"]').prop("disabled", false);
-                $('input[name="jenis_ukuran"]').prop("disabled", false);
+                $('select[name="no_petikemas[]"]').removeClass("disabled");
+                $('input[name="pelayaran"]').removeClass("disabled");
+                $('input[name="jenis_ukuran"]').removeClass("disabled");
                 $button_edit.hide();
                 $button_tambah_entry.show();
                 $button_submit.show();
@@ -228,11 +241,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     '<div class="invalid-feedback"></div>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<input type="text" name="jenis_ukuran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
+                    '<input type="text" name="jenis_ukuran" required disabled value="" class="form-control mx-auto" style="width:fit-content">' +
                     '<div class="invalid-feedback"></div>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<input type="text" name="pelayaran" required readonly value="" class="form-control mx-auto" style="width:fit-content">' +
+                    '<input type="text" name="pelayaran" required disabled value="" class="form-control mx-auto" style="width:fit-content">' +
                     '<div class="invalid-feedback"></div>' +
                     '</td></tr>');
 
