@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Rats\Zkteco\Lib\ZKTeco;
 
 class PegawaiController extends Controller
 {
@@ -77,7 +78,10 @@ class PegawaiController extends Controller
         ]);
 
         $user->assignRole($request->jabatan);
-
+        /*$zk = new ZKTeco('192.168.0.201');
+        $zk->connect();
+        $zk->setUser(($user->id + 1), ($user->id + 1), $user->username, null, 0);
+        $zk->disableDevice();*/
         return response()->json([
             'success' => true,
             'message' => 'Data Pegawai Berhasil Disimpan!',

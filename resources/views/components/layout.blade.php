@@ -28,7 +28,7 @@
     "resources/scss/style.scss",
     ])
     <style>
-        /*sistem ke restrat (warna utama)*/ 
+        /*sistem ke restrat (warna utama)*/
         :root {
             --bs-primary: #f09259;
             --bs-primary-rgb: 240, 146, 89;
@@ -117,6 +117,10 @@
         <div class="loader"></div>
     </div>
     <div class="px-lg-7" id="content">
+        @php
+        $role = auth()->user()->getRoleNames();
+        $cleaned = str_replace(['[', ']', '"'], '', $role);
+        @endphp
         <x-nav :msg="$title" />
         {{ $slot }}
     </div>
@@ -128,6 +132,19 @@
     <script>
         $(window).on('load', function() {
             $("#loading").fadeOut(1000);
+            /*
+                        $.ajax({
+                            url: "/{{$cleaned}}/absensi",
+                            type: 'GET',
+                            success: function(response) {
+                                console.log('berhasil')
+
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                            }
+                        });
+                        */
         });
     </script>
 

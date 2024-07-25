@@ -160,7 +160,7 @@ class UsersTableSeeder extends Seeder
             ]
         );
 
-        $user = user::all();
+        /*$user = user::all();
         $zk = new ZKTeco('192.168.0.201');
         $zk->connect();
         $user = user::all();
@@ -169,5 +169,6 @@ class UsersTableSeeder extends Seeder
             $zk->setUser(($u->id + 1), ($u->id + 1), $u->username, null, 0);
         }
         $zk->enableDevice();
+        $zk->disconnect();*/
     }
 }

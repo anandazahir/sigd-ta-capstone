@@ -28,7 +28,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Support\Facades\Session;
 
 class TransaksiController extends Controller
 {
@@ -1041,19 +1041,30 @@ class TransaksiController extends Controller
         $relatedPenghubung = $transaksi->penghubungs->first();
 
         $relatedPenghubung->pembayaran->update(['status_cetak_spk' => $statusCetakSpk]);
-        $no = 0;
-        $no++;
+        if (!Session::has('spk_counter')) {
+            Session::put('spk_counter', 0);
+        }
+
+        // Get the current counter value from the session
+        $currentCounter = Session::get('spk_counter');
+
+        // Increment the counter
+        $currentCounter++;
+
+        // Save the new counter value back to the session
+        Session::put('spk_counter', $currentCounter);
+
         $date = Carbon::now();
         $formattedDate = $date->format('dmy');
-        $no_spk = 'SPK-' . ($transaksi->jenis_transaksi == 'impor'  ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($no, 4, '0', STR_PAD_LEFT);
+        $no_spk = 'SPK-' . ($transaksi->jenis_transaksi == 'impor' ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($currentCounter, 4, '0', STR_PAD_LEFT);
+
         $pdf = PDF::loadView('pdf.spk', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,
             'no_spk' => $no_spk,
-
         ]);
 
-        return $pdf->download('spk_' . $transaksi->no_transaksi . '.pdf');
+        return $pdf->download('spk.pdf');
     }
 
     public function editpembayaran(Request $request, $id_transaksi)
@@ -1061,7 +1072,7 @@ class TransaksiController extends Controller
         $id_penghubung = $request->input('id_penghubung');
         $metode = $request->input('metode');
         $i = 0;
-        $no = 0;
+
         $transaksi = Transaksi::with([
             'penghubungs' => function ($query) use ($id_penghubung) {
                 $query->whereIn('id', $id_penghubung);
@@ -1145,10 +1156,21 @@ class TransaksiController extends Controller
                 break; // Assuming you want to update the date and save only once if any penghubung meets the condition
             }
         }
-        $no++;
+        if (!Session::has('kwitansi_counter')) {
+            Session::put('kwitansi_counter', 0);
+        }
+
+        // Get the current counter value from the session
+        $currentCounter = Session::get('kwitansi_counter');
+
+        // Increment the counter
+        $currentCounter++;
+
+        // Save the new counter value back to the session
+        Session::put('kwitansi_counter', $currentCounter);
         $date = new DateTime();
         $formattedDate = $date->format('dmy');
-        $no_kwitansi = 'KW-' . ($transaksi->jenis_transaksi == 'impor'  ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($no, 4, '0', STR_PAD_LEFT);
+        $no_kwitansi = 'KW-' . ($transaksi->jenis_transaksi == 'impor'  ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($currentCounter, 4, '0', STR_PAD_LEFT);
 
         $pdf = PDF::loadView('pdf.kwitansi', [
             'transaksi' => $transaksi,
@@ -1156,7 +1178,7 @@ class TransaksiController extends Controller
             'no_kwitansi' => $no_kwitansi
         ]);
 
-        return $pdf->download('test.pdf');
+        return $pdf->download('kwitansi.pdf');
     }
 
     public function storepengecekan(Request $request)

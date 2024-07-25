@@ -19,14 +19,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <label for="jenispengajuan" class="form-label">Ganti Surat Pengajuan</label>
         <div class="input-group">
             <span class="input-group-text" style="height: fit-content">Pilih File</span>
-            <label tabindex="0" class="form-control text-start" style="height:2.3rem">
+            <label tabindex="0" class="form-control text-start" style="height:2.3rem" id="myFile_label">
                 <span class="file-name">{{ $pengajuan->file_name }}</span>
                 <input type="file" name="myfile" id="myfile" class="invisible" accept="application/pdf" style="height:fit-content">
                 <input type="hidden" name="myfile_name" value="{{ $pengajuan->file_name  }}">
             </label>
         </div>
-
-        <div class="invalid-feedback"></div>
+        <p class="text-danger" id="error"></p>
     </div>
     <button type="submit" class="btn bg-primary text-white">
         <div class="d-flex gap-2">
@@ -55,58 +54,59 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             $(this).siblings('.file-name').text(fileName);
         });
 
-        
+
         $form.submit(function(event) { // Attach submit event to form with ID "myForm" (replace with your form's ID)
             event.preventDefault();
             var formData = new FormData(this);
             var modalId = $(this).data('id');
-             $.ajax({
-                    url: "{{ route($cleaned.'.pengajuan.edit') }}", // Ganti dengan endpoint Anda
-                    type: 'POST',
-                    data: formData,
-                    processData: false, // Mengatur false, karena kita menggunakan FormData
-                    contentType: false,
-                    beforeSend: function() {
-                        $form.find('#loading-button-editpengajuan').show();
-                    },
-                    success: function(response) {
-                        $form.find('#loading-button-editpengajuan').hide();
+            $.ajax({
+                url: "{{ route($cleaned.'.pengajuan.edit') }}", // Ganti dengan endpoint Anda
+                type: 'POST',
+                data: formData,
+                processData: false, // Mengatur false, karena kita menggunakan FormData
+                contentType: false,
+                beforeSend: function() {
+                    $form.find('#loading-button-editpengajuan').show();
+                },
+                success: function(response) {
+                    $form.find('#loading-button-editpengajuan').hide();
 
-                        // Handle response sukses
-                        $('#' + modalId).modal('hide');
-                        showAlert(response.message);
-                    },
+                    // Handle response sukses
+                    $('#' + modalId).modal('hide');
+                    showAlert(response.message);
+                },
 
-                    error: function(xhr, status, error) {
-                        $form.find('#loading-button-editpengajuan').hide();
+                error: function(xhr, status, error) {
+                    $form.find('#loading-button-editpengajuan').hide();
 
-                        const errors = xhr.responseJSON.errors;
-                        if (xhr.status === 500) {
-                            alert("Kolom Unik Tidak Boleh Sama!")
-                        } else if (xhr.status === 404) {
-                            alert("Data Tidak Ditemukan!");
-                        }
-
-                        $form.find('.is-invalid').removeClass('is-invalid');
-                        $form.find('.invalid-feedback').text('');
-
-                        $.each(errors, function(key, value) {
-                            const element = $form.find('[name="' + key + '"]');
-                            var cleanInputName = key.replace(/\.\d+/g, '');
-                            var cleanAngka = value[0].replace(/\.\d+/g, '');
-                            if (cleanInputName.includes("name")) {
-                                const index = cleanInputName.replace(/_name/i, "");
-                                console.log(index);
-                                const elements = $form.find('[name="' + index + '[]"]');
-                                elements.addClass('is-invalid');
-                                elements.next('.invalid-feedback').text(cleanAngka);
-                            }
-                            element.addClass('is-invalid');
-                            element.next('.invalid-feedback').text(value[0]);
-                        });
-
+                    const errors = xhr.responseJSON.errors;
+                    if (xhr.status === 500) {
+                        alert("Kolom Unik Tidak Boleh Sama!")
+                    } else if (xhr.status === 404) {
+                        alert("Data Tidak Ditemukan!");
                     }
-                });
+
+                    $form.find('.is-invalid').removeClass('is-invalid');
+                    $form.find('.invalid-feedback').text('');
+
+                    $.each(errors, function(key, value) {
+                        const element = $form.find('[name="' + key + '"]');
+                        var cleanInputName = key.replace(/\.\d+/g, '');
+                        var cleanAngka = value[0].replace(/\.\d+/g, '');
+                        if (cleanInputName.includes("name")) {
+                            const index = cleanInputName.replace(/_name/i, "");
+                            console.log(index);
+                            const elements = $form.find('[id="myFile_label"]');
+                            console.log(elements);
+                            elements.addClass('is-invalid');
+                            $('#error').text(cleanAngka);
+                        }
+                        element.addClass('is-invalid');
+                        element.next('.invalid-feedback').text(value[0]);
+                    });
+
+                }
+            });
         });
     });
 </script>

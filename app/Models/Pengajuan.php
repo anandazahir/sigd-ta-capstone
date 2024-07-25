@@ -14,6 +14,8 @@ class Pengajuan extends Model
         'url_file',
         'file_name',
         'status',
+        'mulai_cuti',
+        'selesai_cuti'
     ];
     public function user()
     {

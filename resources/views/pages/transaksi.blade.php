@@ -39,7 +39,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                             12 => 'Desember'
                             ];
                             @endphp
-                            @for ($i = 1; $i <= $currentMonth; $i++) <option value="{{ $i }}">{{ $months[$i] }}</option>
+                            @for ($i = 5; $i <= $currentMonth; $i++) <option value="{{ $i }}">{{ $months[$i] }}</option>
                                 @endfor
                         </select>
                     </div>

@@ -1,77 +1,23 @@
+@php
+$role = '';
+$id = '';
+if (auth()->user()->hasRole('direktur')){
+$role = strtolower($data->jabatan);
+$id = $data->jabatan;
+
+}else{
+$role = strtolower(auth()->user()->jabatan);
+$id = auth()->user()->jabatan;
+if ($role == 'survey in'){
+$role = 'surveyin';
+}else if($role == 'manajer operasional'){
+$role = 'mops';
+}
+}
+@endphp
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
     <div class="container position-relative">
         <h1 class="text-white fw-semibold month-text">Kehadiran</h1>
-
-        <form class="btn bg-white rounded-circle btn month-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Data Berdasarkan Bulan">
-            <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
-            <input type="month" name="" id="selectedMonth">
-        </form>
-
-        <div class="row mt-3">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card bg-white  shadow rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-2">
-                            <div class="rounded-circle bg-primary position-relative" style="display: inline-block; width:5rem; height:4rem">
-                                <h1 class="position-absolute top-50 start-50 translate-middle text-white">1</h1>
-                            </div>
-                            <div class="my-auto w-100">
-                                <h3>HADIR</h3>
-                                <hr class="m-0 line" style="height: 1.5px; background-color:black;" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card bg-white  shadow rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-2">
-                            <div class="rounded-circle bg-primary position-relative" style="display: inline-block; width:5rem; height:4rem">
-                                <h1 class="position-absolute top-50 start-50 translate-middle text-white">1</h1>
-                            </div>
-                            <div class="my-auto w-100">
-                                <h3>CUTI</h3>
-                                <hr class="m-0 line" style="height: 1.5px; background-color:black;" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row mt-lg-3 mt-0">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card bg-danger  shadow rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-2">
-                            <div class="rounded-circle bg-white position-relative" style="display: inline-block; width:5rem; height:4rem">
-                                <h1 class="position-absolute top-50 start-50 translate-middle text-danger">1</h1>
-                            </div>
-                            <div class="my-auto w-100">
-                                <h3 class="text-white">TERLAMBAT</h3>
-                                <hr class="m-0 line" style="height: 1.5px; background-color:white;" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card bg-danger  shadow rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-2">
-                            <div class="rounded-circle bg-white position-relative" style="display: inline-block; width:5rem; height:4rem">
-                                <h1 class="position-absolute top-50 start-50 translate-middle text-danger">1</h1>
-                            </div>
-                            <div class="my-auto w-100">
-                                <h3 class="text-white">TIDAK HADIR</h3>
-                                <hr class="m-0 line" style="height: 1.5px; background-color:white;" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 30rem;">
             <table class="table-variations-3  text-center">
                 <thead>
@@ -81,45 +27,71 @@
                         <th scope="col" class="fw-semibold">Keterangan</th>
                         <th scope="col" class="fw-semibold">Waktu Pulang</th>
                         <th scope="col" class="fw-semibold">Keterangan</th>
+                        @if (auth()->user()->hasRole('direktur'))
                         <th scope="col"></th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
+                    @if (auth()->user()->hasRole('direktur'))
+                    @foreach ($data->absensi->sortBy('waktu_masuk') as $user)
                     <tr>
                         <td class="text-center">
-                            Senin, 01 Desember 2022
+                            {{ \Carbon\Carbon::parse($user->waktu_masuk)->locale('id')->translatedFormat('l, d F Y') }}
                         </td>
                         <td class="text-center">
-                            07.45
+                            {{ \Carbon\Carbon::parse($user->waktu_masuk)->format('H:i') }}
                         </td>
                         <td class="text-center">
-                            <span class="bg-primary p-1 rounded-3 text-white">Absen</span>
+                            <span class="bg-{{$user->status_masuk == 'terlambat' ? 'danger' : 'primary'}} rounded-2 p-1 fw-semibold text-white">{{strtoupper($user->status_masuk)}}</span>
                         </td>
+                        @if ($user->waktu_pulang)
                         <td class="text-center">
-                            16.00
+                            {{ \Carbon\Carbon::parse($user->waktu_pulang)->format('H:i') }}
                         </td>
+                        @endif
                         <td class="text-center">
-                            <span class="bg-primary p-1 rounded-3 text-white">Absen</span>
+                            <span class="bg-{{$user->status_pulang == 'terlambat' ? 'danger' : 'primary'}} rounded-2 p-1 fw-semibold text-white">{{strtoupper($user->status_pulang)}}</span>
                         </td>
+
                         <td class="text-center">
-                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#form-table-absensi"> <i class="fa-solid fa-pen-to-square fa-xl my-1 text-white" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Absensi Pegawai"></i></button>
+                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-absensi-modal-{{$user->id}}"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Absensi Pegawai" value="{{$user->id}}"></i></button>
                         </td>
                     </tr>
+                    @endforeach
+                    @else
+                    @foreach (auth()->user()->absensi->sortBy('waktu_masuk') as $user)
+                    <tr>
+                        <td class="text-center">
+                            {{ \Carbon\Carbon::parse($user->waktu_masuk)->locale('id')->translatedFormat('l, d F Y') }}
+                        </td>
+                        <td class="text-center">
+                            {{ \Carbon\Carbon::parse($user->waktu_masuk)->format('H:i') }}
+                        </td>
+                        <td class="text-center">
+                            <span class="bg-{{$user->status_masuk == 'terlambat' ? 'danger' : 'primary'}} rounded-2 p-1 fw-semibold text-white">{{strtoupper($user->status_masuk)}}</span>
+                        </td>
+                        @if ($user->waktu_pulang)
+                        <td class="text-center">
+                            {{ \Carbon\Carbon::parse($user->waktu_pulang)->format('H:i') }}
+                        </td>
+
+                        <td class="text-center">
+                            <span class="bg-{{$user->status_pulang == 'terlambat' ? 'danger' : 'primary'}} rounded-2 p-1 fw-semibold text-white">{{strtoupper($user->status_pulang)}}</span>
+                        </td>
+                        @endif
+                    </tr>
+                    @endforeach
+                    @endif()
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#selectedMonth').change(function() {
-            var selectedMonth = $(this).val();
-            var [year, month] = selectedMonth.split('-');
-            var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                "Juli", "Augustus", "September", "Oktober", "November", "Desember"
-            ];
-            var monthName = monthNames[parseInt(month, 10) - 1];
-            $('.month-text').text('Kehadiran | ' + monthName + ' ' + year);
-        });
-    });
-</script>
+@if (auth()->user()->hasRole('direktur'))
+@foreach ($data->absensi as $absensi)
+<x-modal-form size="" id="edit-absensi-modal-{{$absensi->id}}" text="Edit Absensi | {{$data->username}}">
+    <x-form-table-absensi :absensi="$absensi" id="edit-pengajuan-modal-{{$absensi->id}}" />
+</x-modal-form>
+@endforeach
+@endif

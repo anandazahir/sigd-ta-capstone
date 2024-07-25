@@ -69,7 +69,6 @@
                 <option value="inventory">Inventory</option>
                 <option value="kasir">Kasir</option>
                 <option value="surveyin">Survey In</option>
-                <option value="estimator">Estimator</option>
                 <option value="repair">Repair</option>
                 <option value="tally">Tally</option>
             </select>

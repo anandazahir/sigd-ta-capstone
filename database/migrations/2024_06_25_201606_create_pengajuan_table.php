@@ -17,6 +17,8 @@ return new class extends Migration
             $table->dateTime('tanggal_dibuat');
             $table->string('url_file');
             $table->string('file_name');
+            $table->dateTime('mulai_cuti')->nullable();
+            $table->dateTime('selesai_cuti')->nullable();
             $table->string('status');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

@@ -46,15 +46,14 @@
             </div>
 
         </div>
-
-
+        <div id="pengajuan" class="tab-pane fade in  d-none">
+            <x-table-pengajuan :data="$pegawai" :kenaikangaji="$kenaikangaji" :cuti="$cuti" />
+        </div>
         <div id="absensi" class="tab-pane fade in active show d-block">
             <x-table-absensi />
         </div>
 
-        <div id="pengajuan" class="tab-pane fade in d-none">
-            <x-table-pengajuan :kenaikangaji="$kenaikangaji" :cuti="$cuti" />
-        </div>
+
 
         <x-toast />
         @push('page-script')

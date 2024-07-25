@@ -116,7 +116,7 @@
 </form>
 <script>
     $('#loading-button-edit-pegawai').hide();
-    $('#eidt-pegawai').submit(function(event) {
+    $('#edit-pegawai').submit(function(event) {
         handleFormSubmission(this);
     });
 </script>

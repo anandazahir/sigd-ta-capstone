@@ -123,7 +123,7 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
             Route::post('/edit', [PengajuanController::class, 'edit'])->name('direktur.pengajuan.edit');
         });
         Route::prefix('absensi')->group(function () {
-            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
+            Route::post('/edit/{id}', [AbsensiController::class, 'update']);
         });
     });
 });
@@ -190,6 +190,9 @@ Route::middleware(['auth', 'role:mops'])->group(function () {
         Route::prefix('pengajuan')->group(function () {
             Route::post('/create', [PengajuanController::class, 'store'])->name('mops.pengajuan.store');
         });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
+        });
     });
 });
 
@@ -234,6 +237,9 @@ Route::middleware(['auth', 'role:inventory'])->group(function () {
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('inventory.pegawai.changeprofilpicture');
             Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('inventory.pegawai.resetpassword');
         });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
+        });
     });
 });
 
@@ -265,6 +271,9 @@ Route::middleware(['auth', 'role:surveyin'])->group(function () {
             Route::get('/', [PegawaiController::class, 'indexpegawai']);
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('surveyin.pegawai.changeprofilpicture');
             Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('surveyin.pegawai.resetpassword');
+        });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
         });
     });
 });
@@ -309,6 +318,9 @@ Route::middleware(['auth', 'role:repair'])->group(function () {
             Route::post('/penempatanhistory/filter', [PetikemasController::class, 'filterlistpenempatan'])->name('repair.petikemas.filterpenempatanhistory');
             Route::post('/laporanharian', [PetikemasController::class, 'laporanharian'])->name('repair.petikemas.laporanharian');
         });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
+        });
     });
 });
 
@@ -347,6 +359,9 @@ Route::middleware(['auth', 'role:tally'])->group(function () {
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('tally.pegawai.changeprofilpicture');
             Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('tally.pegawai.resetpassword');
         });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
+        });
     });
 });
 
@@ -379,5 +394,8 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
             Route::post('/changefotoprofil', [PegawaiController::class, 'changeprofilpicture'])->name('kasir.pegawai.changeprofilpicture');
             Route::post('/reset-password', [AuthController::class, 'updatepassword'])->name('kasir.pegawai.resetpassword');
         });
+        Route::prefix('absensi')->group(function () {
+            Route::get('/', [AbsensiController::class, 'getData'])->name('direktur.absensi');
+        });;
     });
 });
