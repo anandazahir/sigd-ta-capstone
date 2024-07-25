@@ -466,13 +466,13 @@ class petikemascontroller extends Controller
             $query->where('lokasi', $condition);
         }
         if ($blok) {
-            $query->where('lokasi', $blok);
+            $query->where('lokasi', 'like', '%' . $blok . '%');
         }
         if ($row) {
-            $query->where('lokasi', $row);
+            $query->where('lokasi', 'like', '%' . $row . '%');
         }
         if ($tier) {
-            $query->where('lokasi', $tier);
+            $query->where('lokasi', 'like', '%' . $tier . '%');
         }
         $data = $query->get();
         $perPage = 3;

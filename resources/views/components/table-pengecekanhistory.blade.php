@@ -137,13 +137,14 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 success: function(response) {
 
                     hideLoadingSpinner();
-                    let deleteButton = '';
+
 
                     $('#table_pengecekanhistory').show();
 
                     $('#table_pengecekanhistory tbody').empty();
                     const baseUrl = "{{ asset('storage') }}";
                     $.each(response.Data, function(index, item) {
+                        let deleteButton = '';
                         if (role === 'direktur' || role === 'mops') {
                             deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_pengecekanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
@@ -189,10 +190,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<span>' + item.survey_in + '</span>' +
                             '</td>' +
                             '<td class="text-center gap-1">' +
-                            '<button class="btn btn-danger text-white rounded-3" id="button_delete_pengecekanhistory" value="' +
-                            item.id + '">' +
-                            '<i class="fa-solid fa-trash-can fa-lg my-1"></i>' +
-                            '</button>' +
+                            deleteButton +
                             '</td>' +
                             '</tr>'
                         );
