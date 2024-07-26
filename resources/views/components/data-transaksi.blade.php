@@ -117,8 +117,8 @@ setlocale(LC_TIME, 'id_ID');
                     <div class="card-body">
                         <i class="fa-solid fa-user-tie position-absolute top-0 start-0 my-3 text-primary" style="margin-left: 10px ; font-size:3.7rem;"></i>
                         <p style="margin-left:65px; font-size: 14px; color:#A3AED0;" class="my-0 fw-semibold">Inventory</p>
-                        @if (auth()->user()->foto)
-                            <img src="{{URL::asset('storage/'.auth()->user()->foto)}}" alt="" class="rounded-circle" style="margin-left: 65px" width="22" height="22">
+                        @if ($data->foto_profil)
+                            <img src="{{URL::asset('storage/'.$data->foto_profil)}}" alt="" class="rounded-circle" style="margin-left: 65px" width="22" height="22">
                         @else
                             <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 590" width="22" height="22" class="rounded-circle" style="margin-left: 65px">
                             <title>user-solid-svg</title>

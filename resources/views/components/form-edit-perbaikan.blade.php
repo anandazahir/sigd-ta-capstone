@@ -319,7 +319,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         });
         loadingButton.hide();
 
-        /*$form.submit(function(event) {
+        $form.submit(function(event) {
             event.preventDefault();
             var formData = new FormData(this);
             var modalId = $(this).data('id');
@@ -380,7 +380,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 }
             });
 
-        });*/
+        });
 
     });
 </script>

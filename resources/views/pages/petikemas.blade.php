@@ -367,7 +367,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         @can('mengelola penempatan')
         @foreach ($petikemas as $item)
         <x-modal-form size="modal-xl" text="Form Edit Penempatan" id="edit-penempatan-{{$item->id}}">
-            <x-form-edit-penempatan-tally id="form-edit-penempatan-{{$item->id}}" value="{{$item->id}}" />
+            <x-form-edit-penempatan-tally id="form-edit-penempatan-{{$item->id}}" test="{{$item->id}}" />
         </x-modal-form>
         @endforeach
         @endcan

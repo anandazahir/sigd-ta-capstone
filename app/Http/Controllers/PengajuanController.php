@@ -68,7 +68,7 @@ class PengajuanController extends Controller
         $pdfContent = '';
         $fileName = '';
         $direktur = user::where('jabatan', 'Direktur')->first();
-        $data = array_merge($request->all(), ['user' => $user], ['direktur', $direktur]);
+        $data = array_merge($request->all(), ['user' => $user]);
         if ($request->jenis_pengajuan === 'pengajuan cuti') {
             $pdfContent = PDF::loadView('pdf.surat_izin', $data)->output();
             $fileName = 'surat_izin_' . $user->username . '.pdf';

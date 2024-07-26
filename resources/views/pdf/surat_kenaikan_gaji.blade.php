@@ -128,7 +128,7 @@
         <div class="left">
             <p style="text-align: center;">Menyetujui</p>
             <br><br><br>
-            <p style="text-align: center;">{{$direktur->nama}}</p>
+            <p style="text-align: center;">Ananda Zahir</p>
         </div>
         <div class="right">
             <p>Semarang, {{now()}}</p>

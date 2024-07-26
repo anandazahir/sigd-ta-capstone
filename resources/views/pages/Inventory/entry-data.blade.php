@@ -4,7 +4,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 @endphp
 <x-layout>
     <x-slot:title>
-        Entry Data
+        Peminjaman
         </x-slot>
         <div class="row">
             <div class="col-lg-6">

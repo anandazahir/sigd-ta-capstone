@@ -7,8 +7,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     @csrf
     @foreach ($data->penghubungs as $penghubung)
     @if (
-    $penghubung->pembayaran->status_pembayaran === 'sudah lunas' &&
-    $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' )
+    $penghubung->pembayaran->status_pembayaran === 'belum lunas' &&
+    $penghubung->pembayaran->status_cetak_spk === 'belum cetak' )
     <div class="alert alert-warning rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
         <div class="bg-warning rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
 

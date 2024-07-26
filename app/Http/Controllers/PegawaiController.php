@@ -184,7 +184,7 @@ class PegawaiController extends Controller
         $userId = auth()->id();
         $user = User::findOrFail($userId);
         $validator = Validator::make($request->all(), [
-            'foto' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'foto' => ['image', 'mimes:jpeg,png,jpg', 'max:10000'],
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

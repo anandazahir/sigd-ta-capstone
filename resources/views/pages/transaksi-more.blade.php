@@ -10,7 +10,7 @@
                     <div class="rounded-circle bg-white position-absolute top-0 start-0 my-3" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
                         <i class="fa-solid fa-file-lines  text-info " style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
                     </div>
-                    <h4 class="my-2" style="margin-left:85px;">ENTRY DATA</h4>
+                    <h4 class="my-2" style="margin-left:85px;">PEMINJAMAN</h4>
                     <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px; width: 210px;" />
                     <p class="my-2" style="margin-left:85px;">PEMASUKAN DATA PETI KEMAS</p>
                 </div>
@@ -28,7 +28,7 @@
                         <div class="rounded-circle bg-white position-absolute top-0 start-0 my-4" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
                             <i class="fa-solid fa-file-lines text-primary text-info" style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>
                         </div>
-                        <h4 class="my-2" style="margin-left:85px;">ENTRY DATA</h4>
+                        <h4 class="my-2" style="margin-left:85px;">PEMINJAMAN</h4>
                         <hr class="line my-2" style="height: 2px; background-color:#FFF; margin-left:85px;" />
                         <p class="my-2" style="margin-left:85px;">PEMASUKAN DATA PETI KEMAS</p>
 

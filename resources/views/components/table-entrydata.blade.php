@@ -27,7 +27,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
-            <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Entry Data</h2>
+            <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Peminjaman</h2>
             @can('mengelola transaksi')
             <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
@@ -45,16 +45,24 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             @endcan
         </div>
 
-
+        
+        @php
+        $count = $data->pembayaran->where('status_cetak_spk','belum cetak')->count();
+        @endphp
+        @if ($count > 0)
         <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
             <div class="bg-info rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
                 <i class="fa-solid fa-circle-info text-white mx-auto my-auto" style="font-size: 25px;"></i>
 
             </div>
-            <p class="my-3" style="margin-left:80px;"><strong>INFO!</strong> Terdapat <b>3 Peti kemas</b> yang belum cetak SPK</p>
+          
+            <p class="my-3" style="margin-left:80px;"><strong>INFO!</strong> Terdapat <b>{{$count}} Peti kemas</b> yang belum cetak SPK</p>
+            
+            
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
+        @endif
+       
         <form method="POST" @can ('mengelola transaksi') action="{{ route($cleaned . '.transaksi.editentrydata', $data->id) }}" @endcan id="edit-entrydata-form" novalidate>
             @csrf
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">

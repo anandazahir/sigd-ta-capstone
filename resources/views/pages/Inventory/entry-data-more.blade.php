@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>
-        Entry Data | {{$transaksi->no_transaksi}}
+        Peminjaman | {{$transaksi->no_transaksi}}
         </x-slot>
         <x-data-transaksi :data="$transaksi" />
         <x-table-entrydata :data="$transaksi" />

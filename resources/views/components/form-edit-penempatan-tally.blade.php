@@ -1,32 +1,33 @@
 <form action="{{route('tally.petikemas.editpenempatan')}}" method="POST" id="{{$id}}">
-    @csrf
+
+@csrf
     <div class="row" id="section">
         <div class="col-lg-6 mb-3 form-group">
             <label for="nomor" class="form-label">No Peti Kemas</label>
-
-            <input type="text" name="no_petikemas_penempatan" class="form-control" id="no_petikemas_penempatan_{{$value}}" required readonly value="  ">
+            <input type="hidden" class="form-control" id="value_{{$test}}" required readonly value="{{$test}}">
+            <input type="text" name="no_petikemas_penempatan" class="form-control" id="no_petikemas_penempatan_{{$test}}" required readonly value="  ">
 
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="size & type" class="form-label">Size & Type:</label>
-            <input type="text" class="form-control" id="size_type_{{$value}}" placeholder="Size & Type" name="jenis_ukuran_penempatan" required readonly>
+            <input type="text" class="form-control" id="size_type_{{$test}}" placeholder="Size & Type" name="jenis_ukuran_penempatan" required readonly>
         </div>
 
     </div>
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
             <label for="operator alat berat" class="form-label">Operator alat berat </label>
-            <input type="text" class="form-control" id="operatoralatberat_{{$value}}" placeholder="Operator Alat Berat" name="operator_alat_berat" required value="" />
+            <input type="text" class="form-control" id="operatoralatberat_{{$test}}" placeholder="Operator Alat Berat" name="operator_alat_berat" required value="" />
             <div class="invalid-feedback"></div>
         </div>
     </div>
     <div class="row">
-        <input type="hidden" name="lokasi" id="lokasi_{{$value}}" value="">
-        <input type="hidden" name="id" id="penempatan_id_{{$value}}">
+        <input type="hidden" name="lokasi" id="lokasi_{{$test}}" value="">
+        <input type="hidden" name="id" id="penempatan_id_{{$test}}">
         <label class="form-label">Lokasi Peti Kemas</label>
         <div class="col-lg-4 mb-3 form-group">
             <label for="nomor" class="form-label">Row</label>
-            <select class="form-select" name="row" id="row-{{$value}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
+            <select class="form-select" name="row" id="row-{{$test}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Plih Opsi Ini</option>
                 @php
                 $letters = range('A', 'D');
@@ -36,14 +37,14 @@
                 @foreach($letters as $letter)
                 @foreach($numbers as $number)
                 @php
-                $value = $letter . $number;
+                $test = $letter . $number;
                 @endphp
-                <option value="{{ $value }}" {{ $row == $value ? 'selected' : '' }}>{{ $value }}</option>
+                <option value="{{ $test }}">{{$test}}</option> </option>
                 @endforeach
                 @endforeach
-                <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="pending">Pending</option>
 
-                <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                <option value="out">Out</option>
 
 
             </select>
@@ -51,27 +52,27 @@
         </div>
         <div class="col-lg-4 mb-3 form-group">
             <label for="blok" class="form-label">Blok</label>
-            <select class="form-select" name="blok" id="blok-{{$value}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
+            <select class="form-select" name="blok" id="blok-{{$test}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Plih Opsi Ini</option>
-                @for($i = 1; $i <= 99; $i++) @php $value=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $value }}" {{ $blok == $value ? 'selected' : '' }}>{{ $value }}</option>
+                @for($i = 1; $i <= 99; $i++) @php $test=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $test }}">{{ $test }}</option>
                     @endfor
 
-                    <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="pending" >Pending</option>
 
-                    <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                    <option value="out">Out</option>
 
             </select>
             <div class="invalid-feedback"></div>
         </div>
         <div class="col-lg-4 mb-3 form-group">
             <label for="nomor" class="form-label">Tier</label>
-            <select class="form-select" name="tier" id="tier-{{$value}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
+            <select class="form-select" name="tier" id="tier-{{$test}}" required onfocus='this.size=5;' onblur='this.size=1;' onchange="this.size=1; this.blur();">
                 <option selected disabled>Plih Opsi Ini</option>
-                @for($i = 1; $i <= 99; $i++) @php $value=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $value }}" {{ $tier == $value ? 'selected' : '' }}>{{ $value }}</option>
+                @for($i = 1; $i <= 99; $i++) @php $test=str_pad($i, 2, '0' , STR_PAD_LEFT); @endphp <option value="{{ $test }}" >{{ $test }}</option>
                     @endfor
-                    <option value="pending" {{ $parts == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="pending" >Pending</option>
 
-                    <option value="out" {{ $parts == 'out' ? 'selected' : '' }}>Out</option>
+                    <option value="out" >Out</option>
 
             </select>
             <div class="invalid-feedback"></div>
@@ -88,16 +89,17 @@
         var blok = form.find('[id^="blok-"]');
         var row = form.find('[id^="row-"]');
         var tier = form.find('[id^="tier-"]');
-        var petikemasId = '{{$value}}';
+        var id = form.find('[id^="value_"]').val();
+        var petikemasId = '{{$test}}';
         var penempatan_id = form.find('[id^="penempatan_id_"]');
         var size_type = form.find('[id^="size_type_"]');
         var operator_alat_berat = form.find('[id^="operatoralatberat_"]');
         var lokasi = form.find('[id^="lokasi_"]');
         var no_petikemas_penempatan = form.find('[id^="no_petikemas_penempatan_"]');
+console.log(id);
+     
 
-        console.log(petikemasId);
-
-        var apiUrl = '/tally/peti-kemas/' + petikemasId + '/get-petikemas';
+        var apiUrl = '/tally/peti-kemas/' + id + '/get-petikemas';
 
         $.ajax({
             url: apiUrl,

@@ -194,7 +194,7 @@ class TransaksiController extends Controller
         foreach ($transaksi as $transaksis) {
             // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
             $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) {
-                $query->where('status_pembayaran', 'belum lunas');
+                $query->where('status_pembayaran', 'sudah lunas');
             })->whereHas('petikemas', function ($query) {
                 $query->where('status_order', 'false'); // Ganti 'false' dengan nilai yang sesuai
             })->get();
@@ -309,6 +309,7 @@ class TransaksiController extends Controller
     {
         $user = User::all();
         $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
+        
         return view('pages.transaksi-more', compact('transaksi', 'user'));
     }
     public function getSalesData($month)

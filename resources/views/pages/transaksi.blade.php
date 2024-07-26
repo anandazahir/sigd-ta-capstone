@@ -53,7 +53,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             </div>
             <div class="col-lg-4">
                 <div class="col container">
-                    <div class="row" style="height:19rem;">
+                    <div class="row">
                         <div class="bg-primary mb-3 shadow rounded-4 p-3 w-100">
                             <ul class="nav nav-tabs " id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -77,7 +77,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                                     </button>
                                 </li>
                             </ul>
-                            <div class="bg-white  p-3 d-flex align-content-center justify-content-center" style="border-radius:0px 0px 7px 7px; height: 13rem; overflow:hidden">
+                            <div class="bg-white  p-3 d-flex align-content-center justify-content-center" style="border-radius:0px 0px 7px 7px; height: 30vh; overflow:hidden">
 
                                 <div class="fade show active my-auto text-center" id="jumlahtransaksi-tab-pane" style="place-items: center;" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                     <h1 style="font-size: 60px;" class="my-auto mx-auto" id="totaltransaksi"></h1>
@@ -92,7 +92,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                         </div>
                     </div>
 
-                    <div class="row mb-3 mb-lg-0" style="height:30%">
+                    <div class="row mb-3 mb-lg-2" style="height:30%">
                         <div class="bg-primary shadow rounded-4 p-3" style="height: auto;">
                             <div class="d-flex gap-1">
                                 <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
@@ -296,7 +296,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     var options = {
                         series: [numImpor, numEkspor],
                         chart: {
-                            width: 300,
+                            width: 295,
                             type: 'pie',
                         },
                         labels: ['Impor', 'Ekspor'],
