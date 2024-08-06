@@ -6,34 +6,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
     <x-slot:title>
         Pembayaran
         </x-slot>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
-                    <div class="d-flex gap-1">
-                        <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
-                        <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Pendapatan</p>
-                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Transaksi Impor"></i>
-                    </div>
-                    <h2 class="text-white" style="font-size: 40px;" id="totaltransaksiimpor"></h2>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
-                    <div class="d-flex gap-1">
-                        <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
-                        <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Pendapatan</p>
-                        <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Transaksi Ekspor"></i>
-                    </div>
-                    <h2 class="text-white" style="font-size: 40px;" id="totaltransaksiekspor"></h2>
-                </div>
-            </div>
-        </div>
+        
 
 
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
             <div class="container">
 
-                <h3 class=" text-white mb-3 text-table">DATA TRANSAKSI</h3>
+                <h4 class=" text-white mb-3 text-table">DATA TRANSAKSI | BELUM LUNAS</h4>
                 <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
                     <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
                         <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
@@ -121,19 +100,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 const $responseMessage = $('#response-message');
                 const $monthSelect = $("#monthselect");
 
-                let totaltransaksiimpor = "{{$totaltransaksiimpor}}";
-                let totaltransaksiekspor = "{{$totaltransaksiekspor}}";
+              
 
-                function initCountUp(id, endVal) {
-                    let demo = new CountUp(id, 0, endVal, 0, 3);
-                    if (!demo.error) {
-                        demo.start();
-                    } else {
-                        console.error(demo.error);
-                    }
-                }
-                initCountUp('totaltransaksiimpor', parseInt(totaltransaksiimpor));
-                initCountUp('totaltransaksiekspor', parseInt(totaltransaksiekspor));
+               
 
                 $filterDropdown.click(function() {
                     valueselect = $(this).data('value');

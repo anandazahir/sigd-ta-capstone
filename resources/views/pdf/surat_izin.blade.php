@@ -114,21 +114,30 @@
         <br>
         <p>Dengan Hormat,</p>
         <p>Yang bertanda tangan di bawah ini:</p>
-        <p class="title">Nama: {{$user->nama}}</p>
-        <p class="title">NIP: {{$user->nip}}</p>
-        <p class="title">Jabatan: {{$user->jabatan}}</p>
+        <p class="title">Nama: {{auth()->user()->nama}}</p>
+        <p class="title">NIP: {{auth()->user()->nip}}</p>
+        <p class="title">Jabatan: {{auth()->user()->jabatan}}</p>
         <br>
-        <p>Bermaksud mengajukan {{$alasan_cuti}} selama lima hari, terhitung mulai tanggal {{$mulai_cuti}} sampai dengan tanggal {{$selesai_cuti}}.</p>
+        <p>
+            Bermaksud mengajukan
+            {{$pengajuan->jenis_cuti == 'cuti tahunan' ? 'cuti tahunan dengan alasan ' . $pengajuan->alasan_cuti : $jenis_cuti}}
+            selama lima hari, terhitung mulai tanggal {{$pengajuan->mulai_cuti}} sampai dengan tanggal {{$pengajuan->selesai_cuti}}.
+        </p>
+
         <br>
         <p>Demikian surat permohonan cuti ini saya ajukan, Terima kasih atas perhatian Bapak/Ibu.</p>
         <br>
     </div>
 
     <div class="signature">
+
         <div class="left">
             <p style="text-align: center;">Menyetujui</p>
             <br><br><br>
-            <p style="text-align: center;">Ananda Zahir</p>
+            @if ($pengajuan->status == 'acc')
+            <img src="" alt="" srcset="">
+            @endif
+            <p style="text-align: center;">{{$direktur->username}}</p>
         </div>
         <div class="right">
             <p>Semarang, {{now()}}</p>

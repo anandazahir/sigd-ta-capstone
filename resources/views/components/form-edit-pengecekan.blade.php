@@ -76,6 +76,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <input type="hidden" name="foto_pengecekan_name[]" value="{{ $item->foto_pengecekan_name }}">
                                 </label>
                             </div>
+                            <div class="text-start form-label"><label >min: 2048 KB</label></div>
                             <a href="/storage/{{ $item->foto_pengecekan }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
                         </div>
                         <div class="invalid-feedback"></div>
@@ -141,6 +142,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<input type="hidden" name="foto_pengecekan_name[]"/>' +
                             '<input type="file" name="foto_pengecekan[]" id="foto_pengecekan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                             '<div class="invalid-feedback"></div>' +
+                            '<div class="text-start form-label"><label >min: 2048 KB</label></div>'+
                             '</td>' +
                             '</tr>');
                         $("#" + formId).find("#table_edit_pengecekan tbody").append(rowObject);

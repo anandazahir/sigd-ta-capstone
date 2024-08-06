@@ -35,7 +35,8 @@ class UsersTableSeeder extends Seeder
                 'JK' => 'Laki - Laki', // Assuming 'L' for male and 'P' for female
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1980-01-01', // Use appropriate date format
-                'status_menikah' => 'Menikah'
+                'status_menikah' => 'Menikah',
+                'jumlah_cuti'=>3
             ]
         );
 
@@ -55,7 +56,8 @@ class UsersTableSeeder extends Seeder
                 'JK' => 'Perempuan', // Assuming 'L' for male and 'P' for female
                 'pendidikan_terakhir' => 'S2',
                 'tanggal_lahir' => '1975-05-15', // Use appropriate date format
-                'status_menikah' => 'Menikah'
+                'status_menikah' => 'Menikah',
+                'jumlah_cuti'=>3
             ]
         );
 
@@ -69,14 +71,15 @@ class UsersTableSeeder extends Seeder
                 'nik' => '123456780',
                 'nama' => 'Tally User',
                 'no_hp' => '081234567892',
-                'jabatan' => 'Tally',
+                'jabatan' => 'tally',
                 'alamat' => 'Jl. Tally No. 789',
                 'agama' => 'Islam',
                 'foto' => null,
                 'JK' => 'Laki - Laki',
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1990-02-01',
-                'status_menikah' => 'Single'
+                'status_menikah' => 'Single',
+                'jumlah_cuti'=>3
             ]
         );
 
@@ -89,14 +92,15 @@ class UsersTableSeeder extends Seeder
                 'nik' => '123456781',
                 'nama' => 'Kasir User',
                 'no_hp' => '081234567893',
-                'jabatan' => 'Kasir',
+                'jabatan' => 'kasir',
                 'alamat' => 'Jl. Kasir No. 456',
                 'agama' => 'Islam',
                 'foto' => null,
                 'JK' => 'Perempuan',
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1985-03-10',
-                'status_menikah' => 'Single'
+                'status_menikah' => 'Single',
+                'jumlah_cuti'=>3
             ]
         );
 
@@ -109,14 +113,15 @@ class UsersTableSeeder extends Seeder
                 'nik' => '123456782',
                 'nama' => 'Survey In User',
                 'no_hp' => '081234567894',
-                'jabatan' => 'Survey In',
+                'jabatan' => 'survey in',
                 'alamat' => 'Jl. Survey In No. 123',
                 'agama' => 'Islam',
                 'foto' => null,
                 'JK' => 'Laki - Laki',
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1988-04-20',
-                'status_menikah' => 'Menikah'
+                'status_menikah' => 'Menikah',
+                'jumlah_cuti'=>3
             ]
         );
 
@@ -129,14 +134,15 @@ class UsersTableSeeder extends Seeder
                 'nik' => '123456783',
                 'nama' => 'Manajer Operasional User',
                 'no_hp' => '081234567895',
-                'jabatan' => 'Manajer Operasional',
+                'jabatan' => 'manajer operasional',
                 'alamat' => 'Jl. Manajer Ops No. 456',
                 'agama' => 'Islam',
                 'foto' => null,
                 'JK' => 'Laki - Laki',
                 'pendidikan_terakhir' => 'S2',
                 'tanggal_lahir' => '1982-05-25',
-                'status_menikah' => 'Menikah'
+                'status_menikah' => 'Menikah',
+                'jumlah_cuti'=>3
             ]
         );
 
@@ -149,14 +155,15 @@ class UsersTableSeeder extends Seeder
                 'nik' => '123456784',
                 'nama' => 'Repair User',
                 'no_hp' => '081234567896',
-                'jabatan' => 'Repair',
+                'jabatan' => 'repair',
                 'alamat' => 'Jl. Repair No. 789',
                 'agama' => 'Islam',
                 'foto' => null,
                 'JK' => 'Laki - Laki',
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1986-06-15',
-                'status_menikah' => 'Single'
+                'status_menikah' => 'Single',
+                'jumlah_cuti'=>3
             ]
         );
 

@@ -29,4 +29,8 @@ class transaksi extends Model
     {
         return $this->hasMany(penempatan::class);
     }
+    public function transaksihistory()
+    {
+        return $this->hasMany(Transaksihistory::class);
+    }
 }

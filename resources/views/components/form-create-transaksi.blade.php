@@ -46,7 +46,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     </div>
     <div class="row">
         <div class="col-lg-12 mb-3 form-group">
-            <label for="emkl" class="form-label">EMKL</label>
+            <label for="emkl" class="form-label">EMKL (Ekspedisi Muatan Kapal Laut)</label>
             <input type="text" class="form-control" id="emkl" placeholder="EMKL" name="emkl" required>
 
             <div class="invalid-feedback"></div>

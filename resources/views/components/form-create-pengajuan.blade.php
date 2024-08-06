@@ -3,17 +3,19 @@ $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
 @endphp
 <form method="POST" action="{{ route($cleaned.'.pengajuan.store') }}" id="create-pengajuan-form" novalidate>
-    @csrf
-    <div class="mb-3 form-group">
-        <label for="jenispengajuan" class="form-label">Jenis Pengajuan</label>
-        <select id="jenispengajuan" class="form-select" aria-label="Default select example" required name="jenis_pengajuan">
-            <option selected disabled>Plih Opsi Ini</option>
-            <option value="pengajuan cuti">Pengajuan Cuti</option>
-            <option value="kenaikan gaji">Kenaikan Gaji</option>
-        </select>
-        <div class="invalid-feedback"></div>
+    <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
+        <div class="bg-info rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
+            <i class="fa-solid fa-circle-info text-white mx-auto my-auto" style="font-size: 25px;"></i>
+
+        </div>
+
+        <p class="my-3" style="margin-left:80px;"><strong>INFO!</strong> Jumlah Cuti Tahunan Anda Tersisa <b>{{auth()->user()->jumlah_cuti}}</b></p>
+
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <div data-form="pengajuancuti" style="display: none;">
+    @csrf
+    <div data-form="pengajuancuti">
         <div class="row">
             <div class="col-lg-12 form-group mb-3">
                 <label for="Alamat" class="form-label">Alamat ketika cuti</label>
@@ -41,7 +43,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     <option value="cuti menikah">Cuti Menikah</option>
                     <option value="cuti melahirkan">Cuti Melahirkan</option>
                     <option value="cuti sakit">Cuti Sakit</option>
-                    <option value="lainnya">Lainnya</option>
+                    <option value="cuti tahunan" {{auth()->user()->jumlah_cuti == 0 ? 'disabled' : ''}}>Cuti Tahunan</option>
                 </select>
                 <div class="invalid-feedback"></div>
             </div>
@@ -53,35 +55,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
     </div>
 
-    <div data-form="kenaikangaji" style="display: none;">
-        <div class="row mb-3 form-group">
-            <label for="Alamat" class="form-label">Gaji Pokok Saat Ini</label>
-            <div class="input-group">
-                <span class="input-group-text">Rp</span>
-                <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="gaji_sekarang">
-                <span class="input-group-text">,00</span>
 
-                <div class="invalid-feedback"></div>
-            </div>
-            <label class="form-label text-muted">cth: 50000</label>
-        </div>
-        <div class="row mb-3 form-group">
-            <label for="Alamat" class="form-label">Gaji Pokok Diajukan</label>
-            <div class="input-group">
-                <span class="input-group-text">Rp</span>
-                <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="gaji_diajukan">
-                <span class="input-group-text">,00</span>
-
-                <div class="invalid-feedback"></div>
-            </div>
-            <label class="form-label text-muted">cth: 50000</label>
-        </div>
-        <div class="row mb-3 form-group">
-            <label for="Alasan" class="form-label">Alasan Kenaikan Gaji</label>
-            <textarea class="form-control" rows="3" name="alasan_kenaikan_gaji"></textarea>
-            <div class="invalid-feedback"></div>
-        </div>
-    </div>
     <button type="submit" class="btn bg-primary text-white">
         <div class="d-flex gap-2">
             <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-create-pengajuan"></span>
@@ -92,17 +66,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 <script>
     $(document).ready(function() {
         $('#loading-button-create-pengajuan').hide();
-        $('#create-pengajuan-form').submit(function(event) {
+        /*$('#create-pengajuan-form').submit(function(event) {
             handleFormSubmission(this);
-        });
-        $('#jenispengajuan').change(function() {
-            var selectedOption = $(this).val().replace(/\s+/g, '').toLowerCase();
-            $('[data-form]').hide();
-            $('[data-form="' + selectedOption + '"]').show();
-        });
+        });*/
+
         $('.jenis-cuti').change(function() {
 
-            if ($(this).val() === 'lainnya') {
+            if ($(this).val() === 'cuti tahunan') {
 
                 $('.lainnyatextarea').show();
             } else {

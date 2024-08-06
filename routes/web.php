@@ -125,6 +125,7 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
         });
         Route::prefix('absensi')->group(function () {
             Route::post('/edit/{id}', [AbsensiController::class, 'update']);
+            Route::get('/log/{id}', [AbsensiController::class, 'getDataLog']);
         });
     });
 });

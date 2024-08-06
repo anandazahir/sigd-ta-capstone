@@ -10,11 +10,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             <div class="col-lg-12">
                 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
                     <div class="d-flex gap-1">
-                        <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
-                        <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Perbaikan Peti Kemas</p>
+                        <i class="fa-solid fa-chart-simple text-white my-1" style="font-size:20px"></i>
+                        <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Transaksi Berdasarkan Peti Kemas Rusak</p>
                         <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Peti Kemas yang Diperbaiki"></i>
                     </div>
-                    <h2 class="text-white" style="font-size: 40px;" id="totalperbaikanpetikemas">4</h2>
+                    <h2 class="text-white" style="font-size: 40px;" id="totalperbaikanpetikemas"></h2>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
             <div class="container">
 
-                <h3 class=" text-white mb-3 text-table">DATA TRANSAKSI</h3>
+                <h5 class=" text-white mb-3 text-table">DATA TRANSAKSI BERDASARKAN PETI KEMAS RUSAK</h5>
 
                 <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
                     <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">

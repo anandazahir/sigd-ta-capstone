@@ -1,6 +1,7 @@
 @php
 $role = auth()->user()->getRoleNames();
-$cleaned = str_replace(['[', ']', '"'], '', $role)
+$cleaned = str_replace(['[', ']', '"'], '', $role);
+
 @endphp
 <x-layout>
     <x-slot:title>
@@ -17,7 +18,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex gap-2">
                             <i class="fa-solid fa-chart-line text-white my-1" style="font-size: 30px;"></i>
-                            <h2 class="text-white">Penjualan</h2>
+                            <h4 class="text-white">Grafik Jumlah Penyewaan Peti Kemas</h4>
 
                         </div>
                         <select name="" id="monthselect" class="form-select rounded-3" style="width: fit-content; height: fit-content">
@@ -80,8 +81,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                             <div class="bg-white  p-3 d-flex align-content-center justify-content-center" style="border-radius:0px 0px 7px 7px; height: 30vh; overflow:hidden">
 
                                 <div class="fade show active my-auto text-center" id="jumlahtransaksi-tab-pane" style="place-items: center;" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                                    <h1 style="font-size: 60px;" class="my-auto mx-auto" id="totaltransaksi"></h1>
-                                    <h4>TRANSAKSI</h4>
+                                <div class="d-flex gap-2">
+                                <h1 style="font-size: 60px;" class="my-auto mx-auto" id="totaltransaksi"></h1>
+                                <h4 class="my-auto">TRANSAKSI</h4>
+                                </div>    
+                                
+                                    
+                                        <p class="mt-2 mb-0 fw-semibold">Total Transaksi Impor : {{$totaltransaksiimpor}}</p>
+                                        <p class="fw-semibold">Total Transaksi Ekspor: {{$totaltransaksiekspor}}</p>
+                                    
 
                                 </div>
                                 <div class="fade" id="grafikpie-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -100,6 +108,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                                 <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Pendapatan dihitung dalam setiap bulan"></i>
                             </div>
                             <h2 class="text-white" style="font-size: 40px;" id="totalpendapatan">0</h2>
+
                         </div>
                     </div>
                 </div>
@@ -162,8 +171,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                             <li data-value="" class="dropdown-item" style="cursor:pointer;">Semua</li>
                             <li data-value="impor" class="dropdown-item" style="cursor:pointer;">Impor</li>
                             <li data-value="ekspor" class="dropdown-item" style="cursor:pointer;">Ekspor</li>
-                            <li data-value="transaksi-selesai" class="dropdown-item" style="cursor:pointer;">Transaksi Selesai</li>
-                            <li data-value="transaksi-belum-selesai" class="dropdown-item" style="cursor:pointer;">Transaksi Belum Selesai</li>
                         </ul>
                     </div>
 
@@ -512,7 +519,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     }
 
                     const monthText = $monthSelect.find('option:selected').text();
-                    const titleText = isMonthly ? `${new Date().getFullYear()} |  Total: ${total} box` : ` ${monthText} | Total: ${total} box`;
+                    const titleText = isMonthly ? `${new Date().getFullYear()} |  Total: ${total} peti kemas` : ` ${monthText} | Total: ${total} box`;
 
                     chart = new ApexCharts($chartContainer[0], {
                         chart: {

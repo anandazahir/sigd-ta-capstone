@@ -23,7 +23,7 @@ break;
         <div class="bg-white mt-3 p-1 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
             @if( $semuaBelumCetak)
             <div class="h-100 align-content-center">
-                <h3 class="text-center">Data Peti Kemas Belum Lunas / Cetak SPK</h3>
+                <h3 class="text-center">Data Peti Kemas Belum Dicek</h3>
             </div>
             @endif
             <table class="table-variations-3  text-center" id="table_pengecekan">

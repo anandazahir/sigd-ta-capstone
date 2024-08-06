@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('pendidikan_terakhir');
             $table->date('tanggal_lahir');
             $table->string('status_menikah');
+            $table->integer('jumlah_cuti');
             $table->timestamps();
         });
     }

@@ -80,7 +80,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     </td>
                     @if ($item->status == 'fix')
                     <td class="text-center" id="last-kolom">
-
                         <input type="hidden" value="{{ $item->foto_perbaikan }}" name="url_foto[]">
                         <div class="d-flex gap-2">
                             <div class="input-group">
@@ -91,12 +90,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <input type="hidden" name="foto_perbaikan_name[]" value="{{ $item->foto_perbaikan_name }}">
                                 </label>
                             </div>
+                           
                             @if ($item->foto_perbaikan)
                             <a href="/storage/{{ $item->foto_perbaikan }}" target="_blank" class="bg-primary p-2 rounded-2 text-white text-decoration-none my-auto" id="preview_{{ $index }}">Preview</a>
                             @endif
                         </div>
                         <div class="invalid-feedback"></div>
-
                     </td>
                     @endif
                 </tr>
@@ -192,6 +191,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<input type="hidden" name="foto_pengecekan_name[]"/>' +
                             '<input type="file" name="foto_pengecekan[]" id="foto_perbaikan" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                             '<div class="invalid-feedback"></div>' +
+                            '<div class="text-start form-label"><label >min: 2048 KB</label></div>'+
                             '</td>' +
                             '</tr>');
                         $form.find("#table_perbaikan_tambahan tbody").append(rowObject); // Append new rows

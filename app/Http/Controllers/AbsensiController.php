@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Rats\Zkteco\Lib\ZKTeco;
 
 use App\Models\User;
+use App\Models\Absensihistory;
 use Carbon\Carbon;
 use App\Models\Absensi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AbsensiController extends Controller
@@ -86,11 +88,11 @@ class AbsensiController extends Controller
 
         if ($request->keterangan_pulang == 'hadir') {
             $waktuPulang = $request->waktu_pulang;
-            if ($waktuPulang = '16:30' || $waktuPulang < '17:30') {
+            if ($request->waktu_pulang < '16:30' || $request->waktu_pulang > '17:30') {
                 return response()->json([
                     'status' => 'error',
                     'errors' => [
-                        'waktu_pulang' => ['waktu masuk yang hadir harus diantara jam 16:30 - 17:30.']
+                        'waktu_pulang' => ['waktu pulang yang hadir harus diantara jam 16:30 - 17:30.']
                     ]
                 ], 422);
             }
@@ -123,10 +125,26 @@ class AbsensiController extends Controller
         $absensi->status_pulang = $request->keterangan_pulang;
 
         $absensi->save();
+        Absensihistory::create(
+            [
+                'waktu_absensi'=>now(),
+                'waktu_perubahan' => now(),
+                'user' => Auth()->user()->username,
+                'absensi_id' => $absensi->id,
+            ]
+        );
 
         return response()->json([
             'status' => 'success',
             'message' => 'Data Absensi Berhasil Diubah!'
         ]);
+    }
+    public function getDataLog($id)
+    {
+        $logabsensi = Absensihistory::where('absensi_id', $id)->get();
+        if ($logabsensi->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+        return response()->json($logabsensi);
     }
 }

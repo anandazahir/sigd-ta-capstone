@@ -20,6 +20,22 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     @endif
     @break
     @endforeach
+    @php
+    $count = $data->pengecekan->where('survey_in', '' )->count();
+    @endphp
+    
+    <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
+            <div class="bg-info rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
+                <i class="fa-solid fa-circle-info text-white mx-auto my-auto" style="font-size: 25px;"></i>
+
+            </div>
+          
+            <p class="my-3" style="margin-left:80px;"><strong>INFO!</strong> Terdapat <b>{{$count}} Peti kemas</b> yang belum dicek</p>
+            
+            
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+ 
 
     <div class="row">
         <div class="col-lg-6 mb-3 form-group">
@@ -31,13 +47,14 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 $penghubung->pembayaran->status_pembayaran === 'sudah lunas' &&
                 $penghubung->pembayaran->status_cetak_spk === 'sudah cetak' &&
                 $penghubung->pengecekan->survey_in === null)
-                <option value="{{ $penghubung->pengecekan->penghubung_id }}" data-jenis-ukuran="{{ $penghubung->petikemas->jenis_ukuran }}">
+                <option value="{{ $penghubung->pengecekan->penghubung_id }}" data-jenis-ukuran="{{ $penghubung->petikemas->jenis_ukuran }}" data-url-spk="{{$penghubung->pembayaran->url_file}}">
                     {{ $penghubung->petikemas->no_petikemas }}
                 </option>
                 @endif
                 @endforeach
             </select>
             <div class="invalid-feedback"></div>
+            <a style="background-color: transparent; border:none;" class="text-info" id="button-spk" href="">Lihat SPK</a>
         </div>
         <div class="col-lg-6 mb-3 form-group">
             <label for="size & type" class="form-label">Size & Type:</label>
@@ -115,8 +132,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         '</td>' +
                         '<td class="text-center">' +
                         '<input type="hidden" name="foto_pengecekan_name[]">' +
+                        
                         '<input type="file" name="foto_pengecekan[]" id="" class="form-control" accept="image/png, image/jpeg, image/jpg">' +
                         '<div class="invalid-feedback"></div>' +
+                        '<div class="text-start form-label"><label >min: 2048 KB</label></div>'+
+                        
                         '</td>' +
                         '</tr>');
                     $("#table_create_pengecekan tbody").append(
@@ -148,6 +168,10 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             var selectedOption = $(this).find('option:selected');
             var jenisUkuran = selectedOption.data('jenis-ukuran');
             $('#jenis_ukuran_pengecekan').val(jenisUkuran || '');
+            var urlFile = selectedOption.data('url-spk');
+            console.log(urlFile);
+         
+            $('#button-spk').attr('href', urlFile);
         });
 
 

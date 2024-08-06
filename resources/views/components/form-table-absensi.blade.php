@@ -33,6 +33,7 @@
     <button type="submit" class="btn bg-primary text-white">Submit</button>
 </form>
 <script>
+    /*
     $(document).ready(function() {
         let formId = "edit_form_absensi_{{$absensi->id}}";
         let $form = $("#" + formId);
@@ -40,5 +41,5 @@
         $form.submit(function(event) {
             handleFormSubmission(this);
         });
-    });
+    });*/
 </script>

@@ -4,13 +4,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 @endphp
 <x-layout>
     <x-slot:title>
-        Peminjaman
+        Penyewaan
         </x-slot>
         <div class="row">
             <div class="col-lg-6">
                 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
                     <div class="d-flex gap-1">
-                        <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
+                        <i class="fa-solid fa-chart-simple text-white my-1" style="font-size:20px"></i>
                         <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Transaksi Impor</p>
                         <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Transaksi Impor"></i>
                     </div>
@@ -20,7 +20,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             <div class="col-lg-6">
                 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
                     <div class="d-flex gap-1">
-                        <i class="fa-solid fa-dollar-sign text-white my-1" style="font-size:20px"></i>
+                        <i class="fa-solid fa-chart-simple text-white my-1" style="font-size:20px"></i>
                         <p class="mb-1 text-start fw-semibold text-white" style="font-size: 17px;">Total Transaksi Ekspor</p>
                         <i class="fa-regular fa-circle-question my-2" style="color:#F5F5F5; font-size:12px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Jumlah Keseluruhan Transaksi Ekspor"></i>
                     </div>
@@ -68,9 +68,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                             <li data-value="" class="dropdown-item" style="cursor:pointer;">Semua</li>
                             <li data-value="impor" class="dropdown-item" style="cursor:pointer;">Impor</li>
                             <li data-value="ekspor" class="dropdown-item" style="cursor:pointer;">Ekspor</li>
-                            <li data-value="transaksi-selesai" class="dropdown-item" style="cursor:pointer;">Transaksi Selesai</li>
-                            <li data-value="transaksi-belum-selesai" class="dropdown-item" style="cursor:pointer;">Transaksi Belum Selesai</li>
-                        </ul>
+                            
                     </div>
 
                 </div>

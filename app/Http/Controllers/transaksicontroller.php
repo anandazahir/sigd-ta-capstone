@@ -21,6 +21,7 @@ use App\Rules\RequiredArrayValuesFoto;
 use App\Rules\UniqueArrayValueFoto;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
+use App\Models\Transaksihistory;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\UniqueArrayValues;
 use App\Rules\RequiredArrayValues;
@@ -542,7 +543,7 @@ class TransaksiController extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                         : '/kasir/pembayaran/' . $transaksiId;
                     notifikasi::create([
-                        'message' => 'Transaksi baru dengan No. ' . $transaksi->no_transaksi . ' telah dibuat, segera lakukan pembayaran.',
+                        'message' => 'Anda dapat melakukan transaksi dengan No. '.$transaksi->no_transaksi,
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -558,7 +559,7 @@ class TransaksiController extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                         : '/kasir/pembayaran/' . $transaksiId;
                     notifikasi::create([
-                        'message' => 'Transaksi baru dengan No. ' . $transaksi->no_transaksi . ' telah dibuat, segera lakukan pembayaran.',
+                        'message' => 'Anda dapat melakukan transaksi dengan No. '.$transaksi->no_transaksi,
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -574,7 +575,7 @@ class TransaksiController extends Controller
                         ? '/' . $item->roles->first()->name . '/transaksi/' . $transaksiId
                         : '/kasir/pembayaran/' . $transaksiId;
                     notifikasi::create([
-                        'message' => 'Transaksi baru dengan No. ' . $transaksi->no_transaksi . ' telah dibuat, segera lakukan pembayaran.',
+                        'message' => 'Anda dapat melakukan transaksi dengan No. '.$transaksi->no_transaksi,
                         'tanggal_kirim' => now(),
                         'sender' => auth()->user()->username,
                         'foto_profil' => auth()->user()->foto,
@@ -766,11 +767,13 @@ class TransaksiController extends Controller
                 if ($item->petikemas_id != $newPetikemasId) {
                     $this->resetRelatedEntries($item->id);
                     $this->resethistory($item->id, $petikemas);
+                    Transaksihistory::create(['no_petikemas'=>$item->no_petikemas,'user'=>auth()->user()->username,'aksi'=>'mengubah', 'transaksi_id'=>$transaksi->id]);
                     $item->update(['petikemas_id' => $newPetikemasId]);
                     $newpetikemas = petikemas::where(['id' => $newPetikemasId])->first();
                     $newpetikemas->update([
                         'status_order' => 'false',
                     ]);
+
                 }
             }
         }
@@ -785,6 +788,7 @@ class TransaksiController extends Controller
                 $petikemas->update([
                     'status_order' => 'false',
                 ]);
+                Transaksihistory::create(['no_petikemas'=>$petikemas->no_petikemas,'user'=>auth()->user()->username,'aksi'=>"menambahkan", 'transaksi_id'=>$transaksi->id, 'waktu_perubahan'=>now()]);
                 $this->createRelatedRecords($new_penghubung->id, $id, $petikemas);
             }
         }
@@ -898,6 +902,7 @@ class TransaksiController extends Controller
             $petikemas = petikemas::where('id', $penghubung->petikemas_id)->first();
             $this->resethistory($penghubungId, $petikemas);
             $transaksi = Transaksi::where('id', $transaksiId);
+            Transaksihistory::create(['no_petikemas'=>$petikemas->no_petikemas,'user'=>auth()->user()->username,'aksi'=>'menghapus', 'transaksi_id'=> $transaksiId, 'waktu_perubahan'=>now()]);
             // if ($transaksi->jenis_kegiatan == "impor") {
             //     $petikemas->status_ketersediaan = "out";
             //     $petikemas->lokasi = "out";
@@ -1043,7 +1048,7 @@ class TransaksiController extends Controller
 
         $relatedPenghubung = $transaksi->penghubungs->first();
 
-        $relatedPenghubung->pembayaran->update(['status_cetak_spk' => $statusCetakSpk]);
+       
         if (!Session::has('spk_counter')) {
             Session::put('spk_counter', 0);
         }
@@ -1059,15 +1064,19 @@ class TransaksiController extends Controller
 
         $date = Carbon::now();
         $formattedDate = $date->format('dmy');
-        $no_spk = 'SPK-' . ($transaksi->jenis_transaksi == 'impor' ? 'IN' : 'OUT') . '/' . $formattedDate . '/' . str_pad($currentCounter, 4, '0', STR_PAD_LEFT);
+        $no_spk = 'SPK-' . ($transaksi->jenis_transaksi == 'impor' ? 'IN' : 'OUT') . '-' . $formattedDate . '-' . str_pad($currentCounter, 4, '0', STR_PAD_LEFT);
 
         $pdf = PDF::loadView('pdf.spk', [
             'transaksi' => $transaksi,
             'penghubung' => $relatedPenghubung,
             'no_spk' => $no_spk,
         ]);
-
+        $filename = $no_spk.'.pdf';
+        Storage::put('public/uploads/'.$filename, $pdf->output());
+        $relatedPenghubung->pembayaran->update(['status_cetak_spk' => $statusCetakSpk, 'url_file'=>Storage::url('public/uploads/'.$filename)]);
+        
         return $pdf->download('spk.pdf');
+        
     }
 
     public function editpembayaran(Request $request, $id_transaksi)

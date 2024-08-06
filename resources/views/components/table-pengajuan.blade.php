@@ -1,4 +1,6 @@
 <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
+
+
     <div class="container position-relative">
         <h1 class="text-white fw-semibold">Pengajuan</h1>
         @if (!auth()->user()->hasRole('direktur'))
@@ -11,44 +13,22 @@
             </div>
         </button>
         @endif
-        <div class="row mt-3">
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card bg-white  shadow rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-2">
-                            <div class="rounded-circle bg-primary position-relative" style="display: inline-block; width:5rem; height:4rem">
-                                <h1 class="position-absolute top-50 start-50 translate-middle text-white" id="kenaikangaji"></h1>
-                            </div>
-                            <div class="my-auto w-100">
-                                <h3>Kenaikan Gaji</h3>
-                                <hr class="m-0 line" style="height: 1.5px; background-color:black;" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        @if (auth()->user()->hasRole('direktur'))
+        <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
+            <div class="bg-info rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
+                <i class="fa-solid fa-circle-info text-white mx-auto my-auto" style="font-size: 25px;"></i>
+
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-3">
-                <div class="card bg-white  shadow rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex gap-2">
-                            <div class="rounded-circle bg-primary position-relative" style="display: inline-block; width:5rem; height:4rem">
-                                <h1 class="position-absolute top-50 start-50 translate-middle text-white" id="cuti"></h1>
-                            </div>
-                            <div class="my-auto w-100">
-                                <h3>Cuti</h3>
-                                <hr class="m-0 line" style="height: 1.5px; background-color:black;" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p class="my-3" style="margin-left:80px;"><strong>INFO!</strong> Jumlah Cuti Tahunan Anda Tersisa <b>{{$data->jumlah_cuti}}</b></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+        @endif
 
         <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 30rem;">
             <table class="table-variations-3  text-center">
                 <thead>
                     <tr>
-                        <th scope="col" class="fw-semibold">Jenis Pengajuan</th>
+                        <th scope="col" class="fw-semibold">Jenis Cuti</th>
                         <th scope="col" class="fw-semibold">Tanggal Dibuat</th>
                         <th scope="col" class="fw-semibold">File</th>
                         <th scope="col" class="fw-semibold">Status</th>
@@ -62,7 +42,7 @@
                     @foreach ($data->pengajuan as $user)
                     <tr>
                         <td class="text-center">
-                            {{ucwords($user->jenis_pengajuan)}}
+                            {{ucwords($user->jenis_cuti)}}
                         </td>
                         <td class="text-center">
                             {{$user->tanggal_dibuat}}
@@ -86,7 +66,7 @@
                     @foreach (auth()->user()->pengajuan as $user)
                     <tr>
                         <td class="text-center">
-                            {{ucwords($user->jenis_pengajuan)}}
+                            {{ucwords($user->jenis_cuti)}}
                         </td>
                         <td class="text-center">
                             {{$user->tanggal_dibuat}}
@@ -110,7 +90,7 @@
     </div>
 </div>
 @if (!auth()->user()->hasRole('direktur'))
-<x-modal-form size="" id="create-pengajuan-modal" text="Buat Pengecekan ">
+<x-modal-form size="" id="create-pengajuan-modal" text="Buat Pengajuan Cuti ">
     <x-form-create-pengajuan />
 </x-modal-form>
 @endif
@@ -123,21 +103,3 @@
 </x-modal-form>
 @endforeach
 @endif
-<script>
-    $(document).ready(function() {
-        let numkenaikangaji = "{{$kenaikangaji}}";
-        let numcuti = "{{$cuti}}";
-        console.log(numcuti);
-
-        function initCountUp(id, endVal) {
-            let demo = new CountUp(id, 0, endVal, 0, 3);
-            if (!demo.error) {
-                demo.start();
-            } else {
-                console.error(demo.error);
-            }
-        }
-        initCountUp('kenaikangaji', parseInt(numkenaikangaji));
-        initCountUp('cuti', parseInt(numcuti));
-    });
-</script>

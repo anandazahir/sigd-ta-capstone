@@ -27,15 +27,18 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
-            <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Peminjaman</h2>
+            <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Penyewaan</h2>
             @can('mengelola transaksi')
+            <button class="btn bg-white px-3 col-lg-2 mt-3 mt-lg-0 text-primary fw-semibold" style="width: fit-content;"  data-bs-toggle="modal" data-bs-target="#table-log-transaksi">
+               LOG
+            </button>
             <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
                     <i class="fa-solid fa-pen-to-square text-primary   my-1" style="font-size:21px"></i>
                     <span class="fw-semibold fs-6 my-1 text-primary">Edit Data</span>
                 </div>
             </button>
-
+            
             <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry" style="width: fit-content;">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data peti kemas">
                     <i class="fa-solid fa-circle-plus text-primary my-2" style="font-size:25px"></i>
@@ -48,6 +51,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         
         @php
         $count = $data->pembayaran->where('status_cetak_spk','belum cetak')->count();
+    
         @endphp
         @if ($count > 0)
         <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
@@ -138,6 +142,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 </div>
 @can('mengelola transaksi')
 <x-modal-form-delete route="/{{$cleaned}}/transaksi/deleteentrydata" />
+<x-table-log-transaksi :data="$data->transaksihistory" title="Log Transaksi | {{$data->no_transaksi}}"/>
 @endcan
 
 @push('table-entrydata')

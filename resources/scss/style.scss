@@ -148,10 +148,10 @@ $btn-focus-box-shadow: none;
     border-collapse: separate;
     border-spacing: 0 25px;
     th {
-        font-size: 25px;
+        font-size: 20px;
     }
     td {
-        font-size: 20px;
+        font-size: 15px;
     }
     th,
     td {
@@ -223,12 +223,12 @@ $btn-focus-box-shadow: none;
 .table-variations-3 {
     @extend .table;
     tr th {
-        font-size: 25px;
+        font-size: 20px;
         border-bottom: 3px solid black;
         border-radius: 2px;
     }
     tr td {
-        font-size: 20px;
+        font-size: 15px;
         border-bottom: hidden;
     }
     tr:hover td {

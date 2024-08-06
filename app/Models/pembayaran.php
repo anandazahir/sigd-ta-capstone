@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class pembayaran extends Model
 {
     use HasFactory;
-    protected $fillable = ['tanggal_pembayaran', 'status_pembayaran', 'kasir', 'status_cetak_spk', 'penghubung_id', 'transaksi_id', 'foto_profil'];
+    protected $fillable = ['tanggal_pembayaran', 'status_pembayaran', 'kasir', 'status_cetak_spk', 'penghubung_id', 'transaksi_id', 'foto_profil', 'url_file'];
 
     public function penghubung()
     {
