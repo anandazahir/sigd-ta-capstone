@@ -75,8 +75,8 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <thead>
                 <tr>
                     <th scope="col">Lokasi</th>
-                    <th scope="col">Component</th>
-                    <th scope="col">Metode</th>
+                    <th scope="col">Jenis Kerusakan</th>
+                    <th scope="col">Metode Perbaikan</th>
                     <th scope="col">Foto Pengecekan</th>
                 </tr>
             </thead>
@@ -113,20 +113,92 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 for (var i = 0; i < rowCount; i++) {
                     let rowObject = $('<tr>' +
                         '<td class="text-center">' +
-                        '<input class="form-control" type="text" name="lokasi_kerusakan[]"> ' +
+                        '<select class="form-select"  name="lokasi_kerusakan[]" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
+                        '<option selected disabled>Open this select menu</option>' +
+                        '<option value="EXTERIOR BOTTOM SECTION">EXTERIOR BOTTOM SECTION</option>' +
+                        '<option value="EXTERIOR RIGHT SECTION">EXTERIOR RIGHT SECTION</option>' +
+                        '<option value="EXTERIOR LEFT SECTION">EXTERIOR LEFT SECTION</option>' +
+                        '<option value="EXTERIOR TOP SECTION">EXTERIOR TOP SECTION</option>' +
+                        '<option value="INTERIOR BOTTOM SECTION">INTERIOR BOTTOM SECTION</option>' +
+                        '<option value="INTERIOR RIGHT SECTION">INTERIOR RIGHT SECTION</option>' +
+                        '<option value="INTERIOR LEFT SECTION">INTERIOR LEFT SECTION</option>' +
+                        '<option value="INTERIOR TOP SECTION">INTERIOR TOP SECTION</option>' +
+                        '<option value=""DOOR">DOOR</option>' +
+                        '</select>' +
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
-                        '<input class="form-control" type="text" name="komponen[]"> ' +
+                        '<select class="form-select"  name="komponen[]" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
+                        '<option selected disabled>Open this select menu</option>' +
+                        '<option value="BENT">BENT</option>' +
+'<option value="BROKEN">BROKEN</option>' +
+'<option value="CASINGTREAD">CASING/TREAD</option>' +
+'<option value="CONTAMINATED">CONTAMINATED</option>' +
+'<option value="CORRODED">CORRODED</option>' +
+'<option value="CORRODED HOLED">CORRODED/HOLED</option>' +
+'<option value="CRACKED">CRACKED</option>' +
+'<option value="CUT">CUT</option>' +
+'<option value="DEBRIS">DEBRIS</option>' +
+'<option value="DELAMINATED">DELAMINATED</option>' +
+'<option value="DENT">DENT</option>' +
+'<option value="DENTEDHOLED">DENTED AND HOLED</option>' +
+'<option value="EQUIPMENT FAILURE">EQUIPMENT FAILURE</option>' +
+'<option value="FAILURE">FAILURE</option>' +
+'<option value="FROZEN">FROZEN</option>' +
+'<option value="GOUGED">GOUGED</option>' +
+'<option value="GRAFFITI">GRAFFITI</option>' +
+'<option value="HIGH PRESSURE SAFETY">HIGH PRESSURE SAFETY</option>' +
+'<option value="HOLED">HOLED</option>' +
+'<option value="IMPROPER REPAIR">IMPROPER REPAIR</option>' +
+'<option value="LEAKING">LEAKING</option>' +
+'<option value="LOOSE">LOOSE</option>' +
+'<option value="MISALIGNED">MISALIGNED</option>' +
+'<option value="MISPRESSURE">MISPRESSURE</option>' +
+'<option value="MISSING">MISSING</option>' +
+'<option value="OILSTAIN">OILSTAIN</option>' +
+'<option value="OVERLAY PLYWOOD">OVERLAY PLYWOOD</option>' +
+'<option value="REMOVE">REMOVE</option>' +
+'<option value="ROTTED">ROTTED</option>' +
+
+                        
+                        '</select>' +
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +
                         '<td class="text-center">' +
                         '<input type="hidden" name="metode_value[]"/>' +
                         '<select class="form-select"  name="metodes[]" onfocus="this.size=5;" onblur="this.size=1;" onchange="this.size=1; this.blur();">' +
                         '<option selected disabled>Open this select menu</option>' +
-                        '<option value="1">One</option>' +
-                        '<option value="2">Two</option>' +
-                        '<option value="3">Three</option>' +
+                        '<option value="ABRASSIN AND GCOAT">ABRASSING & COAT</option>' +
+'<option value="CORNERFITTING">CORNER FITTING</option>' +
+'<option value="EVAQUATION SERVICE">EVAQUATION SERVICE</option>' +
+'<option value="FREE">FREE</option>' +
+'<option value="GOUGED">GOUGED</option>' +
+'<option value="GRIND">GRIND</option>' +
+'<option value="GRIND FLOOR">GRIND FLOOR</option>' +
+'<option value="INSERT">INSERT</option>' +
+'<option value="INSTALL">INSTALL</option>' +
+'<option value="LUBRICATE">LUBRICATE</option>' +
+'<option value="OIL CLEANING">OIL CLEANING</option>' +
+'<option value="OVERLAY">OVERLAY</option>' +
+'<option value="PAINT">PAINT</option>' +
+'<option value="PATCH">PATCH</option>' +
+'<option value="PRE TRIP INSPECTION">PRE TRIP INSPECTION</option>' +
+'<option value="RE-ALIGN">RE-ALIGN</option>' +
+'<option value="RECHARGE">RECHARGE</option>' +
+'<option value="REFIT">REFIT</option>' +
+'<option value="REMOVE AND REINSTALL">Remove and Reinstall</option>' +
+'<option value="REMOVE COMPONENT">REMOVE COMPONENT</option>' +
+'<option value="REPLACE">REPLACE</option>' +
+'<option value="RESEAL">RESEAL</option>' +
+'<option value="RESECURE">RESECURE</option>' +
+'<option value="SAND">SAND</option>' +
+'<option value="SEAL OR RESEAL">SEAL OR RESEAL</option>' +
+'<option value="SECTION">SECTION</option>' +
+'<option value="STRAIGHTEN">STRAIGHTEN</option>' +
+'<option value="STRAIGHTEN AND WELD">STRAIGHTEN AND WELD</option>' +
+'<option value="VACUUMIZE">VACUUMIZE</option>' +
+'<option value="WELD">WELD</option>'+
+
                         '</select>' +
                         '<div class="invalid-feedback"></div>' +
                         '</td>' +

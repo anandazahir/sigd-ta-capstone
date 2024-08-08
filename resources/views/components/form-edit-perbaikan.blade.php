@@ -119,7 +119,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <thead>
                 <tr>
                     <th scope="col">Lokasi</th>
-                    <th scope="col">Component</th>
+                    <th scope="col">Jenis Kerusakan</th>
                     <th scope="col">Metode</th>
                     <th scope="col">Foto Pengecekan</th>
                 </tr>

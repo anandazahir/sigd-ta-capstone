@@ -13,6 +13,15 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             <div class="container">
 
                 <h4 class=" text-white mb-3 text-table">DATA TRANSAKSI | BELUM LUNAS</h4>
+                <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
+                            <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Bulanan">
+                                <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
+                                    <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
+                                    <i class="fa-solid fa-download text-white" style="font-size:17px;" id="icon"></i>
+                                </div>
+                                <span class="fs-5 fw-semibold text-primary">Laporan Harian Transaksi</span>
+                            </div>
+                        </button>
                 <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
                     <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
                         <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">

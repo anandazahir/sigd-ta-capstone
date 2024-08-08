@@ -17,7 +17,8 @@
                             <tr>
                                 <th scope="col" class="fw-semibold">No</th>
                                 <th scope="col" class="fw-semibold">Timestamp</th>
-                                <th scope="col" class="fw-semibold">Pengguna</th>
+                                <th scope="col" class="fw-semibold">Pengubah</th>
+                                <th scope="col" class="fw-semibold">Keterangan</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -75,6 +76,7 @@
                                     <td class="text-center">${index + 1}</td>
                                     <td class="text-center">${item.waktu_perubahan}</td>
                                     <td class="text-center">${item.user}</td>
+                                    <td class="text-center">Mengubah Absensi</td>
                                 </tr>
                             `;
                         kerusakanTbody.append(row);

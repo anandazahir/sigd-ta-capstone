@@ -143,7 +143,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
                                     <i class="fa-solid fa-download text-white" style="font-size:17px;" id="icon"></i>
                                 </div>
-                                <span class="fs-5 fw-semibold text-primary">Laporan Bulanan Transaksi</span>
+                                <span class="fs-5 fw-semibold text-primary">Laporan Harian Transaksi</span>
                             </div>
                         </button>
                     </div>
