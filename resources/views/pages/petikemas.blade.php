@@ -313,7 +313,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                         <li data-value="in" class="dropdown-item" style="cursor:pointer;">IN</li>
                                         <li data-value="pending" class="dropdown-item" style="cursor:pointer;">PENDING</li>
                                         @endcan()
-
+                                        <li data-value="one" class="dropdown-item" style="cursor:pointer;">Pelayaran | ONE</li>
+                                        <li data-value="wanhai" class="dropdown-item" style="cursor:pointer;">Pelayaran | WANHAI</li>
+                                        <li data-value="benline" class="dropdown-item" style="cursor:pointer;">Pelayaran | BENLINE</li>
                                         
                                     </ul>
                                 </div>
