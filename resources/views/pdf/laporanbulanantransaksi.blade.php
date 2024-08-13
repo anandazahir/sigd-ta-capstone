@@ -44,103 +44,70 @@
 </head>
 
 <body>
-    <h1>Laporan Bulanan Transaksi</h1>
+    <h1>Laporan Harian Transaksi</h1>
+    <h2>PT. GARBANTARA DEPO
+Kawasan Industri Cipta Guna Kav. 9
+Jl. Arteri Utara Semarang</h2>
+<h3>PERIODE: {{now()}}</h3>
 
-    <p>Jenis Kegiatan: {{ $selectedValue }}</p>
-    <p>Bulan Transaksi: {{ $selectedMonth }}</p>
 
     @foreach($transaksis as $transaksi)
-    <table border="1">
+    <table border="1" >
         <thead>
             <tr>
-                <th>ID</th>
+                <th>No Transaksi</th>
                 <th>Tanggal Transaksi</th>
                 <th>Jenis Kegiatan</th>
-                <th>No. DO</th>
-                <th>Tanggal DO Rilis</th>
-                <th>Tanggal DO Exp</th>
                 <th>Perusahaan</th>
                 <th>Jumlah Petikemas</th>
-                <th>Kapal</th>
-                <th>EMKL</th>
-                <th>Tanggal Transaksi</th>
-                <th>Inventory</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>{{ $transaksi->no_transaksi }}</td>
-                <td>{{ $transaksi->tanggal_transaksi }}</td>
+                <td>{{ $transaksi->tanggal_transaksi}}</td>
                 <td>{{ $transaksi->jenis_kegiatan }}</td>
-                <td>{{ $transaksi->no_do }}</td>
-                <td>{{ $transaksi->tanggal_DO_rilis }}</td>
-                <td>{{ $transaksi->tanggal_DO_exp }}</td>
                 <td>{{ $transaksi->perusahaan }}</td>
                 <td>{{ $transaksi->jumlah_petikemas }}</td>
-                <td>{{ $transaksi->kapal }}</td>
-                <td>{{ $transaksi->emkl }}</td>
-                <td>{{ $transaksi->tanggal_transaksi }}</td>
-                <td>{{ $transaksi->inventory }}</td>
             </tr>
         </tbody>
     </table>
 
-    <h2>Detail Transaksi</h2>
-    <h3>Entry Data</h3>
+    <h2 class="m-0">Detail Transaksi</h2>
     <table border="1">
         <thead>
             <tr>
                 <th>No Peti Kemas</th>
                 <th>Jenis & Ukuran</th>
                 <th>Pelayaran</th>
-                <th>Status Cetak SPK</th>
+                <th>Harga</th>
+             
             </tr>
         </thead>
         <tbody>
             @foreach($transaksi->penghubungs as $item)
             @php
+            $total = 0;
             $petikemas = $item->petikemas;
             $pembayaran = $item->pembayaran;
+           $total += $item->petikemas->harga;
             @endphp
             <tr>
                 <td>{{ $petikemas->no_petikemas }}</td>
                 <td>{{ $petikemas->jenis_ukuran }}</td>
                 <td>{{ $petikemas->pelayaran }}</td>
-                <td>{{ $pembayaran->status_cetak_spk }}</td>
+                <td >{{ $petikemas->harga}}</td>
             </tr>
             @endforeach
+            
+            <tr>
+                <td colspan="3">TOTAL: </td>
+                <td>{{ $total}}</td>
+            </tr>
         </tbody>
     </table>
-
-    <h3>Pembayaran</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>No Peti Kemas</th>
-                <th>Jenis & Ukuran</th>
-                <th>Metode</th>
-                <th>Biaya</th>
-                <th>Tanggal Pembayaran</th>
-                <th>Status Pembayaran</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($transaksi->penghubungs as $item)
-            @php
-            $pembayaran = $item->pembayaran;
-            $petikemas = $item->petikemas;
-            @endphp
-            <tr>
-                <td>{{ $petikemas->no_petikemas }}</td>
-                <td>{{ $petikemas->jenis_ukuran }}</td>
-                <td>{{ $pembayaran->metode }}</td>
-                <td>{{ $petikemas->harga }}</td>
-                <td>{{ $pembayaran->tanggal_pembayaran }}</td>
-                <td>{{ $pembayaran->status_pembayaran }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <br/>
+    <br/>
     @endforeach
 </body>
 

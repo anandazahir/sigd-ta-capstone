@@ -451,8 +451,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
-                            jenis_kegiatan: valueselect,
-                            bulan_transaksi: $monthPicker.val()
                         },
                         beforeSend: showLoadingButton(),
                         xhrFields: {

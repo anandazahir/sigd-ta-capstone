@@ -464,6 +464,12 @@ class petikemascontroller extends Controller
             $query->where('status_order', 'false');
         } else if ($condition == 'pending') {
             $query->where('lokasi', $condition);
+        } else if ($condition == 'one') {
+            $query->where('pelayaran', $condition);
+        }else if ($condition == 'beline') {
+            $query->where('pelayaran', $condition);
+        }else if ($condition == 'wanhai') {
+            $query->where('pelayaran', $condition);
         }
         if ($blok) {
             $query->where('lokasi', 'like', '%' . $blok . '%');
@@ -507,7 +513,13 @@ class petikemascontroller extends Controller
             $query->where('status_order', 'false');
         } else if ($condition == 'pending') {
             $query->where('lokasi', $condition);
-        }
+        } else if ($condition == 'one') {
+        $query->where('pelayaran', $condition);
+    }else if ($condition == 'beline') {
+        $query->where('pelayaran', $condition);
+    }else if ($condition == 'wanhai') {
+        $query->where('pelayaran', $condition);
+    }
         $data = $query->get();
         $pdf = Pdf::loadView('pdf.laporanharianpetikemas', [
             'selectedValue' => $condition,

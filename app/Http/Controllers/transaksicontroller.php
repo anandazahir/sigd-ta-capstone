@@ -121,49 +121,41 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with('penghubungs.petikemas')->findOrFail($id);
         return view('pages.kasir.pembayaran-more', compact('transaksi'));
     }
-    public function filterKasir(Request $request)
+    public function filterkasir(Request $request)
     {
-        $transaksiCollection = collect(); // Inisialisasi koleksi kosong
+        $selectedValue = $request->input('jenis_kegiatan');
+        
         $searchTerm = $request->input('search');
-        $filtervalue = $request->input('filter');
-        // Ambil semua transaksi dengan jenis_kegiatan 'impor'
-        $transaksi = Transaksi::all();
 
-        foreach ($transaksi as $transaksis) {
-            // Filter penghubungs to include only those with a pembayaran status_pembayaran of 'sudah lunas' and date conditions
-            $lunasPenghubungs = $transaksis->penghubungs()->whereHas('pembayaran', function ($query) {
-                $query->where('status_pembayaran', 'belum lunas');
-            })->whereHas('petikemas', function ($query) {
-                $query->where('status_order', 'false'); // Ganti 'false' dengan nilai yang sesuai
-            })->get();
+        $query = Transaksi::query();
 
-            // Jika ada penghubung yang memenuhi syarat, tambahkan transaksi ke koleksi
-            if ($lunasPenghubungs->isNotEmpty()) {
-                $transaksiCollection->push($transaksis);
+        if ($selectedValue) {
+            if ($selectedValue == 'impor' || $selectedValue == 'ekspor') {
+                $query->where('jenis_kegiatan', $selectedValue);
+            } else if ($selectedValue == 'transaksi-belum-selesai') {
+                $query->whereNull('tanggal_transaksi');
+            } else if ($selectedValue == 'transaksi-selesai') {
+                $query->whereNotNull('tanggal_transaksi');
             }
         }
 
+        
+
         if ($searchTerm) {
-            $transaksiCollection = $transaksiCollection->filter(function ($item) use ($searchTerm) {
-                return strpos($item->no_transaksi, $searchTerm) !== false ||
-                    strpos($item->jenis_kegiatan, $searchTerm) !== false ||
-                    strpos($item->no_do, $searchTerm) !== false ||
-                    strpos($item->perusahaan, $searchTerm) !== false ||
-                    strpos($item->jumlah_petikemas, $searchTerm) !== false ||
-                    strpos($item->kapal, $searchTerm) !== false ||
-                    strpos($item->emkl, $searchTerm) !== false;
+            $query->where(function ($query) use ($searchTerm) {
+                $query
+                    ->where('no_transaksi', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('jenis_kegiatan', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('no_do', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('perusahaan', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('jumlah_petikemas', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('kapal', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('emkl', 'like', '%' . $searchTerm . '%');
             });
         }
 
-        if ($filtervalue) {
-            $transaksiCollection = $transaksiCollection->filter(function ($item) use ($filtervalue) {
-                return strpos($item->jenis_kegiatan, $filtervalue) !== false;
-            });
-        }
         $perPage = 3;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentPageItems = $transaksiCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
-        $filteredData = new LengthAwarePaginator($currentPageItems, $transaksiCollection->count(), $perPage, $currentPage);
+        $filteredData = $query->paginate($perPage);
 
         if ($filteredData->isEmpty()) {
             return response()->json(['message' => 'No data found']);
@@ -177,6 +169,7 @@ class TransaksiController extends Controller
                 'last_page' => $filteredData->lastPage(),
                 'per_page' => $filteredData->perPage(),
             ],
+
         ]);
     }
 
@@ -715,35 +708,28 @@ class TransaksiController extends Controller
 
 
     public function laporanbulanantransaksi(Request $request)
-    {
-        $selectedValue = $request->input('jenis_kegiatan');
-        $selectedMonth = $request->input('bulan_transaksi') ?? Carbon::now()->format('F');
+{
+    // Use a query builder with eager loading
+    $query = Transaksi::with('penghubungs.petikemas');
 
-        $query = Transaksi::query();
+    // Execute the query and get the results
+    $filteredData = $query->whereNotNull('tanggal_transaksi')->get();
 
-        if ($selectedValue == 'impor' || $selectedValue == 'ekspor') {
-            $query->where('jenis_kegiatan', $selectedValue);
-        }
-
-        if ($selectedMonth) {
-
-            $query->whereMonth('tanggal_transaksi', date('m', strtotime($selectedMonth)));
-        }
-
-        $filteredData = $query->with('penghubungs.petikemas')->get();
-
-        if ($filteredData->isEmpty()) {
-            return response()->json(['message' => 'No data found']);
-        }
-
-        $pdf = Pdf::loadView('pdf.laporanbulanantransaksi', [
-            'selectedValue' => $selectedValue,
-            'selectedMonth' => $selectedMonth,
-            'transaksis' => $filteredData,
-        ]);
-
-        return $pdf->download('laporan_bulanan_transaksi.pdf');
+    // Check if the data is empty
+    if ($filteredData->isEmpty()) {
+        return response()->json(['message' => 'No data found']);
     }
+
+    // Generate the PDF with the retrieved data
+    $pdf = Pdf::loadView('pdf.laporanbulanantransaksi', [
+        'transaksis' => $filteredData,
+    ]);
+
+    // Download the PDF
+    return $pdf->download('laporan_bulanan_transaksi.pdf');
+}
+
+
     public function editEntryData(Request $request, $id)
     {
         $transaksi = Transaksi::findOrFail($id);
@@ -1160,8 +1146,12 @@ class TransaksiController extends Controller
         }
 
         $relatedPenghubung = $transaksi->penghubungs;
+        $allLunas = $relatedPenghubung->every(function($item) {
+            return $item->pembayaran->where('status_pembayaran', 'sudah lunas')->exists();
+        });
+        
         foreach ($relatedPenghubung as $item) {
-            if ($i == $item->pembayaran->count() &&  $transaksi->tanggal_transaksi == null) {
+            if ( $allLunas &&  $transaksi->tanggal_transaksi == null) {
                 // If condition is met, update the transaction date and save
                 $transaksi->tanggal_transaksi = now();
                 $transaksi->save();

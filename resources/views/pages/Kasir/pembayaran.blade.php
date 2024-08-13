@@ -12,7 +12,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
         <div class="w-100 bg-primary mb-3 shadow rounded-4 p-3" style="height: auto;">
             <div class="container">
 
-                <h4 class=" text-white mb-3 text-table">DATA TRANSAKSI | BELUM LUNAS</h4>
+                <h4 class=" text-white mb-3 text-table">DATA TRANSAKSI</h4>
                 <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Bulanan">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
@@ -111,7 +111,19 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
 
               
 
-               
+                $('#loading-button').hide();
+
+function showLoadingButton() {
+    $('#loading-button').show();
+    $('#icon').hide();
+    $('#text-error').hide();
+}
+
+function hideLoadingButton() {
+    $('#loading-button').hide();
+    $('#icon').show();
+}
+
 
                 $filterDropdown.click(function() {
                     valueselect = $(this).data('value');
@@ -230,6 +242,31 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     fetchDataAndUpdateTable();
                 });
                 fetchDataAndUpdateTable();
+                $buttonLaporanTransaksi.on("click", function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: "{{ route($cleaned.'.transaksi.laporantransaksi') }}",
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                           
+                        },
+                        beforeSend: showLoadingButton(),
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function(blob) {
+                            hideLoadingButton();
+                            var url = window.URL.createObjectURL(blob);
+                            window.open(url, '_blank');
+                        },
+                        error: function(xhr) {
+                            hideLoadingButton();
+                            console.log(xhr.responseText);
+                            $responseMessage.text('Error generating report.');
+                        }
+                    });
+                });
             });
         </script>
         @endpush

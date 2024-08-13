@@ -378,6 +378,7 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
             Route::get('/index', [TransaksiController::class, 'filterKasir'])->name('kasir.transaksi.filter');
             Route::get('/{id}', [TransaksiController::class, 'kasirShow'])->name('kasir.transaksi.show');
             Route::post('/edit/pembayaran/{id}', [TransaksiController::class, 'editpembayaran'])->name('kasir.transaksi.editpembayaran');
+            Route::post('/laporantransaksi', [TransaksiController::class, 'laporanbulanantransaksi'])->name('kasir.transaksi.laporantransaksi');
         });
 
         Route::prefix('notifikasi')->group(function () {

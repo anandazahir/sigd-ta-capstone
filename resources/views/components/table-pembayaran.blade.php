@@ -75,31 +75,16 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class="container">
         <div class="row justify-content-between p-0 m-0">
+        <div class="d-flex gap-2">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pembayaran</h2>
-            <div class="d-flex gap-2">
-                <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit2">
+                <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0 ms-auto" style="width: fit-content;" id="button-edit2">
                     <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
                         <i class="fa-solid fa-pen-to-square text-primary my-1" style="font-size:21px"></i>
                         <span class="fw-semibold fs-6 my-1 text-primary">Edit Pembayaran</span>
                     </div>
-                </button>
-                <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
-                    <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Bulanan">
-                        <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
-                            <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
-                            <i class="fa-solid fa-download text-white" style="font-size:17px;" id="icon"></i>
-                        </div>
-                        <span class="fs-5 fw-semibold text-primary">Laporan Harian Transaksi</span>
-                    </div>
-                </button>
+                </button> 
             </div>
-            <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit2">
-                <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
-                    <i class="fa-solid fa-pen-to-square text-primary my-1" style="font-size:21px"></i>
-                    <span class="fw-semibold fs-6 my-1 text-primary">Edit Pembayaran</span>
-                </div>
-            </button>
-
+            
         </div>
         <form action="{{route($cleaned.'.transaksi.editpembayaran', $data->id)}}" id="edit-form-pembayaran" method="POST">
             <div class="bg-white mt-3 p-2 rounded-4 shadow onscroll table-responsive" style="height: 25rem;">
@@ -183,7 +168,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     $(document).ready(function() {
         const $button_edit = $("#button-edit2");
         const $button_submit = $("#button-submit2");
-        const $buttonLaporanTransaksi = $("#button-laporan-transaksi");
+       
         $button_submit.hide();
 
         $("#table_pembayaran tbody tr td:first-child").hide();
@@ -312,31 +297,6 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 });
             }
         });
-        $buttonLaporanTransaksi.on("click", function(e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: "{{ route($cleaned.'.transaksi.laporantransaksi') }}",
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            jenis_kegiatan: valueselect,
-                            bulan_transaksi: $monthPicker.val()
-                        },
-                        beforeSend: showLoadingButton(),
-                        xhrFields: {
-                            responseType: 'blob'
-                        },
-                        success: function(blob) {
-                            hideLoadingButton();
-                            var url = window.URL.createObjectURL(blob);
-                            window.open(url, '_blank');
-                        },
-                        error: function(xhr) {
-                            hideLoadingButton();
-                            console.log(xhr.responseText);
-                            $responseMessage.text('Error generating report.');
-                        }
-                    });
-                });
+        
     });
 </script>
