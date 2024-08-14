@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1980-01-01', // Use appropriate date format
                 'status_menikah' => 'Menikah',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
@@ -57,7 +57,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S2',
                 'tanggal_lahir' => '1975-05-15', // Use appropriate date format
                 'status_menikah' => 'Menikah',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
@@ -79,7 +79,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1990-02-01',
                 'status_menikah' => 'Single',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
@@ -100,7 +100,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1985-03-10',
                 'status_menikah' => 'Single',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
@@ -121,7 +121,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1988-04-20',
                 'status_menikah' => 'Menikah',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
@@ -142,7 +142,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S2',
                 'tanggal_lahir' => '1982-05-25',
                 'status_menikah' => 'Menikah',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
@@ -163,7 +163,7 @@ class UsersTableSeeder extends Seeder
                 'pendidikan_terakhir' => 'S1',
                 'tanggal_lahir' => '1986-06-15',
                 'status_menikah' => 'Single',
-                'jumlah_cuti'=>3
+                'jumlah_cuti'=>12
             ]
         );
 
