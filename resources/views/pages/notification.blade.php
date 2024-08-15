@@ -14,7 +14,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <div class="p-0" style="width: fit-content;">
                             <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem;">
                                 <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
-                                <button class="btn btn-info shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
+                                <button class="btn shadow btn-info shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                             </form>
                         </div>
                     </div>
@@ -158,11 +158,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </td>
             <td>
                 <div class="btn-group gap-2 my-5">
-                    <a class="btn bg-primary text-white rounded-3 text-center button-open" style="height: 2.2rem" href="${item.link}">
+                    <a class="btn shadow bg-primary text-white rounded-3 text-center button-open" style="height: 2.2rem" href="${item.link}">
                         <i class="fa-solid fa-arrow-up-right-from-square text-white" style="font-size: 20px;"></i>
                         <span class="text-white mx-1 fw-semibold d-none d-lg-inline-block">OPEN</span>
                     </a>
-                    <button class="btn btn-danger text-white p-0 rounded-3 delete-notifikasi" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                    <button class="btn shadow btn-danger text-white p-0 rounded-3 delete-notifikasi" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                         <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                     </button>
                 </div>

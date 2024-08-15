@@ -20,14 +20,14 @@ break;
                     <form action="/{{$cleaned}}/peti-kemas/perbaikanhistory/deletelistperbaikan" method="POST" id="delete-form-perbaikanhistory">
                         @csrf
                         <input type="hidden" name="id" id="input_form_delete_perbaikanhistory">
-                        <button type="submit" class="btn btn-danger text-white rounded-3">
+                        <button type="submit" class="btn shadow btn-danger text-white rounded-3">
                             <div class="d-flex gap-2">
                                 <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-perbaikanhistory"></span>
                                 <span>Ya</span>
                             </div>
                         </button>
                     </form>
-                    <button class="btn bg-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
+                    <button class="btn shadow bg-primary text-white rounded-3" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@ break;
 
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Riwayat Perbaikan</h2>
-        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tanggal">
+        <div class="btn bg-white shadow rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tanggal">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="date" name="" id="date_perbaikanhistory">
         </div>
@@ -80,7 +80,7 @@ break;
                             {{ $penghubung->jumlah_perbaikan }}
                         </td>
                         <td class="text-center">
-                            <button class="btn bg-primary mx-auto" id="button-listkerusakan-perbaikan-{{ $penghubung->id }}" value="{{ $penghubung->id }}" data-bs-toggle="modal" data-bs-target="#table-kerusakan-perbaikan-{{ $penghubung->id }}">
+                            <button class="btn shadow bg-primary mx-auto" id="button-listkerusakan-perbaikan-{{ $penghubung->id }}" value="{{ $penghubung->id }}" data-bs-toggle="modal" data-bs-target="#table-kerusakan-perbaikan-{{ $penghubung->id }}">
                                 <span class="fs-semibold text-white">LIST PERBAIKAN</span>
                             </button>
                         </td>
@@ -110,7 +110,7 @@ break;
                         </td>
                         @can ('mengelola petikemas')
                         <td class="text-center gap-1">
-                            <button class="btn btn-danger text-white rounded-3" id="button_delete_perbaikan" value="{{ $penghubung->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
+                            <button class="btn shadow btn-danger text-white rounded-3" id="button_delete_perbaikan" value="{{ $penghubung->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
                                 <i class="fa-solid fa-trash-can fa-lg my-1"></i>
                             </button>
                         </td>
@@ -162,7 +162,7 @@ break;
                     $.each(response.Data, function(index, item) {
                         let deleteButton = '';
                         if (role === 'direktur' || role === 'mops') {
-                            deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_perbaikanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                            deleteButton = `<button class="btn shadow btn-danger text-white p-0 rounded-3" id="button_delete_perbaikanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                     </button>`;
                         }
@@ -184,7 +184,7 @@ break;
                             '<td class="text-center m-0 p-0">' + item.tanggal_perbaikan + '</td>' +
                             '<td class="text-center">' + item.jumlah_perbaikan + '</td>' +
                             '<td class="text-center">' +
-                            '<button class="btn bg-primary mx-auto" id="button-listkerusakan-perbaikan-' + item.id + '" value="' + item.id + '" data-bs-toggle="modal" data-bs-target="#table-kerusakan-perbaikan-' + item.id + '">' +
+                            '<button class="btn shadow bg-primary mx-auto" id="button-listkerusakan-perbaikan-' + item.id + '" value="' + item.id + '" data-bs-toggle="modal" data-bs-target="#table-kerusakan-perbaikan-' + item.id + '">' +
                             '<span class="fs-semibold text-white">LIST PERBAIKAN</span>' +
                             '</button>' +
                             '</td>' +

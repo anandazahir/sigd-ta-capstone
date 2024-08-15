@@ -29,17 +29,17 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-10 m-0 p-0">Penyewaan</h2>
             @can('mengelola transaksi')
-            <button class="btn bg-white px-3 col-lg-2 mt-3 mt-lg-0 text-primary fw-semibold" style="width: fit-content;"  data-bs-toggle="modal" data-bs-target="#table-log-transaksi">
+            <button class="btn shadow bg-white px-3 col-lg-2 mt-3 mt-lg-0 text-primary fw-semibold" style="width: fit-content;"  data-bs-toggle="modal" data-bs-target="#table-log-transaksi">
                LOG
             </button>
-            <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
+            <button class="btn shadow bg-white p-1 col-lg-2 mt-3 mt-lg-0" style="width: fit-content;" id="button-edit">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
                     <i class="fa-solid fa-pen-to-square text-primary   my-1" style="font-size:21px"></i>
                     <span class="fw-semibold fs-6 my-1 text-primary">Edit Data</span>
                 </div>
             </button>
             
-            <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry" style="width: fit-content;">
+            <button class="btn shadow bg-white p-1 col-lg-2 mt-3 mt-lg-0" id="button-tambah-entry" style="width: fit-content;">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data peti kemas">
                     <i class="fa-solid fa-circle-plus text-primary my-2" style="font-size:25px"></i>
                     <span class="fw-semibold fs-6 my-2 text-primary">Tambah Baris Baru</span>
@@ -105,7 +105,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td class="text-center">
-                                <a class="btn bg-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}">
+                                <a class="btn shadow bg-{{ $pembayaran->status_cetak_spk == 'sudah cetak' && $pembayaran->status_pembayaran == 'sudah lunas' ? 'primary disabled' : 'danger' }} text-white rounded-3 {{ $pembayaran->status_pembayaran == 'sudah lunas' ? '' : 'disabled' }}" id="cetak_spk" data-id="{{ $pembayaran->penghubung_id }}" data-status="{{ $pembayaran->status_cetak_spk }}">
                                     <div class="d-flex gap-2">
                                         <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-spk"></span>
                                         <span>{{ $pembayaran->status_cetak_spk }}</span>
@@ -115,7 +115,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </td>
                             @can('mengelola transaksi')
                             <td class="text-center">
-                                <button class="btn btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
+                                <button class="btn shadow btn-danger text-white rounded-3" id="deleteentrydata" value="{{ $pembayaran->penghubung_id }}"> <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button>
                             </td>
                             @endcan
                         </tr>
@@ -128,7 +128,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </div>
             @can('mengelola transaksi')
             <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-info text-white rounded-3 mx-auto" id="button-submit">
+                <button type="submit" class="btn shadow btn-info text-white rounded-3 mx-auto" id="button-submit">
                     <div class="d-flex gap-2">
                         <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-entrydata"></span>
                         <span class="fw-semibold text-white">Simpan Data</span>

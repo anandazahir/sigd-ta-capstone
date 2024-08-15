@@ -107,7 +107,7 @@
             <div class="invalid-feedback"></div>
         </div>
     </div>
-    <button type="submit" class="btn bg-primary text-white">
+    <button type="submit" class="btn shadow bg-primary text-white">
         <div class="d-flex gap-2">
             <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-edit-pegawai"></span>
             <span>Submit</span>

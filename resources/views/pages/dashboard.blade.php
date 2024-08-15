@@ -46,7 +46,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             </div>
                         </div>
                         <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
-                            <a class="btn bg-white rounded-3 text-center" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/profile">
+                            <a class="btn shadow bg-white rounded-3 text-center" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/profile">
                                 <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
                             </a>
                         </div>
@@ -61,7 +61,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <div class="rounded-4 p-4 text-white bg-primary shadow position-relative" style="height: {{ auth()->user()->hasRole('kasir') || auth()->user()->hasRole('surveyin') || auth()->user()->hasRole('tally')  ? '17.8rem' : '27rem' }}">
                     <div class="position-absolute top-0 end-0" style="margin: 7px 7px;">
                         <div class="rounded-3 d-flex flex-row justify-content-center" style="width: 2rem; height: 2rem; place-items: center; background: #edf5f5;">
-                            <a class="btn bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/notifikasi">
+                            <a class="btn shadow bg-white rounded-3 text-center onhover" style="padding:4px 7px 4px 7px;" href="/{{$cleaned}}/notifikasi">
                                 <i class="fa-solid fa-ellipsis text-primary " style="font-size: 19px;"></i>
                             </a>
                         </div>

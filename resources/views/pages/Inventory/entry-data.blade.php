@@ -39,7 +39,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0">
                     <div class="p-0" style="width: fit-content;">
 
-                        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
+                        <button class="btn bg-white mb-2 shadow" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
                             <div class="d-flex gap-1">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
@@ -58,7 +58,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                     </form>
 
                     <div class="dropdown">
-                        <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn bg-white shadow" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex gap-1 position-relative">
                                 <i class="fa-solid fa-sliders my-1 text-black"></i>
                                 <span>Filter</span>
@@ -233,7 +233,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                         <td>${item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1)}</td>
                         <td>${item.jumlah_petikemas}</td>
                         <td><div class="btn-group gap-2">
-                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
+                        <a class="btn shadow bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
                        </div></td></tr>`
                                 );

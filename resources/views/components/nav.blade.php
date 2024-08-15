@@ -121,7 +121,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
   </div>
 </nav>
 <div class="d-flex flex-row  justify-content-between mt-3 mb-2 text-primary">
-  <h3 style="font-size: 1rem;">{{$msg}}</h3>
+  <h3  style="font-size: 1.7rem; font-weight:650;">{{$msg}}</h3>
   <div class="d-flex align-items-center">
     <a href="{{route($cleaned.'.dashboard')}}" style="height: fit-content; ">
       <i class="fa-solid fa-house mx-1"></i>

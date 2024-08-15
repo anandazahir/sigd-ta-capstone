@@ -68,7 +68,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                         @csrf
                                         <input type="hidden" name="id_kerusakan" value="{{$item->id}}">
                                         <input type="hidden" name="id_petikemas" value="{{$petikemas}}">
-                                        <button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $item['id'] }}" data-bs-toggle="modal">
+                                        <button class="btn shadow btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $item['id'] }}" data-bs-toggle="modal">
                                             <i class="fa-solid fa-trash-can fa-lg my-1"></i>
                                         </button>
                                     </form>

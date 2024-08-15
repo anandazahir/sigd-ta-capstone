@@ -4,7 +4,7 @@
     <div class="container position-relative">
         <h1 class="text-white fw-semibold">Pengajuan</h1>
         @if (!auth()->user()->hasRole('direktur'))
-        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan-modal">
+        <button class="btn shadow bg-white mb-2" data-bs-toggle="modal" data-bs-target="#create-pengajuan-modal">
             <div class="d-flex gap-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Pengajuan">
                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                     <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
@@ -48,7 +48,7 @@
                             {{$user->tanggal_dibuat}}
                         </td>
                         <td class="text-center">
-                            <a class="btn bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;" href="{{  $user['url_file']}}" target="_blank">
+                            <a class="btn shadow bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;" href="{{  $user['url_file']}}" target="_blank">
                                 <i class="fa-solid fa-file-pdf position-absolute my-2 my-lg-0 text-white" style="font-size:20px;"></i>
                                 <span class="fw-normal text-white mx-lg-4 mx-2 " style="font-size: 1.4vh;">{{$user->file_name}}</span>
                             </a>
@@ -57,7 +57,7 @@
                             <span class="bg-{{$user->status == 'tolak' ? 'danger' : 'primary'}} rounded-2 p-1 fw-semibold text-white">{{strtoupper($user->status)}}</span>
                         </td>
                         <td class="text-center">
-                            <button class="btn bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan-modal-{{$user->id}}"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai" value="{{$user->id}}"></i></button>
+                            <button class="btn shadow bg-primary text-white rounded-3" data-bs-toggle="modal" data-bs-target="#edit-pengajuan-modal-{{$user->id}}"> <i class=" fa-solid fa-pen-to-square fa-xl my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Data Pengajuan Pegawai" value="{{$user->id}}"></i></button>
                         </td>
                     </tr>
                     @endforeach
@@ -72,7 +72,7 @@
                             {{$user->tanggal_dibuat}}
                         </td>
                         <td class="text-center">
-                            <a class="btn bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;" href="{{  $user['url_file']}}" target="_blank">
+                            <a class="btn shadow bg-primary rounded-3 d-flex p-1 mx-auto my-2 position-relative" style="width: fit-content; height:30px;" href="{{  $user['url_file']}}" target="_blank">
                                 <i class="fa-solid fa-file-pdf position-absolute my-2 my-lg-0 text-white" style="font-size:20px;"></i>
                                 <span class="fw-normal text-white mx-lg-4 mx-2 " style="font-size: 1.4vh;">{{$user->file_name}}</span>
                             </a>

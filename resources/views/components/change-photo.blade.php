@@ -10,7 +10,7 @@
                         <label for="jenispengajuan" class="form-label">Ganti Foto Profil</label>
                         <input type="file" class="form-control" id="myfile" name="myfile">
                     </div>
-                    <button type="submit" class="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
+                    <button type="submit" class="btn shadow bg-primary text-white" data-bs-toggle="modal" data-bs-target="#toastModal">Submit</button>
                 </form>
             </div>
         </div>

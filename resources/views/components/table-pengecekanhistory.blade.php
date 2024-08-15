@@ -12,7 +12,7 @@ break;
 <div class="bg-primary rounded-4 shadow p-3 mb-3 position-relative" style="height: auto;">
     <div class=" container position-relative">
         <h2 class="text-white fw-semibold">Riwayat Pengecekan</h2>
-        <div class="btn bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tanggal">
+        <div class="btn shadow bg-white rounded-circle btn date-picker position-absolute top-0 end-0" style="margin-right: 10px; padding: 9px 11px 9px 11px" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter Berdasarkan Tanggal">
             <i class="fa-solid fa-calendar-days text-primary" style="font-size: 30px;"></i>
             <input type="date" name="" id="date_pengecekanhistory">
         </div>
@@ -55,7 +55,7 @@ break;
                             {{ $penghubung->jumlah_kerusakan }}
                         </td>
                         <td class="text-center">
-                            <button class="btn bg-primary mx-auto" id="button-listkerusakan-pengecekan-{{ $penghubung->id }}" value="{{ $penghubung->id }}" data-bs-toggle="modal" data-bs-target="#table-kerusakan-pengecekan-{{ $penghubung->id }}">
+                            <button class="btn shadow bg-primary mx-auto" id="button-listkerusakan-pengecekan-{{ $penghubung->id }}" value="{{ $penghubung->id }}" data-bs-toggle="modal" data-bs-target="#table-kerusakan-pengecekan-{{ $penghubung->id }}">
                                 <span class="fs-semibold text-white">LIST KERUSAKAN</span>
                             </button>
                         </td>
@@ -86,7 +86,7 @@ break;
                         </td>
                         @can ('mengelola petikemas')
                         <td class="text-center gap-1">
-                            <button class="btn btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $penghubung->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
+                            <button class="btn shadow btn-danger text-white rounded-3" id="button_delete_kerusakan" value="{{ $penghubung->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
                                 <i class="fa-solid fa-trash-can fa-lg my-1"></i>
                             </button>
                         </td>
@@ -146,7 +146,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                     $.each(response.Data, function(index, item) {
                         let deleteButton = '';
                         if (role === 'direktur' || role === 'mops') {
-                            deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3" id="button_delete_pengecekanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                            deleteButton = `<button class="btn shadow btn-danger text-white p-0 rounded-3" id="button_delete_pengecekanhistory" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                         }
@@ -171,7 +171,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             '<td class="text-center">' + item.jumlah_kerusakan +
                             '</td>' +
                             '<td class="text-center">' +
-                            '<button class="btn bg-primary mx-auto" id="button-listkerusakan-pengecekan-' +
+                            '<button class="btn shadow bg-primary mx-auto" id="button-listkerusakan-pengecekan-' +
                             item.id + '" value="' + item.id +
                             '" data-bs-toggle="modal" data-bs-target="#table-kerusakan-pengecekan-' +
                             item.id + '">' +

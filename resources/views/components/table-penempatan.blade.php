@@ -114,7 +114,7 @@ break;
                         <td class="text-center">
                             <div class="btn-group gap-2 mx-auto">
                                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data penempatan">
-                                    <button class="btn bg-primary  rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-{{$penghubung->penempatan->id}}" value="{{$penghubung->penempatan->id}}" id="edit-button-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i></button>
+                                    <button class="btn shadow bg-primary  rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-{{$penghubung->penempatan->id}}" value="{{$penghubung->penempatan->id}}" id="edit-button-penempatan"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white"></i></button>
                                 </div>
                             </div>
                         </td>

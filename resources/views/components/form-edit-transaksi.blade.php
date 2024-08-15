@@ -83,7 +83,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             <div class="invalid-feedback"></div>
         </div>
     </div>
-    <button type="submit" class="btn bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">
+    <button type="submit" class="btn shadow bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">
         <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-edit-transaksi"></span>
         <span>Submit</span>
     </button>

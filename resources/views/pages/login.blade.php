@@ -183,7 +183,7 @@
                        
                       </div>
                       <div class="mb-4 text-center">
-                        <button type="submit" class="btn w-100 text-white bg-primary" style="background-color: #2B3674">Login</button>
+                        <button type="submit" class="btn shadow w-100 text-white bg-primary" style="background-color: #2B3674">Login</button>
                       </div>
                     </form>
                   </div>

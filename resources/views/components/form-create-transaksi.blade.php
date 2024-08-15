@@ -72,7 +72,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">
+    <button type="submit" class="btn shadow bg-primary text-white mb-3" style="width: fit-content; margin-left:15px;">
         <div class="d-flex gap-2">
             <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-create-petikemas"></span>
             <span>Submit</span>

@@ -12,7 +12,7 @@ break;
     <div class=" container ">
         <div class="row justify-content-between p-0 m-0">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pengecekan</h2>
-            <button class="btn bg-white  col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-pengecekan-modal" style="width: fit-content; height: fit-content">
+            <button class="btn shadow bg-white  col-lg-2 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create-pengecekan-modal" style="width: fit-content; height: fit-content">
                 <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah data pengecekan">
                     <i class="fa-solid fa-circle-plus text-primary fa-xl mx-1" style="margin:10px;"></i>
                     <span class="fw-semibold fs-6 text-primary">Tambah Pengecekan</span>
@@ -61,7 +61,7 @@ break;
                         </td>
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Melihat detail kerusakan">
-                                <button class="btn bg-primary mx-auto text-white" id="button_listkerusakan_pengecekan" data-bs-toggle="modal" data-bs-target="#table-kerusakan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>
+                                <button class="btn shadow bg-primary mx-auto text-white" id="button_listkerusakan_pengecekan" data-bs-toggle="modal" data-bs-target="#table-kerusakan-{{$penghubung->pengecekan->id}}"><span class="fs-semibold">LIST KERUSAKAN</span></button>
                             </div>
                         </td>
 
@@ -100,7 +100,7 @@ break;
                         @can('mengelola transaksi')
                         <td class="text-center">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data pengecekan">
-                                <button class="btn bg-primary text-white mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" id="edit_pengecekan_button">
+                                <button class="btn shadow bg-primary text-white mx-auto" data-bs-toggle="modal" data-bs-target="#edit-pengecekan-modal-{{$penghubung->pengecekan->id}}" id="edit_pengecekan_button">
                                     <i class="fa-solid fa-pen-to-square fa-lg my-1"></i>
                                 </button>
                             </div>

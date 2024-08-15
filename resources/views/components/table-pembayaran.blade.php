@@ -77,7 +77,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <div class="row justify-content-between p-0 m-0">
         <div class="d-flex gap-2">
             <h2 class="text-white fw-semibold col-lg-9 m-0 p-0">Pembayaran</h2>
-                <button class="btn bg-white p-1 col-lg-2 mt-3 mt-lg-0 ms-auto" style="width: fit-content;" id="button-edit2">
+                <button class="btn shadow bg-white p-1 col-lg-2 mt-3 mt-lg-0 ms-auto" style="width: fit-content;" id="button-edit2">
                     <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah data">
                         <i class="fa-solid fa-pen-to-square text-primary my-1" style="font-size:21px"></i>
                         <span class="fw-semibold fs-6 my-1 text-primary">Edit Pembayaran</span>
@@ -152,7 +152,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 </table>
             </div>
             <div class="mt-3 text-center">
-                <button type="submit" class="btn rounded-3 mx-auto btn-info" id="button-submit2" value="{{$data->id}}">
+                <button type="submit" class="btn shadow rounded-3 mx-auto btn-info" id="button-submit2" value="{{$data->id}}">
                     <div class="d-flex gap-2">
                         <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-pembayaran"></span>
                         <span class="fw-semibold text-white"> Simpan Data & Cetak Kwitansi</span>

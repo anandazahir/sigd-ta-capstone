@@ -233,7 +233,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             @can ("membuat laporan harian")
                             <div class="p-0" style="width: fit-content;">
                                 @can ("mengelola petikemas")
-                                <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
+                                <button class="btn shadow bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-petikemas">
                                     <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Petikemas">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                             <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
@@ -242,7 +242,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </div>
                                 </button>
                                 @endcan
-                                <button id="laporan_harian" class="btn bg-white mb-2 " data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Harian Petikemas">
+                                <button id="laporan_harian" class="btn shadow bg-white mb-2 " data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Harian Petikemas">
                                     <div class="d-flex gap-1">
                                         <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                             <span class="spinner-border spinner-border-sm text-white" aria-hidden="true" id="loading-button"></span>
@@ -258,7 +258,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <div class="p-0 position-relative d-flex flex-lg-row flex-column justify-content-between gap-2" style="margin-top:10px;">
                             <form class="d-flex m-0 p-0" role="search" id="searchForm" style="width: 19rem; height: 2.5rem;">
                                 <input class="form-control  shadow" type="search" placeholder="Search Something" aria-label="Search" style="border-radius: 10px 0px 0px 10px;" id="searchInput">
-                                <button class="btn btn-info shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
+                                <button class="btn shadow btn-info shadow" type="submit" style="border-radius: 0px 10px 10px 0px;"><i class="fa-solid fa-magnifying-glass text-white" style="font-size:1.5rem"></i></button>
                             </form>
                             <div class="d-flex">
                                 <label for="" class="form-label text-white fw-semibold position-absolute d-none d-lg-block" style="font-size: 12px; top:-1.5rem; right:10rem;">Filter Berdasarkan Lokasi Petikemas</label>
@@ -296,7 +296,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 </div>
 
                                 <div class="dropdown" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter">
-                                    <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn shadow bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
                                         <div class="d-flex gap-1 position-relative">
                                             <i class="fa-solid fa-sliders my-1 text-black"></i>
                                             <span>Filter</span>
@@ -579,13 +579,13 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                 let editButton = '';
 
                                 if (role === 'direktur' || role === 'mops') {
-                                    deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
+                                    deleteButton = `<button class="btn shadow btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                                 }
                                 if (role === 'tally') {
                                     editButton = `<div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Mengubah Data Penempatan">
-                                    <button class="btn bg-primary  p-0 rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-${item.id}"  id="edit-button-penempatan"  style="width: 2.5rem; height: 2.2rem;"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white" style="font-size: 20px;"></i></button>
+                                    <button class="btn shadow bg-primary  p-0 rounded-3" data-bs-toggle="modal" data-bs-target="#edit-penempatan-${item.id}"  id="edit-button-penempatan"  style="width: 2.5rem; height: 2.2rem;"> <i class="fa-solid fa-pen-to-square fa-lg my-1 text-white" style="font-size: 20px;"></i></button>
                                 </div>`;
                                 }
                                 const row = `<tr>
@@ -596,7 +596,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     <td><div class="fw-semibold fs-5 ${statusClassKetersediaan} p-1 rounded-2 text-white mx-auto" style="width: 45%;">${item.status_ketersediaan.toUpperCase()}</div></td>
                                     <td><div class="fw-semibold fs-5 ${Lokasi} p-1 rounded-2 text-white">${item.lokasi.toUpperCase()}</div></td>
                                     <td><div class="btn-group gap-2">
-                                    <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/{{$cleaned}}/peti-kemas/${item.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="More">
+                                    <a class="btn shadow bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/{{$cleaned}}/peti-kemas/${item.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="More">
                                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;" ></i>
                                     </a>
                                          ${deleteButton}

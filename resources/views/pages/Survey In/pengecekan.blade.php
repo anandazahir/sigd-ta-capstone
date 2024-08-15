@@ -185,7 +185,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
                         <td>${item.jenis_kegiatan}</td>
                         <td>${item.jumlah_petikemas}</td>
                         <td><div class="btn-group gap-2">
-                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
+                        <a class="btn shadow bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
                        </div></td></tr>`
                                 );

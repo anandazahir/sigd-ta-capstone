@@ -124,7 +124,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                 <div class="row justify-content-start justify-content-lg-between p-0 m-0">
                     <div class="p-0" style="width: fit-content;">
 
-                        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
+                        <button class="btn shadow bg-white mb-2" data-bs-toggle="modal" data-bs-target="#form-create-transaksi">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Tambah Transaksi">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
@@ -137,7 +137,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         </button>
 
 
-                        <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
+                        <button type="submit" class="btn shadow bg-white mb-2  " id="button-laporan-transaksi">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Bulanan">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                     <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
@@ -161,7 +161,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
                     </div>
                     <div class="dropdown" data-bs-toggle="tooltip" data-bs-placement="top" title="Filter">
-                        <button class="btn bg-white" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn bg-white shadow" type="button" style="padding: 6px 6px 6px 6px;" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex gap-1 position-relative">
                                 <i class="fa-solid fa-sliders my-1 text-black"></i>
                                 <span>Filter</span>
@@ -396,9 +396,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                         <td>${item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1)}</td>
                         <td>${item.jumlah_petikemas}</td>
                         <td><div class="btn-group gap-2">
-                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
+                        <a class="btn bg-primary text-white p-0 rounded-3 shadow" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
-                        <button class="btn btn-danger text-white p-0 rounded-3 delete-transaksi" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                        <button class="btn btn-danger text-white p-0 rounded-3 delete-transaksi shadow" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                         <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i></button></div></td></tr>`
                                 );
                             });

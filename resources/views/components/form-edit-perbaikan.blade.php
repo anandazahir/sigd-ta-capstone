@@ -128,7 +128,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn bg-primary text-white">
+    <button type="submit" class="btn shadow bg-primary text-white">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="loading-button-editperbaikan"></span>
         <span>Submit</span>
 

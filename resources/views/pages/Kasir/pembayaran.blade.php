@@ -13,7 +13,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role)
             <div class="container">
 
                 <h4 class=" text-white mb-3 text-table">DATA TRANSAKSI</h4>
-                <button type="submit" class="btn bg-white mb-2  " id="button-laporan-transaksi">
+                <button type="submit" class="btn bg-white mb-2  shadow" id="button-laporan-transaksi">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Membuat Laporan Bulanan">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                     <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
@@ -197,7 +197,7 @@ function hideLoadingButton() {
                         <td>${item.jenis_kegiatan.charAt(0).toUpperCase() + item.jenis_kegiatan.slice(1)}</td>
                         <td>${item.jumlah_petikemas}</td>
                         <td><div class="btn-group gap-2">
-                        <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
+                        <a class="btn shadow bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="${window.location.pathname}/${item.id}"> 
                         <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i></a>
                        </div></td></tr>`
                                 );

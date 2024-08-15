@@ -3,7 +3,7 @@
         Pegawai
         </x-slot>
         <div class="dropdown d-block d-md-none mb-3">
-            <button class="btn dropdowntoggle btn-info text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
+            <button class="btn dropdowntoggle btn-info shadow text-white w-100 text-start rounded-4 shadow" type="button" data-bs-toggle="dropdown">
                 <div class="element-dropdown">
                     <div class="rounded-circle bg-white position-absolute top-0 start-0 my-3" style="margin-left: 10px; width: 4.7rem; height:4.7rem;">
                         <i class="fa-solid fa-file-lines  text-info " style="font-size:3.3rem; margin: 10px 18px 10px 18px"></i>

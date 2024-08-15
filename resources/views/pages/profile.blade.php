@@ -96,12 +96,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                             <div class="bg-white  rounded-3" style="padding:5px;">
                                 <button class=" btn color-button" style="width: 40px; height: 40px; background-color:#f09259" value="240, 146, 89" data-test="#f09259"></button>
                             </div>
-                            <div class="bg-white  rounded-3" style="padding:5px;">
-                                <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#F48FB1" value="244, 143, 177" data-test="#F48FB"></button>
-                            </div>
-                            <div class="bg-white  rounded-3" style="padding:5px;">
-                                <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#CE93D8" value="206, 147, 216" data-test="#CE93D8"></button>
-                            </div>
+                           
                             <div class="bg-white  rounded-3" style="padding:5px;">
                                 <button class=" color-button btn border-2" style="width: 40px; height: 40px; background-color:#4DB6AC" value="77, 182, 172" data-test="#4DB6AC"></button>
                             </div>

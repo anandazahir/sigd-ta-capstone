@@ -7,7 +7,7 @@
                 <h3 class=" text-white" style="margin-bottom:20px;">DATA PEGAWAI</h3>
                 <div class="row justify-content-between p-0 m-0" style=" margin-top:20px;">
                     <div class="p-0" style="width: fit-content;">
-                        <button class="btn bg-white mb-2" data-bs-toggle="modal" data-bs-target="#create-pegawai-modal">
+                        <button class="btn bg-white mb-2 shadow" data-bs-toggle="modal" data-bs-target="#create-pegawai-modal">
                             <div class="d-flex gap-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Menambah Data Pegawai">
                                 <div class="rounded-circle bg-primary p-1 " style="width: 30px; height:min-content;">
                                     <i class="fa-solid fa-plus text-white" style="font-size:17px;"></i>
@@ -137,7 +137,7 @@
                             const tbody = $('#table_pegawai tbody').empty();
 
                             $.each(response.Data, function(index, item) {
-                                deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
+                                deleteButton = `<button class="btn btn-danger text-white p-0 rounded-3 delete-petikemas shadow" style="width: 2.5rem; height: 2.2rem;" value="${item.id}">
                                     <i class="fa-regular fa-trash-can text-white" style="font-size: 20px;"></i>
                                     </button>`;
                                 const row = `<tr>
@@ -149,10 +149,10 @@
     <td>${ucwords(item.username)}</td>
     <td>
         <div class="btn-group gap-2">
-            <a class="btn bg-primary text-white p-0 rounded-3" style="width: 2.5rem; height: 2.2rem;" href="/direktur/pegawai/${item.id}">
+            <a class="btn bg-primary text-white p-0 rounded-3 shadow" style="width: 2.5rem; height: 2.2rem;" href="/direktur/pegawai/${item.id}">
                 <i class="fa-solid fa-ellipsis text-white my-2" style="font-size: 20px;"></i>
             </a>
-            <button class="btn btn-primary text-white p-0 rounded-3 reset-password" style="width: 2.5rem; height: 2.2rem;" value="${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Reset Password">
+            <button class="btn btn-primary text-white p-0 rounded-3 reset-password shadow" style="width: 2.5rem; height: 2.2rem;" value="${item.id}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Reset Password">
                                     <i class=" fa-solid fa-key text-white" style="font-size: 20px;"></i>
                                     </button>
             ${deleteButton}

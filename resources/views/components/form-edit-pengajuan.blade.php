@@ -27,7 +27,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         </div>
         <p class="text-danger" id="error"></p>
     </div>
-    <button type="submit" class="btn bg-primary text-white">
+    <button type="submit" class="btn shadow bg-primary text-white">
         <div class="d-flex gap-2">
             <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button-editpengajuan"></span>
             <span>Submit</span>

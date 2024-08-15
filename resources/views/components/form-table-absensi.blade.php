@@ -30,7 +30,7 @@
         </select>
         <div class="invalid-feedback"></div>
     </div>
-    <button type="submit" class="btn bg-primary text-white">Submit</button>
+    <button type="submit" class="btn shadow bg-primary text-white">Submit</button>
 </form>
 <script>
     /*

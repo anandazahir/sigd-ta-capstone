@@ -159,7 +159,7 @@
         </div>
 
     </div>
-    <button class="btn rounded-3  d-flex mx-auto mt-3 bg-white" data-bs-toggle="modal" data-bs-target="#edit-pegawai-modal">
+    <button class="btn rounded-3 shadow d-flex mx-auto mt-3 bg-white" data-bs-toggle="modal" data-bs-target="#edit-pegawai-modal">
         <div data-bs-toggle="tooltip" data-bs-placement="top" title="Ubah Biodata">
             <i class="fa-solid fa-pen-to-square fa-lg my-auto text-primary"></i>
             <span class="fw-semibold my-auto fs-6 text-primary">EDIT DATA</span>
