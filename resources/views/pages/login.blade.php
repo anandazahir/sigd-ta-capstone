@@ -11,7 +11,6 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   @vite([
   "resources/scss/style.scss",
-  "resources/js/app.js",
   ])
   <script>
     // Apply the saved color from localStorage as soon as possible

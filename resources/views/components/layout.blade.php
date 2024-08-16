@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
+    
     <script>
         // Apply the saved color from localStorage as soon as possible
         (function() {
@@ -24,9 +24,10 @@
         })();
     </script>
     </script>
-    @vite([
+    {{--@vite([
     "resources/scss/style.scss",
-    ])
+    ])--}}
+
     <style>
         /*sistem ke restrat (warna utama)*/
         :root {
