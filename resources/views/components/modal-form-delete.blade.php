@@ -35,7 +35,7 @@
         function hideLoadingButton() {
             $('#loading-button-delete').hide();
         }
-        /*$('#delete-form').submit(function(event) {
+        $('#delete-form').submit(function(event) {
             event.preventDefault();
             let form = $(this);
             const formData = form.serialize();
@@ -55,7 +55,7 @@
                     hideLoadingButton();
                 }
             });
-        });*/
+        });
     });
 </script>
 @endpush

@@ -753,7 +753,7 @@ class TransaksiController extends Controller
                 if ($item->petikemas_id != $newPetikemasId) {
                     $this->resetRelatedEntries($item->id);
                     $this->resethistory($item->id, $petikemas);
-                    Transaksihistory::create(['no_petikemas'=>$item->no_petikemas,'user'=>auth()->user()->username,'aksi'=>'mengubah', 'transaksi_id'=>$transaksi->id]);
+                    Transaksihistory::create(['no_petikemas'=> $petikemas->no_petikemas,'user'=>auth()->user()->username,'aksi'=>'mengubah', 'transaksi_id'=>$transaksi->id, 'waktu_perubahan'=>now()]);
                     $item->update(['petikemas_id' => $newPetikemasId]);
                     $newpetikemas = petikemas::where(['id' => $newPetikemasId])->first();
                     $newpetikemas->update([
