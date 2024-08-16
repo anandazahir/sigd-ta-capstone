@@ -55,8 +55,8 @@
         <div class="header">
             <h2>PT GARBANTARA DEPO</h2>
             <p>
-                Jl. Tirto Agung No.50,<br />
-                Pedalangan, Kec. Banyumanik,<br />
+            Kawasan Industri Cipta Guna Centra Buana Kav. 9 Jl. Arteri Utara,<br />
+            Phone (024) 3586300 (Hunting) Fax. 3586205,<br />
                 Kota Semarang Jawa Tengah 50268
             </p>
         </div>

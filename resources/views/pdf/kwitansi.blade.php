@@ -55,8 +55,8 @@
         <div class="header">
             <h2>PT GARBANTARA DEPO</h2>
             <p>
-                Jl. Tirto Agung No.50,<br />
-                Pedalangan, Kec. Banyumanik,<br />
+            Kawasan Industri Cipta Guna Centra Buana Kav. 9 Jl. Arteri Utara,<br />
+            Phone (024) 3586300 (Hunting) Fax. 3586205,<br />
                 Kota Semarang Jawa Tengah 50268
             </p>
         </div>
@@ -98,6 +98,8 @@
         <div class="total">
             @php
             $total = 0;
+            $ppn = 25000;
+            $fee = 3600;
             if (count($penghubung) > 1) {
             foreach ($penghubung as $item) {
             $total += $item->petikemas->harga;
@@ -108,7 +110,9 @@
             }
             @endphp
             <p>Subtotal {{count($penghubung)}} Peti kemas: {{$total}}</p>
-            <p>Total Tagihan: {{$total}}</p>
+            <p>PPN: {{$ppn}}</p>
+            <p>Biaya Operasional: {{$fee}}</p>
+            <p>Total Tagihan: {{$total + $fee + $ppn}}</p>
             @foreach ($penghubung as $item)
             <p>Metode Pembayaran: {{$item->pembayaran-> metode}}</p>
             @break

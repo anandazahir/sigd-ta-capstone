@@ -48,7 +48,9 @@ class TransaksiController extends Controller
                     ->whereMonth('tanggal_pembayaran', date('m')); // Current month
             })->with('petikemas')->get();
             // Extract and sum the harga values from the related petikemas models for each transaksi
-            $totalHarga += $lunasPenghubungs->pluck('petikemas.harga')->sum();
+            $totalHarga += $lunasPenghubungs->pluck('petikemas.harga')->map(function($harga) {
+                return $harga + 25000 + 3600;
+            })->sum();
         }
 
         return view('pages.transaksi', compact('transaksi', 'totaltransaksi', 'totaltransaksiekspor', 'totaltransaksiimpor', 'totalHarga'));

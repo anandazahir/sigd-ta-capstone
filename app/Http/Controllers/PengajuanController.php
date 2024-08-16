@@ -117,12 +117,12 @@ class PengajuanController extends Controller
 
         if ($request->status == 'acc') {
             // Save the image to storage
-            $imagePath = 'signatures/ananda_zahir.png'; // Ensure this path is correct
-            $pengajuan->sign_acc = $imagePath;
+            /*$imagePath = 'public/ttd_rizal.png'; // Ensure this path is correct
+            $pengajuan->sign_acc = $imagePath;*/
 
             // Generate PDF
            
-            $data = array_merge( ['pengajuan' => $pengajuan], ['direktur'=>$direktur]);
+            /*$data = array_merge( ['pengajuan' => $pengajuan], ['direktur'=>$direktur]);
             $pdfContent = PDF::loadView('pdf.surat_izin', $data)->output();
             $fileName = $pengajuan->status . '_surat_izin_' . $user->username . '.pdf';
 
@@ -131,7 +131,7 @@ class PengajuanController extends Controller
 
             // Fill the filename and url_file in the cuti record
             $pengajuan->file_name = $fileName;
-            $pengajuan->url_file = Storage::url('public/uploads/' . $fileName);
+            $pengajuan->url_file = Storage::url('public/uploads/' . $fileName);*/
             $mulai_cuti = Carbon::parse($pengajuan->mulai_cuti);
             $selesai_cuti = Carbon::parse($pengajuan->selesai_cuti);
             for ($date = $mulai_cuti->copy(); $date->lte($selesai_cuti); $date->addDay()) {
