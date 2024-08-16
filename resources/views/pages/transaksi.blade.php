@@ -78,7 +78,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                     </button>
                                 </li>
                             </ul>
-                            <div class="bg-white  p-3 d-flex align-content-center justify-content-center" style="border-radius:0px 0px 7px 7px; height: 30vh; overflow:hidden">
+                            <div class="bg-white  p-3 d-flex align-content-center justify-content-center" style="border-radius:0px 0px 7px 7px; height: 27.5vh; overflow:hidden">
 
                                 <div class="fade show active my-auto text-center" id="jumlahtransaksi-tab-pane" style="place-items: center;" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                 <div class="d-flex gap-2">

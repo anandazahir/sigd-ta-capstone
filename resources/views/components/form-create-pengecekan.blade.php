@@ -1,6 +1,7 @@
 @php
 $role = auth()->user()->getRoleNames();
 $cleaned = str_replace(['[', ']', '"'], '', $role);
+$count = $data->pengecekan->where('survey_in', '' )->count();
 @endphp
 
 <form method="POST" id="create_form_pengecekan" action="{{ route($cleaned.'.transaksi.storepengecekan') }}" enctype="multipart/form-data" novalidate>
@@ -9,6 +10,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
     @if (
     $penghubung->pembayaran->status_pembayaran === 'belum lunas' &&
     $penghubung->pembayaran->status_cetak_spk === 'belum cetak' )
+   
     <div class="alert alert-warning rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
         <div class="bg-warning rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
 
@@ -17,13 +19,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <p class="my-3" style="margin-left:80px;"><strong>PERINGATAN!</strong> Mohon Untuk Melunasi / Mencetak SPK Data Peti kemas</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    @endif
-    @break
-    @endforeach
-    @php
-    $count = $data->pengecekan->where('survey_in', '' )->count();
-    @endphp
-    
+    @else
     <div class="alert alert-info rounded-3 mt-2 position-relative p-0 d-flex alert-dismissible fade show" style="height:3.5rem">
             <div class="bg-info rounded-3 rounded-end-0 p-2 position-absolute z-1 d-flex h-100" style="width: 9.5vh;">
                 <i class="fa-solid fa-circle-info text-white mx-auto my-auto" style="font-size: 25px;"></i>
@@ -35,6 +31,12 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
             
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @endif
+    @break
+    @endforeach
+   
+    
+    
  
 
     <div class="row">
