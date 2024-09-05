@@ -161,7 +161,8 @@ class PegawaiController extends Controller
                 ->orWhere('nip', 'like', '%' . $searchTerm . '%')
                 ->orWhere('nama', 'like', '%' . $searchTerm . '%')
                 ->orWhere('jabatan', 'like', '%' . $searchTerm . '%')
-                ->orWhere('no_hp', 'like', '%' . $searchTerm . '%');
+                ->orWhere('no_hp', 'like', '%' . $searchTerm . '%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%');
         });
         $query->where('jabatan', '<>', 'Direktur');
         $perPage = 5;

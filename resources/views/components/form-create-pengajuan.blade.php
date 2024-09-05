@@ -66,9 +66,9 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 <script>
     $(document).ready(function() {
         $('#loading-button-create-pengajuan').hide();
-        /*$('#create-pengajuan-form').submit(function(event) {
+        $('#create-pengajuan-form').submit(function(event) {
             handleFormSubmission(this);
-        });*/
+        });
 
         $('.jenis-cuti').change(function() {
 

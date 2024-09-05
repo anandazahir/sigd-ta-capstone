@@ -130,9 +130,9 @@
         <div class="left" style="margin-top: 40px;">
             <p style="text-align: center;">Menyetujui</p>
             <br><br><br>
-            @if ($pengajuan->status == 'acc')
+           
             <img src="{{URL::asset($pengajuan->sign_acc )}}" alt="" srcset="">
-            @endif
+            
             <p style="text-align: center;">{{$direktur->username}}</p>
         </div>
         <div class="right">

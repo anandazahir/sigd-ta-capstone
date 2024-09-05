@@ -56,11 +56,11 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
 
 
                     <div class="d-flex gap-2 " style="width:fit-content">
-                        <button class="btn-info btn btn-sm" id="uploadButton"><span class="fw-semibold">Ubah Gambar</span></button>
+                        <button class="btn-info btn btn-sm text-white" id="uploadButton"><span class="fw-semibold">Ubah Gambar</span></button>
                         <button class="btn-danger btn text-white btn-sm" id="deleteButton"><span class="fw-semibold">Hapus Gambar</span> </button>
                     </div>
                     <div class="d-flex gap-2" style="width:fit-content">
-                        <button class="btn-info btn btn-sm" id="simpanupload">
+                        <button class="btn-info btn btn-sm text-white" id="simpanupload">
                             <div class="d-flex gap-2">
                                 <span class="spinner-border spinner-border-sm text-white my-1" aria-hidden="true" id="loading-button"></span>
                                 <span class="fw-semibold">Simpan Gambar</span>
@@ -317,6 +317,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
         <x-toast />
         @push('page-script')
         @stack('toast-script')
+        @stack('form-modal')
         <script>
             $(document).ready(function() {
                 let selectedColor = '';

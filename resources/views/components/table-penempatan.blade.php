@@ -17,7 +17,7 @@ break;
 
             @if( $semuaBelumCetak)
             <div class="h-100 align-content-center">
-                <h3 class="text-center">Data Penempatan Belum Lunas / Cetak SPK</h3>
+                <h3 class="text-center">Tidak Ada Peti Kemas yang Perlu Ditempatkan</h3>
             </div>
             @endif
 

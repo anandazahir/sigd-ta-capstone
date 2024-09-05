@@ -316,6 +316,7 @@ $cleaned = str_replace(['[', ']', '"'], '', $role);
                                         <li data-value="one" class="dropdown-item" style="cursor:pointer;">Pelayaran | ONE</li>
                                         <li data-value="wanhai" class="dropdown-item" style="cursor:pointer;">Pelayaran | WANHAI</li>
                                         <li data-value="benline" class="dropdown-item" style="cursor:pointer;">Pelayaran | BENLINE</li>
+                                        <li data-value="cosco" class="dropdown-item" style="cursor:pointer;">Pelayaran | COSCO</li>
                                         
                                     </ul>
                                 </div>

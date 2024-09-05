@@ -117,8 +117,8 @@ class PengajuanController extends Controller
 
         if ($request->status == 'acc') {
             // Save the image to storage
-            /*$imagePath = 'public/ttd_rizal.png'; // Ensure this path is correct
-            $pengajuan->sign_acc = $imagePath;*/
+            $imagePath = 'public/ttd_rizal.png'; // Ensure this path is correct
+            $pengajuan->sign_acc = $imagePath;
 
             // Generate PDF
            

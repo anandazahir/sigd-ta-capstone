@@ -1,4 +1,4 @@
-<form action="{{route('pegawai.update', $data->id)}}" method="post">
+<form action="{{route('pegawai.update', $data->id)}}" method="post" id="edit-pegawai" novalidate>
     @csrf
     @method('PUT')
     <div class="row">
@@ -115,8 +115,10 @@
     </button>
 </form>
 <script>
+      $(document).ready(function() {
     $('#loading-button-edit-pegawai').hide();
     $('#edit-pegawai').submit(function(event) {
         handleFormSubmission(this);
     });
+      });
 </script>

@@ -446,7 +446,10 @@ class petikemascontroller extends Controller
             $query->where(function ($query) use ($searchTerm) {
                 $query->where('no_petikemas', 'like', '%' . $searchTerm . '%')
                     ->orWhere('jenis_ukuran', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%');
+                    ->orWhere('pelayaran', 'like', '%' . $searchTerm . '%') 
+                    ->orWhere('lokasi', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('status_kondisi', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('status_ketersediaan', 'like', '%' . $searchTerm . '%');
             });
         }
         if ($jenis_transaksi == 'impor') {
@@ -466,9 +469,11 @@ class petikemascontroller extends Controller
             $query->where('lokasi', $condition);
         } else if ($condition == 'one') {
             $query->where('pelayaran', $condition);
-        }else if ($condition == 'beline') {
+        }else if ($condition == 'benline') {
             $query->where('pelayaran', $condition);
         }else if ($condition == 'wanhai') {
+            $query->where('pelayaran', $condition);
+        }else if ($condition == 'cosco') {
             $query->where('pelayaran', $condition);
         }
         if ($blok) {

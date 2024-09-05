@@ -120,7 +120,7 @@
 </form>
 <script>
     $('#loading-button-create-pegawai').hide();
-    /*$('#create-pegawai').submit(function(event) {
+    $('#create-pegawai').submit(function(event) {
         handleFormSubmission(this);
-    });*/
+    });
 </script>
