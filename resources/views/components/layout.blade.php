@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('build/assets/style-kUsSMKHR.css') }}" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -33,6 +34,11 @@
         :root {
             --bs-primary: #f09259;
             --bs-primary-rgb: 240, 146, 89;
+            --bs-info: #007bff;
+            --bs-info-rgb: 0, 123, 255;
+        }
+        .btn-info{
+            background-color: #007bff;
         }
 
         #loading {
@@ -133,7 +139,7 @@
     <script>
         $(window).on('load', function() {
             $("#loading").fadeOut(1000);
-            /*
+            
                         $.ajax({
                             url: "/{{$cleaned}}/absensi",
                             type: 'GET',
@@ -145,7 +151,7 @@
                                 console.error(xhr.responseText);
                             }
                         });
-                        */
+        
         });
     </script>
 

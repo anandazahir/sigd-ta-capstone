@@ -36,8 +36,8 @@ class PegawaiController extends Controller
     {
         $tiga_tahun_yang_lalu = date('Y-m-d', strtotime('2020-01-01'));
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|numeric|digits:18|unique:users,nip',
-            'nik' => 'required|numeric|digits:16|unique:users,nik',
+            'nip' => 'required|numeric|digits:4|unique:users,nip',
+            'nik' => 'required|numeric|digits:4|unique:users,nik',
             'nama' => 'required|string|min:5|unique:users,nama',
             'email' => 'required|email|unique:users,email',
             'username' => 'required|string|unique:users,username',
@@ -75,13 +75,16 @@ class PegawaiController extends Controller
             'tanggal_lahir' => $request->tanggal_lahir,
             'status_menikah' => $request->status_menikah,
             'no_hp' => $no_hp,
+            'jumlah_cuti'=>12
         ]);
 
         $user->assignRole($request->jabatan);
-        /*$zk = new ZKTeco('192.168.0.201');
+        $zk = new ZKTeco('192.168.0.201');
         $zk->connect();
+        $zk->disableDevice();
         $zk->setUser(($user->id + 1), ($user->id + 1), $user->username, null, 0);
-        $zk->disableDevice();*/
+        $zk->enableDevice();
+        $zk->disconnect();
         return response()->json([
             'success' => true,
             'message' => 'Data Pegawai Berhasil Disimpan!',

@@ -34,6 +34,7 @@ class User extends Authenticatable
         'pendidikan_terakhir',
         'tanggal_lahir',
         'status_menikah',
+        'jumlah_cuti'
     ];
 
     /**
